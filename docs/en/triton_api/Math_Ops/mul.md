@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Arithmetic operation '*', no tl.mul calling method
+Description: Arithmetic operation '*', no `tl.mul` calling method.
 
 ## 2. OP Specification
 
@@ -20,7 +20,7 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 |GPU| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 |Ascend A2/A3 | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
@@ -55,4 +55,4 @@ def triton_mul(in_ptr0, in_ptr1, out_ptr0, XBLOCK: tl.constexpr, XBLOCK_SUB: tl.
 
 ## 3. Special Notes
 
-Ascend A3 lacks fp64 support compared to GPU
+Ascend A3 lacks fp64 support compared to GPU.

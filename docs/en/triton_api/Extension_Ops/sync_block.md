@@ -14,7 +14,7 @@ The producer core sends a synchronization signal to the consumer after completin
 triton.language.sync_block_set(sender, receiver, event_id, _builder=None)
 ```
 
-### 2.2 Specifications
+### 2.2 Specification
 
 #### 2.2.1 Parameter Description
 
@@ -27,7 +27,7 @@ triton.language.sync_block_set(sender, receiver, event_id, _builder=None)
 
 #### 2.2.2 Special Constraints
 
-1. `sender` and `receiver` cannot be the same; a core cannot send a signal to itself
+1. `sender` and `receiver` must be different; a core cannot send a signal to itself
 2. `event_id` must be in the range 0-15 (16 independent events total)
 
 ## 3. `sync_block_wait` Operation
@@ -40,7 +40,7 @@ The consumer core waits for the synchronization signal from the producer.
 triton.language.sync_block_wait(sender, receiver, event_id, _builder=None)
 ```
 
-### 3.2 Specifications
+### 3.2 Specification
 
 #### 3.2.1 Parameter Description
 
@@ -53,8 +53,8 @@ triton.language.sync_block_wait(sender, receiver, event_id, _builder=None)
 
 #### 3.2.2 Special Constraints
 
-1. `sender` and `receiver` cannot be the same
-2. `event_id` must match the ID used by the corresponding `sync_block_set`
+1. `sender` and `receiver` must be different
+2. `event_id` must match the ID used in the corresponding `sync_block_set`
 
 ## 4. `sync_block_all` Operation
 
@@ -66,7 +66,7 @@ Global barrier synchronization, synchronizing all cores of specified types to th
 triton.language.sync_block_all(mode, event_id, _builder=None)
 ```
 
-### 4.2 Specifications
+### 4.2 Specification
 
 #### 4.2.1 Parameter Description
 
@@ -97,7 +97,7 @@ def sync_example():
         # ... perform Cube computation ...
         tl.sync_block_set("cube", "vector", 0)
 
-    # Vector core waits for Cube to complete
+    # Vector core waits for Cube to finish
     with al.Scope(core_mode="vector"):
         tl.sync_block_wait("cube", "vector", 0)
         # ... perform Vector computation ...

@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Computes a histogram with `num_bins` bins based on the input, each bin having a width of 1 and starting from 0.
+Description: Computes a histogram with `num_bins` bins based on the input, where each bin has a width of 1 and starts at 0.
 Prototype:
 
 ```python
@@ -21,13 +21,13 @@ Can be called as a member function of a tensor, e.g., `x.histogram(...)`, which 
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type                | Description                                                             |
-| ------------ | ------------------- | ----------------------------------------------------------------------- |
-| `input`      | `tensor`            | Input data containing all numerical points whose distribution is to be counted |
-| `num_bins`   | `int`               | Defines how many equal-width intervals the entire data range is divided into |
-| `mask`       | `int1` or `tensor<int1>`, optional | Specifies the data range to prevent out-of-bounds access |
-| `_semantic`  | -                   | Reserved parameter, external calls not supported yet                    |
-| `_generator` | -                   | Reserved parameter, external calls not supported yet                    |
+| Parameter Name | Type               | Description                                                        |
+| -------------- | ------------------ | ------------------------------------------------------------------ |
+| `input`        | `tensor`           | Input data containing all numerical points for distribution statistics |
+| `num_bins`     | `int`              | Defines how many equal-width intervals the entire data range is divided into |
+| `mask`         | `int1` or `tensor<int1>`, optional | Specifies the data range to prevent out-of-bounds access |
+| `_semantic`    | -                  | Reserved parameter, external calls not supported yet               |
+| `_generator`   | -                  | Reserved parameter, external calls not supported yet               |
 
 Return value:
 Histogram represented as a tensor
@@ -37,10 +37,10 @@ Note: The current triton 3.2 version does not support `mask` yet; support will b
 
 #### 2.2.1 DataType Support
 
-|            | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ---------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU        | ×    | ×     | √     | ×     | ×      | √      | ×      | ×     | ×    | ×    | ×    | ×    | ×    |
-| Ascend A2/A3 | ×  | ×     | √     | ×     | ×      | √      | √      | √     | ×    | ×    | ×    | ×    | ×    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | ×    | ×     | √     | ×     | ×      | √      | ×      | ×     | ×    | ×    | ×    | ×    | ×    |
+| Ascend A2/A3 | ×    | ×     | √    | ×     | ×      | √      | √      | √     | ×    | ×    | ×    | ×    | ×    |
 
 #### 2.2.2 Shape Support
 
@@ -48,11 +48,11 @@ Currently only supports 1D
 
 ### 2.3 Special Limitations
 
-> Capabilities missing compared to the community and cannot be implemented
+> Capability missing relative to the community and cannot be implemented
 
-### 2.4 Usage
+### 2.4 Usage Example
 
-The following example demonstrates the call to `histogram`:
+The following example demonstrates the invocation of `histogram`:
 
 ```python
 @triton.jit
@@ -68,6 +68,6 @@ z = torch.empty(N, dtype=torch.int32, device=device)
 histogram_kernel[(1, )](x, z, M=M, N=N)
 ```
 
-## 3. Semantic GAP
+## 3. Semantic Gap
 
-> Capabilities missing compared to the community but can be developed and supported
+> Capability missing relative to the community but can be developed and supported

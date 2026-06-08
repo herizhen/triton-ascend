@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Performs element-wise logical NOT on a tensor (0 becomes 1, non-zero becomes 0). Corresponds to Python's `not` keyword — Triton handles this specially through an AST visitor, rewriting `not X` as `X.__not__()`. This differs from bitwise inversion `~X` (see [invert](./invert.md)): the former is logical NOT, while the latter is bitwise inversion.
+Description: Performs element-wise logical NOT on a tensor (0 becomes 1, non-zero becomes 0). Corresponds to Python's `not` keyword — Triton handles this through an AST visitor, rewriting `not X` as `X.__not__()`. This differs from bitwise inversion `~X` (see [invert](./invert.md)): the former is logical NOT, while the latter is bitwise inversion.
 
 ```python
 # Via the not keyword (handled by Triton AST interception)
@@ -46,9 +46,9 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Capabilities missing relative to the community and cannot be implemented.
+> Missing capabilities relative to the community, currently unimplemented.
 
-None currently.
+None at present.
 
 ### 2.4 Usage Example
 

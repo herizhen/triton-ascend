@@ -14,7 +14,7 @@ where:
 - `z` (bias) has shape `(A, C)`
 - The output `output` has shape `(A, C)`
 
-This kernel assumes a single block is responsible for computing the entire output matrix, suitable for small-scale matrices where A, B, C are small and can be fully covered by the current program block.
+This kernel assumes a single block is responsible for computing the entire output matrix, making it suitable for small-scale matrices (where A, B, C are small and can be fully covered by the current program block).
 
 ```python
 import pytest
@@ -56,12 +56,12 @@ def triton_dot_2_Bias(
     # Perform matrix multiplication and add bias
     ret = tl.dot(X, Y) + Z  # tl.dot performs (A, B) × (B, C) → (A, C)
 
-    # Store result back to global memory
+    # Write result back to global memory
     oidx = bidx[:, None] * C + didx[None, :]  # Same as Zidx, can be reused
     tl.store(output_ptr + oidx, ret)
 ```
 
-## Utility Functions
+## Utility Methods
 
 The following helper functions support testing and validation of the Triton kernel, including a PyTorch reference implementation, data type mapping, random tensor generation, and result verification.
 
@@ -107,7 +107,7 @@ def generate_tensor(shape, dtype):
         raise ValueError('Invalid parameter \"dtype\" is found : {}'.format(dtype))
 
 def validate_cmp(dtype, y_cal, y_ref):
-    """Compares Triton computation results with PyTorch reference results on NPU, using tolerance or strict equality based on data type."""
+    """Compares Triton computation results with PyTorch reference results on NPU, setting tolerances or strict equality based on data type."""
     y_cal=y_cal.npu()
     y_ref=y_ref.npu()
     if dtype == 'float16':
@@ -124,9 +124,9 @@ def validate_cmp(dtype, y_cal, y_ref):
         raise ValueError('Invalid parameter \"dtype\" is found : {}'.format(dtype))
 ```
 
-## Parameterized Tests
+## Parameterized Testing
 
-Use `pytest` to perform parameterized functional validation of the `triton_dot_2_Bias` kernel, covering different matrix dimensions and data type combinations.
+Using `pytest` for parameterized functional validation of the `triton_dot_2_Bias` kernel, covering different matrix dimensions and data type combinations.
 
 ```python
 # Test case configuration: (A, B, C) represents matrix x: (A,B), y: (B,C), bias/output: (A,C)
@@ -168,7 +168,7 @@ def test_dot_2_Bias(sigtype, A, B, C):
 
 
 if __name__ == "__main__":
-    # Support running a single test case directly (convenient for debugging)
+    # Supports running a single test case directly (convenient for debugging)
     test_dot_2_Bias("float16", 16, 16, 16)
 ```
 

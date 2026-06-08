@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Introduction: Computes the ceiling division of tensors.
+Description: Computes the ceiling division of tensors.
 Function prototype:
 
 ```python
@@ -18,7 +18,7 @@ Can be called as a member function of a tensor, e.g., `x.cdiv(...)`, which is eq
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
 | `x` | `tensor` | Tensor data, dividend |
-| `div` | `tensor` | Tensor data, divisor |
+| `div`   | `tensor` | Tensor data, divisor |
 
 Return value:
 `out`: A tensor with the same shape as `x` and `div`.
@@ -45,7 +45,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Missing relative to community capabilities and cannot be implemented
+> Missing community capability that cannot be implemented
 
 Input range: 0~16777216
 

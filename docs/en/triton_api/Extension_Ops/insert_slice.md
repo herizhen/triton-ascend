@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Inserts a tensor (sub-tensor) into another tensor at a specified position, i.e., inserting one tensor into another according to the operation's specified offset, size, and stride parameters.
+Description: Inserts a tensor (sub-tensor) into another tensor at specified positions, i.e., inserts one tensor into another according to the specified offset, size, and stride parameters.
 Prototype:
 
 ```python
@@ -17,7 +17,7 @@ triton.language.insert_slice(
 ) -> tensor
 ```
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
@@ -38,16 +38,16 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | bf16 | bool |
-| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
-| Ascend A2/A3 | √    | √     | √     | √     | √     | √       | √         |  √       | √    | √    |  √    | ×    |
+|            | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | bf16 | bool |
+| ---------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
+| Ascend A2/A3 | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | ×    |
 
 #### 2.2.2 Shape Support
 
 Supports tensors of arbitrary shapes, with the following requirements:
 
 1. The number of dimensions of `ful` and `sub` must be the same
-2. The lengths of `offsets`, `sizes`, and `strides` must match the number of tensor dimensions
+2. The lengths of `offsets`, `sizes`, and `strides` must equal the number of tensor dimensions
 3. The insertion region must not exceed the boundaries of the `ful` tensor
 
 ### 2.3 Special Constraints
@@ -78,6 +78,6 @@ def triton_kernel(x_ptr, y_ptr, output_ptr, n_elements, BLOCK_SIZE: tl.constexpr
     tl.store(output_ptr + offsets, output, mask=mask)
 ```
 
-## 3. Semantic Gap
+## 3. Semantic GAP
 
 No semantic differences

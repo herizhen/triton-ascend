@@ -29,7 +29,7 @@ Return value:
 | GPU           | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | √    |
 | Ascend A2/A3  | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Compared to GPU, Ascend lacks support for `uint`, `fp64`, and `bool` types.
+Conclusion: Ascend lacks support for `uint`, `fp64`, and `bool` types compared to GPU.
 
 #### 2.2.2 Shape Support
 
@@ -42,9 +42,9 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Missing community features that cannot be implemented
 
-Compared to GPU, Ascend lacks support for `uint`, `fp64`, and `bool` types.
+Ascend lacks support for `uint`, `fp64`, and `bool` types compared to GPU.
 
 ### 2.4 Usage Example
 

@@ -1,15 +1,15 @@
 # Vector Operator Development
 
-Vector operators are primarily executed by the Vector Core. Typical forms include element-wise computation, row-level reduction, type conversion, Gather/Scatter, Mask updates, and small fusion operators that do not contain `tl.dot`. The development focus is not on making the grid as fine as possible, but on having each program process multiple tiles in a loop within the core, given a fixed number of physical Vector Cores.
+Vector operators are primarily executed by the Vector Core, with typical forms including element-wise computation, row-level reduction, type conversion, Gather/Scatter, Mask update, and small fusion operators that do not contain `tl.dot`. The development focus is not on making the grid as fine as possible, but rather on having each program process multiple tiles in a loop within the core, given a fixed number of physical Vector Cores.
 
 ## Simple Vector Operator Development
 
 Simple Vector operators can be started from the [vector addition example](../examples/01_vector_add_example.md) in this repository or `third_party/ascend/tutorials/01-vector-add.py`. The basic steps for this type of operator are as follows:
 
-1. Use `tl.arange` to construct the contiguous offsets for the current tile.
-2. Use `mask` to protect the tail block, preventing out-of-bounds load/store.
-3. Complete the element-wise computation and write back the result.
-4. When the number of grids is much larger than the number of physical cores, fix the grid to `num_vectorcore` and process in batches within the kernel using `range(pid, num_blocks, num_core)`.
+1.  Use `tl.arange` to construct the contiguous offset of the current tile.
+2.  Use `mask` to protect the tail block, avoiding out-of-bounds load/store.
+3.  Complete the element-wise computation and write back the result.
+4.  When the number of grids is much larger than the number of physical cores, fix the grid to `num_vectorcore` and use `range(pid, num_blocks, num_core)` within the kernel to process in batches.
 
 The basic kernel structure is as follows:
 
@@ -28,15 +28,15 @@ def add_kernel(x_ptr, y_ptr, out_ptr, n_elements, BLOCK_SIZE: tl.constexpr):
         tl.store(out_ptr + offsets, x + y, mask=mask)
 ```
 
-During development, prioritize checking three types of issues:
+When developing, prioritize checking three types of issues:
 
-- **Data Type**: The Ascend Vector unit has different support and performance for different integer types. For index, length, and offset data that do not affect precision, prefer using `int32`. Refer to `triton-ascend-ops/tutorial/basic/001-vector_add.zh.md` and `002-vector_cmp.zh.md`.
-- **BLOCK_SIZE**: BLOCK_SIZE should be as large as possible within the UB capacity. If a UB overflow occurs, first reduce the number of elements processed at once, then consider splitting into sub-blocks.
-- **Number of Cores**: The number of physical Vector Cores on an NPU is typically a few dozen. When migrating GPU code with small tiles and large grids to NPU, significant overhead can arise from multiple rounds of dispatch.
+- **Data Type**: The Ascend Vector unit has different support and performance for different integer types. For index, length, and offset data that do not affect precision, prioritize using `int32`. Refer to `triton-ascend-ops/tutorial/basic/001-vector_add.zh.md` and `002-vector_cmp.zh.md`.
+- **BLOCK_SIZE**: BLOCK_SIZE should be as large as possible within the UB capacity. If a UB overflow occurs, first reduce the number of elements processed at a time, then consider splitting into sub-blocks.
+- **Number of Cores**: The number of NPU physical Vector Cores is typically a few dozen. When migrating GPU code with small tiles and a large grid to NPU, significant overhead can easily arise due to multiple rounds of dispatch.
 
 ## Complex Vector Operator Development
 
-Complex Vector operators are usually not single element-wise expressions but combinatorial logic involving discrete memory access, batch rearrangement, multiple outputs, or long hidden sizes. Refer to the following examples in [Ascend/triton-ascend-ops](https://github.com/Ascend/triton-ascend-ops):
+Complex Vector operators are usually not single element-wise expressions, but combinatorial logic with discrete memory access, batch rearrangement, multiple outputs, or long hidden sizes. Refer to the following cases in [Ascend/triton-ascend-ops](https://github.com/Ascend/triton-ascend-ops):
 
 - [`tutorial/best_practice/004-gather_scatter.py`](https://github.com/Ascend/triton-ascend-ops/blob/main/tutorial/best_practice/004-gather_scatter.py): Ascend-friendly implementation of Megablocks gather/scatter/scatter_wgrad.
 - [`tutorial/best_practice/005-binned_gather_scatter.py`](https://github.com/Ascend/triton-ascend-ops/blob/main/tutorial/best_practice/005-binned_gather_scatter.py): Gather/scatter grouped by expert/bin.
@@ -44,11 +44,11 @@ Complex Vector operators are usually not single element-wise expressions but com
 
 The organization method for this type of operator is usually:
 
-1. **Partition the outer task by physical cores**: Use `num_vectorcore` as the grid, with each program responsible for a segment of indices or tokens.
-2. **Partition the hidden dimension by UB capacity**: Use `BLOCK_X` to chunk `NUM_COLUMNS`, reserving space for double buffers, indices, and temporary tensors.
-3. **Use `SUB_BLOCK_SIZE` to merge small-grained discrete tasks**: Load a group of indices at once, organize them into contiguous temporary blocks in UB, reducing GM scalar memory access and multiple stores.
-4. **Use extended semantics to manage local data within UB**: Use `tl.insert_slice` to merge multiple rows of data, and `tl.extract_slice` to extract sub-blocks before scattering writes.
-5. **Reserve a unified mask for tail blocks**: In complex gather/scatter, there are index masks, column masks, and expert/bin boundaries simultaneously. It is recommended to name them separately and only combine them at load/store points.
+1.  **Partition the outer task by physical cores**: Use `num_vectorcore` as the grid, with each program responsible for a segment of indices or tokens.
+2.  **Partition the hidden dimension by UB capacity**: Use `BLOCK_X` to chunk `NUM_COLUMNS`, reserving space for double buffers, indices, and temporary tensors.
+3.  **Use `SUB_BLOCK_SIZE` to merge small-grained discrete tasks**: Load a group of indices at once, organize them into contiguous temporary blocks in UB, reducing GM scalar memory access and multiple stores.
+4.  **Use extended semantics to manage local data within UB**: Use `tl.insert_slice` to merge multiple rows of data, and use `tl.extract_slice` to extract sub-blocks before scattering writes.
+5.  **Reserve a unified mask for tail blocks**: In complex gather/scatter, index masks, column masks, and expert/bin boundaries exist simultaneously. It is recommended to name them separately and only combine them at load/store points.
 
 A typical UB budget approach is as follows:
 
@@ -60,9 +60,9 @@ sub_block_size = max((ub_budget - block_x * element_bytes) //
                      (block_x * element_bytes + index_bytes), 1)
 ```
 
-When the performance of a complex Vector operator is not as expected, prioritize investigating the following directions:
+When the performance of a complex Vector operator does not meet expectations, prioritize investigating the following directions:
 
 - Whether the grid is much larger than the number of physical Vector Cores, leading to multiple rounds of dispatch.
 - Whether discrete memory access can be transformed into "batch load into UB, then select within UB".
-- Whether the trailing axis satisfies 32B alignment; if not, whether transposition or borrowing axis transposition can be used to avoid automatic padding.
+- Whether the trailing axis satisfies 32B alignment; if not, whether transposition or borrowing an axis can be used to avoid automatic padding.
 - Whether `BLOCK_X` and `SUB_BLOCK_SIZE` cause UB overflow or result in too small a transfer granularity.

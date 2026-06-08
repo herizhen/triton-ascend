@@ -1,8 +1,8 @@
 # Scan/Sort Operations
 
-| API | Brief Description |
+| api | Description |
 | --- | --- |
-| [associative_scan](./associative_scan.md) | Applies combine_fn to each element of the input tensor and a carried value along the specified axis, updating the carried value |
+| [associative_scan](./associative_scan.md) | Applies combine_fn to each element of the input tensor and a carry value along the specified axis, updating the carry value |
 | [cumprod](./cumprod.md) | Returns the cumulative product of all elements in the input tensor along the specified axis |
 | [cumsum](./cumsum.md) | Returns the cumulative sum of all elements in the input tensor along the specified axis |
 | [histogram](./histogram.md) | Computes a histogram with num_bins bins based on the input tensor, each bin having a width of 1 and starting at 0 |

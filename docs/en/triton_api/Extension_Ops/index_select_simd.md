@@ -10,12 +10,12 @@ Performs parallel gather of multiple indices on non-tail dimensions and zero-cop
 
 **Functionality:**
 
-- Reads data in batches from the source tensor along the specified dimension based on the index array
-- Supports specifying offsets and sizes for the read region, enabling flexible slicing
+- Reads data in batches from the source tensor along the specified dimension according to the index array
+- Supports specifying the offset and size of the read region for flexible slicing
 - Efficient zero-copy implementation, directly moving data from GM to UB
-- Preserves element types and encoding unchanged
+- Preserves element type and encoding unchanged
 
-**Typical Use Cases:**
+**Typical Application Scenarios:**
 
 - Embedding lookup: Batch reading word vectors from a large vocabulary based on token IDs
 - Sparse tensor operations: Accessing specific rows of a dense tensor based on sparse indices
@@ -28,11 +28,11 @@ Performs parallel gather of multiple indices on non-tail dimensions and zero-cop
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | src | tensor/pointer | Yes | Source tensor pointer, data located in global memory (GM) |
-| dim | int | Yes | Dimension along which to perform index_select, range [0, len(src_shape)-2], **does not support the tail axis** (last dimension) |
-| index | tensor | Yes | 1D index array located in UB, specifying the index positions to read |
-| src_shape | Tuple[int] | Yes | Full shape of the source tensor |
-| src_offset | Tuple[int] | Yes | Starting position for reading; can be set to -1 for the dim dimension (determined by index) |
-| read_shape | Tuple[int] | Yes | Size of the data to read; must be -1 for the dim dimension (determined by the length of index) |
+| dim | int | Yes | The dimension on which to perform index_select, range [0, len(src_shape)-2], **does not support the tail axis** (last dimension) |
+| index | tensor | Yes | 1D index array, located in UB, specifying the index positions to read |
+| src_shape | Tuple[int] | Yes | The full shape of the source tensor |
+| src_offset | Tuple[int] | Yes | The starting position for reading; can be set to -1 for the dim dimension (this dimension is determined by index) |
+| read_shape | Tuple[int] | Yes | The size of the data to read; must be -1 for the dim dimension (this dimension is determined by the length of index) |
 
 **Return Value:**
 
@@ -44,7 +44,7 @@ Performs parallel gather of multiple indices on non-tail dimensions and zero-cop
 **Constraints:**
 
 - `read_shape[dim]` must be -1
-- `src_offset[dim]` can be set to -1 (will be ignored as this dimension is determined by index)
+- `src_offset[dim]` can be set to -1 (it will be ignored, as this dimension is determined by index)
 - `len(src_shape) == len(src_offset) == len(read_shape)`
 - `index` must be a 1D tensor
 - `dim` cannot be the tail axis (last dimension), i.e., `dim < len(src_shape) - 1`
@@ -55,7 +55,7 @@ Performs parallel gather of multiple indices on non-tail dimensions and zero-cop
 ### 2.2 DataType Support Table
 
 | Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:----:|:----:|:------:|:---:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
 
@@ -69,8 +69,8 @@ Performs parallel gather of multiple indices on non-tail dimensions and zero-cop
 Supports any number of dimensions (1D to high-dimensional tensors), subject to the following conditions:
 
 - `index` must be a 1D tensor
-- Dimension sizes of the source tensor are limited by actual hardware memory constraints
-- The size of `read_shape` in non-dim dimensions must consider UB space limitations
+- The size of each dimension of the source tensor is limited by actual hardware memory constraints
+- The size of `read_shape` on non-dim dimensions must consider UB space limitations
 
 **Common Shape Combinations:**
 
@@ -80,9 +80,9 @@ Supports any number of dimensions (1D to high-dimensional tensors), subject to t
 
 ### 2.4 Special Constraints
 
-1. **dim constraint:** `index_select` is not supported on the tail axis (last dimension); `dim` must satisfy `dim < len(src_shape) - 1`
+1. **dim constraint:** index_select is not supported on the tail axis (last dimension); `dim` must satisfy `dim < len(src_shape) - 1`
 2. **Data type constraint:** uint16/uint32/uint64/float8/float64 data types are currently not supported
-3. **Index out of bounds:** Out-of-bounds indices in `index` are not checked; users must ensure index validity
+3. **Index out of bounds:** Out-of-bounds indices in `index` are not checked; the user must ensure index validity
 
 ### 2.5 Usage
 
@@ -124,9 +124,9 @@ def embedding_kernel(
 **Relationship with torch.index_select:**
 
 - `index_select_simd` is equivalent to `torch.index_select(src, dim, index)` combined with a slicing operation
-- However, `index_select_simd` is implemented at the hardware level, offering better performance than the PyTorch implementation (approximately 0.6~1.5x AscendC performance)
+- However, `index_select_simd` is implemented at the hardware level and offers better performance than the PyTorch implementation (approximately 0.6~1.5x AscendC performance)
 
-**Differences from Regular Load:**
+**Difference from Regular Load:**
 
 ```python
 ## Regular load method (inefficient)
@@ -146,7 +146,7 @@ data = libdevice.index_select_simd(
     src_offset=(-1, 0),
     read_shape=(-1, size)
 )
-## Fetch all data at once
+## Get all data at once
 ```
 
 ## 3 Differences from GPU

@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Performs a right bitwise shift on a tensor according to the given value.
+Description: Performs a right bitwise shift on a tensor by a given value.
 
 ```python
 triton.language.core.__rshift__(
@@ -21,7 +21,7 @@ Used as a built-in operator for `tensor`, e.g., `x >> y`.
 | Parameter | Type | Description |
 | :---: | :---: | --- |
 | `input` | `tensor` | Tensor data, left operand, representing the main data to be shifted |
-| `other`   | `tensor or scalar` | Tensor data, right operand, the value by which to shift |
+| `other`   | `tensor or scalar` | Tensor data, right operand, the shift amount |
 | `_builder` | - | Reserved parameter, external calls not supported |
 
 Return value:
@@ -36,23 +36,23 @@ Return value:
 | GPU      | √ | √ | √ | √ | √ | √ | √ | √ | × | × | × | × | √ |
 | Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | × | × | × | × | √ |
 
-Conclusion: Compared to GPU, Ascend lacks support for uint types.
+Conclusion: Ascend lacks uint support compared to GPU.
 
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU    | No restrictions |
-| Ascend A2/A3 | No restrictions |
+| GPU    | No restriction |
+| Ascend A2/A3 | No restriction |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
+Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Missing relative to community capabilities and cannot be implemented
+> Missing features compared to the community, which cannot be implemented
 
-1. Compared to GPU, Ascend lacks support for uint types.
-2. The right operand `other` only supports scalars, not tensors (i.e., `x >> 2` is valid, `x >> y` (where `y` is a tensor) is not yet supported).
+1. Ascend lacks uint type support compared to GPU.
+2. The right operand `other` only supports scalars, not tensors (i.e., `x >> 2` is valid, `x >> y` (where `y` is a tensor) is not supported).
 
 ### 2.4 Usage Example
 

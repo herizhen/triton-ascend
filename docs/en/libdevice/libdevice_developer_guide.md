@@ -110,7 +110,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the addition result rounded downwards.
+Return value: `tl.tensor`, returns the result of the addition rounded down.
 
 Return type: `float32`
 
@@ -132,7 +132,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the addition result rounded to nearest even.
+Return value: `tl.tensor`, returns the result of the addition rounded to nearest even.
 
 Return type: `float32`
 
@@ -154,7 +154,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the addition result rounded upwards.
+Return value: `tl.tensor`, returns the result of the addition rounded up.
 
 Return type: `float32`
 
@@ -176,7 +176,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the addition result rounded towards zero.
+Return value: `tl.tensor`, returns the result of the addition rounded towards zero.
 
 Return type: `float32`
 
@@ -303,7 +303,7 @@ triton.language.extra.cann.libdevice.brev(x, _builder=None)
 Input types:
 - x: `int32`
 
-Return value: `tl.tensor`, returns the bit-reversed 32-bit integer.
+Return value: `tl.tensor`, returns the 32-bit integer with reversed bits.
 
 Return type: `int32`
 
@@ -322,7 +322,7 @@ input[4] = y<7:0>     input[5] = y<15:8>
 input[6] = y<23:16>   input[7] = y<31:24>
 ```
 
-The byte selection parameter s is a 32-bit integer, and the correspondence between its bits and byte selection is as follows.
+The byte selection parameter s is a 32-bit integer, with the correspondence between its bits and byte selection as follows.
 
 ```cpp
 selector[0] = s<2:0>    selector[1] = s<6:4>
@@ -371,7 +371,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Ceiling function, returns the smallest integer greater than or equal to x.
+Rounds up, returns the smallest integer greater than or equal to x.
 
 Prototype:
 
@@ -382,7 +382,7 @@ triton.language.extra.cann.libdevice.ceil(x, _builder=None)
 Input types:
 - x: `float32`
 
-Return value: `tl.tensor`, returns the result of ceiling.
+Return value: `tl.tensor`, returns the result of rounding up.
 
 Return type: `float32`
 
@@ -477,7 +477,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Computes cos(π × x).
+Computes the value of cos(π × x).
 
 Prototype:
 
@@ -552,7 +552,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the division result.
+Return value: `tl.tensor`, returns the result of the division.
 
 Return type: `float32`
 
@@ -574,7 +574,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the division result.
+Return value: `tl.tensor`, returns the result of the division.
 
 Return type: `float32`
 
@@ -596,7 +596,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the division result.
+Return value: `tl.tensor`, returns the result of the division.
 
 Return type: `float32`
 
@@ -618,7 +618,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the division result.
+Return value: `tl.tensor`, returns the result of the division.
 
 Return type: `float32`
 
@@ -639,7 +639,7 @@ triton.language.extra.cann.libdevice.erf(x, _builder=None)
 Input types:
 - x: `float32`
 
-Return value: `tl.tensor`, returns the error function value of the input argument.
+Return value: `tl.tensor`, returns the error function of the input argument.
 
 Return type: `float32`
 
@@ -660,7 +660,7 @@ triton.language.extra.cann.libdevice.erfc(x, _builder=None)
 Input types:
 - x: `float32`
 
-Return value: `tl.tensor`, returns the complementary error function value of the input argument.
+Return value: `tl.tensor`, returns the complementary error function of the input argument.
 
 Return type: `float32`
 
@@ -681,7 +681,7 @@ triton.language.extra.cann.libdevice.erfcinv(x, _builder=None)
 Input types:
 - x: `float32`
 
-Return value: `tl.tensor`, returns the inverse complementary error function value of the input argument.
+Return value: `tl.tensor`, returns the inverse complementary error function of the input argument.
 
 Return type: `float32`
 
@@ -702,11 +702,10 @@ triton.language.extra.cann.libdevice.erfcx(x, _builder=None)
 Input types:
 - x: `float32`
 
-Return value: `tl.tensor`, returns the scaled complementary error function value of the input argument.
+Return value: `tl.tensor`, returns the scaled complementary error function of the input argument.
 
 Return type: `float32`
 
 Supported compilation modes: SIMT
 
-## 32. triton.language.extra.cann.libdevice.erfinv
-
+## 32.

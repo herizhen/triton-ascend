@@ -46,7 +46,7 @@ Conclusion: Compared to GPU, Triton-Ascend lacks support for uint8/uint16/uint32
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 

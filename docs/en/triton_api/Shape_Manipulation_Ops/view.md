@@ -12,10 +12,10 @@ Creates a view of a tensor, changing its shape without copying data. Similar to 
 **Functionality:**
 
 - Creates a view of a tensor, changing its shape without copying data
-- Similar to `reshape`, but places greater emphasis on the view concept
+- Similar to `reshape`, but emphasizes the concept of a view
 - Maintains data contiguity in memory
 
-## 2 Parameter Specification
+## 2 Parameter Specifications
 
 ### 2.1 Parameter Description
 
@@ -39,7 +39,7 @@ Creates a view of a tensor, changing its shape without copying data. Similar to 
 ### 2.2 DataType Support Table
 
 | Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:----:|:----:|:------:|:---:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -47,7 +47,7 @@ Creates a view of a tensor, changing its shape without copying data. Similar to 
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Constraints
+### 2.4 Special Restrictions
 
 None
 

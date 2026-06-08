@@ -2,7 +2,7 @@
 
 ## 1. Background
 
-To support Ascend-level programming needs, users must be able to manually create memory (buffers) on specified address spaces, interfacing with the `hivm::AddressSpace` enumeration.
+To support Ascend-level programming requirements, users need to be able to manually create memory (buffer) on specified address spaces, interfacing with the `hivm::AddressSpace` enumeration.
 
 ## 2. Interface Description
 

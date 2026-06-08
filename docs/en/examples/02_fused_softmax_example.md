@@ -6,7 +6,7 @@ Along the way, you will learn:
 - The advantages of kernel fusion for bandwidth-bound operations.
 - Reduction operations in Triton.
 
-## Performing Row-wise Softmax on X Using Native PyTorch
+## Computing Softmax Row-wise on X Using Native PyTorch
 
 ```Python
 import torch
@@ -38,11 +38,11 @@ Purpose of Kernel Fusion
 When implemented natively in PyTorch, computing `y=naive_softmax(x)` requires reading 5MN+2M elements from DRAM and writing back 3MN+2M elements. This is clearly very inefficient; we would prefer to use a custom "fused" kernel that reads x only once and performs all necessary computations on-chip.
 This would require reading and writing only 2MN bytes, so we can expect a theoretical speedup of approximately 4x (i.e., (8MN+4M)/2MN).
 
-`torch.jit.script` aims to perform this kind of "kernel fusion" automatically, but it is still far from ideal.
+`torch.jit.script` aims to perform this "kernel fusion" automatically, but it is still far from ideal.
 
 ## Computation Kernel
 
-The softmax kernel works as follows: each program loads a set of rows from the input matrix X with a stride equal to the number of programs, performs normalization, and writes the result to the output matrix Y.
+The softmax kernel works as follows: each program loads a set of rows from the input matrix X, stepping by the number of programs, performs normalization, and writes the result to the output matrix Y.
 Note: An important limitation of Triton is that each block must have a power-of-two number of elements, so if we want to handle arbitrary input shapes, we need to internally "pad" each row and ensure correct memory operations.
 
 ```Python
@@ -52,7 +52,7 @@ def softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n
     row_start = tl.program_id(0)
     row_step = tl.num_programs(0)
     for row_idx in tl.range(row_start, n_rows, row_step):
-        # The stride indicates how much we need to increase the pointer to advance 1 row
+        # The stride represents how much we need to increase the pointer to advance 1 row
         row_start_ptr = input_ptr + row_idx * input_row_stride
         # The block size is the next power of two greater than n_cols, so we can fit
         # the row in a single block
@@ -73,7 +73,7 @@ def softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n
         tl.store(output_ptrs, softmax_output, mask=mask)
 ```
 
-We can create a helper function that enqueues the kernel with its meta-parameters to handle any given input tensor.
+We can create a helper function that enqueues the kernel and its meta-parameters to handle any given input tensor.
 
 ```Python
 kernels = {}

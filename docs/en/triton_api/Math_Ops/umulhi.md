@@ -8,20 +8,20 @@ Description: Computes the most significant N bits of the 2N-bit product of each 
 triton.language.umulhi(x, y, _semantic=None)
 ```
 
-## 2. Specification
+## 2. Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type              | Description                                                        |
-| -------------- | ----------------- | ------------------------------------------------------------------ |
-| `x`            | `tensor`          | Tensor data                                                        |
-| `y`            | `tensor`          | Tensor data                                                        |
-| `_semantic`    | -                 | Reserved parameter, not supported for external calls               |
+| Parameter Name | Type       | Description                                                    |
+| -------------- | ---------- | -------------------------------------------------------------- |
+| `x`            | `tensor`   | Tensor data                                                    |
+| `y`            | `tensor`   | Tensor data                                                    |
+| `_semantic`    | -          | Reserved parameter, not supported for external calls           |
 
 Return value:
-`x`: The shape of the output tensor is the same as the shape of the input x.
+`x`: The output tensor has the same shape as the input tensor x.
 
-### 2.2 OP Specification
+### 2.2 OP Specifications
 
 #### 2.2.1 DataType Support
 

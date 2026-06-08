@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Increases the offset of `tl.make_block_ptr` by a given offset.
+Description: Increments the offset of `tl.make_block_ptr` by a given offset.
 Prototype:
 
 ```python
@@ -17,11 +17,11 @@ triton.language.advance(
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type                | Description                                                             |
-| ------------ | ------------------- | ----------------------------------------------------------------------- |
-| `base`       | `triton.PointerType`| The pointer to be updated, result of `tl.make_block_ptr`                |
-| `offsets`    | `tuple(int \| constexpr)` | List of base address offsets for each dimension of the tensor. `len(offsets)` must equal `len(base.offsets)` |
-| `_semantic`  | -                   | Reserved parameter, not supported for external calls                    |
+| Parameter    | Type                | Description                                                      |
+| ------------ | ------------------- | ---------------------------------------------------------------- |
+| `base`       | `triton.PointerType`| The pointer to be updated, result of `tl.make_block_ptr`         |
+| `offsets`    | `tuple(int \| constexpr)` | List of base address offsets for each tensor dimension, `len(offsets)` must equal `len(base.offsets)` |
+| `_semantic`  | -                   | Reserved parameter, not supported for external use               |
 
 Return value: `pointer_type<blocked<shape, element_type>>`: Pointer to a tensor
 
@@ -40,17 +40,17 @@ Conclusion: Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uin
 
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
-| GPU    | Supports only 1~5D tensors |
-| Ascend A2/A3 | Supports only 1~5D tensors |
+| GPU    | Only supports 1~5D tensors |
+| Ascend A2/A3 | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Capabilities missing compared to the community, cannot be implemented
+> Capabilities missing compared to the community and cannot be implemented
 
 - Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
-- Ascend only allows expressing transpose semantics by adjusting the order of the `order` parameter; it cannot achieve transpose semantics by adjusting the order of the `stride` parameter.
+- Ascend only allows expressing transpose semantics by adjusting the order of the `order` parameter; transpose semantics cannot be achieved by adjusting the order of the `stride` parameter.
 - Currently, `tl.make_tensor_ptr` may cause compilation issues when used with complex loops and branch statements.
 
 ### 2.4 Usage Example

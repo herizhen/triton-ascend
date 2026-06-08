@@ -26,11 +26,11 @@ A3:
 | | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 |------|-------|-------|-------|-------|--------|--------|--------|-------|------|------|------|------|------|
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | × | × |
-| Ascend 910 Series | ✓ | ✓ | ✓ | ×|×| × | × | ✓ | × | × | × | × | × |
+| Ascend 910 Series | ✓ | ✓ | ✓ | × | × | × | × | ✓ | × | × | × | × | × |
 
 ### 2.3 Special Limitations
 
-> Relative community capability missing and unimplementable
+> Missing capabilities compared to the community, not implementable
 
 Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 
@@ -54,4 +54,4 @@ def optimized_kernel(x_ptr, y_ptr, BLOCK_SIZE: tl.constexpr):
         tl.store(y_ptr + i, y)
 ```
 
-`static_range` trades code size for runtime performance, suitable for scenarios with known and small iteration counts.
+`static_range` trades off code size for runtime performance, suitable for scenarios with known and small loop iteration counts.

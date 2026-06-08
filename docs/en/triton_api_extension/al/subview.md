@@ -32,25 +32,25 @@ Return value: bl.buffer
 
 - sizes: List[tl.constexpr] -> Output sizes
 
-- strides: List[tl.constexpr] -> Strides
+- strides: List[tl.constexpr> -> Strides
 
 ## 4. Constraints
 
-- The input parameters size, offset, and stride must be greater than 0 (offset can be 0); negative values are not allowed.
+- The input parameters `size`, `offset`, and `stride` must be greater than 0 (`offset` can be 0); negative values are not allowed.
 
-- The size of each dimension must not exceed the size of the original buffer.
+- Each dimension of `size` must not exceed the corresponding dimension of the source buffer.
 
-- The size of each dimension of the subview must not exceed the size of the original buffer.
+- Each dimension of the subview must not exceed the corresponding dimension of the source buffer.
 
-- The stride access must not exceed the size of src; all elements of stride must be 1.
+- Access via `stride` must not exceed the size of `src`; all elements of `stride` must be 1.
 
-- The parameter settings must specify values for each dimension, and the parameter dimensions must be consistent with the input buffer dimensions.
+- The parameter settings must specify values for every dimension, and the number of parameter dimensions must match the dimensions of the input buffer.
 
-- The offset must be 32-byte aligned.
+- `offset` must be 32-byte aligned.
 
-- The offset of the first point in the second row of the last dimension of the subview must be 32-byte aligned.
+- The offset of the first element in the second row of the last dimension of the subview must be 32-byte aligned.
 
-Explanation: When using sizes and strides, the input type is `List[tl.constexpr]` (be careful not to pass a tensor, otherwise a type mismatch error will occur). offsets now additionally supports tensor input (constexpr input is also supported).
+Explanation: When using `sizes` and `strides`, the input type is `List[tl.constexpr]` (be careful not to pass a tensor, otherwise a type mismatch error will occur). `offsets` additionally supports tensor input (constexpr can also be passed).
 
 ## 5. Usage Example
 

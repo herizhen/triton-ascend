@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-`compile_hint` is a compiler hint mechanism that allows users to attach metadata information to tensors. This information is passed to the compiler backend to guide optimization and code generation.
+`compile_hint` is a compiler hint mechanism that allows users to attach metadata information to tensors. This metadata is passed to the compiler backend to guide optimization and code generation.
 
 ```python
 triton.language.compile_hint(ptr, hint_name, hint_val=None, _builder=None)
@@ -27,14 +27,14 @@ A3:
 |------|-------|-------|-------|-------|--------|--------|--------|-------|------|------|------|------|------|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | ×| × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
 
-### 2.3 Special Limitations
+### 2.3 Special Restrictions
 
-1. **hint_name must be a string type**: No other types can be passed as the hint name
+1. **hint_name must be a string type**: Other types cannot be passed as hint names
 2. **list parameters only support integer arrays**: Elements must be integers (`int` or `constexpr` integers); lists with floating-point numbers or mixed types are not supported
 3. **Non-intrusive design**: `compile_hint` does not change computation semantics; it only adds metadata
-4. **Same tensor can be annotated multiple times**: A single tensor can have multiple hints with different names attached
+4. **Same tensor can be annotated multiple times**: Multiple hints with different names can be attached to the same tensor
 
-### 2.4 Usage
+### 2.4 Usage Example
 
 ```python
 @triton.jit
