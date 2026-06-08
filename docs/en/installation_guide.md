@@ -1,34 +1,31 @@
-# Installation Guide
+# 安装指南
 
-Choose the appropriate installation method as needed and proceed to the corresponding steps:
+请根据需要，选择不同的安装方式，跳转至对应步骤：
+- **基于Docker镜像快速搭建**：直接使用Triton-Ascend发布的开箱即用的镜像，快速构筑开发环境。请直接按[OVERVIEW.zh.md](../../docker/OVERVIEW.zh.md)操作；
+- **基于pip安装**：直接尝试使用TA的pip包选择此项。请先前往下一步<a href="#env-prepare">环境准备</a>完成前置配置，再进行pip安装操作；
+- **基于源码安装**：基于TA的开发者选择此项。请先前往下一步<a href="#env-prepare">环境准备</a>完成前置配置，再选择<a href="#auto-code-base">快速安装</a>或<a href="#hand-code-base">手动安装</a>其中一种方式操作；
+- **基于Dockerfile安装**：无需环境准备，可直接跳转至<a href="#docker-build">基于Dockerfile安装</a>进行操作
 
-- **Quick Setup Based on Docker Images**: Use the out-of-the-box images released by Triton-Ascend to quickly build your development environment. Please follow the instructions in [OVERVIEW.md](../../docker/OVERVIEW.md).
-- **Install via pip**: Select this option if you intend to use the pip package of Triton-Ascend directly. Please proceed to the next step to complete the prerequisite configuration in <a href="#env-prepare">Environment Preparation</a>, then perform the pip installation.
-- **Install from source**: Select this option for developers working with the Triton-Ascend source code. Please proceed to the next step to complete the prerequisite configuration in <a href="#env-prepare">Environment Preparation</a>, then choose either <a href="#auto-code-base">Quick Installation</a> or <a href="#hand-code-base">Manual Installation</a>.
-- **Install via Dockerfile**: No environment preparation required. You may directly proceed to <a href="#docker-build">Install via Dockerfile</a>.
+## 基于Docker镜像快速安装
 
-## Quick installation based on Docker image
+### 确认设备型号
 
-### Confirm Device Model
+| 芯片系列     | 产品示例                          | 对应tag                         |
+|----------|-------------------------------|-------------------------------|
+| 昇腾910b   | Atlas 800T A2、Atlas 900 A2 PoD | 3.2.1-910b-ubuntu22.04-py3.11 |
+| 昇腾A3     | Atlas 800T A3                 | 3.2.1-a3-ubuntu22.04-py3.11   |
+| 昇腾950    | 950PR系列                       | 3.2.1-950-ubuntu22.04-py3.11  |
 
-| Chip Series | Product Example                | tag                           |
-|-------------|--------------------------------|-------------------------------|
-| Ascend 910b | Atlas 800T A2、Atlas 900 A2 PoD | 3.2.1-910b-ubuntu22.04-py3.11 |
-| Ascend A3   | Atlas 800T A3                  | 3.2.1-a3-ubuntu22.04-py3.11   |
-| Ascend 950  | 950PR Series                   | 3.2.1-950-ubuntu22.04-py3.11  |
-
-Note：For more mirrors,please see [OVERVIEW.zh.md](../../docker/OVERVIEW.zh.md)
-
-### Get Image
+说明：更多镜像参见[OVERVIEW.zh.md](../../docker/OVERVIEW.zh.md)
+### 获取镜像
 
 ```bash
 docker pull quay.io/ascend/{image_tag}
 ```
-
-### Create container
+### 创建容器
 
 ```bash
-# Assume that your NPU device model is A3, the device is installed in /dev/davinci1, and the NPU driver is installed in /usr/local/Ascend:
+# 假设您的NPU设备型号是A3,且设备安装在/dev/davinci1上，并且您的NPU驱动程序安装在/usr/local/Ascend上：
 container_name=triton-ascend_container
 image_tag=quay.io/ascend/triton:3.2.1-a3-ubuntu22.04-py3.11
 docker run -u 0 -dit --shm-size=512g --name=${container_name} --net=host --privileged \
@@ -53,95 +50,95 @@ docker run -u 0 -dit --shm-size=512g --name=${container_name} --net=host --privi
 ${image_tag} \
 /bin/bash
 ```
-
-### Enter Container
+### 进入容器
 
 ```bash
 docker exec -it triton-ascend_container bash
 ```
 
-Run the: [01-vector-add.py](https://github.com/triton-lang/triton-ascend/blob/main/third_party/ascend/tutorials/01-vector-add.py)
+运行实例: [01-vector-add.py](https://github.com/triton-lang/triton-ascend/blob/main/third_party/ascend/tutorials/01-vector-add.py)
 
-If an output similar to the following is displayed, the environment is correctly configured:
+观察到类似的输出即说明环境已搭建完成。
 
 ```
     tensor([0.8329, 1.0024, 1.3639,  ..., 1.0796, 1.0406, 1.5811], device='npu:0')
     tensor([0.8329, 1.0024, 1.3639,  ..., 1.0796, 1.0406, 1.5811], device='npu:0')
     The maximum difference between torch and triton is 0.0
 ```
+## 其他三种搭建方式
 
 <a id="env-prepare"></a>
 
-## Other three setup modes
+### 环境准备
 
-### Preparing the Environment
+#### Python版本要求
 
-#### Python Version Requirements
+| Triton-Ascend版本 | Python支持版本 | 备注              |
+|-------------------|----------------------|-----------------|
+| 3.2.1             | py3.9 - py3.13       | py3.9不支持aarch64 |
+| 3.2.0             | py3.9 - py3.11       |                 |
+| 3.2.0rc4          | py3.9 - py3.11       |                 |
 
-Triton-Ascend requires Python 3.9 to 3.11.
+#### 安装CANN
 
-#### Installing CANN
+异构计算架构CANN（Compute Architecture for Neural Networks）是昇腾针对AI场景推出的异构计算架构，
+向上支持多种AI框架，包括MindSpore、PyTorch、TensorFlow等，向下服务AI处理器与编程，发挥承上启下的关键作用，是提升昇腾AI处理器计算效率的关键平台。
 
-Compute Architecture for Neural Networks (CANN) is a heterogeneous compute architecture developed by Ascend for AI scenarios.
-It plays a pivotal bridging role: providing upward integration with multiple AI frameworks (including MindSpore, PyTorch, and TensorFlow), while offering downward support for AI processors and programming. This establishes it as a key platform for improving the computing efficiency of Ascend AI processors.
+您可以访问昇腾社区官网，根据其提供的[社区软件安装指引](https://www.hiascend.com/cann/download)完成 CANN 的安装与配置。开发者选择CANN版本、产品系列、CPU架构、操作系统和安装方式便可找到对应的安装命令。
 
-You can visit the Ascend community website, and install and configure CANN according to the provided [software installation guide](https://www.hiascend.com/cann/download). Developers can select the CANN version, product series, CPU architecture, operating system, and installation method to find the corresponding installation commands.
+在安装过程中，CANN 版本“**{version}**”请选择如下版本之一。建议下载安装 8.5.0 版本:
 
-During the installation, select one of the following CANN versions in *{version}*. It is advisable to download and install version 8.5.0.
+- 注：如果用户未指定安装路径，则软件会安装到默认路径下，默认安装路径如下。root用户：`/usr/local/Ascend`，非root用户：`${HOME}/Ascend`，`${HOME}`为当前用户目录。
+上述环境变量配置只在当前窗口生效，用户可以按需将```source ${HOME}/Ascend/ascend-toolkit/set_env.sh```命令写入环境变量配置文件（如.bashrc文件）。
 
-- Note: If the installation path is not specified, software will be installed in the default path. The default installation paths are as follows: For the **root** user, the path is `/usr/local/Ascend`. For non-root users, the path is `${HOME}/Ascend`, where `${HOME}` indicates the current user's directory.
-The preceding environment variable configurations take effect only in the current window. You can add the `source ${HOME}/Ascend/ascend-toolkit/set_env.sh` command to the environment variable configuration file (such as the .bashrc file) as required.
+**CANN版本：**
 
-**CANN version:**
+- 商用版
 
-- Commercial edition
+| Triton-Ascend版本 | CANN商用版本 | CANN发布日期 |
+|-------------------|----------------------|-----------------|
+| 3.2.1           | CANN 9.0.0             | 2026/04/30      |
+| 3.2.0             | CANN 8.5.0           | 2026/01/16      |
+| 3.2.0rc4          | CANN 8.3.RC2<br>CANN 8.3.RC1   | 2025/11/20<br>2025/10/30 |
 
-| Triton-Ascend Version| CANN Commercial Version| CANN Release Date        |
-|-------------------|----------------------|--------------------------|
-| 3.2.1             | CANN 9.0.0             | 2026/04/30               |
-| 3.2.0             | CANN 8.5.0           | 2026/01/16               |
-| 3.2.0rc4          | CANN 8.3.RC2<br>CANN 8.3.RC1         | 2025/11/20<br>2025/10/30 |
+- 社区版
 
-- Community edition
+| Triton-Ascend版本   | CANN社区版本 | CANN发布日期 |
+|-------------------|----------------------|--------------------|
+| 3.2.1             | CANN 9.0.0             | 2026/04/30      |
+| 3.2.0             | CANN 8.5.0           | 2026/01/16         |
+| 3.2.0rc4          | CANN 8.3.RC2<br>CANN 8.5.0.alpha001<br>CANN 8.3.RC1         | 2025/11/20<br>2025/11/12<br>2025/10/30         |
 
-| Triton-Ascend Version| CANN Community Version| CANN Release Date                      |
-|-------------------|----------------------|----------------------------------------|
-| 3.2.1             | CANN 9.0.0             | 2026/04/30                             |
-| 3.2.0             | CANN 8.5.0           | 2026/01/16                             |
-| 3.2.0rc4          | CANN 8.3.RC2<br>CANN 8.5.0.alpha001<br>CANN 8.3.RC1         | 2025/11/20<br>2025/11/12<br>2025/10/30 |
+#### 安装torch_npu
 
-#### Installing torch_npu
-
-The current torch_npu version is 2.7.1.post4.
+当前配套的 torch_npu 版本为 2.7.1.post4。
 
 ```bash
 pip install torch_npu==2.7.1.post4
 ```
 
-Note: If `ERROR: No matching distribution found for torch==2.7.1+cpu` is displayed, you can manually install Torch and then install torch_npu.
+注：如果出现报错`ERROR: No matching distribution found for torch==2.7.1+cpu`，可以尝试手动安装torch后再安装torch_npu。
 
 ```bash
 pip install torch==2.7.1+cpu --index-url https://download.pytorch.org/whl/cpu
 ```
 
-<a id="pip-base"></a>
+<a id="code-require"></a>
 
-### Installing Triton-Ascend Using Pip
+### 通过pip安装Triton-Ascend
 
-#### Latest Stable Version
+#### 最新稳定版本
 
-You can install the latest stable version of Triton-Ascend using pip.
+您可以通过pip安装Triton-Ascend的最新稳定版本。
 
 ```shell
 pip install triton-ascend==3.2.1 --extra-index-url=https://triton-ascend.osinfra.cn/pypi/simple
 ```
 
-- Note: for Triton-Ascend 3.2.0 and earlier versions：Triton-Ascend and Triton cannot coexist.You need to uninstall the community Triton first before installing Triton-Ascend.<br>
-For Triton-Ascend 3.2.1 and later versions.Triton-Ascend declares Triton as an installation dependency to mitigate the installation overwriting issue.When installing
-Triton-Ascend,the community Triton is installed first,and the Triton-Ascend overwrites the directory with the same name.
-This prevents the installation of triton from overwriting Triton-Ascend when other software packages that depend on Triton are installed.
-The reason why x86 and arm use different versions of the community Triton installation package is that the community provides the arm installation package only form version 3.2.1 onwards.
-Specifically,x86 depends on triton==3.2.0,and arm depends on triton==3.5.0.
+- 注意：triton-ascend 3.2.0 及以下 Triton-Ascend和Triton 不能同时存在。需要先卸载社区 Triton，再安装 Triton-Ascend。<br>
+triton-ascend 3.2.1 及以上，Triton-Ascend 通过将 Triton 声明为安装依赖来缓解安装覆盖问题。
+安装 Triton-Ascend 时会先安装社区 Triton，再由 Triton-Ascend 覆盖同名目录，从而避免后续安装其他依赖 Triton 的软件包时再次安装 Triton 而覆盖 Triton-Ascend。
+x86 与 arm 使用不同版本的社区 Triton 安装包的原因是社区从 3.5 版本开始才提供 arm 版本安装包：x86 依赖 triton==3.2.0，arm 依赖 triton==3.5.0。
 
 ```shell
 pip uninstall triton
@@ -149,23 +146,23 @@ pip uninstall triton-ascend
 pip install triton-ascend==3.2.1 --extra-index-url=https://triton-ascend.osinfra.cn/pypi/simple
 ```
 
-#### Historical Stable Version
+#### 历史稳定版本
 
 ```shell
 pip install triton-ascend==3.2.0
 ```
 
-## Installing Triton-Ascend Using the Source Code
+### 通过源码安装Triton-Ascend
 
-If you need to develop or customize Triton-Ascend, you should install it by compiling from source. This method allows you to modify the source code according to your project requirements and build a customized version of Triton-Ascend.
+如果您需要对 Triton-Ascend 进行开发或自定义修改，则应采用源代码编译安装的方法。这种方式允许您根据项目需求调整源代码，并编译安装定制化的 Triton-Ascend 版本。
 
-Before building, you need to install the required build dependencies as outlined in <a href="#code-require">Dependency Installation</a>.
+在构建前，您需要完成相关构建组件的<a href="#code-require">依赖安装</a>。
 
-We recommend completing the source installation of Triton-Ascend using the <a href="#auto-code-base">Quick Installation</a> method. If you have special requirements, such as no network access on the target machine, you can use <a href="#hand-code-base">Manual Installation</a> instead.
+我们推荐使用<a href="#auto-code-base">快速安装</a>的方式完成基于源码安装Triton-Ascend；若您有特殊需求，如目标机器无法联网等原因，可以进行<a href="#hand-code-base">手动安装</a>。
 
-#### System Requirements
+#### 系统推荐
 
-| Pytorch Version | Recommended GCC version | Recommended GLIBC version |
+| Pytorch版本 | 推荐的GCC版本 | 推荐的GLIBC版本 |
 |-------------------|----------------------|--------------------|
 | PyTorch2.7.1      | 11.2.1               | 2.28               |
 | PyTorch2.8.0      | 13.3.1               | 2.28               |
@@ -174,29 +171,29 @@ We recommend completing the source installation of Triton-Ascend using the <a hr
 
 <a id="code-require"></a>
 
-#### Dependencies
+#### 依赖
 
-##### Installing System Library Dependencies
+##### 安装系统库依赖
 
-Install zlib1g-dev, LLD and Clang. You can also install ccache to accelerate the build process.
+安装zlib1g-dev/lld/clang，可选择安装ccache包用于加速构建。
 
-- Recommended version: Clang >= 15
-- Recommended version: LLD >= 15
+- 推荐版本 clang >= 15
+- 推荐版本 lld >= 15
 
 ```bash
-Taking Ubuntu as an example:
+以ubuntu系统为例：
 sudo apt update
 sudo apt install zlib1g-dev clang-15 lld-15
 sudo apt install ccache # optional
 ```
 
-Triton-Ascend depends heavily on zlib1g-dev. If you use the yum source, run the following installation command:
+Triton-Ascend的构建强依赖zlib1g-dev，如果您使用yum源，请参考如下命令安装：
 
 ```bash
 sudo yum install -y zlib-devel
 ```
 
-##### Installing Python Dependencies
+##### 安装python依赖
 
 ```bash
 pip install ninja cmake wheel pybind11 # build-time dependencies
@@ -204,28 +201,27 @@ pip install ninja cmake wheel pybind11 # build-time dependencies
 
 <a id="auto-code-base"></a>
 
-#### Quick Installation
+#### 快速安装
 
 ```bash
 git clone https://github.com/triton-lang/triton-ascend.git
 cd triton-ascend
 git checkout main
 
-# Optional: If a pre-compiled LLVM is available locally, you can specify the path to avoid downloading the pre-built LLVM package.
-# Skip this command if no local LLVM exists and execute the installation command directly.
+# 可选，若本地有编译好的LLVM，可以直接指定本地LLVM，不会触发下载LLVM预编译包。若无，忽略这条，直接执行下面的运行安装命令即可。
 export LLVM_SYSPATH=/path/to/LLVM
 
-# Run the installation command
+# 执行安装命令
 pip install -e python
 ```
 
 <a id="hand-code-base"></a>
 
-#### Manual Installation - Building with LLVM
+#### 手动安装 - 基于LLVM构建
 
-Triton uses LLVM 22 to generate code for GPUs and CPUs. Similarly, the BiSheng Compiler of Ascend depends on LLVM to generate NPU code. Therefore, you need to compile the LLVM source code. Pay attention to the specific LLVM version of dependencies. LLVM build supports two methods. **You only need to follow either method**.
+Triton 使用 LLVM 22 为 GPU 和 CPU 生成代码。同样，昇腾的毕昇编译器也依赖 LLVM 生成 NPU 代码，因此需要编译 LLVM 源码才能使用。请关注依赖的 LLVM 特定版本。LLVM的构建支持两种构建方式，**以下两种方式二选一即可**，无需重复执行。
 
-##### Code preparation: Run the `git checkout` command to check out the specified LLVM version
+##### 代码准备: `git checkout` 检出指定版本的LLVM
 
    ```bash
    git clone --no-checkout https://github.com/llvm/llvm-project.git
@@ -235,25 +231,25 @@ Triton uses LLVM 22 to generate code for GPUs and CPUs. Similarly, the BiSheng C
    git apply fad3272.patch
    ```
 
-##### Installing LLVM Using Clang
+##### clang构建安装LLVM
 
-- Step 1: We use Clang to install LLVM. Install Clang and LLD in the environment and specify their versions (Clang >= 15 and LLD >= 15 are recommended).
-  If Clang, LLD, and ccache are not installed, run the following commands to install them:
+- 步骤1：使用clang安装LLVM，环境上请安装clang、lld，并指定版本（推荐版本clang>=15，lld>=15），
+  如未安装，请按下面指令安装clang、lld、ccache：
 
   ```bash
   apt-get install -y clang-15 lld-15 ccache
   ```
 
-- Step 2: Set the environment variable *LLVM_INSTALL_PREFIX* to your target installation path.
+- 步骤2：设置环境变量 LLVM_INSTALL_PREFIX 为您的目标安装路径：
 
    ```bash
    export LLVM_INSTALL_PREFIX=/path/to/llvm-install
    ```
 
-- Step 3: Run the following commands to build and install LLVM:
+- 步骤3：执行以下命令进行构建和安装LLVM：
 
   ```bash
-  cd $HOME/llvm-project # Path to the LLVM code pulled by git clone
+  cd {PATH_TO}/llvm_project # 路径为用户拉取LLVM代码的路径,需根据实际调整
   mkdir build
   cd build
   cmake ../llvm \
@@ -270,24 +266,22 @@ Triton uses LLVM 22 to generate code for GPUs and CPUs. Similarly, the BiSheng C
   ninja install
   ```
 
-- Step 4: Need to cp FILECHECK to your target installation path:
+- 步骤4：需要拷贝FILECHECK到目标安装路径：
 
    ```bash
    cp  {PATH_TO}/llvm_project/build/bin/FileCheck ${LLVM_INSTALL_PREFIX}/bin/FileCheck
    ```
 
-##### Cloning Triton-Ascend
+##### 克隆 Triton-Ascend
 
 ```bash
 git clone https://github.com/triton-lang/triton-ascend.git && cd triton-ascend
 ```
 
-##### Building Triton-Ascend
+##### 构建 Triton-Ascend
 
-1. Install the source code.
-
-   - Step 1: Ensure that the target installation path of LLVM (*${LLVM_INSTALL_PREFIX}*) has been set in the [Building with LLVM] section.
-   - Step 2: Ensure that Clang 15 or later, LLD 15 or later, and ccache have been installed.
+- 步骤1：请确认已设置 [基于LLVM构建] 章节中，LLVM安装的目标路径 ${LLVM_INSTALL_PREFIX}
+- 步骤2：请确认已安装clang>=15，lld>=15，ccache
 
    ```bash
    LLVM_SYSPATH=${LLVM_INSTALL_PREFIX} \
@@ -299,10 +293,10 @@ git clone https://github.com/triton-lang/triton-ascend.git && cd triton-ascend
    python3 setup.py install
    ```
 
-   Note 1: For the recommended GCC version, please refer to the earlier section "System Requirements". If the GCC version is earlier than 9.4.0, "ld.lld: error: unable to find library -lstdc++fs" may be reported, indicating that the linker cannot find the stdc++fs library.
-   This library supports the file system features of versions earlier than GCC 9. In this case, you need to manually uncomment the related code snippet in the CMake file.
+注1：推荐GCC版本见前段章节“系统推荐”，如果GCC < 9.4.0，可能报错 “ld.lld: error: unable to find library -lstdc++fs”，说明链接器无法找到 stdc++fs 库。
+该库用于支持 GCC 9 之前版本的文件系统特性。此时需要手动把 CMake 文件中相关代码片段的注释打开：
 
-   triton-ascend/CMakeLists.txt
+triton-ascend/CMakeLists.txt
 
    ```bash
    if (NOT WIN32 AND NOT APPLE)
@@ -310,17 +304,17 @@ git clone https://github.com/triton-lang/triton-ascend.git && cd triton-ascend
    endif()
    ```
 
-   After uncommenting the code snippet, rebuild the project to solve the problem.
+  取消注释后重新构建项目即可解决该问题。
 
 <a id="docker-build"></a>
 
-### Install via Dockerfile
+### 基于Dockerfile安装
 
-We provide a Dockerfile to help you build a Docker environment image. The build uses pre-built CANN images from `quay.io/ascend/cann` as the base, which significantly speeds up the build process by skipping the CANN installation step.
+我们提供了Dockerfile帮助您安装Docker环境镜像。构建过程使用`quay.io/ascend/cann`预构建镜像作为基础镜像，跳过CANN安装步骤，显著加快构建速度。
 
-You need to specify the `CANN_BASE_IMAGE` build arg to select the appropriate CANN base image for your machine. Available CANN base image tags can be found at [quay.io/ascend/cann](https://quay.io/repository/ascend/cann?tab=tags).
+您需要通过`--build-arg`指定`CANN_BASE_IMAGE`参数来选择适合您机器的CANN基础镜像。可用的CANN基础镜像标签可在[quay.io/ascend/cann](https://quay.io/repository/ascend/cann?tab=tags)查看。
 
-| CANN Version | Chip Type | Python | Image Tag |
+| CANN版本 | 芯片类型 | Python版本 | 镜像标签 |
 |---|---|---|---|
 | 8.5.0 | `A2` | 3.10 | `8.5.0-910b-ubuntu22.04-py3.10` |
 | 8.5.0 | `A3` | 3.10 | `8.5.0-a3-ubuntu22.04-py3.10` |
@@ -331,14 +325,14 @@ You need to specify the `CANN_BASE_IMAGE` build arg to select the appropriate CA
 | 9.0.0-beta.2 | `A2` | 3.11 | `9.0.0-beta.2-910b-ubuntu22.04-py3.11` |
 | 9.0.0-beta.2 | `A3` | 3.11 | `9.0.0-beta.2-a3-ubuntu22.04-py3.11` |
 
-You can check the NPU model on your system using the `npu-smi` command.
+您可以通过 npu-smi 命令查看系统上的NPU型号。
 
-For the machines corresponding to different chip types, refer to the table below:
+不同芯片类型对应的机器可参考：
 
-| Option No. | **Chip Type** | Corresponding Server/Product Series | Typical Server Model |
-|:----------:|:-------------------:|:----------------------------------:|:-----------------------------------:|
-| 1 | `A3` | Atlas A3 Training Series | Atlas 900 A3 SuperPoD |
-| 2 | `A2` | Atlas A2 Training Series | Atlas 800T A2 |
+| 选项序号 | **芯片类型** | 对应机器/产品系列 |                 典型整机                 |
+| :---: |:-----------------:| :---: |:-----------------------------------:|
+| 1 |       `A3`        | Atlas A3 训练系列产品 |        Atlas 900 A3 SuperPoD        |
+| 2 |       `A2`        | Atlas A2 训练系列产品 |            Atlas800T A2             |
 
 ```bash
 git clone https://github.com/triton-lang/triton-ascend.git && cd triton-ascend
@@ -347,7 +341,7 @@ docker build \
 -t triton-ascend-image:latest -f ./docker/Dockerfile .
 ```
 
-To start a container from this image, you can use the following command as a reference:
+根据该镜像启动容器，可以参考下面的命令：
 
 ```bash
 docker run -u 0 -dit --shm-size=512g --name=triton-ascend_container --net=host --privileged \
@@ -372,32 +366,32 @@ docker run -u 0 -dit --shm-size=512g --name=triton-ascend_container --net=host -
 triton-ascend-image:latest \
 /bin/bash
 
-# Enter the container
+# 进入容器
 docker exec -u root -it triton-ascend_container /bin/bash
 ```
 
-### Run the Triton example
+### 运行Triton示例
 
-   Install the runtime dependencies. Refer to the following command:
+   安装运行时依赖，参考如下：
 
- ```bash
-   # Pull the triton-ascend source code repository and examples (optional; required to pull the source code repository when running examples without source code compilation and installation).
+```bash
+   # 拉取triton-ascend源码仓及用例（可选，非源码编译安装运行示例时需拉源码仓）
    git clone https://github.com/triton-lang/triton-ascend.git
-   cd triton-ascend && pip install -r requirements_dev.txt
- ```
+   cd triton-ascend && pip install -r requirements.txt
+```
 
-   Run the [01-vector-add.py](../../third_party/ascend/tutorials/01-vector-add.py) instance.
+   运行实例: [01-vector-add.py](../../third_party/ascend/tutorials/01-vector-add.py)
 
- ```bash
-   # Set the CANN environment variables (for example, as the root user and with the default installation path /usr/local/Ascend).
+```bash
+   # 设置CANN环境变量（以root用户默认安装路径`/usr/local/Ascend`为例）
    source /usr/local/Ascend/ascend-toolkit/set_env.sh
-   # Run the tutorials example.
+   # 运行tutorials示例：
    python3 ./third_party/ascend/tutorials/01-vector-add.py
- ```
+```
 
-  If an output similar to the following is displayed, the environment is correctly configured:
+观察到类似的输出即说明环境配置正确。
 
-```python
+```bash
     tensor([0.8329, 1.0024, 1.3639,  ..., 1.0796, 1.0406, 1.5811], device='npu:0')
     tensor([0.8329, 1.0024, 1.3639,  ..., 1.0796, 1.0406, 1.5811], device='npu:0')
     The maximum difference between torch and triton is 0.0

@@ -1,12 +1,12 @@
 # sub_vec_id
 
-## 1. Hardware Background
+## 1. 硬件背景
 
-Ascend hardware uses a different core count ratio for AIC and AIV cores (1:N). Triton's programming abstraction hides the hardware details of Cube and Vector cores, so Triton operator developers cannot directly control how data is partitioned across N Vector cores for parallel processing. This is handled automatically by the compiler through the AutoSubTiling pass.
+昇腾硬件AIC与AIV核数配比不同（1:N），Triton编程抽象屏蔽了Cube核与Vector核的硬件细节，因此，Triton算子开发者无法控制如何切分数据在N个Vector核间并行处理，由编译器通过AutoSubTiling Pass自动实现。
 
-The `sub_vec_id` programming interface returns the sub ID of N Vector cores, allowing operator developers to decide which data each core processes based on the Vector-core sub ID.
+sub_vec_id编程接口返回N个Vector核的sub id，允许算子开发者根据vector核sub id决定每个核处理哪些数据。
 
-## 2. Interface Description
+## 2. 接口说明
 
 <table>
   <tr>
@@ -14,15 +14,15 @@ The `sub_vec_id` programming interface returns the sub ID of N Vector cores, all
   </tr>
 </table>
 
-- Return value: a Sub Vector ID in the range [0, N). Operator developers can use this ID to decide which data shard each of the N parallel Vector cores should process.
+- 返回值：返回范围为 [0, N) 的 Sub Vector ID，算子开发者可根据该ID决定N个并行Vector核中每个核处理的数据分片
 
-- Parameters: none
+- 入参：无
 
-## 3. Constraints
+## 3. 约束说明
 
-This is only valid in scenarios where AIC and AIV cores are used together. It cannot be used in pure Cube operators or pure Vector operators; otherwise, compilation will fail.
+仅在AIC和AIV核混合使用场景中有效，不可在纯Cube类算子或者纯Vector类算子中使用，否则会触发编译报错。
 
-## 4. Example Usage
+## 4. 用例示例
 
 <table>
   <tr>
@@ -30,7 +30,7 @@ This is only valid in scenarios where AIC and AIV cores are used together. It ca
   </tr>
 </table>
 
-Output:
+输出：
 
 <table>
   <tr>

@@ -1,63 +1,64 @@
-# Development Differences Between Ascend and GPUs
+# 昇腾与GPU的开发差异
 
-## Multi-Core Task Parallelism Strategy
+## 多核任务并行策略
 
-NPUs are strongly bound to physical cores in Triton multi-core parallelism. This represents a core difference from GPUs' logical dimension parallelism + automatic physical mapping in hardware.
+NPU在Triton多核并行中是物理核强绑定模式，与GPU逻辑维度并行+硬件自动物理映射的模式形成核心差异
 
-- Core comparison
+- 核心对比
 
-    |Dimension      |GPU (NVIDIA)|Ascend|
+    |维度       |GPU（NVIDIA） |昇腾（Ascend）|
     |-----------|--------------|-----------|
-    |Essence of grids| Logical task dimension (decoupled from physical cores)| Physical core group mapping (bound to the AI core topology)|
-    |Limit on the number of cores/dimensions| No hard limit on the grid dimensions/sizes| Grid size ≤ Total number of AI cores; topology matching required by 2D|
+    |grid 本质| 逻辑任务维度（和物理核解耦）| 物理核组映射（绑定 AI Core 拓扑）|
+    |核数 / 维度限制| grid 维度 / 大小无硬限制| grid 大小≤AI Core 总数，2D 需匹配拓扑|
 
-GPUs can be bound to multiple dimensions (a 3D grid of `[n, m, l]` is equivalent to`n × m × l` parallel threads). Each thread corresponds to only one kernel execution and executes only once.\
-In NPUs, vector cores and cube cores belong to multiple physical cores. The number of cores varies with the generation of hardware. Each core executes only one block and can schedule the block execution repeatedly.
+GPU:可绑定多个维度轴（三维grid=[n,m,l] 等同于乘积n×m×l个并行线程），每个线程仅对应一次kernel执行，且仅执行一次。\
+NPU:Vector核，Cube核属于多个物理核，不同代际硬件核数不同，每个核仅执行一次Block,且支持对该Block重复调度执行。
 
-### Full Utilization of Cores
+### 充分利用核数
 
-Ascend NPUs have multiple computing cores. Properly allocating and fully utilizing all available cores is one of the key factors to improve operator performance.
-When calling Triton kernel functions, you can set the **launch** parameter to control the number of cores in use. Take the GELU operator as an example:
+昇腾NPU具备多个计算核心，合理分配并充分利用所有可用核心，是提升算子性能的关键因素之一。
+在调用Triton内核函数时，通过设置launch参数控制使用的核数量。以GELU算子为例：
 
 ```Python
-triton_gelu[n, 1, 1](...)  # The first parameter indicates the number of cores in use. n indicates that n cores are in use.
+triton_gelu[n, 1, 1](...)  # 第一个参数表示使用的核数，n表示使用n个核
 ```
 
-By optimizing the number of cores, you can fully schedule and utilize all computing resources, thereby maximizing the degree of parallelism (DOP) and throughput. Note that the number of cores in the current version must be less than or equal to 65,535.
+通过对核数的调优，可实现对所有计算资源的充分调度和利用，从而最大化并行度与吞吐量。注意，当前版本核数需小于等于65535。
 
-## Single-Core Data Transfer Strategy
+## 单核数据搬运策略
 
-### Data Tiling
+### 数据切分Tiling
 
-When you write Triton kernel functions, a proper data tiling strategy is essential for performance optimization. By adjusting tiling granularity parameters, you can balance computational workload and memory access efficiency across different dimensions.
+写Triton内核函数时，合理的数据切分策略对性能优化至关重要。通过调整不同的切分粒度参数，可以在不同维度上平衡计算负载与内存访问效率。
 
-Common tiling parameters include:
+常见的切分参数包括：
 
 ```text
-ncore: the number of cores in use (cross-core tiling)
-xblock: the size of inter-core data blocks (inter-core tiling)
-xblock_sub: the granularity of intra-core tiling (fine-grained intra-core tiling)
+ncore：使用的核数（跨核切分）
+xblock：核间数据块大小（核间切分）
+xblock_sub：核内切分粒度（核内细粒度划分）
 ```
 
-By manually selecting the optimal tiling configurations based on your actual scenario, you can maximize the utilization of on-chip memory during each computation cycle, preventing performance bottlenecks caused by frequent access to the global memory.
+开发者可根据实际场景手动选择最优的切分配置，使得每次计算尽可能充分利用片上内存（On-chip Memory），避免频繁访问全局内存（Global Memory）造成的
+性能瓶颈。
 
-Taking the GELU operator as an example, adjusting the tiling parameters helps effectively adapt to the on-chip cache capacity limit, thereby improving execution efficiency.
+以GELU算子为例，通过调整切分参数，可以有效适配片上缓存容量限制，从而提升执行效率。
 
-Note: Atlas 800T/I A2 has an on-chip memory capacity of 192 KB. When designing the tiling strategy, ensure that the data volume of each computation cycle does not exceed this capacity.
+注：Atlas 800T/I A2产品的片上内存容量为192KB，因此在设计切分策略时需考虑该限制，确保每轮计算的数据量不超过片上内存容量。
 
-#### Example GELU Operator
+#### GELU算子示例
 
-The following demonstrates the development of an example GELU operator with three result computation methods.
+GELU算子开发示例，使用3种方式计算结果。
 
-`standard_unary` is standard Torch computation.
+standard_unary      为标准Torch计算。
 
-`triton_easy_kernel` is a simple implementation of Triton.
+triton_easy_kernel  为简单Triton实现。
 
-`triton_better_kernel` is a more efficient implementation of Triton.
+triton_better_kernel为更高效的Triton实现。
 
-#### Standard Torch Writing
+#### 标准Torch写法
 
-After computing the input `tensor x0`, Torch implements the GELU operator and returns the result value.
+输入tensor x0，经过torch计算实现 GELU 算子，返回结果值。
 
 ```Python
 def standard_unary(x0):
@@ -65,12 +66,12 @@ def standard_unary(x0):
     return res
 ```
 
-#### Simple Triton Writing
+#### 简单Triton写法
 
-The following is an example of a simple kernel written in Triton, demonstrating how to define and call a basic Triton kernel function. This example implements a simple mathematical operation (GELU activation function).
+以下是一个使用 Triton 编写的简单内核示例，用于展示如何定义和调用一个基本的Triton内核函数。此示例实现了一个简单的数学运算（GELU 激活函数）。
 
 ```Python
-# Define the triton_kernel function.
+# 定义triton_kernel核函数
 @triton.jit
 def triton_easy_kernel(in_ptr0, out_ptr0, NUMEL: tl.constexpr):
     idx_block = tl.arange(0, NUMEL)
@@ -79,20 +80,21 @@ def triton_easy_kernel(in_ptr0, out_ptr0, NUMEL: tl.constexpr):
     tl.store(out_ptr0 + idx_block, ret)
 ```
 
-Precautions
+注意事项
 
-1. Memory limit: In the preceding writing, all input data is loaded to memory at a time for computation. If the input tensor is too large, it may exceed the on-chip memory capacity of a single kernel, resulting in a memory overflow error.
-Therefore, this simple writing is suitable for computing small-scale tensors or for understanding the basic writing and call method of Triton kernels.
+1. 内存限制：上述写法中，所有输入数据一次性被加载到内存中进行计算。如果输入张量过大，可能会超出单个内核的片上内存容量，导致内存溢出错误。
+因此，这种简单的写法更适合于小规模张量的计算或用于理解 Triton 内核的基本写法和调用方式。
 
-2. Application scenarios: This method helps developers quickly understand and get started with Triton programming. However, for large-scale data sets or scenarios demanding high performance, developers are advised to use more complex data tiling strategies to fully utilize hardware resources and prevent memory overflow. In this way, developers can quickly get started with Triton programming and understand how to define, call, and optimize Triton kernel functions.
+2. 适用场景：尽管这种方法有助于快速理解和入门 Triton 编程，但对于大规模数据集或高性能要求的应用场景，建议采用更复杂的数据切分策略（如 Tiling），
+以充分利用硬件资源并避免内存溢出问题。通过这种方式，开发者可以快速上手 Triton 编程，同时了解如何定义、调用以及优化 Triton 内核函数。
 
-#### More Efficient Triton Writing
+#### 更高效triton写法
 
-When using Triton to write high-performance operators on Ascend NPUs, developers need to use a data tiling strategy to fully utilize hardware resources, prevent memory overflow, and improve execution efficiency.
-The following is an example of an optimized Triton kernel implementation suitable for large-scale tensor computation.
+在昇腾 NPU 上使用 Triton 编写高性能算子时，为了充分利用硬件资源、避免内存溢出并提升执行效率，通常需要采用数据切分（Tiling）策略。
+下面是一个经过优化的 Triton 内核实现示例，适用于大规模张量计算。
 
 ```Python
-# Define the triton_kernel function.
+# 定义triton_kernel核函数
 @triton.jit
 def triton_better_kernel(in_ptr0, out_ptr0, xnumel, XBLOCK: tl.constexpr, XBLOCK_SUB: tl.constexpr):
     xoffset = tl.program_id(0) * XBLOCK
@@ -103,39 +105,39 @@ def triton_better_kernel(in_ptr0, out_ptr0, xnumel, XBLOCK: tl.constexpr, XBLOCK
         ret = x * 0.5 * (1.0 + tl.erf(x / tl.sqrt(2.0)))
         tl.store(out_ptr0 + x_index, ret, xmask)
 
-# Call the triton_kernel function.
+# 调用triton_kernel核函数
 ncore = 32
 xblock = 32768
 xblock_sub = 8192
 triton_better_kernel[ncore, 1, 1](x0, out1, x0.numel(), xblock, xblock_sub)
 ```
 
-Explanation of key code:
+关键代码解释
 
 ```Python
-# Calculate the start offset address of the data block processed by the current core to implement inter-core tiling. Each core is responsible only for a data segment of size XBLOCK.
+# 计算当前核处理数据块的起始偏移地址，实现核间切分。每个核仅负责 XBLOCK 大小的数据范围。
 xoffset = tl.program_id(0) * XBLOCK
 
-# Further split the data block within a single core to process data of size XBLOCK_SUB each time, which is known as intra-core tiling.
+# 在单个核内部进一步细分数据块，每次处理 XBLOCK_SUB 大小的数据，实现核内切分。
 for xoffset_sub in range(0, XBLOCK, XBLOCK_SUB):
 
-# Construct the data index array of the current iteration. This array is used to access the input and output tensors.
+# 构造当前迭代的数据索引数组，用于访问输入和输出张量。
 x_index = xoffset + xoffset_sub + tl.arange(0, XBLOCK_SUB)[:]
 
-# Set a mask to prevent out-of-bounds access and ensure that only data within the defined range is processed.
+# 设置掩码以防止越界访问，确保只处理合法范围内的数据。
 xmask = x_index < xnumel
 
-# Load data from the global memory to the on-chip memory and write the computation results back to the global memory.
-tl.load() and tl.store()
+# 分别用于从全局内存加载数据到片上内存，以及将计算结果写回全局内存。
+tl.load() 和 tl.store()
 ```
 
-## Compilation Optimization
+## 编译优化能力
 
-### Ascend NPU IR Optimization
+### AscendNPU IR优化
 
-The following table lists the compilation options for Ascend NPU IR optimization, which are adapted to the hardware and software features of Ascend.
-**Usage**: During the autotune configuration phase, pass the values of the compilation options.
-For example, to enable the `multibuffer` option, pass `'multibuffer': True` to `triton.Config` during the autotune configuration phase. For details, see [Autotune Example](../examples/06_autotune_example.md).
+针对昇腾软硬件特性，适配了AscendNPU IR优化的编译选项，如下表所示。
+**使用方法**：在autotune的配置阶段，传入编译选项的值
+以开启`multibuffer`选项举例，在autotune的配置阶段，即`triton.Config`中，传入`'multibuffer': True`，详见[autotune示例](../examples/06_autotune_example.md)：
 
 ```python
     def get_autotune_config():
@@ -143,18 +145,17 @@ For example, to enable the `multibuffer` option, pass `'multibuffer': True` to `
             triton.Config({'XS': 1 * 128, 'multibuffer': True}),]
 ```
 
-| Option     | Capability      | Enabled or Not|
+| 选项      | 能力       | 是否开启 |
 | ----------------- | ------------ | ----------------- |
-| multibuffer                                   | Data transfer through parallel pipelines. | Default: **true**. Options: **true** and **false**. It is configurable during autotune.                    |
-| unit_flag                                     | Optimization item for cube-out.                                        | Default: None. Options: **true** and **false**.  It is configurable during autotune.                    |
-| limit_auto_multi_buffer_only_for_local_buffer | Optimization item for CV operators and cube-out.                        | Default: None. Options: **true** and **false**. It is configurable during autotune.|
-| limit_auto_multi_buffer_of_local_buffer       | Scope of enabling double buffer for cube operators.                        | Default: None. Value range: ["no-limit","no-l0c"]. It is configurable during autotune.          |
-| set_workspace_multibuffer                     | It takes effect only when **limit_auto_multi_buffer_only_for_local_buffer** is set to **false**.| Default: None. Example: [2,4]. It is configurable during autotune.                           |
-| enable_hivm_auto_cv_balance                   | **set_workspace_multibuffer** takes effect only when **limit_auto_multi_buffer_only_for_local_buffer** is set to **false**.| Default: None. Options: **true** and **false**. It is configurable during autotune.|
-| tile_mix_vector_loop                          | Optimization item for CV operators. It specifies the number of segments into which the current vector can be split.                       | Default: None. Example: [2,4,8]. It is configurable during autotune.                      |
-| tile_mix_cube_loop                            | Optimization item for CV operators. It specifies the number of segments into which the current cube can be split.     | Default: None. Example: [2,4,8]. It is configurable during autotune.                     |
-| auto_blockify_size                            | Optimization item for TRITON_ALL_BLOCKS_PARALLEL. It specifies the size of leftmost dimension to be expanded.     | Default: 1. Example: [2,4,8]. It is configurable during autotune.                     |
-| enable_auto_blockify                          | Per-kernel override for the TRITON_ALL_BLOCKS_PARALLEL env var. When set to **true** or **false**, the kernel uses that value regardless of the env var; when left unset (None), the env var decides. Resolution order: this option > env var > off. Both the compile-time blockify pass and the runtime cap on the launched block count follow this resolved value, so they always agree. | Default: None. Options: **true**, **false**, None. |
+| multibuffer                                   | 开启流水并行数据搬运  | 默认true； true , false。 autotune中可配置                     |
+| unit_flag                                     | cube搬出的一个优化项                                         | 默认None；true , false。  autotune中可配置                     |
+| limit_auto_multi_buffer_only_for_local_buffer | CV算子一个优化项，cube搬出的一个优化项                         | 默认None；true , false。 autotune中可配置 |
+| limit_auto_multi_buffer_of_local_buffer       | cube算子开启double buffer具体的scope                         | 默认None；["no-limit", "no-l0c"]， autotune中可配置           |
+| set_workspace_multibuffer                     | 只有在limit_auto_multi_buffer_only_for_local_buffer=false场景下生效 | 默认None；如[2,4]，autotune中可配置                            |
+| enable_hivm_auto_cv_balance                   | set_workspace_multibuffer只有在limit_auto_multi_buffer_only_for_local_buffer=false场景下生效 | 默认None；true , false。 autotune中可配置 |
+| tile_mix_vector_loop                          | CV算子的一个优化项，当前vector可以切几份                        | 默认None；如 [2,4,8]，autotune中可配置                       |
+| tile_mix_cube_loop                            | CV算子一个优化项，当前cube可以切几份      | 默认None；如 [2,4,8]，autotune中可配置                      |
+| auto_blockify_size                            | TRITON_ALL_BLOCKS_PARALLEL优化项，用于指定扩展的左起第一个维度的大小。 | 默认1；如 [2,4,8]，autotune中可配置                       |
 
-- Note: The compilation optimization options are located in **ascend/backend/compiler.py**.
-- Note: CV operators indicate that both AI cores and vector cores are used during operator computation.
+- 注：优化编译选项在ascend/backend/compiler.py代码中。
+- 注：CV算子表示该算子运算过程中既使用了AI Core又使用了Vector Core。

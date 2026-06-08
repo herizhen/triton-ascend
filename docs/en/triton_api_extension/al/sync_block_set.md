@@ -1,12 +1,12 @@
-# al.sync_block_set API Documentation
+# al.sync_block_set 接口文档
 
-## 1. Hardware Background
+## 1. 硬件背景
 
-An inter-core synchronization control interface for split-mode execution.
+面向分离模式的核间同步控制接口。
 
-This interface is used together with `sync_block_wait`. When used, an inter-core synchronization marker ID (`flagId`) must be provided. Each ID corresponds to a counter initialized to 0. After `CrossCoreSetFlag` executes, the counter for that ID increases by 1. When `CrossCoreWaitFlag` executes, it blocks if the corresponding counter is 0; if the counter is greater than 0, the counter decreases by 1 and subsequent instructions begin execution.
+该接口和 sync_block_wait 接口配合使用。使用时需传入核间同步的标记ID(flagId)，每个ID对应一个初始值为0的计数器。执行CrossCoreSetFlag后ID对应的计数器增加1；执行CrossCoreWaitFlag时如果对应的计数器数值为0则阻塞不执行；如果对应的计数器大于0，则计数器减一，同时后续指令开始执行。
 
-## 2. Interface Description
+## 2. 接口说明
 
 <table>
   <tr>
@@ -14,96 +14,96 @@ This interface is used together with `sync_block_wait`. When used, an inter-core
   </tr>
 </table>
 
-### Return Value
+### 返回值
 
-No return value
+无返回值
 
-## 3. Parameter Description
+## 3. 入参说明
 
 <table>
   <tr>
-    <td>Parameter</td>
-    <td>Type</td>
-    <td>Description</td>
+    <td>参数名</td>
+    <td>类型</td>
+    <td>说明</td>
   </tr>
   <tr>
     <td>sender</td>
     <td>str</td>
-    <td>Sender side. Only supports &quot;cube&quot; / &quot;vector&quot;</td>
+    <td>发送端，仅支持 &quot;cube&quot; / &quot;vector&quot;</td>
   </tr>
   <tr>
     <td>receiver</td>
     <td>str</td>
-    <td>Receiver side. Only supports &quot;cube&quot; / &quot;vector&quot;</td>
+    <td>接收端，仅支持 &quot;cube&quot; / &quot;vector&quot;</td>
   </tr>
   <tr>
     <td>event_id</td>
     <td>int</td>
-    <td>Synchronization marker ID. Value range: [0, 15]</td>
+    <td>同步标记ID，取值范围 [0,15]</td>
   </tr>
   <tr>
     <td>sender_pipe</td>
     <td>al.PIPE</td>
-    <td>Sender pipeline type</td>
+    <td>发送端流水线类型</td>
   </tr>
   <tr>
     <td>receiver_pipe</td>
     <td>al.PIPE</td>
-    <td>Receiver pipeline type</td>
+    <td>接收端流水线类型</td>
   </tr>
   <tr>
     <td>_builder</td>
     <td>-</td>
-    <td>Automatically passed by the JIT compiler</td>
+    <td>JIT编译器自动传参</td>
   </tr>
 </table>
 
-## 4. PIPE Enum Description
+## 4. PIPE 枚举说明
 
 <table>
   <tr>
-    <td>Pipeline Type</td>
-    <td>Meaning</td>
+    <td>流水类型</td>
+    <td>含义</td>
   </tr>
   <tr>
     <td>PIPE_S</td>
-    <td>Scalar pipeline. Used when calling the Tensor GetValue function</td>
+    <td>标量流水线，使用Tensor GetValue函数时为此流水</td>
   </tr>
   <tr>
     <td>PIPE_V</td>
-    <td>Vector-compute pipeline and the L0C-&gt;UB data-movement pipeline</td>
+    <td>矢量计算流水及L0C-&gt;UB数据搬运流水</td>
   </tr>
   <tr>
     <td>PIPE_M</td>
-    <td>Matrix-compute pipeline</td>
+    <td>矩阵计算流水</td>
   </tr>
   <tr>
     <td>PIPE_MTE1</td>
-    <td>L1-&gt;L0A and L1-&gt;L0B data-movement pipeline</td>
+    <td>L1-&gt;L0A、L1-&gt;L0B数据搬运流水</td>
   </tr>
   <tr>
     <td>PIPE_MTE2</td>
-    <td>GM-&gt;L1, GM-&gt;L0A, GM-&gt;L0B, and GM-&gt;UB data-movement pipeline</td>
+    <td>GM-&gt;L1、GM-&gt;L0A、GM-&gt;L0B、GM-&gt;UB数据搬运流水</td>
   </tr>
   <tr>
     <td>PIPE_MTE3</td>
-    <td>UB-&gt;GM and UB-&gt;L1 data-movement pipeline</td>
+    <td>UB-&gt;GM、UB-&gt;L1数据搬运流水</td>
   </tr>
   <tr>
     <td>PIPE_ALL</td>
-    <td>All pipelines</td>
+    <td>所有流水</td>
   </tr>
   <tr>
     <td>PIPE_FIX</td>
-    <td>L0C-&gt;GM and L0C-&gt;L1 data-movement pipeline</td>
+    <td>L0C-&gt;GM、L0C-&gt;L1数据搬运流水</td>
   </tr>
 </table>
 
-## 5. Constraints
+## 5. 约束说明
 
 - sender != receiver
 
-## 6. Example Usage
+## 6. 用例示例
 
 <table>
   <tr>
@@ -111,7 +111,7 @@ No return value
   </tr>
 </table>
 
-Output:
+输出：
 
 <table>
   <tr>

@@ -1,55 +1,55 @@
-# al.scope API Documentation
+# al.scope 接口文档
 
-## 1. Hardware Background
+## 1. 硬件背景
 
-Ascend processors contain multiple types of compute units, such as the Cube Unit for matrix operations and the Vector Unit for vector/scalar operations. `al.scope` allows kernel developers to explicitly tell the Triton compiler which hardware unit a specific code region should target, enabling finer-grained performance tuning and resource utilization.
+昇腾处理器包含多种类型的计算单元（例如，用于矩阵运算的 Cube Unit 和用于向量/标量运算的 Vector Unit）。al.scope 允许内核开发者显式地告诉 Triton 编译器，特定代码区域应该目标哪种硬件单元，从而实现更精细的性能调优和资源利用。
 
-## 2. Interface Description
+## 2. 接口说明
 
 <table>
   <tr>
-    <td>Python<br>with al.scope(core_mode: str):<br>    # Triton statements inside this code block (such as `tl.load`, `tl.store`, and arithmetic operations)<br>    # will be compiled and executed according to the specified `core_mode`.<br>    ...</td>
+    <td>Python<br>with al.scope(core_mode: str):<br>    # 此代码块内的 Triton 语句（如 tl.load, tl.store, 算术运算等）<br>    # 将根据指定的 core_mode 进行编译和执行。<br>    ...</td>
   </tr>
 </table>
 
-`al.scope` is a context manager in the `triton.language.extra.ascend` module, designed to specify the Ascend hardware execution mode for a code block inside a Triton kernel.
+al.scope 是 triton.language.extra.ascend 模块中的一个上下文管理器（Context Manager），专为 Triton 内核中的代码块指定 昇腾硬件的执行模式。
 
-### Parameters
+### 参数
 
 <table>
   <tr>
-    <td>Parameter</td>
-    <td>Type</td>
-    <td>Required</td>
-    <td>Description</td>
-    <td>Allowed Values (Examples)</td>
+    <td>参数名</td>
+    <td>类型</td>
+    <td>必需</td>
+    <td>说明</td>
+    <td>可选值 (示例)</td>
   </tr>
   <tr>
     <td>core_mode</td>
     <td>str</td>
-    <td>Yes</td>
-    <td>Specifies the Ascend core type to be used by code inside this scope</td>
+    <td>是</td>
+    <td>指定该作用域内代码将要使用的昇腾核心类型</td>
     <td>&quot;vector&quot;, &quot;cube&quot;</td>
   </tr>
 </table>
 
-### Common Values
+### 常用值说明
 
 <table>
   <tr>
-    <td>Value</td>
-    <td>Target Core</td>
-    <td>Use Case / Optimization Focus</td>
+    <td>值</td>
+    <td>目标核心</td>
+    <td>用途/优化方向</td>
   </tr>
   <tr>
     <td>&quot;vector&quot;</td>
-    <td>Vector Unit</td>
-    <td>Suitable for element-wise operations such as addition (+), multiplication (*), activation functions (ReLU, Sigmoid), data loading (`tl.load`), and storing (`tl.store`).</td>
+    <td>Vector Unit (向量核心)</td>
+    <td>适用于元素级操作 (Element-wise Operations)，如加法 (+)、乘法 (*)、激活函数 (ReLU, Sigmoid)、数据加载 (tl.load) 和存储 (tl.store)。</td>
   </tr>
   <tr>
     <td>&quot;cube&quot;</td>
-    <td>Cube Unit</td>
-    <td>Suitable for matrix computation, especially matrix multiplication (GEMM) and convolution. This is typically associated with operations such as `tl.dot`.</td>
+    <td>Cube Unit (矩阵核心)</td>
+    <td>适用于矩阵计算，特别是矩阵乘法 (Matrix Multiplication, GEMM) 和卷积操作。这通常与 tl.dot 等操作相关联。</td>
   </tr>
   <tr>
     <td>&quot;SIMT&quot;</td>
@@ -63,7 +63,7 @@ Ascend processors contain multiple types of compute units, such as the Cube Unit
   </tr>
 </table>
 
-## 3. Constraints
+## 3. 约束说明
 
 each kernel have 1 scope for cube and vector, inside them they run parallely and there are other syncing operations that declares the sync between both of the scope
 
@@ -73,7 +73,7 @@ each kernel have 1 scope for cube and vector, inside them they run parallely and
 
 - Explicit Synchronization: Required for data dependencies between scopes using sync operations
 
-## 4. Example Usage
+## 4. 用例示例
 
 <table>
   <tr>
@@ -81,7 +81,7 @@ each kernel have 1 scope for cube and vector, inside them they run parallely and
   </tr>
 </table>
 
-## 5. Compilation Output
+## 5. 编译输出结果
 
 <table>
   <tr>

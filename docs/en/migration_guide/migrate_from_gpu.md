@@ -1,61 +1,61 @@
-# Migrating Triton Operators from GPUs
+# GPU Triton算子迁移
 
-This document describes the general procedure and common issues for migrating GPU Triton operators to Ascend NPUs. Start by replacing Python-side device and runtime interfaces, then check grid core allocation, memory access alignment, single-program computation, UB usage, and coreDim limits. The examples later in this document show how to apply these steps in code.
+概述：本文介绍 GPU Triton 算子迁移到昇腾 NPU 时的通用处理思路和常见问题。迁移时建议先完成 Python 侧设备与运行时接口替换，再检查 grid 分核、访存对齐、单核计算、UB 空间和 coreDim 限制，最后结合具体示例完成代码修改和正确性验证。
 
-## General Migration Procedure
+## 通用迁移流程
 
-### Migrate Python-Side Device and Runtime Interfaces
+### 迁移 Python 侧设备和运行时接口
 
-Before modifying a specific Triton kernel, migrate the Python-side device code first:
+在修改具体 Triton kernel 前，先完成 Python 侧设备迁移：
 
-1. Add `import torch_npu` to the Python file.
-2. Find `device="cuda"`, `device='cuda'`, `.cuda()`, `.to("cuda")`, and similar device specifications, and change them to `device="npu"`, `device='npu'`, `.npu()`, or `.to("npu")`.
-3. Find GPU-specific APIs such as `torch.cuda.*`, CUDA streams, CUDA events, and CUDA synchronization, then replace them with NPU counterparts or remove unnecessary synchronization logic.
-4. Remove logic that exists only for GPU device discovery, such as assertions around `triton.runtime.driver.active.get_active_torch_device()`.
-5. Keep the Triton kernel body unchanged at first, and use NPU tensors to verify compilation and correctness.
+1. 在 Python 文件中增加 `import torch_npu`。
+2. 查找 `device="cuda"`、`device='cuda'`、`.cuda()` 和 `.to("cuda")` 等设备指定方式，改为 `device="npu"`、`device='npu'`、`.npu()` 或 `.to("npu")`。
+3. 查找 `torch.cuda.*`、CUDA stream、CUDA event、CUDA synchronize 等 GPU 专属接口，改为 NPU 对应接口或删除不必要的同步逻辑。
+4. 删除只为 GPU 设备发现服务的逻辑，例如 `triton.runtime.driver.active.get_active_torch_device()` 相关设备断言。
+5. 保持 Triton kernel 主体逻辑不变，先用 NPU Tensor 完成编译和正确性验证。
 
-### Adjust Grid Core Allocation
+### 调整 grid 分核
 
-GPU kernels often use a large logical grid and rely on the runtime and hardware to schedule programs onto SMs. On NPUs, first consider the physical AI Core count and operator type:
+GPU 上常见的写法会把 grid 设计为大量逻辑 program，由硬件和运行时调度到 SM 上执行。迁移到 NPU 时，应优先考虑物理 AI Core 数量和算子类型：
 
-- Prefer 1D grids. NPU 2D adaptations are merged into 1D; for example, `(20,)` and `(4, 5)` produce equivalent execution results.
-- For Vector-only operators, organize concurrent tasks around the Vector Core count. For operators containing `tl.dot`, organize concurrent tasks around the AI Core count.
-- If the logical grid is much larger than the physical core count, consider letting each program process multiple tiles in an inner loop, or use `TRITON_ALL_BLOCKS_PARALLEL` when logical programs have no ordering dependency.
-- `coreDim` cannot exceed `UINT16_MAX` (65535). For large shapes, control grid size through BLOCK_SIZE or tiling.
+- grid 优先使用 1D；2D NPU 适配写法也会合并为 1D，例如 `(20,)` 与 `(4, 5)` 的效果相同。
+- Vector-only 算子的并发任务数通常按 Vector Core 数量组织；包含 `tl.dot` 的算子通常按 AI Core 数量组织。
+- 当逻辑 grid 远大于物理核数时，需要评估是否改成每个 program 内部循环处理多个 tile，或在逻辑核之间无顺序依赖时使用 `TRITON_ALL_BLOCKS_PARALLEL`。
+- coreDim 不能超过 `UINT16_MAX`（65535），大 shape 算子需要结合 BLOCK_SIZE 或分块方式控制 grid 大小。
 
-| Dimension | Core Structure | Operator Type |
-|-----------|----------------|---------------|
-| Ascend NPU | Multiple AI cores, categorized into Cube Cores for matrix multiplication and Vector Cores for vector computation | Vector-only operators -> concurrent task count = Vector Core count; operators containing `tl.dot` -> concurrent task count = AI Core count |
-| NVIDIA/AMD GPU | Multiple CUDA cores for scalar/vector computation and Tensor Cores for matrix multiplication | GPU concurrency is generally determined by the compiler and hardware |
+| 维度 | 核心结构 | 算子类型 |
+|------|----------|----------|
+| 昇腾 NPU (Ascend) | 多个 AI Core，分为 Cube Core（矩阵乘）和 Vector Core（向量计算） | Vector-only 算子 → 并发任务数 = Vector Core 数；含 `tl.dot` 算子 → 并发任务数 = AI Core 数 |
+| GPU NVIDIA/AMD | 多个 CUDA Core（标量/向量计算） + Tensor Core（矩阵乘） | GPU 算子一般由编译器和硬件自动决定并发度 |
 
-### Check Single-Program Data Transfer
+### 检查单核数据搬运
 
-After device replacement, check data movement inside each program:
+完成设备替换后，需要继续检查单个 program 内的数据搬运方式：
 
-- Vector operators require 32-byte memory access alignment, and cube-vector fused operators require 512-byte alignment.
-- Keep tail masks and verify that boundary elements are not accessed out of bounds.
-- Check on-chip memory usage for each tile to avoid UB overflow.
-- Remove or replace GPU-specific synchronization APIs, such as CUDA thread, stream, event, or kernel synchronization interfaces.
+- Vector 算子场景下要求 32 字节访存对齐，cube-vector 融合算子场景下要求 512 字节对齐。
+- 保留 tail mask，确认边界元素不会越界访问。
+- 检查一次 tile 的片上内存占用，避免触发 UB 空间溢出。
+- 移除或替换 GPU 专属同步 API，例如 CUDA thread、stream、event 或 kernel synchronize 相关接口。
 
-### Check Single-Program Computation
+### 检查单核数据运算
 
-NPU and GPU compute units differ in supported data types and execution behavior. After migration, verify correctness first, then adjust based on performance symptoms:
+NPU 与 GPU 的计算单元和支持的数据类型存在差异。迁移后应先保证正确性，再根据性能问题调整：
 
-- For integer indices, offsets, and lengths, confirm whether the current dtype is efficiently supported by the NPU path.
-- For operators containing `tl.dot`, check M/N/K tiling, accumulator dtype, and output dtype.
-- For long sequence, long hidden size, or large K loops, use tiling to control the amount of data moved and computed at one time.
+- 对整数索引、offset、长度等中间值，优先确认当前数据类型是否被 NPU 路径高效支持。
+- 对含 `tl.dot` 的算子，确认 M/N/K tile、累加 dtype 和输出 dtype 是否符合 NPU 后端要求。
+- 对长序列、长 hidden size 或大 K 维循环，优先通过 tiling 控制单次搬入和计算规模。
 
-## Migration Examples
+## 迁移示例
 
-### Example 1: Complete Vector Addition Migration
+### 示例 1：向量加法完整迁移
 
 ```diff
 import torch
-+ import torch_npu  # [Added] Import Ascend NPUs' PyTorch adaptation library to support NPU devices.
++ import torch_npu  # 【新增】导入昇腾NPU PyTorch适配库，提供NPU设备支持
 import triton
 import triton.language as tl
 
-- DEVICE = triton.runtime.driver.active.get_active_torch_device()  #  [Deleted] GPU devices are automatically obtained. NPUs do not need this logic.
+- DEVICE = triton.runtime.driver.active.get_active_torch_device()  # 【删除】GPU设备自动获取，NPU无需此逻辑
 
 @triton.jit
 def add_kernel(x_ptr, # Pointer to first input vector.
@@ -75,7 +75,7 @@ BLOCK_SIZE: tl.constexpr, # Number of elements each program should process.
 
 def add(x: torch.Tensor, y: torch.Tensor):
     output = torch.empty_like(x)
--   assert x.device == DEVICE and y.device == DEVICE and output.device == DEVICE  # [Deleted] GPU devices have consistency checks. NPUs do not need explicit assertion.
+-   assert x.device == DEVICE and y.device == DEVICE and output.device == DEVICE  # 【删除】GPU设备一致性校验，NPU无需显式断言
     n_elements = output.numel()
     grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']), )
     add_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)
@@ -83,10 +83,10 @@ def add(x: torch.Tensor, y: torch.Tensor):
 
 torch.manual_seed(0)
 size = 98432
-- x = torch.rand(size, device='cuda')  # [Deleted] Specify the GPU device.
-+ x = torch.rand(size, device='npu')  # [Modified] Specify the Ascend NPU device.
-- y = torch.rand(size, device='cuda')  # [Deleted] Specify the GPU device.
-+ y = torch.rand(size, device='npu')  # [Modified] Specify the Ascend NPU device.
+- x = torch.rand(size, device='cuda')  # 【删除】GPU设备指定
++ x = torch.rand(size, device='npu')  # 【修改】指定为昇腾NPU设备
+- y = torch.rand(size, device='cuda')  # 【删除】GPU设备指定
++ y = torch.rand(size, device='npu')  # 【修改】指定为昇腾NPU设备
 output_torch = x + y
 output_triton = add(x, y)
 print(output_torch)
@@ -95,9 +95,9 @@ print(f'The maximum difference between torch and triton is '
 f'{torch.max(torch.abs(output_torch - output_triton))}')
 ```
 
-### Example 2: Device Replacement and Single-Program Data Transfer
+### 示例 2：设备替换与单核数据搬运
 
-The following example replaces CUDA tensors with NPU tensors and verifies correctness for a single-program data transfer case.
+以下示例展示将设备从 CUDA 替换为 NPU 后，对单核数据搬运场景进行正确性验证：
 
 ```diff
 import pytest
@@ -129,33 +129,32 @@ def test_npu_1d(shape, dtype):
     assert torch.allclose(std, output)
 ```
 
-## FAQ
+## 常见问题概览
 
-After completing the basic migration procedure, you may encounter the following two types of new issues:
+完成迁移基础步骤后，可能会遇到新的问题，新问题可归纳为以下两类：
+1.coreDim限制问题
+当网格维度超过NPU硬件限制时触发。
+典型错误信息：coreDim=xxxx can't be greater than UINT16_MAX
+2.UB空间溢出
+内存使用超出NPU缓存容量。
+典型错误信息：ub overflow, requires xxxx bits while 1572684 bits available!
 
-1. **coreDim** limit
-This issue is triggered when grid dimensions exceed the hardware limit of NPUs.
-Typical error message: `coreDim=xxxx can't be greater than UINT16_MAX`.
-2. UB space overflow
-Memory usage exceeds the NPU cache capacity.
-Typical error message: `ub overflow, requires xxxx bits while 1572684 bits available!`.
+### 解决 coreDim 超限问题
 
-### Solving the coreDim Limit Issue
+问题分析:
+NPU的 coreDim 参数不能超过 UINT16_MAX（65535）。当处理大规模数据时，简单的grid划分可能导致该限制被突破。
 
-Issue analysis:
-The **coreDim** parameter of NPUs cannot exceed **UINT16_MAX** (**65535**). When processing large-scale data, simplistic grid division may exceed this limit.
+案例：zeros_like 函数优化
+数据规模：N = 1073741824，原始 BLOCK_SIZE = 2048，计算得到的 coreDim = 524288 > 65535（超限）
 
-Case: Optimizing the `zeros_like` function
-(data scale `N = 1073741824`; original `BLOCK_SIZE = 2048`; calculated `coreDim = 524288`, exceeding the limit of **65535**)
-
-Solution 1:
-To address the **coreDim** limit in the Ascend compiler, one solution is to set the environment variable *'TRITON_ALL_BLOCKS_PARALLEL'* to **1** by running this command:
+解决思路1：
+昇腾编译器针对coreDim超限问题，有对应的解决方案，只需将环境变量'TRITON_ALL_BLOCKS_PARALLEL'设为1。设置命令如下：
 export TRITON_ALL_BLOCKS_PARALLEL=1
-Solution 2:
-Another solution is to increase **BLOCK_SIZE** to reduce the number of required cores and ensure that **coreDim** remains within the limit.
-The calculation follows: `coreDim = ceil(N / BLOCK_SIZE)`. → It needs to satisfy `ceil(N / BLOCK_SIZE) <= 65535 => BLOCK_SIZE >= ceil(N / 65535)`. Given `N = 1073741824`, we have `BLOCK_SIZE >= triton.next_power_of_2(triton.cdiv(1073741824, 65535)) = 32768`. Therefore, **32768** is the minimum safe value.
+解决思路2：
+通过增大 BLOCK_SIZE 来减少所需的核心数量，确保 coreDim 不超过限制。
+计算公式： coreDim = ceil(N / BLOCK_SIZE) → 需满足：ceil(N / BLOCK_SIZE) <= 65535 => BLOCK_SIZE >= ceil(N / 65535) 代入 N = 1073741824 得： BLOCK_SIZE >= triton.next_power_of_2(triton.cdiv(1073741824, 65535)) = 32768 -> 至少为 32768更稳妥
 
-Code before optimization:
+优化前的代码：
 
 ```diff
 import logging
@@ -187,11 +186,11 @@ def zeros_like(x, *, dtype=None, layout=None, device=None, pin_memory=None, memo
     N = x.numel()
     grid_fn = lambda meta: (triton.cdiv(N, meta["BLOCK_SIZE"]),)
 
-    zeros_kernel[grid_fn](out, N, BLOCK_SIZE=1024)  # The original value is too small.
+    zeros_kernel[grid_fn](out, N, BLOCK_SIZE=1024)  # 原始值过小
     return out
 ```
 
-Code after optimization:
+优化后的代码：
 
 ```diff
 import logging
@@ -222,17 +221,17 @@ def zeros_like(x, *, dtype=None, layout=None, device=None, pin_memory=None, memo
     out = torch.empty_like(x, device=device, dtype=dtype)
     N = x.numel()
     min_block_size = triton.next_power_of_2(triton.cdiv(N, 65535))
-    BLOCK_SIZE = max(32768, min_block_size) # The minimum value is 32768.
+    BLOCK_SIZE = max(32768, min_block_size) # 至少为 32768
     grid_fn = lambda meta: (triton.cdiv(N, meta["BLOCK_SIZE"]),)
 
     zeros_kernel[grid_fn](out, N, BLOCK_SIZE=BLOCK_SIZE)
     return out
 ```
 
-### Dynamically Calculating **BLOCK_SIZE** to Ensure **coreDim** Remains Within the Limit
+### 动态计算适合的 BLOCK_SIZE 以避免 coreDim 超限
 
 ```diff
-optimal_block_size = 32768 # Optimized value obtained after calculation
+optimal_block_size = 32768  # 根据计算得出的优化值
 
 grid_fn = lambda meta: (triton.cdiv(N, optimal_block_size),)
 
@@ -240,17 +239,17 @@ zeros_kernel[grid_fn](out, N, BLOCK_SIZE=optimal_block_size)
 return out
 ```
 
-### Handling the Compound Issue: coreDim + UB Overflow
+### 处理复合问题：coreDim + UB 溢出
 
-Issue analysis:
-In some scenarios, solving the **coreDim** limit issue may inadvertently trigger a new issue—UB overflow. This typically occurs when increasing **BLOCK_SIZE** causes the data volume processed by a single thread block to exceed the UB cache capacity of NPUs.
+问题分析:
+在某些情况下，解决了 coreDim 问题后可能引发新的UB溢出问题。这通常发生在增大 BLOCK_SIZE 后，单个线程块需要处理的数据量超出了NPU的UB缓存容量。
 
-Case:
-Data scale `N = 1073741824`; original `BLOCK_SIZE = 4096`; calculated `coreDim = 262144`, exceeding the limit of **65535**. After **BLOCK_SIZE** is adjusted to **32768**, **coreDim** is **32768** (within the limit), but UB overflow occurs.
+案例：
+数据规模：N = 1073741824，原始 BLOCK_SIZE = 4096，计算得到的 coreDim = 262144 > 65535（超限），调整为 BLOCK_SIZE = 32768 后，coreDim = 32768（合规），但出现 UB 溢出
 
-Solution:
-Introduce the **BLOCK_SIZE_SUB** parameter to further subdivide large blocks, thereby controlling memory usage while maintaining a reasonable **coreDim**.
-Code before optimization:
+解决思路：
+引入 BLOCK_SIZE_SUB 参数，将大块进一步细分，在保持合理 coreDim 的同时控制内存使用。
+优化前代码：
 
 ```diff
 import logging
@@ -271,19 +270,19 @@ def masked_fill_kernel(inp, expand_mask, value, out, N, BLOCK_SIZE: tl.constexpr
     tl.store(out + offsets, value, fill_mask & mask)
 
 def masked_fill(inp, mask, value):
-    # ... Parameter verification code ...
+    # ... 参数验证代码 ...
     # inp.device = "npu"
     out = torch.zeros_like(inp)
     N = inp.numel()
     if N == 0:
         return out
 
-    grid = lambda meta: (triton.cdiv(N, 4096),) # coreDim exceeds the limit.
+    grid = lambda meta: (triton.cdiv(N, 4096),)  # 导致 coreDim 超限
     masked_fill_kernel[grid](inp, mask.to(torch.int), value, out, N, 4096)
     return out
 ```
 
-Code after optimization:
+优化后代码：
 
 ```diff
 import logging
@@ -298,19 +297,19 @@ def masked_fill_kernel(inp, expand_mask, value, out, N,
     BLOCK_SIZE: tl.constexpr, BLOCK_SIZE_SUB: tl.constexpr):
     pid = tl.program_id(axis=0)
     base_offset = pid * BLOCK_SIZE
-    # Calculate the number of sub-blocks to be processed.
+    # 计算需要处理的子块数量
     num_sub_blocks = tl.cdiv(BLOCK_SIZE, BLOCK_SIZE_SUB)
-    # Process blocks to avoid UB overflow.
+    # 分块处理，避免 UB 溢出
     for sub_block_idx in range(num_sub_blocks):
         sub_offset = base_offset + sub_block_idx * BLOCK_SIZE_SUB
         offsets = sub_offset + tl.arange(0, BLOCK_SIZE_SUB)
         mask = offsets < N
-        # Load and process data in batches.
+        # 分批加载和处理数据
         input_vals = tl.load(inp + offsets, mask=mask, other=0)
         fill_mask_vals = tl.load(expand_mask + offsets, mask=mask, other=0).to(tl.int1)
-        # First, write the original data.
+        # 先写入原始数据
         tl.store(out + offsets, input_vals, mask=mask)
-        # Then overwrite the target value at the position where padding is required.
+        # 然后在需要填充的位置覆写目标值
         value_to_write = tl.full([BLOCK_SIZE_SUB], value, dtype=input_vals.dtype)
         final_vals = tl.where(fill_mask_vals, value_to_write, input_vals)
         tl.store(out + offsets, final_vals, mask=mask)
@@ -318,16 +317,16 @@ def masked_fill_kernel(inp, expand_mask, value, out, N,
 def masked_fill(inp, expand_mask, value):
     logger.debug("GEMS MASKED FILL")
 
-    # ... Parameter verification code ...
-    # inp.device = "npu"
     out = torch.zeros_like(inp)
+    # ... 参数验证代码 ...
+    # inp.device = "npu"
     N = inp.numel()
     if N == 0:
         return out
 
-    # Use optimized parameter settings.
-    MAIN_BLOCK_SIZE = 32768  # Ensure that coreDim is within the limit.
-    SUB_BLOCK_SIZE = 1024    # Control the UB usage.
+    # 使用优化的参数配置
+    MAIN_BLOCK_SIZE = 32768  # 确保 coreDim 合规
+    SUB_BLOCK_SIZE = 1024    # 控制 UB 使用量
 
     grid = lambda meta: (triton.cdiv(N, MAIN_BLOCK_SIZE),)
     masked_fill_kernel[grid](inp, expand_mask.to(torch.int), value, out, N,
@@ -335,44 +334,44 @@ def masked_fill(inp, expand_mask, value):
     return out
 ```
 
-### Why Does the UBSIZE Out of Memory Error Occur?
+### 为什么会出现UBSIZE超出内存的错误
 
-Improper data tiling can lead to excessive unaligned memory access or computation. Consider a 2D data transfer of shape `(64, 32)` as an example. The corresponding stride is `(12832, 128)`. If aligned memory access is required, the stride becomes `(32, 1)`. In unaligned access scenarios, an additional axis of size `1` is added to the innermost dimension, yielding a shape of `(64, 32, 4)`. Because the hardware mandates 32-byte UB memory alignment in vector operator scenarios, the corresponding stride is recalculated as `(12832, 128, 1)`, assuming `type=float16`.
+切分不合理,存在过多的非对齐访存或者运算，例如对（64，32）二维数据搬运，对应stride(12832，128),如果是对齐数据的访存，对应的stride(32,1)。 对于非对齐访问内容，在最内轴新增一个大小为1的轴，变为（64，32，4） 由于硬件要求vector算子场景ub内存32bytes对齐 ，假设type=float16，对应stride应该为(12832, 128,1)
 
-### Discrete Memory Access and Inefficient Scalar Mapping Observed by Line-by-Line Code Comparison
+### 离散访存代码逐行对比观察scalar低效映射
 
-Set the environment variable *TRITON_DEBUG* to **1**, save **~/.triton/cache/xxx.ttadapter**, and execute:
+设置环境变量TRITON_DEBUG=1, 保存~/.triton/cache/xxx.ttadapter，然后执行
 
 ```diff
 bishengir-compile xxx.ttadapter --target=Ascend910B3 --enable-auto-multi-buffer=True --enable-hfusion-compile=true --enable-hivm-compile=true --enable-triton-kernel-compile=true --hivm-compile-args=bishengir-print-ir-after=hivm-inject-sync
 ```
 
-Compare the Triton kernel's logic with the internal operations of the output intermediate representations (IRs) to identify any operations that are not mapped to instructions.
-Check whether pure scalar transfer or computation exists in the HIVM IR phase without being mapped to SIMD instructions. If such cases exist, they will create a significant performance bottleneck.
+会有输出IR ， 对比Triton 算子逻辑与IR内部的操作，观察是否有未映射成指令的操作。
+观察HIVM IR阶段是否存在纯scalar搬运或者计算， 没有映射为simd指令，这会成为性能瓶颈。
 
-Problem: Discrete memory access and inefficient scalar mapping
-Given `b[1024, 32] = a[1024, 32]`, the original Triton code binds thread blocks to the lowest dimension `32` in `[1024, 32]`, and then splits `1024` into `16` parts, yielding `[64, 16, 32]`. Finally, it binds thread blocks to dimension `64`.
+问题：离散访存 && scalar低效映射
+b[1024, 32] = a[1024, 32]  Triton原先写法利用thread的方式 对[1024,32] 中的最低维度32绑定线程块, 再对1024切16，分为[64， 16， 32]，再对64绑定线程块
 
 ```diff
 chunk_fwd_kernel_o[(NT, B * H)](
     p_g = tl.make_block_ptr(g, (T,), (H,), (i_t * BT,), (BT,), (0,))
     block_ptr = tl.make_block_ptr(
         base=input_ptr,
-        shape=(1024,), # 1D tensor
-        strides=(32,), # Contiguous memory
-        offsets=(i_t * 16,), # Start position
-        block_shape=(BT,), # Block size
-        order=(0,) # Sequential access
+        shape=(1024,), # 一维张量
+        strides=(32,), # 连续内存
+        offsets=(i_t * 16,), # 从起始位置开始
+        block_shape=(BT,), # 块大小
+        order=(0,) # 连续访问
     )
 ​)
 ```
 
-Optimization Approach
+优化思路
 
-Adjust **shape** and **stride** for **block_ptr** as follows:
-The shape (1024, 32) is treated as a 2D matrix, where the lowest dimension `32` is contiguous. Accordingly, the stride should be `(32, 1)` instead of `(32,)`. This enables each thread block to access 32 contiguous elements. Bind thread blocks to the row dimension `(1024)` and configure each thread to process all 32 elements in a row. This approach guarantees contiguous memory access and high memory affinity
+调整 block_ptr 的 shape/stride:
+把 (1024, 32) 看成二维矩阵，最低维度 32 是连续的，所以 stride 应该是 (32, 1)，而不是 (32,)，这样每个线程块能访问连续的 32 元素。让线程块绑定到行维度（1024），每个线程处理一整行的 32 元素。这样访存就是连续的，亲和性好。
 
-Example:
+比如：
 
 ```diff
 block_ptr = tl.make_block_ptr(
@@ -381,6 +380,6 @@ block_ptr = tl.make_block_ptr(
     strides=(32, 1),
     offsets=(i_t * BT, 0),
     block_shape=(BT, 32),
-    order=(1, 0) # Row-major: dim 1 is innermost (stride 1), dim 0 is outermost
+    order=(1, 0) # 行优先布局：维度 1 最连续（stride 1），维度 0 最不连续
 )
 ```

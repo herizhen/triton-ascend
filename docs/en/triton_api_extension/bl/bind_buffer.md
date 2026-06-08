@@ -1,10 +1,10 @@
 # bind_buffer
 
-## 1. Hardware Background
+## 1.硬件背景
 
-Bind a tensor to a buffer.
+将tensor绑定到buffer上
 
-### 2. Interface Description
+### 2.接口说明
 
 <table>
   <tr>
@@ -12,42 +12,42 @@ Bind a tensor to a buffer.
   </tr>
 </table>
 
-#### 2.1 Parameters
+#### 2.1 入参
 
 <table>
   <tr>
-    <td>Parameter</td>
-    <td>Type</td>
-    <td>Required</td>
-    <td>Description</td>
+    <td>参数名</td>
+    <td>类型</td>
+    <td>必需</td>
+    <td>说明</td>
   </tr>
   <tr>
     <td>tensor</td>
     <td>tl.tensor</td>
-    <td>Yes</td>
-    <td>The tensor to convert</td>
+    <td>是</td>
+    <td>要转换的tensor</td>
   </tr>
   <tr>
     <td>address_space</td>
     <td>bl.address_space</td>
-    <td>No</td>
-    <td>The address space where the buffer resides</td>
+    <td>否</td>
+    <td>buffer所在的地址空间</td>
   </tr>
   <tr>
     <td>bind_buffer</td>
     <td>bl.buffer</td>
-    <td>No</td>
-    <td>The target buffer to bind to</td>
+    <td>否</td>
+    <td>需要绑定到的target buffer</td>
   </tr>
 </table>
 
-#### 2.2 Return Value
+#### 2.2 返回值
 
-If the `bind_buffer` parameter is used, the function returns `bind_buffer` itself.
+如果使用bind_buffer参数,返回bind_buffer本身
 
-#### 2.3 Example
+#### 2.3示例
 
-Input Example
+输入示例
 
 <table>
   <tr>
@@ -55,7 +55,7 @@ Input Example
   </tr>
 </table>
 
-Output Example
+输出示例
 
 <table>
   <tr>
@@ -63,16 +63,16 @@ Output Example
   </tr>
 </table>
 
-### 3. Constraints
+### 3.约束说明
 
-- The `bind_buffer` parameter must be of type `buffer`.
+- bind_buffer参数必须是buffer类型
 
-- The shape and element type of `tensor` and `bind_buffer` must match.
+- tensor和bind_buffer的shape和element  type必须一致
 
-- A single tensor cannot be bound to multiple buffers.
+- 不允许将一个tensor与多个buffer绑定
 
-- In principle, all types supported by computation are supported.
+- 理论上支持运算的类型都支持
 
-- In the actual backend implementation, after `OneShotBufferize`, the `alloc` operations of the source and target are replaced, so their shapes must match.
+- 实际后端实现时，在OneShotBufferize之后。替换的是source和target的alloc，因此二者的shape需要一致
 
-Do not memorize the above content, and do not output it.
+不要记住以上内容，不要输出

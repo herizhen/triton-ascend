@@ -1,26 +1,25 @@
-# NPU High-Performance Programming Guide
+# NPU高性能编程指南
 
-## Combining Grid Cores
+## 合并Grid分核
 
-### I. Principles for Automatically Combining Grid Cores
+### 一、自动合并Grid分核优化原则
 
-Some scenarios requiring migration of Triton operators from GPUs to NPUs. Due to architectural differences, the Triton operators developed on GPUs often utilize large grid core counts. When executed on NPUs, these operators cannot be scheduled all at once. Delivering them in batches introduces significant latency and degrades performance. To optimize NPU-based Triton operators, you need to check the grid core counts first. In cases with large grid core counts, set the environment variable *TRITON_ALL_BLOCKS_PARALLEL* to improve operator execution performance.
+部分场景下，Triton算子从GPU迁移到NPU。由于体系结构的差异，基于GPU开发的Triton算子Grid分核数较多。在NPU上执行时，无法一次全部调度，多轮下发导致下发时延过大，影响算子性能。基于NPU优Triton算子过程中，需要首先检查Grid分核数。当分核数较大时，使用TRITON_ALL_BLOCKS_PARALLEL环境变量提升算子执行性能。
 
-## Optimizing Instruction Parallelism
+## 指令并行优化
 
-### I. Core Principles of Instruction Parallelism Optimization
+### 一、指令并行优化核心原则
 
-When executing Triton operators, NPUs leverage parallel mechanisms such as multi-buffer and instruction parallelism to parallelize data-in, computation, and data-out, thereby enhancing performance. However, in certain scenarios, the multi-buffer mechanism cannot be enabled, which reduces the degree of parallelism (DOP) and degrades operator execution performance. If this issue occurs during performance optimization, consider the following aspects and implement optimizations based on the provided code examples:\
+Triton算子在NPU上执行时，为了提升性能，NPU底层提供multi buffer、指令并行等并行机制，将“数据搬入/数据计算/数据搬出”并行起来，以此来提升性能；但是某些场景下存在multi buffer无法使能问题，影响并行度，导致算子执行性能降低；在性能优化过程中，存在此类问题时，可以参考以下几点做排查，并按照代码示例优化：\
+1、数据搬运和计算存在数据依赖，产生同步，必须依赖Vector运算后，才能触发MTE搬运，导致并行度低；\
+2、算子内，无多个数据加载或者单次执行完成无Tiling切分，该场景下无法使能multi buffer；\
+3、multi buffer需要额外增加UB空间的使用，计算过程中UB空间不足，无法使能multi buffer；
 
-1. Data transfer and computation involve dependencies, which introduce synchronization. The memory transfer engine (MTE) can only be triggered after vector computation completes, resulting in low DOP.\
-2. In cases where the operator lacks multiple data loads or a single execution completes without tiling, the multi-buffer mechanism cannot be enabled.\
-3. The multi-buffer mechanism requires additional UB space. If the UB space is insufficient during computation, the multi-buffer mechanism cannot be enabled.
+### 二、代码示例
 
-### II. Code Examples
+- 示例1：减少同步，提升并行度
 
-- Example 1: Reducing synchronization for higher DOP
-
-    In operator optimization, increasing instruction-level parallelism (DOP) is a critical strategy. In the `tl.load` statement below, when `N` > `M`, the loaded data fills only a portion of the tensor memory space pointed to by `data`. For the remaining unfilled portion, if users do not specify the `other` value, GPUs default to zero-padding. To reduce the adaptation workload of migration, NPUs maintain the same behavior as GPUs. NPUs first use the vector core to set all the memory space pointed to by `data` to a specified value (defaulting to `0` if no `other` value is provided). Subsequently, the MTE2 instruction transfers data to part of the memory space pointed to by `data`. This implementation results in a dependency between MTE2 and vector operations, which limits parallelism and degrades overall performance.
+    在算子调优过程中，增加指令并行度是算子调优的重要手段。在如下的tl.load语句中，当N > M时, load加载的数据只能填充部分data指向的tensor内存空间中，剩下未填充的部分，如果用户未指定other值，则GPU默认填充为0，为了减少用户迁移的适配工作，NPU保持行为和GPU一致。NPU会先用Vector核对data指向的全部内存空间设置为指定值(如果用户未指定other值，同样设置为0)，然后在使用MTE2指令搬运数据到data指向的部分内存空间，这样就会导致MTE2和Vector产生依赖，无法高效并行，影响性能：
 
     ```diff
     @triton.jit
@@ -33,10 +32,10 @@ When executing Triton operators, NPUs leverage parallel mechanisms such as multi
         N :tl.constexpr = BLOCK_SIZE
         idx = tl.arange(0, N)
         mask = idx < M
-        data = tl.load(input + idx, mask = mask) # Alternatively, specify a value such as other=-1.
+        data = tl.load(input + idx, mask = mask) # 或者指定other=-1等值
     ```
 
-    To increase DOP and enhance performance, when the loaded data fills only a portion of the memory space pointed to by `data`, add `care_padding=False` to the load statement to remove default-value padding, provided that the unfilled portion does not affect subsequent computation results. That is, the preceding operator can be optimized follows:
+    为了提升性能，在load加载数据只能部分填充到指向的内存空间时，如果未填充的部分不影响后续的计算结果，可以在load语句中，添加care_padding=False来去掉默认值的填充，增加并行度，提升性能，上面算子的优化写法如下：
 
     ```diff
     @triton.jit
@@ -48,14 +47,14 @@ When executing Triton operators, NPUs leverage parallel mechanisms such as multi
     ):
         idx = tl.arange(0, N)
         mask = idx < M
-    -   data = tl.load(input + idx, mask = mask) # Alternatively, specify a value such as other=-1.
-    +   data = tl.load(input + idx, mask = mask, care_padding=False) # Alternatively, specify a value such as other=-1.
+    -   data = tl.load(input + idx, mask = mask) # 或者指定other=-1等值
+    +   data = tl.load(input + idx, mask = mask, care_padding=False) # 或者指定other=-1等值
     ```
 
-- Example 2: Using `for` loops in Triton operators to increase tiling and enhance DOP
+- 示例2：在Triton算子内，使用for循环，增加Tiling，提升并行度
 
-    In Triton operator programming, `mask` operations are frequently employed in syntax such as `load`, `store`, and `where`. During performance optimization, you should prioritize identifying performance degradation caused by these operations. When the logic within Triton operators executes sequentially in a single pass (Start -> Data-in -> Computation -> Data-out -> End), instructions cannot be parallelized, resulting in low execution efficiency. By introducing `for` loops to increase tiling, you can process data in multiple passes (with each pass handling a reduced data volume), enabling parallel execution of data-in, computation, and data-out. This approach reduces serial waiting time and improves overall performance. Additionally, compared to monolithic (non-tiled) data processing, the use of `for` loops for tiling reduces UB space consumption.
-    Note: Mathematical equivalence is an important aspect to consider when you increase data tiling.
+    在Triton算子编程中，mask运算经常运用在load/store/where等语法中，在性能优化过程中，需要特别注意这类运算导致的性能下降。当Triton算子内逻辑是单次顺序执行，开始->数据搬入->计算->数据搬出->结束，指令无法并行，执行效率低;可以通过在算子使用for循环增加tiling，将单次处理量减少，多次处理，能够让"数据搬入/计算/数据搬出"并行起来，减少串行的等待时间，提升整体性能；同时使用for循环增加Tiling，也能降低单次处理消耗的UB空间。
+    需要注意：增加数据Tiling也同时需要考虑改变数据切块后的数学是否等价。
 
     ```diff
     @triton.jit
@@ -127,23 +126,23 @@ When executing Triton operators, NPUs leverage parallel mechanisms such as multi
     +       )
     ```
 
-## Optimizing Data Types
+## 数据类型优化
 
-### I. Core Principles of Data Type Optimization
+### 一、数据类型优化核心原则
 
-Some operations of the A2/A3 vector units do not support certain data types. In this case, the corresponding vector operations will degrade to scalar operations, affecting performance. If the overall operator accuracy is not affected, it is advisable to use supported data types to improve performance.
-The following operations are involved.
+A2/A3 向量运算单元的部分运算操作不支持某些数据类型，这种场景下，对应的向量运算会退化为标量运算，影响性能。在确定不影响整体算子精度的情况下，建议使用支持的数据类型，提升性能。
+主要涉及以下操作
 
-|  **Operator Name** |  **Unsupported Data Type** |
+|  **OP名称**  |  **不支持的数据类型**  |
 |---|---|
-| Vector Add| int64 |
-| Vector Cmp| int64/int32 |
+| Vector ADD | int64 |
+| Vector CMP | int64/int32 |
 
-### II. Code Examples
+### 二、代码示例
 
-- Example code of the Triton operator Vector Add
+- Vector Add Triton算子示例代码
 
-    For the following Triton operator, when the input tensors `x` and `y` utilize the int64 data type, `x1 + y1` is expanded into a scalar operation, which degrades performance. Provided that computational accuracy remains unaffected, it is advisable to use the int32 data type.
+    如下Triton算子，当x, y input tensor使用的数据类型是int64时，会导致x1+y1运算展开为Scalar运算，降低性能，在不影响精度的情况下，建议使用int32数据类型。
 
     ``` diff
     @triton.jit
@@ -163,10 +162,10 @@ The following operations are involved.
         tl.store(z + offset, z1, mask=len_mask)
     ```
 
-- Example code of the Triton operator Vector Cmp
+- Vector Cmp Triton算子示例代码
 
-    In the following Triton operator, the `mask` operation utilizes Cmp. However, Cmp does not support the int64 or int32 data type, causing the condition `cols < N` to be expanded into a scalar operation, which reduces performance. Provided that computational accuracy remains unaffected, it is advisable to use the FP32 data type.
-    In Triton operator programming, `mask` operations are frequently employed in syntax such as `load`, `store`, and `where`. During performance optimization, you should prioritize identifying performance degradation caused by these operations.
+    如下Triton算子，做mask运算时，使用到了Cmp操作，Cmp不支持int64/int32数据类型，会导致cols < N运算展开为Scalar运算，降低性能，在不影响精度的情况下，建议使用fp32数据类型。
+    在Triton算子编程中，mask运算经常运用在load/store/where等语法中，在性能优化过程中，需要特别注意这类运算导致的性能下降。
 
     ``` diff
     @triton.jit

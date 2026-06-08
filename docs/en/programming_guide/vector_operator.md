@@ -1,15 +1,17 @@
-# Vector Operator Development
+# Vector 算子开发
 
-Vector operators are mainly executed by Vector Cores. Typical examples include element-wise computation, row-wise reduction, type conversion, gather/scatter, masked update, and small fused operators without `tl.dot`. The key is not to create as many grid programs as possible, but to keep the launch close to the number of physical Vector Cores and let each program process multiple tiles in an inner loop.
+Vector 算子主要由 Vector Core 执行，典型形态包括逐元素计算、行级归约、类型转换、Gather/Scatter、Mask 更新以及不含 `tl.dot` 的小型融合算子。开发重点不是把 grid 切得越细越好，而是在固定物理 Vector Core 数量的前提下，让每个 program 在核内循环处理多个 tile。
 
-## Simple Vector Operator Development
+## Vector 简单算子开发
 
-For a simple Vector operator, start with the [Vector Addition example](../examples/01_vector_add_example.md) or `third_party/ascend/tutorials/01-vector-add.py`. The basic pattern is:
+简单 Vector 算子可以从本仓的 [向量相加样例](../examples/01_vector_add_example.md) 或 `third_party/ascend/tutorials/01-vector-add.py` 入手。该类算子的基本步骤如下：
 
-1. Build contiguous offsets for the current tile with `tl.arange`.
-2. Use a tail mask to guard load/store.
-3. Compute the element-wise expression and store the result.
-4. If the grid is much larger than the physical core count, set the grid to `num_vectorcore` and process tiles with `range(pid, num_blocks, num_core)` inside the kernel.
+1. 用 `tl.arange` 构造当前 tile 的连续偏移。
+2. 用 `mask` 保护尾块，避免越界 load/store。
+3. 完成逐元素计算后写回结果。
+4. 当 grid 数远大于物理核数时，将 grid 固定为 `num_vectorcore`，在 kernel 内用 `range(pid, num_blocks, num_core)` 分批处理。
+
+基础 kernel 结构如下：
 
 ```python
 @triton.jit
@@ -26,29 +28,29 @@ def add_kernel(x_ptr, y_ptr, out_ptr, n_elements, BLOCK_SIZE: tl.constexpr):
         tl.store(out_ptr + offsets, x + y, mask=mask)
 ```
 
-Check these items first:
+开发时优先检查三类问题：
 
-- **Data type**: Ascend Vector units have different performance for integer types. Prefer `int32` for indices, lengths, and offsets when precision allows. See `triton-ascend-ops/tutorial/basic/001-vector_add.zh.md` and `002-vector_cmp.zh.md`.
-- **BLOCK_SIZE**: Keep it as large as possible without exceeding UB capacity. If UB overflow occurs, reduce the tile size or split it into sub-blocks.
-- **Core count**: GPU-style small tiles with very large grids often cause repeated dispatch overhead on NPUs.
+- **数据类型**：Ascend Vector 单元对不同整数类型的支持和性能不同。对于不影响精度的索引、长度、偏移类数据，优先使用 `int32`，可参考 `triton-ascend-ops/tutorial/basic/001-vector_add.zh.md` 和 `002-vector_cmp.zh.md`。
+- **BLOCK_SIZE**：BLOCK_SIZE 需要在 UB 容量内尽量大。若出现 UB overflow，先降低单次处理元素数，再考虑拆分子块。
+- **分核数**：NPU 物理 Vector Core 数量通常为几十个。小 tile 大 grid 的 GPU 写法迁移到 NPU 时，容易因多轮下发带来明显开销。
 
-## Complex Vector Operator Development
+## Vector 复杂算子开发
 
-Complex Vector operators usually combine irregular memory access, token reordering, multiple outputs, or long hidden dimensions. Useful references in [Ascend/triton-ascend-ops](https://github.com/Ascend/triton-ascend-ops) include:
+复杂 Vector 算子通常不是单个逐元素表达式，而是带有离散访存、批量重排、多个输出或长 hidden size 的组合逻辑。可参考 [Ascend/triton-ascend-ops](https://github.com/Ascend/triton-ascend-ops) 中的以下案例：
 
-- [`tutorial/best_practice/004-gather_scatter.py`](https://github.com/Ascend/triton-ascend-ops/blob/main/tutorial/best_practice/004-gather_scatter.py)
-- [`tutorial/best_practice/005-binned_gather_scatter.py`](https://github.com/Ascend/triton-ascend-ops/blob/main/tutorial/best_practice/005-binned_gather_scatter.py)
-- [`tutorial/best_practice/006-padded_gather_scatter.py`](https://github.com/Ascend/triton-ascend-ops/blob/main/tutorial/best_practice/006-padded_gather_scatter.py)
+- [`tutorial/best_practice/004-gather_scatter.py`](https://github.com/Ascend/triton-ascend-ops/blob/main/tutorial/best_practice/004-gather_scatter.py)：Megablocks gather/scatter/scatter_wgrad 的 Ascend 亲和实现。
+- [`tutorial/best_practice/005-binned_gather_scatter.py`](https://github.com/Ascend/triton-ascend-ops/blob/main/tutorial/best_practice/005-binned_gather_scatter.py)：按 expert/bin 分组后的 gather/scatter。
+- [`tutorial/best_practice/006-padded_gather_scatter.py`](https://github.com/Ascend/triton-ascend-ops/blob/main/tutorial/best_practice/006-padded_gather_scatter.py)：带 padding 的 MoE gather/scatter。
 
-Use this structure:
+这类算子的组织方式通常是：
 
-1. Split outer tasks by physical Vector Core count.
-2. Split the hidden dimension by UB capacity with `BLOCK_X`.
-3. Use `SUB_BLOCK_SIZE` to batch small irregular tasks.
-4. Use `tl.insert_slice` to assemble UB-local blocks and `tl.extract_slice` to scatter sub-blocks.
-5. Keep index masks, column masks, and expert/bin boundary masks separate, and combine them only at load/store sites.
+1. **按物理核切分外层任务**：用 `num_vectorcore` 作为 grid，每个 program 负责一段 indices 或 token。
+2. **按 UB 容量切分 hidden 维**：对 `NUM_COLUMNS` 使用 `BLOCK_X` 分块，并预留 double buffer、索引和临时张量的空间。
+3. **用 `SUB_BLOCK_SIZE` 合并小粒度离散任务**：一次加载一组 indices，在 UB 中组织成连续临时块，减少 GM 标量访存和多次 store。
+4. **用扩展语义管理 UB 内局部数据**：使用 `tl.insert_slice` 合并多行数据，使用 `tl.extract_slice` 取出子块后再分散写回。
+5. **为尾块保留统一 mask**：复杂 gather/scatter 中同时存在 index mask、column mask 和 expert/bin 边界，建议分别命名并只在 load/store 处组合。
 
-Typical UB budgeting:
+典型的 UB 预算思路如下：
 
 ```python
 num_core = get_npu_properties()["num_vectorcore"]
@@ -58,4 +60,9 @@ sub_block_size = max((ub_budget - block_x * element_bytes) //
                      (block_x * element_bytes + index_bytes), 1)
 ```
 
-When performance is poor, first check whether the grid is much larger than the physical Vector Core count, whether irregular GM access can be converted into "bulk load to UB and select in UB", whether the tail axis is 32B aligned, and whether `BLOCK_X` or `SUB_BLOCK_SIZE` causes UB overflow or too-small transfer granularity.
+当复杂 Vector 算子性能不达预期时，优先从以下方向排查：
+
+- grid 是否远大于物理 Vector Core 数，导致多轮下发。
+- 离散访存是否可转化为“批量搬入 UB 后在 UB 内选择”。
+- 尾轴是否满足 32B 对齐；不满足时是否可用转置或借轴转置规避自动 padding。
+- `BLOCK_X` 和 `SUB_BLOCK_SIZE` 是否造成 UB overflow 或过小的搬运粒度。

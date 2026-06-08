@@ -1,8 +1,8 @@
-﻿# Libdevice Developer Guide
+﻿# Libdevice 开发者手册
 
-## SIMT Compilation Mode Example
+## SIMT 编译示例
 
-Triton kernel example with SIMT compilation mode
+使用 SIMT 编译的 triton kernel 示例
 
 ```python
 # Enable libdevice SIMT compilation
@@ -33,287 +33,287 @@ triton_kernel[ncore, 1, 1](input, output, xblock, xblock_sub, force_simt_only=Tr
 
 ## 1. triton.language.extra.cann.libdevice.abs
 
-### OP Overview
+### OP概述
 
-Computes the absolute value of the input parameter.
+计算输入参数的绝对值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.abs(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`, `float32`
 
-Return Value: `tl.tensor`, containing the absolute value of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的绝对值。
 
-Return Type: `int32`, `float32`
+返回类型：`int32`, `float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 2. triton.language.extra.cann.libdevice.acos
 
-### OP Overview
+### OP概述
 
-Computes the inverse cosine (arccos) of the input parameter.
+计算输入参数的反余弦值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.acos(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the inverse cosine of the input parameter, in the range \[0, π] radians.
+返回值: `tl.tensor`, 返回输入参数的反余弦值，取值范围 \[0, π] 弧度。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 3. triton.language.extra.cann.libdevice.acosh
 
-### OP Overview
+### OP概述
 
-Computes the inverse hyperbolic cosine of the input parameter.
+计算输入参数的反双曲余弦值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.acosh(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the inverse hyperbolic cosine of the input parameter, in the range \[0, +∞].
+返回值: `tl.tensor`, 返回输入参数的反双曲余弦值，取值范围 \[0, +∞]。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 4. triton.language.extra.cann.libdevice.add_rd
 
-### OP Overview
+### OP概述
 
-Floating-point addition with round-down (toward negative infinity) rounding mode.
+向下舍入浮点数加法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.add_rd(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the addition result rounded down.
+返回值: `tl.tensor`, 返回向下舍入的加法结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 5. triton.language.extra.cann.libdevice.add_rn
 
-### OP Overview
+### OP概述
 
-Floating-point addition with round-to-nearest-even rounding mode.
+最近偶数舍入浮点数加法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.add_rn(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the addition result rounded to the nearest even number.
+返回值: `tl.tensor`, 返回最近偶数舍入的加法结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 6. triton.language.extra.cann.libdevice.add_ru
 
-### OP Overview
+### OP概述
 
-Floating-point addition with round-up (toward positive infinity) rounding mode.
+向上舍入浮点数加法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.add_ru(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the addition result rounded up.
+返回值: `tl.tensor`, 返回向上舍入的加法结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 7. triton.language.extra.cann.libdevice.add_rz
 
-### OP Overview
+### OP概述
 
-Floating-point addition with round-toward-zero rounding mode.
+向零舍入浮点数加法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.add_rz(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the addition result rounded toward zero.
+返回值: `tl.tensor`, 返回向零舍入的加法结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 8. triton.language.extra.cann.libdevice.asin
 
-### OP Overview
+### OP概述
 
-Computes the inverse sine (arcsin) of the input parameter.
+计算输入参数的反正弦值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.asin(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the inverse sine of the input parameter, in the range \[-π/2, π/2] radians.
+返回值: `tl.tensor`, 返回输入参数的反正弦值，取值范围 \[-π/2, π/2] 弧度。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 9. triton.language.extra.cann.libdevice.asinh
 
-### OP Overview
+### OP概述
 
-Computes the inverse hyperbolic sine of the input parameter.
+计算输入参数的反双曲正弦值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.asinh(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the inverse hyperbolic sine of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的反双曲正弦值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 10. triton.language.extra.cann.libdevice.atan
 
-### OP Overview
+### OP概述
 
-Computes the inverse tangent (arctan) of the input parameter.
+计算输入参数的反正切值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.atan(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the inverse tangent of the input parameter, in the range \[-π/2, π/2] radians.
+返回值: `tl.tensor`, 返回输入参数的反正切值，取值范围 \[-π/2, π/2] 弧度。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 11. triton.language.extra.cann.libdevice.atan2
 
-### OP Overview
+### OP概述
 
-Two-argument inverse tangent function, computes the arctangent of x / y.
+反正切函数，计算 x / y 的反正切值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.atan2(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the arctangent of x / y, in the range \[-π, π] radians.
+返回值: `tl.tensor`, 返回 x / y 的反正切值，取值范围 \[-π, π] 弧度。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 12. triton.language.extra.cann.libdevice.atanh
 
-### OP Overview
+### OP概述
 
-Inverse hyperbolic tangent function, computes the inverse hyperbolic tangent of the input parameter.
+反双曲正切函数，计算输入参数的反双曲正切值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.atanh(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the inverse hyperbolic tangent of the input parameter, in the range \[-1, 1].
+返回值: `tl.tensor`, 返回输入参数的反双曲正切值，取值范围 \[-1, 1]。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 13. triton.language.extra.cann.libdevice.brev
 
-### OP Overview
+### OP概述
 
-Bit reversal function, reverses the bit order of a 32-bit integer.
+位反转函数，反转32位整数的位顺序。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.brev(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 
-Return Value: `tl.tensor`, containing the 32-bit integer with reversed bit order.
+返回值: `tl.tensor`, 返回位反转后的32位整数。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 14. triton.language.extra.cann.libdevice.byte_perm
 
-### OP Overview
+### OP概述
 
-Byte permutation operation, selects bytes from two 32-bit integers to form a new integer. The byte order of input integers x and y is as follows:
+字节排列操作，从两个32位整数中选择字节组成新整数。输入整数 x 和 y 的字节顺序如下。
 
 ```cpp
 input[0] = x<7:0>     input[1] = x<15:8>
@@ -322,3288 +322,3288 @@ input[4] = y<7:0>     input[5] = y<15:8>
 input[6] = y<23:16>   input[7] = y<31:24>
 ```
 
-The byte selection parameter s is a 32-bit integer, with each bit group corresponding to byte selection as follows:
+字节选择参数 s 为32位整数，各比特位与字节选择对应关系如下。
 
 ```cpp
 selector[0] = s<2:0>    selector[1] = s<6:4>
 selector[2] = s<10:8>   selector[3] = s<14:12>
 ```
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.byte_perm(x, y, s, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 - y: `int32`
 - s: `int32`
 
-Return Value: `tl.tensor`, where return[n] := input[selector[n]], where n represents the n-th byte of the output integer.
+返回值: `tl.tensor`, 返回值 return\[n] := input\[selector\[n]]，n 表示输出整数的第 n 个字节。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 15. triton.language.extra.cann.libdevice.cbrt
 
-### OP Overview
+### OP概述
 
-Computes the cube root of the input parameter.
+计算输入参数的立方根值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.cbrt(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the cube root of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的立方根值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 16. triton.language.extra.cann.libdevice.ceil
 
-### OP Overview
+### OP概述
 
-Ceiling operation, returns the smallest integer greater than or equal to x.
+向上取整，返回大于或等于 x 的最小整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.ceil(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the ceiling result.
+返回值: `tl.tensor`, 返回向上取整的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 17. triton.language.extra.cann.libdevice.clz
 
-### OP Overview
+### OP概述
 
-Counts the number of leading zeros in a 32-bit integer.
+计算32位整数的前导零数量。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.clz(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 
-Return Value: `tl.tensor`, containing the number of leading zeros in the input parameter. Range: \[0, 32].
+返回值: `tl.tensor`, 返回输入参数的前导零数量。范围 \[0, 32]。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 18. triton.language.extra.cann.libdevice.copysign
 
-### OP Overview
+### OP概述
 
-Generates a floating-point number with magnitude equal to the magnitude of x and sign equal to the sign of y.
+生成一个浮点数，其绝对值等于 x 的绝对值，符号与 y 相同。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.copysign(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing a floating-point number with magnitude equal to the magnitude of x and sign equal to the sign of y.
+返回值: `tl.tensor`, 返回一个浮点数，其绝对值等于 x 的绝对值，符号与 y 相同。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 19. triton.language.extra.cann.libdevice.cos
 
-### OP Overview
+### OP概述
 
-Computes the cosine of the input parameter (in radians).
+计算输入参数（弧度）的余弦值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.cos(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the cosine of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的余弦值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 20. triton.language.extra.cann.libdevice.cosh
 
-### OP Overview
+### OP概述
 
-Computes the hyperbolic cosine of the input parameter.
+计算输入参数的双曲余弦值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.cosh(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the hyperbolic cosine of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的双曲余弦值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 21. triton.language.extra.cann.libdevice.cospi
 
-### OP Overview
+### OP概述
 
-Computes the value of cos(π × x).
+计算 cos(π × x) 的值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.cospi(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the value of cos(π × x).
+返回值: `tl.tensor`, 返回 cos(π × x) 的值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 22. triton.language.extra.cann.libdevice.cyl_bessel_i0
 
-### OP Overview
+### OP概述
 
-Computes the modified Bessel function of the first kind, order 0, of the input parameter.
+计算输入参数的修正零阶贝塞尔函数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.cyl_bessel_i0(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the modified Bessel function of the first kind, order 0, of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的修正零阶贝塞尔函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 23. triton.language.extra.cann.libdevice.cyl_bessel_i1
 
-### OP Overview
+### OP概述
 
-Computes the modified Bessel function of the first kind, order 1, of the input parameter.
+计算输入参数的修正一阶贝塞尔函数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.cyl_bessel_i1(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the modified Bessel function of the first kind, order 1, of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的修正一阶贝塞尔函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 24. triton.language.extra.cann.libdevice.div_rd
 
-### OP Overview
+### OP概述
 
-Floating-point division with round-down (toward negative infinity) rounding mode.
+向下舍入浮点数除法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.div_rd(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the division result.
+返回值: `tl.tensor`, 返回除法结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 25. triton.language.extra.cann.libdevice.div_rn
 
-### OP Overview
+### OP概述
 
-Floating-point division with round-to-nearest-even rounding mode.
+最近偶数舍入浮点数除法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.div_rn(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the division result.
+返回值: `tl.tensor`, 返回除法结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 26. triton.language.extra.cann.libdevice.div_ru
 
-### OP Overview
+### OP概述
 
-Floating-point division with round-up (toward positive infinity) rounding mode.
+向上舍入浮点数除法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.div_ru(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the division result.
+返回值: `tl.tensor`, 返回除法结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 27. triton.language.extra.cann.libdevice.div_rz
 
-### OP Overview
+### OP概述
 
-Floating-point division with round-toward-zero rounding mode.
+向零舍入浮点数除法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.div_rz(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the division result.
+返回值: `tl.tensor`, 返回除法结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 28. triton.language.extra.cann.libdevice.erf
 
-### OP Overview
+### OP概述
 
-Computes the error function of the input parameter.
+计算输入参数的误差函数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.erf(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the error function of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的误差函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 29. triton.language.extra.cann.libdevice.erfc
 
-### OP Overview
+### OP概述
 
-Computes the complementary error function of the input parameter, i.e., 1 - erf(x).
+计算输入参数的互补误差函数值，即 1 - erf(x)。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.erfc(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the complementary error function of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的互补误差函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 30. triton.language.extra.cann.libdevice.erfcinv
 
-### OP Overview
+### OP概述
 
-Inverse complementary error function, finds the value y such that x = erfc(y).
+逆互补误差函数，找到满足 x = erfc(y) 的值 y。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.erfcinv(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the inverse complementary error function of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的逆互补误差函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 31. triton.language.extra.cann.libdevice.erfcx
 
-### OP Overview
+### OP概述
 
-Computes the scaled complementary error function of the input parameter, i.e., exp(x²) × erfc(x).
+计算输入参数的缩放互补误差函数值，即 exp(x²) × erfc(x)。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.erfcx(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the scaled complementary error function of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的缩放互补误差函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 32. triton.language.extra.cann.libdevice.erfinv
 
-### OP Overview
+### OP概述
 
-Inverse error function, finds the value y such that x = erf(y).
+逆误差函数，找到满足 x = erf(y) 的值 y。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.erfinv(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the inverse error function of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的逆误差函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 33. triton.language.extra.cann.libdevice.exp
 
-### OP Overview
+### OP概述
 
-Exponential function, computes e raised to the power of x.
+指数函数，计算 e 的 x 次方。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.exp(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the result of e raised to the power of x.
+返回值: `tl.tensor`, 返回 e 的 x 次方的计算结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 34. triton.language.extra.cann.libdevice.exp10
 
-### OP Overview
+### OP概述
 
-Base-10 exponential function, computes 10 raised to the power of x.
+以 10 为底的指数函数，计算 10 的 x 次方。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.exp10(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the result of 10 raised to the power of x.
+返回值: `tl.tensor`, 返回 10 的 x 次方的计算结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 35. triton.language.extra.cann.libdevice.exp2
 
-### OP Overview
+### OP概述
 
-Base-2 exponential function, computes 2 raised to the power of x.
+以 2 为底的指数函数，计算 2 的 x 次方。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.exp2(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the result of 2 raised to the power of x.
+返回值: `tl.tensor`, 返回 2 的 x 次方的计算结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 36. triton.language.extra.cann.libdevice.expm1
 
-### OP Overview
+### OP概述
 
-Computes e raised to the power of x, minus 1.
+计算 e 的 x 次方减 1 的结果。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.expm1(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the result of e raised to the power of x, minus 1.
+返回值: `tl.tensor`, 返回 e 的 x 次方减 1 的计算结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 37. triton.language.extra.cann.libdevice.fast_cosf
 
-### OP Overview
+### OP概述
 
-Fast approximate cosine function.
+快速近似余弦函数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fast_cosf(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the result of the fast approximate cosine function.
+返回值: `tl.tensor`, 返回快速近似余弦函数的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 38. triton.language.extra.cann.libdevice.fast_dividef
 
-### OP Overview
+### OP概述
 
-Fast approximate division.
+快速近似除法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fast_dividef(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the result of fast approximate division.
+返回值: `tl.tensor`, 返回快速近似除法的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 39. triton.language.extra.cann.libdevice.fast_exp10f
 
-### OP Overview
+### OP概述
 
-Fast approximate base-10 exponential function.
+快速近似以 10 为底的指数函数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fast_exp10f(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the result of the fast approximate base-10 exponential function.
+返回值: `tl.tensor`, 返回快速近似以 10 为底的指数函数的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 40. triton.language.extra.cann.libdevice.fast_expf
 
-### OP Overview
+### OP概述
 
-Fast approximate exponential function.
+快速近似指数函数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fast_expf(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the result of the fast approximate exponential function.
+返回值: `tl.tensor`, 返回快速近似指数函数的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 41. triton.language.extra.cann.libdevice.fast_log10f
 
-### OP Overview
+### OP概述
 
-Fast approximate base-10 logarithm function.
+快速近似以 10 为底的对数函数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fast_log10f(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the result of the fast approximate base-10 logarithm function.
+返回值: `tl.tensor`, 返回快速近似以 10 为底的对数函数的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 42. triton.language.extra.cann.libdevice.fast_log2f
 
-### OP Overview
+### OP概述
 
-Fast approximate base-2 logarithm function.
+快速近似以 2 为底的对数函数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fast_log2f(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the result of the fast approximate base-2 logarithm function.
+返回值: `tl.tensor`, 返回快速近似以 2 为底的对数函数的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 43. triton.language.extra.cann.libdevice.fast_logf
 
-### OP Overview
+### OP概述
 
-Fast approximate natural logarithm function.
+快速近似自然对数函数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fast_logf(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the result of the fast approximate natural logarithm function.
+返回值: `tl.tensor`, 返回快速近似自然对数函数的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 44. triton.language.extra.cann.libdevice.fast_powf
 
-### OP Overview
+### OP概述
 
-Fast approximate power function.
+快速近似幂函数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fast_powf(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the result of fast approximate power function.
+返回值: `tl.tensor`, 返回快速近似幂函数的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 45. triton.language.extra.cann.libdevice.fast_sinf
 
-### OP Overview
+### OP概述
 
-Fast approximate sine function.
+快速近似正弦函数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fast_sinf(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the result of the fast approximate sine function.
+返回值: `tl.tensor`, 返回快速近似正弦函数的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 46. triton.language.extra.cann.libdevice.fast_tanf
 
-### OP Overview
+### OP概述
 
-Fast approximate tangent function.
+快速近似正切函数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fast_tanf(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the result of the fast approximate tangent function.
+返回值: `tl.tensor`, 返回快速近似正切函数的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 47. triton.language.extra.cann.libdevice.fdim
 
-### OP Overview
+### OP概述
 
-Computes the positive difference between x and y. When x > y, returns x - y; otherwise returns 0.
+计算 x 与 y 的正差。当 x > y 时，返回 x - y，否则返回 0。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fdim(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the positive difference between x and y.
+返回值: `tl.tensor`, 返回 x 与 y 之间的正差。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 48. triton.language.extra.cann.libdevice.fdiv
 
-### OP Overview
+### OP概述
 
-Floating-point division.
+浮点数除法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fdiv(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the floating-point division result.
+返回值: `tl.tensor`, 返回浮点数除法结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 49. triton.language.extra.cann.libdevice.ffs
 
-### OP Overview
+### OP概述
 
-Finds the first bit set to 1 and returns the index of the lowest bit set to 1.
+查找第一个被置为1的位，返回最低被置为1的位的索引。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.ffs(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 
-Return Value: `tl.tensor`, containing the index of the lowest bit set to 1. Range: \[0, 32].
+返回值: `tl.tensor`, 返回最低被置为1的位的索引，取值范围 \[0, 32]。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 50. triton.language.extra.cann.libdevice.finitef
 
-### OP Overview
+### OP概述
 
-Determines whether the input is a finite floating-point number.
+判断输入是否为有限浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.finitef(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, returns True if the input is finite, otherwise returns False.
+返回值: `tl.tensor`, 若输入为有限值返回 True，否则返回 False。
 
-Return Type: `bool`
+返回类型：`bool`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 51. triton.language.extra.cann.libdevice.flip
 
-### OP Overview
+### OP概述
 
-Reverses the order of tensor elements along the specified dimension.
+沿指定维度反转张量元素顺序。
 
-Input Types:
+输入类型：
 - ptr: `tensor`
 - dim: `int32`
 
-Return Value: `tl.tensor`, containing the tensor with elements reversed along the specified dimension.
+返回值: `tl.tensor`, 返回沿指定维度反转后的张量。
 
-Return Type: `tensor`
+返回类型：`tensor`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 52. triton.language.extra.cann.libdevice.float2int_rd
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 32-bit integer with round-down mode.
+向下舍入模式将浮点数转换为32位整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2int_rd(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 32-bit integer.
+返回值: `tl.tensor`, 返回转换后的32位整数。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 53. triton.language.extra.cann.libdevice.float2int_rn
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 32-bit integer with round-to-nearest-even mode.
+最近偶数舍入模式将浮点数转换为32位整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2int_rn(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 32-bit integer.
+返回值: `tl.tensor`, 返回转换后的32位整数。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 54. triton.language.extra.cann.libdevice.float2int_ru
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 32-bit integer with round-up mode.
+向上舍入模式将浮点数转换为32位整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2int_ru(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 32-bit integer.
+返回值: `tl.tensor`, 返回转换后的32位整数。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 55. triton.language.extra.cann.libdevice.float2int_rz
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 32-bit integer with round-toward-zero mode.
+向零舍入模式将浮点数转换为32位整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2int_rz(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 32-bit integer.
+返回值: `tl.tensor`, 返回转换后的32位整数。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 56. triton.language.extra.cann.libdevice.float2ll_rd
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 64-bit integer with round-down mode.
+向下舍入模式将浮点数转换为64位整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2ll_rd(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 64-bit integer.
+返回值: `tl.tensor`, 返回转换后的64位整数。
 
-Return Type: `int64`
+返回类型：`int64`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 57. triton.language.extra.cann.libdevice.float2ll_rn
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 64-bit integer with round-to-nearest-even mode.
+最近偶数舍入模式将浮点数转换为64位整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2ll_rn(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 64-bit integer.
+返回值: `tl.tensor`, 返回转换后的64位整数。
 
-Return Type: `int64`
+返回类型：`int64`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 58. triton.language.extra.cann.libdevice.float2ll_ru
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 64-bit integer with round-up mode.
+向上舍入模式将浮点数转换为64位整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2ll_ru(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 64-bit integer.
+返回值: `tl.tensor`, 返回转换后的64位整数。
 
-Return Type: `int64`
+返回类型：`int64`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 59. triton.language.extra.cann.libdevice.float2ll_rz
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 64-bit integer with round-toward-zero mode.
+向零舍入模式将浮点数转换为64位整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2ll_rz(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 64-bit integer.
+返回值: `tl.tensor`, 返回转换后的64位整数。
 
-Return Type: `int64`
+返回类型：`int64`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 60. triton.language.extra.cann.libdevice.float2uint_rd
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 32-bit unsigned integer with round-down mode.
+向下舍入模式将浮点数转换为32位无符号整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2uint_rd(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 32-bit unsigned integer.
+返回值: `tl.tensor`, 返回转换后的32位无符号整数。
 
-Return Type: `uint32`
+返回类型：`uint32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 61. triton.language.extra.cann.libdevice.float2uint_rn
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 32-bit unsigned integer with round-to-nearest-even mode.
+最近偶数舍入模式将浮点数转换为32位无符号整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2uint_rn(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 32-bit unsigned integer.
+返回值: `tl.tensor`, 返回转换后的32位无符号整数。
 
-Return Type: `uint32`
+返回类型：`uint32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 62. triton.language.extra.cann.libdevice.float2uint_ru
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 32-bit unsigned integer with round-up mode.
+向上舍入模式将浮点数转换为32位无符号整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2uint_ru(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 32-bit unsigned integer.
+返回值: `tl.tensor`, 返回转换后的32位无符号整数。
 
-Return Type: `uint32`
+返回类型：`uint32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 63. triton.language.extra.cann.libdevice.float2uint_rz
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 32-bit unsigned integer with round-toward-zero mode.
+向零舍入模式将浮点数转换为32位无符号整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2uint_rz(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 32-bit unsigned integer.
+返回值: `tl.tensor`, 返回转换后的32位无符号整数。
 
-Return Type: `uint32`
+返回类型：`uint32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 64. triton.language.extra.cann.libdevice.float2ull_rd
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 64-bit unsigned integer with round-down mode.
+向下舍入模式将浮点数转换为64位无符号整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2ull_rd(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 64-bit unsigned integer.
+返回值: `tl.tensor`, 返回转换后的64位无符号整数。
 
-Return Type: `uint64`
+返回类型：`uint64`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 65. triton.language.extra.cann.libdevice.float2ull_rn
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 64-bit unsigned integer with round-to-nearest-even mode.
+最近偶数舍入模式将浮点数转换为64位无符号整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2ull_rn(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 64-bit unsigned integer.
+返回值: `tl.tensor`, 返回转换后的64位无符号整数。
 
-Return Type: `uint64`
+返回类型：`uint64`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 66. triton.language.extra.cann.libdevice.float2ull_ru
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 64-bit unsigned integer with round-up mode.
+向上舍入模式将浮点数转换为64位无符号整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2ull_ru(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 64-bit unsigned integer.
+返回值: `tl.tensor`, 返回转换后的64位无符号整数。
 
-Return Type: `uint64`
+返回类型：`uint64`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 67. triton.language.extra.cann.libdevice.float2ull_rz
 
-### OP Overview
+### OP概述
 
-Converts a floating-point number to a 64-bit unsigned integer with round-toward-zero mode.
+向零舍入模式将浮点数转换为64位无符号整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float2ull_rz(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the converted 64-bit unsigned integer.
+返回值: `tl.tensor`, 返回转换后的64位无符号整数。
 
-Return Type: `uint64`
+返回类型：`uint64`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 68. triton.language.extra.cann.libdevice.float_as_int
 
-### OP Overview
+### OP概述
 
-Reinterprets the bit pattern of a floating-point number as a 32-bit integer. No numeric conversion is performed.
+将浮点数的比特位重新解释为32位整数。不进行数值转换。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float_as_int(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the bit pattern of the floating-point number reinterpreted as a 32-bit integer.
+返回值: `tl.tensor`, 返回将浮点数的比特位重新解释为32位整数的结果。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 69. triton.language.extra.cann.libdevice.float_as_uint
 
-### OP Overview
+### OP概述
 
-Reinterprets the bit pattern of a floating-point number as a 32-bit unsigned integer. No numeric conversion is performed.
+将浮点数的比特位重新解释为32位无符号整数。不进行数值转换。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.float_as_uint(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the bit pattern of the floating-point number reinterpreted as a 32-bit unsigned integer.
+返回值: `tl.tensor`, 返回将浮点数的比特位重新解释为32位无符号整数的结果。
 
-Return Type: `uint32`
+返回类型：`uint32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 70. triton.language.extra.cann.libdevice.floor
 
-### OP Overview
+### OP概述
 
-Floor operation, returns the largest integer less than or equal to x.
+向下取整，返回小于或等于 x 的最大整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.floor(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the floor result.
+返回值: `tl.tensor`, 返回向下取整的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 71. triton.language.extra.cann.libdevice.fma
 
-### OP Overview
+### OP概述
 
-Fused multiply-add, computes x × y + z.
+融合乘加，计算 x × y + z。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fma(x, y, z, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 - z: `float32`
 
-Return Value: `tl.tensor`, containing the result of fused multiply-add.
+返回值: `tl.tensor`, 返回融合乘加的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 72. triton.language.extra.cann.libdevice.fma_rd
 
-### OP Overview
+### OP概述
 
-Fused multiply-add operation with round-down rounding mode.
+向下舍入模式下的融合乘加操作。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fma_rd(x, y, z, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 - z: `float32`
 
-Return Value: `tl.tensor`, containing the result of fused multiply-add.
+返回值: `tl.tensor`, 返回融合乘加的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 73. triton.language.extra.cann.libdevice.fma_rn
 
-### OP Overview
+### OP概述
 
-Fused multiply-add operation with round-to-nearest-even rounding mode.
+最近偶数舍入模式下的融合乘加操作。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fma_rn(x, y, z, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 - z: `float32`
 
-Return Value: `tl.tensor`, containing the result of fused multiply-add.
+返回值: `tl.tensor`, 返回融合乘加的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 74. triton.language.extra.cann.libdevice.fma_ru
 
-### OP Overview
+### OP概述
 
-Fused multiply-add operation with round-up rounding mode.
+向上舍入模式下的融合乘加操作。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fma_ru(x, y, z, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 - z: `float32`
 
-Return Value: `tl.tensor`, containing the result of fused multiply-add.
+返回值: `tl.tensor`, 返回融合乘加的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 75. triton.language.extra.cann.libdevice.fma_rz
 
-### OP Overview
+### OP概述
 
-Fused multiply-add operation with round-toward-zero rounding mode.
+向零舍入模式下的融合乘加操作。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fma_rz(x, y, z, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 - z: `float32`
 
-Return Value: `tl.tensor`, containing the result of fused multiply-add.
+返回值: `tl.tensor`, 返回融合乘加的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 76. triton.language.extra.cann.libdevice.fmod
 
-### OP Overview
+### OP概述
 
-Floating-point modulo, computes the remainder of x / y, with the same sign as x.
+浮点数取模，计算 x / y 的余数，结果与 x 同号。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.fmod(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the floating-point modulo result.
+返回值: `tl.tensor`, 返回浮点数取模的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 77. triton.language.extra.cann.libdevice.gamma
 
-### OP Overview
+### OP概述
 
-Computes the gamma function of the input parameter.
+计算输入参数的伽马函数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.gamma(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the gamma function of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的伽马函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 78. triton.language.extra.cann.libdevice.hadd
 
-### OP Overview
+### OP概述
 
-Computes the average of x and y.
+计算 x 和 y 的平均值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.hadd(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 - y: `int32`
 
-Return Value: `tl.tensor`, containing the average of x and y.
+返回值: `tl.tensor`, 返回 x 和 y 的平均值。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 79. triton.language.extra.cann.libdevice.hypot
 
-### OP Overview
+### OP概述
 
-Computes the Euclidean distance between x and y.
+计算 x 和 y 之间的欧几里得距离。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.hypot(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the Euclidean distance between x and y.
+返回值: `tl.tensor`, 返回 x 和 y 之间的欧几里得距离。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 80. triton.language.extra.cann.libdevice.ilogb
 
-### OP Overview
+### OP概述
 
-Extracts the unbiased exponent (base-2 integer logarithm) of a floating-point number.
+提取浮点数的无偏指数（以2为底的整数对数）。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.ilogb(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the unbiased exponent of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的无偏指数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 81. triton.language.extra.cann.libdevice.int2float_rd
 
-### OP Overview
+### OP概述
 
-Converts a 32-bit integer to a floating-point number with round-down mode.
+向下舍入模式将32位整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.int2float_rd(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 82. triton.language.extra.cann.libdevice.int2float_rn
 
-### OP Overview
+### OP概述
 
-Converts a 32-bit integer to a floating-point number with round-to-nearest-even mode.
+最近偶数舍入模式将32位整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.int2float_rn(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 83. triton.language.extra.cann.libdevice.int2float_ru
 
-### OP Overview
+### OP概述
 
-Converts a 32-bit integer to a floating-point number with round-up mode.
+向上舍入模式将32位整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.int2float_ru(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 84. triton.language.extra.cann.libdevice.int2float_rz
 
-### OP Overview
+### OP概述
 
-Converts a 32-bit integer to a floating-point number with round-toward-zero mode.
+向零舍入模式将32位整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.int2float_rz(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 85. triton.language.extra.cann.libdevice.int_as_float
 
-### OP Overview
+### OP概述
 
-Reinterprets the bit pattern of a 32-bit integer as a floating-point number. No numeric conversion is performed.
+将32位整数的比特位重新解释为浮点数。不进行数值转换。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.int_as_float(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 
-Return Value: `tl.tensor`, containing the bit pattern of the 32-bit integer reinterpreted as a floating-point number.
+返回值: `tl.tensor`, 返回将32位整数的比特位重新解释为浮点数的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 86. triton.language.extra.cann.libdevice.isfinited
 
-### OP Overview
+### OP概述
 
-Determines whether the input is a finite value.
+判断输入是否为有限值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.isfinited(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, returns True if the input is finite, otherwise returns False.
+返回值: `tl.tensor`, 若输入为有限值返回 True，否则返回 False。
 
-Return Type: `bool`
+返回类型：`bool`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 87. triton.language.extra.cann.libdevice.isinf
 
-### OP Overview
+### OP概述
 
-Determines whether the input is infinity.
+判断输入是否为无穷大。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.isinf(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, returns True if the input is infinity, otherwise returns False.
+返回值: `tl.tensor`, 若输入为无穷大返回 True，否则返回 False。
 
-Return Type: `bool`
+返回类型：`bool`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 88. triton.language.extra.cann.libdevice.isnan
 
-### OP Overview
+### OP概述
 
-Determines whether the input is NaN (not a number).
+判断输入是否为 NaN（非数值）。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.isnan(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, returns True if the input is NaN, otherwise returns False.
+返回值: `tl.tensor`, 若输入为 NaN 返回 True，否则返回 False。
 
-Return Type: `bool`
+返回类型：`bool`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 89. triton.language.extra.cann.libdevice.j0
 
-### OP Overview
+### OP概述
 
-Computes the Bessel function of the first kind of order 0 of the input parameter.
+计算输入参数的零阶第一类贝塞尔函数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.j0(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the Bessel function of the first kind of order 0 of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的零阶第一类贝塞尔函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 90. triton.language.extra.cann.libdevice.j1
 
-### OP Overview
+### OP概述
 
-Computes the Bessel function of the first kind of order 1 of the input parameter.
+计算输入参数的一阶第一类贝塞尔函数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.j1(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the Bessel function of the first kind of order 1 of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的一阶第一类贝塞尔函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 91. triton.language.extra.cann.libdevice.jn
 
-### OP Overview
+### OP概述
 
-Computes the Bessel function of the first kind of order n of the input parameter.
+计算输入参数的 n 阶第一类贝塞尔函数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.jn(n, x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - n: `int32`
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the Bessel function of the first kind of order n of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的 n 阶第一类贝塞尔函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 92. triton.language.extra.cann.libdevice.ldexp
 
-### OP Overview
+### OP概述
 
-Computes the value of x × 2^exp.
+计算 x × 2^exp 的值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.ldexp(x, exp, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - exp: `int32`
 
-Return Value: `tl.tensor`, containing the result of x × 2^exp.
+返回值: `tl.tensor`, 返回 x × 2^exp 的计算结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 93. triton.language.extra.cann.libdevice.lgamma
 
-### OP Overview
+### OP概述
 
-Computes the natural logarithm of the absolute value of the gamma function for input x.
+计算输入为 x 的伽马函数绝对值的自然对数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.lgamma(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the natural logarithm of the absolute value of the gamma function for input x.
+返回值: `tl.tensor`, 返回输入为 x 的伽马函数绝对值的自然对数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 94. triton.language.extra.cann.libdevice.ll2float_rd
 
-### OP Overview
+### OP概述
 
-Converts a 64-bit integer to a floating-point number with round-down mode.
+向下舍入模式将64位整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.ll2float_rd(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int64`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 95. triton.language.extra.cann.libdevice.ll2float_rn
 
-### OP Overview
+### OP概述
 
-Converts a 64-bit integer to a floating-point number with round-to-nearest-even mode.
+最近偶数舍入模式将64位整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.ll2float_rn(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int64`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 96. triton.language.extra.cann.libdevice.ll2float_ru
 
-### OP Overview
+### OP概述
 
-Converts a 64-bit integer to a floating-point number with round-up mode.
+向上舍入模式将64位整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.ll2float_ru(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int64`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 97. triton.language.extra.cann.libdevice.ll2float_rz
 
-### OP Overview
+### OP概述
 
-Converts a 64-bit integer to a floating-point number with round-toward-zero mode.
+向零舍入模式将64位整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.ll2float_rz(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int64`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 98. triton.language.extra.cann.libdevice.llrint
 
-### OP Overview
+### OP概述
 
-Rounds a floating-point number to the nearest 64-bit integer value.
+将浮点数舍入为最接近的64位整数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.llrint(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the rounded 64-bit integer.
+返回值: `tl.tensor`, 返回舍入后的64位整数。
 
-Return Type: `int64`
+返回类型：`int64`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 99. triton.language.extra.cann.libdevice.llround
 
-### OP Overview
+### OP概述
 
-Rounds a floating-point number to the nearest 64-bit integer value.
+将浮点数四舍五入为最接近的64位整数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.llround(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the rounded 64-bit integer.
+返回值: `tl.tensor`, 返回舍入后的64位整数。
 
-Return Type: `int64`
+返回类型：`int64`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 100. triton.language.extra.cann.libdevice.log
 
-### OP Overview
+### OP概述
 
-Computes the natural (base-e) logarithm of input x.
+计算输入为 x 的以 e 为底的对数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.log(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the natural logarithm of input x.
+返回值: `tl.tensor`, 返回输入为 x 的以 e 为底的对数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 101. triton.language.extra.cann.libdevice.log10
 
-### OP Overview
+### OP概述
 
-Computes the base-10 logarithm of input x.
+计算输入为 x 的以 10 为底的对数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.log10(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the base-10 logarithm of input x.
+返回值: `tl.tensor`, 返回输入为 x 的以 10 为底的对数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 102. triton.language.extra.cann.libdevice.log1p
 
-### OP Overview
+### OP概述
 
-Computes the value of log(1 + x).
+计算 log(1 + x) 的值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.log1p(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the result of log(1 + x).
+返回值: `tl.tensor`, 返回 log(1 + x) 的计算结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 103. triton.language.extra.cann.libdevice.log2
 
-### OP Overview
+### OP概述
 
-Computes the base-2 logarithm of input x.
+计算输入为 x 的以 2 为底的对数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.log2(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the base-2 logarithm of input x.
+返回值: `tl.tensor`, 返回输入为 x 的以 2 为底的对数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 104. triton.language.extra.cann.libdevice.logb
 
-### OP Overview
+### OP概述
 
-Extracts the exponent value of a floating-point number.
+提取浮点数的指数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.logb(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the exponent value of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的指数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 105. triton.language.extra.cann.libdevice.mul24
 
-### OP Overview
+### OP概述
 
-Computes the lower 24-bit multiplication result of x and y.
+计算 x 和 y 的低24位乘法结果。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.mul24(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 - y: `int32`
 
-Return Value: `tl.tensor`, containing the lower 24-bit multiplication result of x and y.
+返回值: `tl.tensor`, 返回 x 和 y 的低24位乘法结果。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 106. triton.language.extra.cann.libdevice.mul_rd
 
-### OP Overview
+### OP概述
 
-Floating-point multiplication with round-down rounding mode.
+向下舍入浮点数乘法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.mul_rd(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the floating-point multiplication result.
+返回值: `tl.tensor`, 返回浮点数乘法的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 107. triton.language.extra.cann.libdevice.mul_rn
 
-### OP Overview
+### OP概述
 
-Floating-point multiplication with round-to-nearest-even rounding mode.
+最近偶数舍入浮点数乘法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.mul_rn(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the floating-point multiplication result.
+返回值: `tl.tensor`, 返回浮点数乘法的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 108. triton.language.extra.cann.libdevice.mul_ru
 
-### OP Overview
+### OP概述
 
-Floating-point multiplication with round-up rounding mode.
+向上舍入浮点数乘法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.mul_ru(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the floating-point multiplication result.
+返回值: `tl.tensor`, 返回浮点数乘法的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 109. triton.language.extra.cann.libdevice.mul_rz
 
-### OP Overview
+### OP概述
 
-Floating-point multiplication with round-toward-zero rounding mode.
+向零舍入浮点数乘法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.mul_rz(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the floating-point multiplication result.
+返回值: `tl.tensor`, 返回浮点数乘法的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 110. triton.language.extra.cann.libdevice.mulhi
 
-### OP Overview
+### OP概述
 
-Computes the high 32 bits of the multiplication result of x and y.
+计算 x 和 y 的乘法结果的高 32 位。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.mulhi(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 - y: `int32`
 
-Return Value: `tl.tensor`, containing the high 32 bits of the multiplication result of x and y.
+返回值: `tl.tensor`, 返回 x 和 y 的乘法结果的高 32 位。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 111. triton.language.extra.cann.libdevice.nearbyint
 
-### OP Overview
+### OP概述
 
-Converts x to the nearest integer.
+将 x 转换为最近邻整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.nearbyint(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the nearest integer.
+返回值: `tl.tensor`, 返回最近邻整数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 112. triton.language.extra.cann.libdevice.nextafter
 
-### OP Overview
+### OP概述
 
-Computes the next representable floating-point number from x toward y.
+计算从 x 方向朝 y 的下一个可表示浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.nextafter(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the next representable floating-point number.
+返回值: `tl.tensor`, 返回下一个可表示浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 113. triton.language.extra.cann.libdevice.norm3d
 
-### OP Overview
+### OP概述
 
-Computes the Euclidean norm of a 3D vector, i.e., sqrt(x² + y² + z²).
+计算三维向量的欧几里得范数，即 sqrt(x² + y² + z²)。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.norm3d(x, y, z, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 - z: `float32`
 
-Return Value: `tl.tensor`, containing the Euclidean norm of the 3D vector.
+返回值: `tl.tensor`, 返回三维向量的欧几里得范数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 114. triton.language.extra.cann.libdevice.norm4d
 
-### OP Overview
+### OP概述
 
-Computes the Euclidean norm of a 4D vector, i.e., sqrt(x² + y² + z² + w²).
+计算四维向量的欧几里得范数，即 sqrt(x² + y² + z² + w²)。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.norm4d(x, y, z, w, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 - z: `float32`
 - w: `float32`
 
-Return Value: `tl.tensor`, containing the Euclidean norm of the 4D vector.
+返回值: `tl.tensor`, 返回四维向量的欧几里得范数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 115. triton.language.extra.cann.libdevice.normcdf
 
-### OP Overview
+### OP概述
 
-Computes the cumulative distribution function of the standard normal distribution.
+计算标准正态分布的累积分布函数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.normcdf(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the cumulative distribution function of the standard normal distribution.
+返回值: `tl.tensor`, 返回标准正态分布的累积分布函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 116. triton.language.extra.cann.libdevice.normcdfinv
 
-### OP Overview
+### OP概述
 
-Computes the inverse of the cumulative distribution function of the standard normal distribution.
+计算标准正态分布累积分布函数的逆函数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.normcdfinv(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the inverse of the cumulative distribution function of the standard normal distribution.
+返回值: `tl.tensor`, 返回标准正态分布累积分布函数的逆函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 117. triton.language.extra.cann.libdevice.popc
 
-### OP Overview
+### OP概述
 
-Counts the number of bits set to 1 in x.
+计算 x 中置位为 1 的数量。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.popc(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 
-Return Value: `tl.tensor`, containing the number of bits set to 1 in x. Range: \[0, 32].
+返回值: `tl.tensor`, 返回 x 中置位为 1 的数量，取值范围 \[0, 32]。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 118. triton.language.extra.cann.libdevice.pow
 
-### OP Overview
+### OP概述
 
-Power function, computes x raised to the power of y.
+幂函数，计算 x 的 y 次方。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.pow(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing x raised to the power of y.
+返回值: `tl.tensor`, 返回 x 的 y 次方。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 119. triton.language.extra.cann.libdevice.rcbrt
 
-### OP Overview
+### OP概述
 
-Computes the reciprocal cube root of x.
+计算 x 的立方根倒数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.rcbrt(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the reciprocal cube root of x.
+返回值: `tl.tensor`, 返回 x 的立方根倒数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 120. triton.language.extra.cann.libdevice.rcp_rd
 
-### OP Overview
+### OP概述
 
-Floating-point reciprocal with round-down rounding mode.
+向下舍入浮点数倒数运算。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.rcp_rd(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing 1 / x.
+返回值: `tl.tensor`, 返回 1 / x。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 121. triton.language.extra.cann.libdevice.rcp_rn
 
-### OP Overview
+### OP概述
 
-Floating-point reciprocal with round-to-nearest-even rounding mode.
+最近偶数舍入浮点数倒数运算。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.rcp_rn(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing 1 / x.
+返回值: `tl.tensor`, 返回 1 / x。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 122. triton.language.extra.cann.libdevice.rcp_ru
 
-### OP Overview
+### OP概述
 
-Floating-point reciprocal with round-up rounding mode.
+向上舍入浮点数倒数运算。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.rcp_ru(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing 1 / x.
+返回值: `tl.tensor`, 返回 1 / x。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 123. triton.language.extra.cann.libdevice.rcp_rz
 
-### OP Overview
+### OP概述
 
-Floating-point reciprocal with round-toward-zero rounding mode.
+向零舍入浮点数倒数运算。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.rcp_rz(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing 1 / x.
+返回值: `tl.tensor`, 返回 1 / x。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 124. triton.language.extra.cann.libdevice.reciprocal
 
-### OP Overview
+### OP概述
 
-Computes the reciprocal 1 / x.
+计算 1 / x 的倒数运算。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.reciprocal(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing 1 / x.
+返回值: `tl.tensor`, 返回 1 / x。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 125. triton.language.extra.cann.libdevice.relu
 
-### OP Overview
+### OP概述
 
-Rectified linear unit function, returns x when x > 0, otherwise returns 0.
+修正线性单元函数，当 x > 0 时返回 x，否则返回 0。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.relu(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the result of the rectified linear unit.
+返回值: `tl.tensor`, 返回修正线性单元的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 126. triton.language.extra.cann.libdevice.remainder
 
-### OP Overview
+### OP概述
 
-Computes the remainder of x divided by y, where r = x - ny, and n is the nearest integer to x / y.
+计算 x 对 y 的余数，满足 r = x - ny，其中 n 是 x / y 的最近邻整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.remainder(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the remainder of x divided by y.
+返回值: `tl.tensor`, 返回 x 对 y 的余数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 127. triton.language.extra.cann.libdevice.rhadd
 
-### OP Overview
+### OP概述
 
-Computes the rounded average of x and y.
+计算 x 和 y 平均值的取整结果。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.rhadd(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 - y: `int32`
 
-Return Value: `tl.tensor`, containing the rounded average of x and y.
+返回值: `tl.tensor`, 返回 x 和 y 平均值的取整结果。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 128. triton.language.extra.cann.libdevice.rhypot
 
-### OP Overview
+### OP概述
 
-Computes the reciprocal of the Euclidean distance between x and y.
+计算 x 和 y 之间的欧几里得距离的倒数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.rhypot(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the reciprocal of the Euclidean distance between x and y.
+返回值: `tl.tensor`, 返回 x 和 y 之间的欧几里得距离的倒数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 129. triton.language.extra.cann.libdevice.rint
 
-### OP Overview
+### OP概述
 
-Computes the nearest integer to x using round-to-nearest-even rounding mode.
+按最近偶数舍入模式计算 x 的最近邻整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.rint(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the nearest integer to x.
+返回值: `tl.tensor`, 返回 x 的最近邻整数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 130. triton.language.extra.cann.libdevice.rnorm3d
 
-### OP Overview
+### OP概述
 
-Computes the reciprocal of the Euclidean norm of a 3D vector.
+计算三维向量的欧几里得范数的倒数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.rnorm3d(x, y, z, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 - z: `float32`
 
-Return Value: `tl.tensor`, containing the reciprocal of the Euclidean norm of the 3D vector.
+返回值: `tl.tensor`, 返回三维向量的欧几里得范数的倒数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 131. triton.language.extra.cann.libdevice.rnorm4d
 
-### OP Overview
+### OP概述
 
-Computes the reciprocal of the Euclidean norm of a 4D vector.
+计算四维向量的欧几里得范数的倒数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.rnorm4d(x, y, z, w, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 - z: `float32`
 - w: `float32`
 
-Return Value: `tl.tensor`, containing the reciprocal of the Euclidean norm of the 4D vector.
+返回值: `tl.tensor`, 返回四维向量的欧几里得范数的倒数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 132. triton.language.extra.cann.libdevice.round
 
-### OP Overview
+### OP概述
 
-Computes the nearest integer to x using round-to-nearest-even rounding mode.
+按最近偶数舍入模式计算 x 的最近邻整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.round(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the nearest integer to x.
+返回值: `tl.tensor`, 返回 x 的最近邻整数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 133. triton.language.extra.cann.libdevice.rsqrt
 
-### OP Overview
+### OP概述
 
-Computes the reciprocal square root of x.
+计算 x 的平方根倒数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.rsqrt(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the reciprocal square root of x.
+返回值: `tl.tensor`, 返回 x 的平方根倒数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 134. triton.language.extra.cann.libdevice.rsqrt_rn
 
-### OP Overview
+### OP概述
 
-Computes the reciprocal square root of x using round-to-nearest-even rounding mode.
+按最近偶数舍入模式计算 x 的平方根倒数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.rsqrt_rn(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the reciprocal square root of x.
+返回值: `tl.tensor`, 返回 x 的平方根倒数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 135. triton.language.extra.cann.libdevice.sad
 
-### OP Overview
+### OP概述
 
-Computes |x-y|+z, where x and y are signed integers and z is an unsigned integer.
+计算 |x-y|+z，其中 x 和 y 是有符号整数，z 是无符号整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.sad(x, y, z, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 - y: `int32`
 - z: `int32`
 
-Return Value: `tl.tensor`, containing |x-y|+z.
+返回值: `tl.tensor`, 返回 |x-y|+z。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 136. triton.language.extra.cann.libdevice.saturatef
 
-### OP Overview
+### OP概述
 
-Clamps x to the range \[+0.0, 1.0].
+将 x 限制在 \[+0.0, 1.0] 范围内。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.saturatef(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the saturated value of x, in the range \[+0.0, 1.0].
+返回值: `tl.tensor`, 返回 x 的饱和值，取值范围 \[+0.0, 1.0]。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 137. triton.language.extra.cann.libdevice.scalbn
 
-### OP Overview
+### OP概述
 
-Computes the value of x × 2^n.
+计算 x × 2^n 的值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.scalbn(x, n, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - n: `int32`
 
-Return Value: `tl.tensor`, containing the result of x × 2^n.
+返回值: `tl.tensor`, 返回 x × 2^n 的计算结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 138. triton.language.extra.cann.libdevice.signbit
 
-### OP Overview
+### OP概述
 
-Extracts the sign bit of x.
+获取 x 的符号位。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.signbit(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the sign bit of x.
+返回值: `tl.tensor`, 返回 x 的符号位。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 139. triton.language.extra.cann.libdevice.sin
 
-### OP Overview
+### OP概述
 
-Computes the sine of the input parameter x (in radians).
+计算输入参数 x （弧度）的正弦值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.sin(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the sine of input x.
+返回值: `tl.tensor`, 返回输入 x 的正弦值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 140. triton.language.extra.cann.libdevice.sinh
 
-### OP Overview
+### OP概述
 
-Computes the hyperbolic sine of input parameter x.
+计算输入参数 x 的双曲正弦值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.sinh(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the hyperbolic sine of input x.
+返回值: `tl.tensor`, 返回输入 x 的双曲正弦值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 141. triton.language.extra.cann.libdevice.sinpi
 
-### OP Overview
+### OP概述
 
-Computes the value of sin(π × x).
+计算 sin(π × x) 的值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.sinpi(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the value of sin(π × x).
+返回值: `tl.tensor`, 返回 sin(π × x) 的值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 142. triton.language.extra.cann.libdevice.sqrt
 
-### OP Overview
+### OP概述
 
-Computes the square root of x.
+计算 x 的平方根值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.sqrt(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the square root of x.
+返回值: `tl.tensor`, 返回 x 的平方根值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 143. triton.language.extra.cann.libdevice.sqrt_rd
 
-### OP Overview
+### OP概述
 
-Computes the square root of x with round-down rounding mode.
+向下舍入模式计算 x 的平方根值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.sqrt_rd(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the square root of x.
+返回值: `tl.tensor`, 返回 x 的平方根值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 144. triton.language.extra.cann.libdevice.sqrt_rn
 
-### OP Overview
+### OP概述
 
-Computes the square root of x with round-to-nearest-even rounding mode.
+最近偶数舍入模式计算 x 的平方根值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.sqrt_rn(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the square root of x.
+返回值: `tl.tensor`, 返回 x 的平方根值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 145. triton.language.extra.cann.libdevice.sqrt_ru
 
-### OP Overview
+### OP概述
 
-Computes the square root of x with round-up rounding mode.
+向上舍入模式计算 x 的平方根值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.sqrt_ru(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the square root of x.
+返回值: `tl.tensor`, 返回 x 的平方根值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 146. triton.language.extra.cann.libdevice.sqrt_rz
 
-### OP Overview
+### OP概述
 
-Computes the square root of x with round-toward-zero rounding mode.
+向零舍入模式计算 x 的平方根值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.sqrt_rz(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the square root of x.
+返回值: `tl.tensor`, 返回 x 的平方根值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 147. triton.language.extra.cann.libdevice.sub_rd
 
-### OP Overview
+### OP概述
 
-Floating-point subtraction with round-down rounding mode.
+向下舍入浮点数减法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.sub_rd(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the subtraction result rounded down.
+返回值: `tl.tensor`, 返回向下舍入的减法结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 148. triton.language.extra.cann.libdevice.sub_rn
 
-### OP Overview
+### OP概述
 
-Floating-point subtraction with round-to-nearest-even rounding mode.
+最近偶数舍入浮点数减法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.sub_rn(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the subtraction result rounded to the nearest even number.
+返回值: `tl.tensor`, 返回最近偶数舍入的减法结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 149. triton.language.extra.cann.libdevice.sub_ru
 
-### OP Overview
+### OP概述
 
-Floating-point subtraction with round-up rounding mode.
+向上舍入浮点数减法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.sub_ru(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the subtraction result rounded up.
+返回值: `tl.tensor`, 返回向上舍入的减法结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 150. triton.language.extra.cann.libdevice.sub_rz
 
-### OP Overview
+### OP概述
 
-Floating-point subtraction with round-toward-zero rounding mode.
+向零舍入浮点数减法。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.sub_rz(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 - y: `float32`
 
-Return Value: `tl.tensor`, containing the subtraction result rounded toward zero.
+返回值: `tl.tensor`, 返回向零舍入的减法结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 151. triton.language.extra.cann.libdevice.tan
 
-### OP Overview
+### OP概述
 
-Computes the tangent of input parameter x (in radians).
+计算输入参数 x （弧度）的正切值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.tan(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the tangent of input x.
+返回值: `tl.tensor`, 返回输入 x 的正切值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 152. triton.language.extra.cann.libdevice.tanh
 
-### OP Overview
+### OP概述
 
-Computes the hyperbolic tangent of input parameter x.
+计算输入参数 x 的双曲正切值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.tanh(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the hyperbolic tangent of input x.
+返回值: `tl.tensor`, 返回输入 x 的双曲正切值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 153. triton.language.extra.cann.libdevice.tgamma
 
-### OP Overview
+### OP概述
 
-Computes the gamma function of the input parameter.
+计算输入参数的伽马函数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.tgamma(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the gamma function of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的伽马函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 154. triton.language.extra.cann.libdevice.trunc
 
-### OP Overview
+### OP概述
 
-Truncation operation, rounds toward zero to the nearest integer.
+截断取整，向零舍入到最近邻整数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.trunc(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the truncation result.
+返回值: `tl.tensor`, 返回取整结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT, SIMD
+支持编译模式：SIMT, SIMD
 
 ## 155. triton.language.extra.cann.libdevice.uint2float_rd
 
-### OP Overview
+### OP概述
 
-Converts a 32-bit unsigned integer to a floating-point number with round-down mode.
+向下舍入模式将32位无符号整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.uint2float_rd(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `uint32`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 156. triton.language.extra.cann.libdevice.uint2float_rn
 
-### OP Overview
+### OP概述
 
-Converts a 32-bit unsigned integer to a floating-point number with round-to-nearest-even mode.
+最近偶数舍入模式将32位无符号整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.uint2float_rn(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `uint32`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 157. triton.language.extra.cann.libdevice.uint2float_ru
 
-### OP Overview
+### OP概述
 
-Converts a 32-bit unsigned integer to a floating-point number with round-up mode.
+向上舍入模式将32位无符号整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.uint2float_ru(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `uint32`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 158. triton.language.extra.cann.libdevice.uint2float_rz
 
-### OP Overview
+### OP概述
 
-Converts a 32-bit unsigned integer to a floating-point number with round-toward-zero mode.
+向零舍入模式将32位无符号整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.uint2float_rz(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `uint32`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 159. triton.language.extra.cann.libdevice.uint_as_float
 
-### OP Overview
+### OP概述
 
-Reinterprets the bit pattern of a 32-bit unsigned integer as a floating-point number. No numeric conversion is performed.
+将32位无符号整数的比特位重新解释为浮点数。不进行数值转换。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.uint_as_float(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `uint32`
 
-Return Value: `tl.tensor`, containing the bit pattern of the 32-bit unsigned integer reinterpreted as a floating-point number.
+返回值: `tl.tensor`, 返回将32位无符号整数的比特位重新解释为浮点数的结果。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 160. triton.language.extra.cann.libdevice.ull2float_rd
 
-### OP Overview
+### OP概述
 
-Converts a 64-bit unsigned integer to a floating-point number with round-down mode.
+向下舍入模式将64位无符号整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.ull2float_rd(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `uint64`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 161. triton.language.extra.cann.libdevice.ull2float_rn
 
-### OP Overview
+### OP概述
 
-Converts a 64-bit unsigned integer to a floating-point number with round-to-nearest-even mode.
+最近偶数舍入模式将64位无符号整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.ull2float_rn(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `uint64`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 162. triton.language.extra.cann.libdevice.ull2float_ru
 
-### OP Overview
+### OP概述
 
-Converts a 64-bit unsigned integer to a floating-point number with round-up mode.
+向上舍入模式将64位无符号整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.ull2float_ru(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `uint64`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 163. triton.language.extra.cann.libdevice.ull2float_rz
 
-### OP Overview
+### OP概述
 
-Converts a 64-bit unsigned integer to a floating-point number with round-toward-zero mode.
+向零舍入模式将64位无符号整数转换为浮点数。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.ull2float_rz(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `uint64`
 
-Return Value: `tl.tensor`, containing the converted floating-point number.
+返回值: `tl.tensor`, 返回转换后的浮点数。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 164. triton.language.extra.cann.libdevice.umulhi
 
-### OP Overview
+### OP概述
 
-Computes the high 32 bits of the unsigned multiplication result of x and y.
+计算 x 和 y 的无符号乘法结果的高 32 位。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.umulhi(x, y, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `int32`
 - y: `int32`
 
-Return Value: `tl.tensor`, containing the high 32 bits of the unsigned multiplication result of x and y.
+返回值: `tl.tensor`, 返回 x 和 y 的无符号乘法结果的高 32 位。
 
-Return Type: `int32`
+返回类型：`int32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 165. triton.language.extra.cann.libdevice.y0
 
-### OP Overview
+### OP概述
 
-Computes the Bessel function of the second kind of order 0 of the input parameter.
+计算输入参数的零阶第二类贝塞尔函数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.y0(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the Bessel function of the second kind of order 0 of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的零阶第二类贝塞尔函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 166. triton.language.extra.cann.libdevice.y1
 
-### OP Overview
+### OP概述
 
-Computes the Bessel function of the second kind of order 1 of the input parameter.
+计算输入参数的一阶第二类贝塞尔函数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.y1(x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the Bessel function of the second kind of order 1 of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的一阶第二类贝塞尔函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
 
 ## 167. triton.language.extra.cann.libdevice.yn
 
-### OP Overview
+### OP概述
 
-Computes the Bessel function of the second kind of order n of the input parameter.
+计算输入参数的 n 阶第二类贝塞尔函数值。
 
-Prototype:
+原型:
 
 ```python
 triton.language.extra.cann.libdevice.yn(n, x, _builder=None)
 ```
 
-Input Types:
+输入类型：
 - n: `int32`
 - x: `float32`
 
-Return Value: `tl.tensor`, containing the Bessel function of the second kind of order n of the input parameter.
+返回值: `tl.tensor`, 返回输入参数的 n 阶第二类贝塞尔函数值。
 
-Return Type: `float32`
+返回类型：`float32`
 
-Supported Compilation Mode: SIMT
+支持编译模式：SIMT
