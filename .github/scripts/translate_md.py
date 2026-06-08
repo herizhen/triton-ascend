@@ -33,10 +33,9 @@ Here is the content to translate:
 
 
 class MarkdownTranslator:
+
     def __init__(self, api_key: str, max_concurrent: int = 2):
-        self.client = AsyncOpenAI(api_key=api_key,
-                                  base_url="https://api.deepseek.com",
-                                  timeout=60.0)
+        self.client = AsyncOpenAI(api_key=api_key, base_url="https://api.deepseek.com", timeout=60.0)
         self.semaphore = asyncio.Semaphore(max_concurrent)
 
     async def translate_content(self, content: str, retry: int = 3) -> str:
