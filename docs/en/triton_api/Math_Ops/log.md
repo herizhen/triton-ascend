@@ -12,13 +12,13 @@ triton.language.log(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type       | Description                                                    |
-| -------------- | ---------- | -------------------------------------------------------------- |
-| `x`            | `tensor`   | Tensor data                                                    |
-| `_semantic`    | -          | Reserved parameter, external calls not supported               |
+| Parameter      | Type       | Description                                      |
+| -------------- | ---------- | ------------------------------------------------ |
+| `x`            | `tensor`   | Tensor data                                      |
+| `_semantic`    | -          | Reserved parameter, not supported for external calls |
 
 Return value:
-`x`: Output tensor with the same shape as the input tensor x
+`x`: The output tensor has the same shape as the input tensor x
 
 ### 2.2 OP Specifications
 
@@ -43,7 +43,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative community capability gaps that cannot be implemented
+> Capabilities missing compared to the community and cannot be implemented
 
 None.
 

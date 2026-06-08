@@ -40,7 +40,7 @@ A3:
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | × | × |
 | Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | × | × | ✓ | × | × | × | × | × |
 
-### 2.3 Special Restrictions
+### 2.3 Special Limitations
 
 When `bind_sub_block` is true, the IR reflects a difference from `range`, but whether the functionality is actually implemented remains to be verified.
 

@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Flattens the input tensor into a one-dimensional tensor, preserving the order of elements in memory. The total number of elements in the output tensor is the same as that of the input tensor.
+Flattens the input tensor into a one-dimensional tensor, preserving the order of elements in memory. The output tensor has the same total number of elements as the input tensor.
 
 **Syntax:**
 
@@ -13,7 +13,7 @@ Flattens the input tensor into a one-dimensional tensor, preserving the order of
 
 - Flattens the input tensor into a one-dimensional tensor
 - Preserves the order of elements in memory
-- The total number of elements in the output tensor is the same as that of the input tensor
+- The output tensor has the same total number of elements as the input tensor
 
 ## 2 Parameter Specifications
 
@@ -45,7 +45,7 @@ Flattens the input tensor into a one-dimensional tensor, preserving the order of
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Constraints
+### 2.4 Special Restrictions
 
 None
 

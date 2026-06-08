@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Computes the ceiling value for each element in a tensor
+Description: Computes the ceiling value for each element in a tensor.
 
 ```python
 triton.language.ceil(x, _semantic=None)
@@ -12,10 +12,10 @@ triton.language.ceil(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter | Type | Description |
-| :---: | :---: | :---: |
-| `x` | `tensor` | Tensor data |
-| `_semantic`   | - | Reserved parameter, external calls not supported yet |
+| Parameter | Type   | Description |
+| :---:     | :---:  | :---: |
+| `x`       | `tensor` | Tensor data |
+| `_semantic` | -    | Reserved parameter, not yet supported for external calls |
 
 Return value:
 `out`: A tensor with the same shape as `x`
@@ -24,7 +24,7 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | × | × | × | × | × | × | × | × | × | √ | √ | × | × |
 | Ascend A2/A3 | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | × | √ | √ |
@@ -32,17 +32,17 @@ Return value:
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| :---: | :---: |
+| :---:  | :---: |
 | GPU    | No restrictions |
 | Ascend | No restrictions |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Community capability gap that cannot be implemented
 
-Compared to GPU, Ascend lacks support for fp64 but adds support for fp16, bf16, and integer input types.
+Compared to GPU, Ascend lacks support for fp64 but adds support for fp16, bf16, and integer inputs.
 
 ### 2.4 Usage Example
 

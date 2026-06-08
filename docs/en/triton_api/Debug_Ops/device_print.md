@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-`device_print` is used to print information from the device side during NPU runtime. Unlike `static_print`, this outputs information in real-time during kernel execution. The first parameter must be a `string`, and subsequent parameters must be `scalars` or `tensors`. **To use `device_print`, the environment variable `TRITON_DEVICE_PRINT` must be set to `True`.**
+`device_print` is used to print information from the device side during NPU runtime. Unlike `static_print`, this outputs information in real-time during kernel execution. The first parameter must be a `string`, and subsequent parameters must be `scalars` or `tensors`. **To use `device_print`, set the environment variable `TRITON_DEVICE_PRINT` to `True`.**
 
 ```python
 triton.language.device_print(prefix, *args, hex=False, _semantic=None)
@@ -26,7 +26,7 @@ A3:
 | | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 |------|-------|-------|-------|-------|--------|--------|--------|-------|------|------|------|------|------|
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | ×| × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
+| Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | × | × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
 
 ### 2.2.2 Shape Support
 
@@ -37,9 +37,9 @@ A3:
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Missing capabilities relative to the community, cannot be implemented
 
-Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
+Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
 
 **DevicePrint Functional Limitations**
 
@@ -47,7 +47,7 @@ Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU
 `device_print` can only print result values involved in computation, and cannot print offset variables used purely for memory access.
 
 **Root Cause:**
-During the memory access analysis and optimization phase, the compiler optimizes away offsets used solely for address calculation, and these intermediate variables are not retained in the final execution code.
+During the memory access analysis and optimization phase, the compiler optimizes away offsets used solely for address computation. These intermediate variables are not retained in the final execution code.
 
 **Example Scenario:**
 
@@ -65,14 +65,14 @@ def add_kernel(x_ptr,  # *Pointer* to first input vector.
     pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.
     block_start = pid * BLOCK_SIZE
     offsets = block_start + tl.arange(0, BLOCK_SIZE)
-    tl.device_print("offsets:", offsets)// ❌ Cannot print, already optimized
+    tl.device_print("offsets:", offsets)// ❌ Cannot print, already optimized away
 ```
 
-Additionally, under certain circumstances, `device_print` may expand some auxiliary DMA code, causing underlying errors. Related functionality is still being optimized.
+Additionally, in certain cases, `device_print` may expand some auxiliary DMA code, causing underlying errors. Related functionality is still under optimization.
 
 ### 2.4 Usage
 
-**Note**: The `prefix` string prefix must be included when using `device_print`, otherwise it will cause a compilation error. Currently, printing only the `prefix` string alone is not supported.
+**Note**: The `prefix` string prefix must be included when using `device_print`; otherwise, a compilation error will occur. Printing only the `prefix` string is currently not supported.
 
 ```python
 import triton

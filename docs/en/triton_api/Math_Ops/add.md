@@ -13,31 +13,31 @@ triton.language.add(x, y, sanitize_overflow: constexpr = True, _builder=None)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type | Description |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `x` | `tensor or Number` | First input parameter |
-| `y` | `tensor or Number` | Second input parameter |
-| `sanitize_overflow` | `bool` | Whether to perform overflow checking for integer addition, default value is True, no need to specify explicitly |
-| `_builder` | - | Reserved parameter, external calls not supported temporarily |
+| Parameter Name   | Type                | Description                                                        |
+| ---------------- | ------------------- | ------------------------------------------------------------------ |
+| `x`              | `tensor or Number`  | First input parameter                                              |
+| `y`              | `tensor or Number`  | Second input parameter                                             |
+| `sanitize_overflow` | `bool`            | Whether to perform overflow checking for integer addition, default is True, no need to specify explicitly |
+| `_builder`       | -                   | Reserved parameter, external calls not supported currently         |
 
-Return value:
-`tl.tensor`: Addition result
+Return Value:
+`tl.tensor`: Result of the addition
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
-|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-|---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
-|GPU| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
-|Ascend A2/A3| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
+|       | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+| ----- | ----- | ---- | ------ | ----- | ------ | ----- | ------ | ----- | ---- | ---- | ---- | --------- |
+| GPU   | √     | √    | √      | √     | √      | √     | √      | √     | √    | √    | √    | √         |
+| Ascend A2/A3 | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 
 #### 2.2.2 Shape Support
 
-| | Supported Dimension Range |
-| ------ | --------------- |
-| GPU | No restrictions |
-| Ascend | No restrictions |
+|        | Supported Dimension Range |
+| ------ | ------------------------- |
+| GPU    | No restrictions           |
+| Ascend | No restrictions           |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 

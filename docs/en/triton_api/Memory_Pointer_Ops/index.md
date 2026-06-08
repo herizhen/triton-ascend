@@ -1,6 +1,6 @@
 # Memory/Pointer Operations
 
-|api|Brief Description|
+|api|brief description|
 |--|--|
 |[load](./tl.load.md) |Returns a tensor whose values are loaded from the memory location defined by the pointer|
 |[store](./tl.store.md) |Stores a data tensor to the memory location defined by the pointer|

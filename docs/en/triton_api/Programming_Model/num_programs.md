@@ -9,7 +9,7 @@ Function prototype:
 triton.language.num_programs(axis)
 ```
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
@@ -39,7 +39,7 @@ None.
 
 ### 2.4 Usage
 
-For examples, refer to [test_3Dgrid.py](../../../../third_party/ascend/unittest/pytest_ut/test_3Dgrid.py)
+Examples can be found in [test_3Dgrid.py](../../../../third_party/ascend/unittest/pytest_ut/test_3Dgrid.py)
 
 ```python
 @triton.jit

@@ -16,11 +16,11 @@ x.__and__(y)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                    |
-| -------------- | ------------------ | -------------------------------------------------------------- |
-| `x`            | `tensor`           | Tensor data                                                    |
-| `y`            | `tensor`           | Tensor data                                                    |
-| `_semantic`    | -                  | Reserved parameter, external invocation not supported currently |
+| Parameter Name | Type     | Description                                      |
+| -------------- | -------- | ------------------------------------------------ |
+| `x`            | `tensor` | Tensor data                                      |
+| `y`            | `tensor` | Tensor data                                      |
+| `_semantic`    | -        | Reserved parameter, external invocation not supported |
 
 Return value:
 `out`: A tensor with the same shape as `x` and `y`

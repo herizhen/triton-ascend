@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise exponential of `x`.
+Description: Computes the element-wise exponential of x.
 
 ## 2. Specifications
 
@@ -25,7 +25,7 @@ Return Value:
 | GPU           | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | √    | √    | ×    | ×    |
 | Ascend A2/A3  | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Compared to GPU, Ascend lacks fp64 support but adds support for fp16 and bf16.
+Conclusion: Compared to GPU, Ascend lacks support for fp64 but adds support for fp16 and bf16.
 torch_npu does not support u8.
 
 #### 2.2.2 Shape Support
@@ -39,13 +39,13 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Community capability gaps that cannot be implemented
+> Missing capabilities relative to the community that cannot be implemented
 
 None.
 
 ### 2.4 Usage Example
 
-The following example demonstrates element-wise exponential computation on the input tensor `x`:
+The following example demonstrates computing the element-wise exponential of the input tensor `x`:
 
 ```python
 @triton.jit

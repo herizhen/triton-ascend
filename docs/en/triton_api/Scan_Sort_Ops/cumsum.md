@@ -36,7 +36,7 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
 
 ### 2.3 Special Constraints
 

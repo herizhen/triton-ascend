@@ -8,21 +8,21 @@ Description: Computes the element-wise fused multiply-add operation of x, y, and
 triton.language.fma(x, y, z, _semantic=None)
 ```
 
-## 2. Specification
+## 2. Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type              | Description                                                    |
-| -------------- | ----------------- | -------------------------------------------------------------- |
-| `x`            | `tensor`          | Tensor data                                                    |
-| `y`            | `tensor`          | Tensor data                                                    |
-| `z`            | `tensor`          | Tensor data                                                    |
-| `_semantic`    | -                 | Reserved parameter, external calls not supported temporarily   |
+| Parameter Name | Type               | Description                                                    |
+| -------------- | ------------------ | -------------------------------------------------------------- |
+| `x`            | `tensor`           | Tensor data                                                    |
+| `y`            | `tensor`           | Tensor data                                                    |
+| `z`            | `tensor`           | Tensor data                                                    |
+| `_semantic`    | -                  | Reserved parameter, external calls not supported temporarily   |
 
 Return value:
 `z`: A tensor with the same shape as `z`
 
-### 2.2 OP Specification
+### 2.2 OP Specifications
 
 #### 2.2.1 DataType Support
 
@@ -32,7 +32,7 @@ Return value:
 | Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
 Conclusion: Compared to GPU, Ascend lacks fp64 support.
-Torch supports uint8.
+torch supports uint8.
 
 #### 2.2.2 Shape Support
 
@@ -45,7 +45,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Missing compared to community capabilities and cannot be implemented
+> Missing community capabilities that cannot be implemented
 
 None.
 

@@ -32,7 +32,7 @@ Return value:
 
 Conclusion: There is no difference in Shape between GPU and Ascend platforms.
 
-### 2.3 Special Constraints
+### 2.3 Special Limitations
 
 > Missing community capabilities that cannot be implemented
 > None

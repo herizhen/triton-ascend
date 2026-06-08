@@ -37,12 +37,12 @@ Return value:
 | GPU          | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 | Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | √ | √ | × | √ | √ |
 
-Conclusion: Compared to GPU, Triton-Ascend does not yet support uint8/uint16/uint32/uint64, fp64.
+Conclusion: Compared to GPU, Triton-Ascend does not support uint8/uint16/uint32/uint64, fp64.
 
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | ---------------------- |
+| -------- | -------------------------- |
 | GPU    | No restrictions |
 | Ascend A2/A3| No restrictions |
 
@@ -56,7 +56,7 @@ Compared to GPU, Triton-Ascend lacks support for fp64, and support for uint8/uin
 
 ### 2.4 Usage Example
 
-The following example implements a less-than-or-equal operation on three-dimensional tensors `x0` and `x1`:
+The following example implements a less-than-or-equal operation on 3D tensors `x0` and `x1`:
 
 ```python
 @triton.jit

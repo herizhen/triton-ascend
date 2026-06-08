@@ -15,10 +15,10 @@ triton.language.min(input, axis=None, return_indices=False, return_indices_tie_b
 | Parameter | Type | Description |
 | :---: | :---: | --- |
 | `input` | `tensor` | Input tensor data |
-| `axis`   | `int` | Specifies the dimension along which to reduce |
+| `axis`   | `int` | Specifies the axis along which to perform reduction |
 | `keep_dims` | `bool` | If True, retains the reduced dimension (size 1) |
 | `return_indices` | `bool` | If True, returns the indices of the minimum values along with the minimum values |
-| `return_indices_tie_break_left` | `bool` | If True and multiple elements share the same minimum value, returns the index of the leftmost minimum value |
+| `return_indices_tie_break_left` | `bool` | If True and multiple elements have the same minimum value, returns the index of the leftmost minimum value |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -27,22 +27,22 @@ Parameter combination support:
 
 | axis | keep_dims | return_indices | return_indices_tie_break_left  | Specification |
 | ------ | ------------ | ----------------- | ----------------------------------- | ---|
-|    1 |    TRUE    |      TRUE      |               TRUE                | Supported |
-|    1 |    TRUE    |      TRUE      |               FALSE                | Supported |
-|    1 |    TRUE    |      FALSE      |               TRUE              | Supported |
-|    1 |    TRUE    |      FALSE      |               FALSE             | Supported |
-|    1 |   FALSE   |      TRUE      |               TRUE               | Supported |
-|    1 |   FALSE   |      TRUE      |               FALSE                | Supported |
-|    1 |   FALSE   |      FALSE      |               TRUE                | Supported |
-|    1 |   FALSE   |      FALSE      |               FALSE                | Supported |
-| None |    TRUE    |      TRUE      |               TRUE                | Not Supported |
-| None |    TRUE    |      TRUE      |               FALSE                | Not Supported |
-|  None |    TRUE    |      FALSE      |               TRUE               | Supported |
-| None |    TRUE    |      FALSE      |               FALSE                | Supported |
-| None |   FALSE   |      TRUE      |               TRUE               | Not Supported |
-| None |   FALSE   |      TRUE      |               FALSE              | Not Supported |
-| None |   FALSE   |      FALSE      |               TRUE               | Supported |
-| None |   FALSE   |      FALSE      |               FALSE               | Supported |
+|    1 |    TRUE    |      TRUE      |               TRUE                |  Supported
+|    1 |    TRUE    |      TRUE      |               FALSE                | Supported
+|    1 |    TRUE    |      FALSE      |               TRUE              | Supported
+|    1 |    TRUE    |      FALSE      |               FALSE             | Supported
+|    1 |   FALSE   |      TRUE      |               TRUE               | Supported
+|    1 |   FALSE   |      TRUE      |               FALSE                | Supported
+|    1 |   FALSE   |      FALSE      |               TRUE                | Supported
+|    1 |   FALSE   |      FALSE      |               FALSE                | Supported
+| None |    TRUE    |      TRUE      |               TRUE                | Not supported
+| None |    TRUE    |      TRUE      |               FALSE                | Not supported
+|  None |    TRUE    |      FALSE      |               TRUE               | Supported
+| None |    TRUE    |      FALSE      |               FALSE                | Supported
+| None |   FALSE   |      TRUE      |               TRUE               | Not supported
+| None |   FALSE   |      TRUE      |               FALSE              | Not supported
+| None |   FALSE   |      FALSE      |               TRUE               | Supported
+| None |   FALSE   |      FALSE      |               FALSE               | Supported
 
 ### 2.2 Supported Specifications
 
@@ -57,8 +57,8 @@ Parameter combination support:
 
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU    | No restriction |
-| Ascend A2/A3 | No restriction |
+| GPU    | No restrictions |
+| Ascend A2/A3 | No restrictions |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
@@ -75,6 +75,6 @@ def triton_min_1d(in_ptr0, out_ptr1, xnumel, XBLOCK : tl.constexpr):
     tl.store(out_ptr1, tmp4, None)
 ```
 
-### 2.4. Special Restrictions
+### 2.4. Special Limitations
 
 Ascend A3 lacks support for uint16, uint32, uint64, and fp64 compared to GPU.

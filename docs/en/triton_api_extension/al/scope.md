@@ -12,7 +12,7 @@ Ascend processors contain multiple types of compute units (e.g., Cube Unit for m
   </tr>
 </table>
 
-al.scope is a context manager in the triton.language.extra.ascend module, specifically designed to specify the Ascend hardware execution mode for code blocks within Triton kernels.
+al.scope is a context manager in the triton.language.extra.ascend module, designed to specify the Ascend hardware execution mode for code blocks within Triton kernels.
 
 ### Parameters
 
@@ -53,24 +53,22 @@ al.scope is a context manager in the triton.language.extra.ascend module, specif
   </tr>
   <tr>
     <td>&quot;SIMT&quot;</td>
-    <td>Single instruction multiple thread</td>
+    <td>Single Instruction Multiple Thread</td>
     <td>-</td>
   </tr>
   <tr>
     <td>&quot;SIMD&quot;</td>
-    <td>Single instruction multiple data</td>
+    <td>Single Instruction Multiple Data</td>
     <td>-</td>
   </tr>
 </table>
 
 ## 3. Constraints
 
-Each kernel has 1 scope for cube and vector, inside them they run in parallel and there are other syncing operations that declare the sync between both scopes.
+Each kernel has 1 scope for cube and vector; inside them they run in parallel, and there are other synchronization operations that declare the sync between both scopes.
 
 - Parallel Execution: Operations within cube and vector scopes execute in parallel.
-
 - Single Scope per Type: Each kernel supports one cube scope and one vector scope (?).
-
 - Explicit Synchronization: Required for data dependencies between scopes using sync operations.
 
 ## 4. Usage Examples
@@ -81,7 +79,7 @@ Each kernel has 1 scope for cube and vector, inside them they run in parallel an
   </tr>
 </table>
 
-## 5. Compilation Output
+## 5. Compilation Output Results
 
 <table>
   <tr>

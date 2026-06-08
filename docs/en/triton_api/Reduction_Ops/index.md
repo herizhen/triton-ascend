@@ -2,13 +2,13 @@
 
 |api|Description|
 |--|--|
-|[argmax](./argmax.md) |Returns the indices of the maximum values of all elements in the input tensor along the specified axis |
-|[argmin](./argmin.md) |Returns the indices of the minimum values of all elements in the input tensor along the specified axis |
-|[max](./max.md) |Returns the maximum values of all elements in the input tensor along the specified axis |
-|[min](./min.md) |Returns the minimum values of all elements in the input tensor along the specified axis |
-|[reduce](./reduce.md) |Applies combine_fn to all elements in the input tensor along the specified axis |
-|[sum](./sum.md) |Returns the sum of all elements in the input tensor along the specified axis |
-|[xor_sum](./xor_sum.md) |Returns the XOR sum of all elements in the input tensor along the specified axis |
+|[argmax](./argmax.md) |Returns the indices of the maximum values along a specified axis of the input tensor |
+|[argmin](./argmin.md) |Returns the indices of the minimum values along a specified axis of the input tensor |
+|[max](./max.md) |Returns the maximum values along a specified axis of the input tensor |
+|[min](./min.md) |Returns the minimum values along a specified axis of the input tensor |
+|[reduce](./reduce.md) |Applies the combine_fn to all elements along a specified axis of the input tensor |
+|[sum](./sum.md) |Returns the sum of all elements along a specified axis of the input tensor |
+|[xor_sum](./xor_sum.md) |Returns the XOR sum of all elements along a specified axis of the input tensor |
 
 ```{toctree}
 :maxdepth: 3

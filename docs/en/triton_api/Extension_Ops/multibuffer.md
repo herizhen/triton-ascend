@@ -17,13 +17,13 @@ triton.language.multibuffer(
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type                | Description                                                       |
-| -------------- | ------------------- | ----------------------------------------------------------------- |
-| `src`          | `tensor`            | The source tensor to be multi-buffered                            |
-| `size`         | `int` or `constexpr`| Number of buffer copies to create                                 |
-| `_builder`     | -                   | Reserved parameter, external calls not supported                  |
+| Parameter    | Type                | Description                                                        |
+| ------------ | ------------------- | ------------------------------------------------------------------ |
+| `src`        | `tensor`            | The source tensor to be multi-buffered                             |
+| `size`       | `int` or `constexpr`| Number of buffer copies to create                                  |
+| `_builder`   | -                   | Reserved parameter, external calls not supported                   |
 
-Return Value:
+Return value:
 `None`: This operation is a compilation hint and does not return a value at runtime; it only affects the compiler's optimization behavior.
 
 ### 2.2 Supported Specifications
@@ -40,9 +40,9 @@ Supports tensors of arbitrary shapes.
 
 ### 2.3 Special Constraints
 
-| Constraint Parameter | Description                                                                  |
-| -------------------- | ---------------------------------------------------------------------------- |
-| `size`               | The current implementation only supports `size` as `2`.                      |
+| Constraint Parameter | Description                                                                      |
+| -------------------- | -------------------------------------------------------------------------------- |
+| `size`               | The current implementation only supports `size` of `2`.                          |
 
 ### 2.4 Usage Example
 

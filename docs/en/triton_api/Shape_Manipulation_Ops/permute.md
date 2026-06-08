@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Reorders the dimensions of a tensor according to the `dims` parameter. This operation does not change the tensor's data, only the order of its dimensions. Supports arbitrary dimension reordering.
+Reorders the dimensions of a tensor according to the `dims` parameter without altering the tensor's data. Supports arbitrary dimension reordering.
 
 **Syntax:**
 
@@ -12,10 +12,10 @@ Reorders the dimensions of a tensor according to the `dims` parameter. This oper
 **Functionality:**
 
 - Reorders tensor dimensions based on the `dims` parameter
-- Does not modify the tensor's data, only the dimension order
+- Does not modify tensor data, only the order of dimensions
 - Supports arbitrary dimension reordering
 
-## 2 Parameter Specifications
+## 2 Parameter Specification
 
 ### 2.1 Parameter Description
 
@@ -29,16 +29,16 @@ Reorders the dimensions of a tensor according to the `dims` parameter. This oper
 - **Type:** tensor
 - **Shape:** Dimensions reordered according to the `dims` parameter
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Transposition is achieved by modifying stride information, with no data copy
+- **Memory Layout:** Transposition achieved by modifying stride information, no data copy
 
 **Constraints:**
 
-- `dims` must contain all dimension indices of the input tensor
+- `dims` must include all dimension indices of the input tensor
 
 ### 2.2 DataType Support Table
 
-| Supported | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|-----------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
+| Support Status | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|----------------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -48,7 +48,7 @@ Supports any number of dimensions and any shape size.
 
 ### 2.4 Special Constraints
 
-* Transposition of dimensions greater than 8 is not supported
+* Transposition of dimensions higher than 8 is not supported
 
 ### 2.5 Usage Example
 

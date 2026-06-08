@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Performs element-wise logical AND operation on two tensors
+Description: Performs element-wise logical AND operation on two tensors.
 
 ```python
 x.logical_and(y)
@@ -16,9 +16,9 @@ Called as a member function of `tensor`, e.g., `x0.logical_and(x1)`.
 
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
-| `input` | `tensor` | Tensor data, left operand, represents the primary data for comparison |
+| `input` | `tensor` | Tensor data, left operand, representing the primary data for comparison |
 | `other`   | `tensor` | Tensor data, right operand, performs element-wise logical AND with `input` |
-| `_builder` | - | Reserved parameter, external calls not supported |
+| `_builder` | - | Reserved parameter, external invocation not supported |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -51,7 +51,7 @@ None.
 
 ### 2.4 Usage Example
 
-The following example demonstrates the logical AND operation on 3D tensors `x0` and `x1`:
+The following example demonstrates performing a logical AND operation on 3D tensors `x0` and `x1`:
 
 ```python
 @triton.jit

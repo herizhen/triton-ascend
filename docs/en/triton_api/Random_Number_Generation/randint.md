@@ -13,7 +13,7 @@ triton.language.randint(
 )
 ```
 
-If multiple random number streams are needed, using `randint4x` may be faster than calling `randint` 4 times consecutively.
+If multiple random number streams are needed, using randint4x may be faster than calling randint 4 times consecutively.
 
 ## 2. OP Specifications
 
@@ -21,12 +21,12 @@ If multiple random number streams are needed, using `randint4x` may be faster th
 
 | Parameter Name | Type               | Description                                                    |
 | -------------- | ------------------ | -------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`  | Seed used to generate random numbers                           |
-| `offset`       | `int` or `tensor`  | Offset used to generate random numbers                         |
-| `n_rounds`     | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm            |
+| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                        |
+| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                      |
+| `n_rounds`     | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm        |
 
 Return Value:
-A random block of type int32, with the same shape as `offset`
+1 random block of type int32, with the same shape as offset
 
 ### 2.2 Supported Specifications
 
@@ -36,7 +36,7 @@ Input seed type:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| Ascend A2/A3 | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3 | √    | √     | √     | √     | √    | √     | √     |√     | ×    | ×    | ×    | ×    | √    |
 
 #### 2.2.2 Shape Support
 
@@ -46,9 +46,9 @@ No special requirements
 
 > Relative community capability missing and cannot be implemented
 
-### 2.4 Usage Example
+### 2.4 Usage
 
-The following example demonstrates a call to `randint` (generating a single random number per call):
+The following example demonstrates calling randint (generating a single random number per call):
 
 ```python
 @triton.jit

@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Given 1 seed scalar and 1 offset block, returns 1 random block of float32 type in **U**(**0**,**1**).
+Description: Given 1 seed scalar and 1 offset block, returns a random block of float32 type in **U**(**0**,**1**).
 Prototype:
 
 ```python
@@ -19,8 +19,8 @@ triton.language.rand(
 
 | Parameter Name | Type               | Description                                                    |
 | -------------- | ------------------ | -------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`  | Seed used for random number generation                         |
-| `offset`       | `int` or `tensor`  | Offset used for random number generation                       |
+| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                        |
+| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                      |
 | `n_rounds`     | `constexpr`, default value is 10 | Number of iteration rounds for the Philox algorithm |
 
 Return Value:
@@ -42,11 +42,11 @@ No special requirements
 
 ### 2.3 Special Limitations
 
-> Not currently supported compared to community capabilities
+> Temporarily not supported compared to community capabilities
 
 ### 2.4 Usage Example
 
-The following example demonstrates the call to rand:
+The following example demonstrates a call to rand:
 
 ```python
 @triton.jit

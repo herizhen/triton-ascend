@@ -4,27 +4,27 @@
 
 Description: Division, arithmetic operator '/', no tl.div method.
 
-The underlying implementation is the same as the fdiv operator, except that fdiv explicitly requires the input to be of float type. '/' has no such restriction; it converts non-floating-point types to floating-point before computation.
+The underlying implementation is the same as the fdiv operator, except that fdiv explicitly restricts input parameters to float type. '/' has no such restriction; it converts non-floating-point types to floating-point before computation.
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type                | Description                                                             |
-| ------------ | ------------------- | ----------------------------------------------------------------------- |
-| `self`       | `tensor or Number`  | First input, dividend                                                   |
-| `other`      | `tensor or Number`  | Second input, divisor                                                   |
+| Parameter    | Type                | Description                                                    |
+| ------------ | ------------------- | -------------------------------------------------------------- |
+| `self`       | `tensor or Number`  | First input parameter, dividend                                |
+| `other`      | `tensor or Number`  | Second input parameter, divisor                                |
 
 Return value:
 `tl.tensor`: Division result
 Return type: Always returns floating-point type
 
-| Input Type             | Processing Method            | Result Type   |
-| ---------------------- | ---------------------------- | ------------- |
-| `int / int`            | Both converted to `float32`  | `float32`     |
-| `int / float`          | int converted to float       | float type    |
+| Input Type             | Processing Method              | Result Type     |
+| ---------------------- | ------------------------------ | --------------- |
+| `int / int`            | Both converted to `float32`    | `float32`       |
+| `int / float`          | int converted to float         | float type      |
 | `float / float`        | Unified to higher precision float | Higher precision float |
-| `float / int`          | int converted to float       | float type    |
+| `float / int`          | int converted to float         | float type      |
 
 ### 2.2 Supported Specifications
 
@@ -39,8 +39,8 @@ Return type: Always returns floating-point type
 
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
-| GPU    | No restriction            |
-| Ascend A2/A3 | No restriction            |
+| GPU    | No restrictions           |
+| Ascend A2/A3 | No restrictions    |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
@@ -50,7 +50,7 @@ Ascend A3 lacks support for uint8, uint16, uint32, uint64, and fp64 compared to 
 
 ### 2.4 Usage Example
 
-The following example demonstrates division computation on input tensors `in_ptr0, in_ptr1`:
+The following example demonstrates performing division on input tensors `in_ptr0, in_ptr1`:
 
 ```python
 @triton.jit

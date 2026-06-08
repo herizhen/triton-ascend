@@ -13,7 +13,7 @@ Joins two input tensors of the same shape along a new innermost dimension. The o
 
 - Joins two input tensors of the same shape along a new innermost dimension
 - The output tensor has one more dimension than the input tensors, with a size of 2
-- Other dimensions remain unchanged
+- Keeps other dimensions unchanged
 
 ## 2 Parameter Specifications
 
@@ -38,7 +38,7 @@ Joins two input tensors of the same shape along a new innermost dimension. The o
 ### 2.2 DataType Support Table
 
 | Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -74,7 +74,7 @@ def join_example(out_ptr):
     )
     tl.store(out_ptr + offs, z)
 
-## Call example
+## Example call
 out = torch.empty((2, 2, 3), dtype=torch.float32, device="npu")
 join_example[(1,)](out)
 print(out.shape)  # Output: torch.Size([2, 2, 3])

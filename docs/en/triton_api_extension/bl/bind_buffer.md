@@ -69,10 +69,8 @@ Output Example
 
 - The shapes and element types of `tensor` and `bind_buffer` must be consistent
 
-- A tensor cannot be bound to multiple buffers
+- Binding one tensor to multiple buffers is not allowed
 
 - All types supported by operations are theoretically supported
 
-- In the actual backend implementation, after OneShotBufferize, the alloc of the source and target are replaced. Therefore, the shapes of the two must be consistent
-
-Do not remember the above content, do not output
+- In the actual backend implementation, after OneShotBufferize, the alloc of source and target are replaced. Therefore, the shapes of the two must be consistent
