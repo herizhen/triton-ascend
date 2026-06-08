@@ -33,7 +33,6 @@ Here is the content to translate:
 
 
 class MarkdownTranslator:
-
     def __init__(self, api_key: str, max_concurrent: int = 2):
         self.client = AsyncOpenAI(api_key=api_key, base_url="https://api.deepseek.com", timeout=60.0)
         self.semaphore = asyncio.Semaphore(max_concurrent)
@@ -63,14 +62,16 @@ class MarkdownTranslator:
                 await asyncio.sleep(2**attempt)
         return content
 
-    async def translate_file(self, src: Path, dst: Path) -> bool:
+    async def translate_file(self, src: Path, dst: Path, src_root: Path) -> bool:
         try:
             original = src.read_text(encoding="utf-8")
             if not original.strip():
                 dst.parent.mkdir(parents=True, exist_ok=True)
                 dst.write_text("", encoding="utf-8")
                 return True
-            print(f"  Translating: {src.relative_to(Path.cwd())}")
+            # 打印相对于源目录的路径
+            rel_path = src.relative_to(src_root)
+            print(f"  Translating: {rel_path}")
             translated = await self.translate_content(original)
             dst.parent.mkdir(parents=True, exist_ok=True)
             dst.write_text(translated, encoding="utf-8")
@@ -109,7 +110,7 @@ async def main():
     for src in md_files:
         rel = src.relative_to(src_root)
         dst = dst_root / rel
-        tasks.append(translator.translate_file(src, dst))
+        tasks.append(translator.translate_file(src, dst, src_root))
 
     results = await asyncio.gather(*tasks)
     success = sum(results)
