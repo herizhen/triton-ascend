@@ -17,9 +17,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.PAT_TOKEN }}
+        uses: actions/checkout@v4   # 不需要 with.token，默认用 GITHUB_TOKEN
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -51,7 +49,7 @@ jobs:
         if: steps.check.outputs.has_changes == 'true'
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config.user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/en/
           git commit -m "[Auto] Translate docs/zh to docs/en - $(date +'%Y-%m-%d')"
           git push origin HEAD:${{ github.ref_name }}
