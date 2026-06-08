@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-Translate all Markdown files from source directory to target directory,
-preserving directory structure and using DeepSeek API.
+Translate Markdown files from source directory to target directory.
 """
 
 import argparse
@@ -32,13 +31,12 @@ Here is the content to translate:
 
 {content}"""
 
+
 class MarkdownTranslator:
     def __init__(self, api_key: str, max_concurrent: int = 2):
-        self.client = AsyncOpenAI(
-            api_key=api_key,
-            base_url="https://api.deepseek.com",
-            timeout=60.0
-        )
+        self.client = AsyncOpenAI(api_key=api_key,
+                                  base_url="https://api.deepseek.com",
+                                  timeout=60.0)
         self.semaphore = asyncio.Semaphore(max_concurrent)
 
     async def translate_content(self, content: str, retry: int = 3) -> str:
@@ -63,7 +61,7 @@ class MarkdownTranslator:
                 print(f"    Attempt {attempt+1}/{retry} failed: {e}")
                 if attempt == retry - 1:
                     return content
-                await asyncio.sleep(2 ** attempt)
+                await asyncio.sleep(2**attempt)
         return content
 
     async def translate_file(self, src: Path, dst: Path) -> bool:
@@ -81,6 +79,7 @@ class MarkdownTranslator:
         except Exception as e:
             print(f"  Error on {src}: {e}")
             return False
+
 
 async def main():
     parser = argparse.ArgumentParser()
@@ -117,6 +116,7 @@ async def main():
     success = sum(results)
     print(f"Translation completed: {success}/{len(md_files)} succeeded")
     return 0 if success == len(md_files) else 1
+
 
 if __name__ == "__main__":
     sys.exit(asyncio.run(main()))
