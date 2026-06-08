@@ -110,7 +110,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the result of the addition rounded down.
+Return value: `tl.tensor`, returns the result of the addition rounded downwards.
 
 Return type: `float32`
 
@@ -154,7 +154,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the result of the addition rounded up.
+Return value: `tl.tensor`, returns the result of the addition rounded upwards.
 
 Return type: `float32`
 
@@ -303,7 +303,7 @@ triton.language.extra.cann.libdevice.brev(x, _builder=None)
 Input types:
 - x: `int32`
 
-Return value: `tl.tensor`, returns the 32-bit integer with reversed bits.
+Return value: `tl.tensor`, returns the bit-reversed 32-bit integer.
 
 Return type: `int32`
 

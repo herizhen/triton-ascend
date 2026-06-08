@@ -16,10 +16,10 @@ triton.language.div_rn(x, y, _semantic=None)
 | -------------- | ---------- | -------------------------------------------------------------- |
 | `x`            | `tensor`   | Tensor data                                                    |
 | `y`            | `tensor`   | Tensor data                                                    |
-| `_semantic`    | -          | Reserved parameter, external calls not supported temporarily    |
+| `_semantic`    | -          | Reserved parameter, not supported for external calls currently |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor `x`.
+`x`: The output tensor has the same shape as the input tensor `x`
 
 ### 2.2 OP Specifications
 
@@ -31,7 +31,7 @@ Return value:
 | Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
 Conclusion: Compared to GPU, Ascend additionally supports fp16 and bf16.
-PyTorch supports uint8.
+torch supports uint8.
 
 #### 2.2.2 Shape Support
 
@@ -42,7 +42,7 @@ PyTorch supports uint8.
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
-### 2.3 Special Limitations
+### 2.3 Special Constraints
 
 > Relative community capability missing and cannot be implemented
 

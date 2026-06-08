@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-A5 adds a data path from L0C to UB. To implement this path, the temporary solution explicitly calls this path at the frontend.
+A5 adds a data path from L0C to UB. To implement this path, a temporary solution explicitly calls this path at the frontend.
 
 ## 2. Interface Description
 
@@ -23,12 +23,12 @@ A5 adds a data path from L0C to UB. To implement this path, the temporary soluti
   <tr>
     <td>src</td>
     <td>tl.tensor</td>
-    <td>Source tensor, must be located in the L0C memory region</td>
+    <td>Source tensor, must be located in L0C memory region</td>
   </tr>
   <tr>
     <td>dst</td>
     <td>bl.buffer</td>
-    <td>Destination buffer, must be located in the UB memory region</td>
+    <td>Destination buffer, must be located in UB memory region</td>
   </tr>
   <tr>
     <td>dma_mode</td>

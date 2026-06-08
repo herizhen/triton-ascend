@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Given 1 seed scalar and 1 offset block, returns 1 random block of float32 type in **N**(**0**,**1**) (standard normal distribution).
+Description: Given 1 seed scalar and 1 offset block, returns 1 float32 random block following **N**(**0**,**1**) (standard normal distribution).
 Prototype:
 
 ```python
@@ -19,12 +19,12 @@ triton.language.randn(
 
 | Parameter Name | Type               | Description                                                    |
 | -------------- | ------------------ | -------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                         |
-| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                       |
-| `n_rounds`     | `constexpr`, default value is 10 | Number of iteration rounds for the Philox algorithm |
+| `seed`         | `int` or `tensor`  | Seed used for random number generation                         |
+| `offset`       | `int` or `tensor`  | Offset used for random number generation                       |
+| `n_rounds`     | `constexpr`, default 10 | Number of iterations for the Philox algorithm              |
 
 Return Value:
-1 random block of float32 type, with the same shape as offset, whose values follow the standard normal distribution `N(0, 1)`
+1 float32 random block with the same shape as `offset`, whose values follow the standard normal distribution `N(0, 1)`
 
 ### 2.2 Supported Specifications
 
@@ -44,9 +44,9 @@ No special requirements
 
 > Missing community capability and cannot be implemented
 
-### 2.4 Usage
+### 2.4 Usage Example
 
-The following example demonstrates the call to randn:
+The following example demonstrates calling `randn`:
 
 ```python
 import math

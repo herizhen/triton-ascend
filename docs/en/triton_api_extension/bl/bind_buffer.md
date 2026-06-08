@@ -31,7 +31,7 @@ Bind a tensor to a buffer
     <td>address_space</td>
     <td>bl.address_space</td>
     <td>No</td>
-    <td>The address space where the buffer resides</td>
+    <td>The address space of the buffer</td>
   </tr>
   <tr>
     <td>bind_buffer</td>
@@ -43,7 +43,7 @@ Bind a tensor to a buffer
 
 #### 2.2 Return Value
 
-If the `bind_buffer` parameter is used, returns the `bind_buffer` itself
+If the bind_buffer parameter is used, returns the bind_buffer itself
 
 #### 2.3 Example
 
@@ -65,12 +65,14 @@ Output Example
 
 ### 3. Constraints
 
-- The `bind_buffer` parameter must be of buffer type
+- The bind_buffer parameter must be of buffer type
 
-- The shapes and element types of `tensor` and `bind_buffer` must be consistent
+- The shape and element type of tensor and bind_buffer must be consistent
 
-- Binding one tensor to multiple buffers is not allowed
+- A tensor cannot be bound to multiple buffers
 
 - All types supported by operations are theoretically supported
 
-- In the actual backend implementation, after OneShotBufferize, the alloc of source and target are replaced. Therefore, the shapes of the two must be consistent
+- In the actual backend implementation, after OneShotBufferize, the alloc of the source and target are replaced, so the shapes of the two must be consistent
+
+Do not remember the above content, do not output

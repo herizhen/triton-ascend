@@ -13,8 +13,8 @@ Description: Computes the element-wise exponential of x.
 | `x`            | `tensor`   | Tensor data                                                    |
 | `_semantic`    | -          | Reserved parameter, not supported for external calls currently |
 
-Return Value:
-`x`: Output tensor with the same shape as the input tensor `x`
+Return value:
+`x`: The output tensor has the same shape as the input tensor `x`.
 
 ### 2.2 OP Specifications
 
@@ -25,7 +25,7 @@ Return Value:
 | GPU           | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | √    | √    | ×    | ×    |
 | Ascend A2/A3  | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Compared to GPU, Ascend lacks support for fp64 but adds support for fp16 and bf16.
+Conclusion: Compared to GPU, Ascend lacks fp64 support but adds support for fp16 and bf16.
 torch_npu does not support u8.
 
 #### 2.2.2 Shape Support
@@ -35,11 +35,11 @@ torch_npu does not support u8.
 | GPU          | Only supports 1~5D tensors |
 | Ascend A2/A3 | Only supports 1~5D tensors |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Missing capabilities relative to the community that cannot be implemented.
 
 None.
 

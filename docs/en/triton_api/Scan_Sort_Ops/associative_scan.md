@@ -13,13 +13,13 @@ triton.language.associative_scan(input, axis, combine_fn, reverse=False, _semant
 ### 2.1 Parameter Description
 
 | Parameter | Type | Description |
-|-----------|------|-------------|
+|--------|------|------|
 | `input` | `Tensor` or `tuple of Tensor` | Input tensor, can be a single tensor or a tuple of tensors |
 | `axis` | `int` | The dimension along which to perform the associative scan operation |
-| `combine_fn` | `Callable` | Function used to combine two groups of scalar tensors (must be decorated with `@triton.jit`) |
+| `combine_fn` | `Callable` | Function for combining two groups of scalar tensors (must be decorated with `@triton.jit`) |
 | `reverse` | `bool` | Whether to apply the associative scan in the reverse direction along the axis |
-| `_semantic` | `Optional[str]` | Reserved parameter, not yet supported for external calls |
-| `_generator` | `Optional[Generator]` | Reserved parameter, not yet supported for external calls |
+| `_semantic` | `Optional[str]` | Reserved parameter, external calls not supported |
+| `_generator` | `Optional[Generator]` | Reserved parameter, external calls not supported |
 
 Return value:
 `tensor`: The tensor after applying the associative scan operation along the specified axis, using the `combine_fn` function to combine elements and update the carry value.
@@ -28,19 +28,19 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-|---|-------|------|--------|-------|--------|-------|--------|-------|------|------|------|-----------|
+|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+|---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 #### 2.2.2 Shape Support
 
-Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape.
+Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
 
 ### 2.3 Special Constraints
 
 > Relative community capability missing and cannot be implemented
-> `reverse=True` indicates whether to apply the associative scan in the reverse direction along the axis. This feature requires alignment when loading data with `tl.load`, i.e., not using a mask to filter out excess data indices, as shown in the example code below:
+> `reverse=True` applies the associative scan in the reverse direction along the axis. This functionality requires alignment when loading data with `tl.load`, i.e., not using a mask to filter out excess data indices, as shown in the example code below:
 
 ```python
     tl.static_assert(
@@ -55,7 +55,7 @@ Conclusion: There is no difference between GPU and Ascend platforms in terms of 
     x = tl.load(in_ptr0 + idx)
 ```
 
-### 2.4 Usage
+### 2.4 Usage Example
 
 The following example demonstrates performing an `associative_scan` operation on a 2D tensor:
 

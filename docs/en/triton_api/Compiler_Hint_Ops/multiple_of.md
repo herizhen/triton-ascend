@@ -18,7 +18,7 @@ triton.language.multiple_of(input, values, _semantic=None)
 | `values` | `constexpr[int]` or `list[constexpr[int]]` | Required | Declares that the input values are multiples of these numbers (a single integer or a sequence of integers per dimension) |
 | `_semantic` | - | - | Reserved parameter, not supported for external calls |
 
-**`values` describes the divisibility characteristics of the first value in each dimension, so the dimensions of `values` must match those of `input`.
+**`values` describes the divisibility characteristics of the first value in each dimension, so the dimension of `values` must match the dimension of `input`.
 Note the dimension reduction that occurs when the last dimension of `shape` is `1`.**
 
 For example: a two-dimensional `input` corresponds to a general `values` input of `[1,1]`.
@@ -34,7 +34,7 @@ A3:
 
 ### 2.3 Special Limitations
 
-> Missing community capability and cannot be implemented
+> Missing community capabilities that cannot be implemented
 
 Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 

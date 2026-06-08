@@ -8,29 +8,29 @@ Description: **Converts the indices of a row-major matrix of size `size_i × siz
 triton.language.swizzle2d(i, j, size_i, size_j, size_g)
 ```
 
-## 2. Specifications
+## 2. Specification
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type              | Description                                                      |
-| ------------ | ----------------- | ---------------------------------------------------------------- |
-| `i`          | `tensor`          | Index value, maximum value is size(i)-1                          |
-| `j`          | `tensor`          | Index value, maximum value is size(j)-1                          |
-| `size_i`     | `int`             | Integer, representing the length of index i                      |
-| `size_j`     | `int`             | Integer, representing the length of index j                      |
-| `size_g`     | `int`             | Integer                                                            |
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `i`       | `tensor` | Index value, maximum is size(i)-1 |
+| `j`       | `tensor` | Index value, maximum is size(j)-1 |
+| `size_i`  | `int` | Integer, represents the length of index i |
+| `size_j`  | `int` | Integer, represents the length of index j |
+| `size_g`  | `int` | Integer |
 
 Return value:
-`out0, out1`: Tensors with the same shape as `i` and `j`
+`out0, out1`: Tensors with the same shape as i, j
 
-### 2.2 OP Specifications
+### 2.2 OP Specification
 
 #### 2.2.1 DataType Support
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
 | GPU    | ×    | ×     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×   | ×    | ×    | ×    |
-| Ascend A2/A3 | × | ×     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×   | ×    | ×   | ×
+| Ascend A2/A3 | × | ×     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×   | ×    | ×   | ×    |
 
 #### 2.2.2 Shape Support
 
@@ -39,11 +39,11 @@ Return value:
 | GPU    | Only supports 2D tensors  |
 | Ascend A2/A3 | Only supports 2D tensors |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 2D tensors.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 2D tensors.
 
 ### 2.3 Special Constraints
 
-> Relative community capability missing and unimplementable
+> Community capability missing and cannot be implemented
 
 None.
 

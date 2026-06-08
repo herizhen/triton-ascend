@@ -1,10 +1,10 @@
 # Triton-Ascend Release
 
-The Triton-Ascend release provides a stable codebase snapshot, packaged as binary wheels easily installable via PyPI. Additionally, releases allow the development team to officially announce new feature availability, completed improvements, and changes that may impact users (e.g., breaking changes) to the community.
+The Triton-Ascend release provides a stable codebase snapshot, packaged as binary wheels that can be easily installed via PyPI. Additionally, releases allow the development team to officially announce new feature availability, completed improvements, and changes that may affect users (e.g., breaking changes) to the community.
 
 ## Release Compatibility Matrix
 
-Below is the release compatibility matrix for Triton-Ascend versions:
+The following is the release compatibility matrix for Triton-Ascend:
 
 | Triton-Ascend Version | Python Version | Manylinux Version | Hardware Platform | Hardware Product |
 | --- | --- | --- | --- | --- |
@@ -16,7 +16,7 @@ The following is the release schedule for Triton-Ascend. Note: Patch versions ar
 
 | Major Version | Release Branch Cut Date | Release Date | Patch Release Date |
 | --- | --- | --- | --- |
-| 3.2.0 | December 8, 2025 | January 2026 | --- |
+| 3.2.0 | December 08, 2025 | January 2026 | --- |
 
 ## Release Highlights
 
@@ -38,12 +38,12 @@ Triton-Ascend 3.2.0 is the first Triton version to officially support Huawei Asc
 
 3. **Developer Tools**
    - Comprehensive debug output support
-   - Compilation intermediate product dumping
+   - Intermediate compilation artifact dump
 
 #### Known Limitations
 
 1. **Data Types**: Support for some data types is still under development
-2. **Operator Coverage**: The supported operator set is being continuously expanded
+2. **Operator Coverage**: The supported operator set is continuously being expanded
 
 #### Migration Guide
 

@@ -2,14 +2,14 @@
 
 ## 1. OP Overview
 
-Description: Returns the number of program instances launched along a given axis.
+Description: Returns the number of program instances launched along the given axis.
 Function prototype:
 
 ```python
 triton.language.num_programs(axis)
 ```
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
@@ -39,7 +39,7 @@ None.
 
 ### 2.4 Usage
 
-Examples can be found in [test_3Dgrid.py](../../../../third_party/ascend/unittest/pytest_ut/test_3Dgrid.py)
+For examples, refer to [test_3Dgrid.py](../../../../third_party/ascend/unittest/pytest_ut/test_3Dgrid.py)
 
 ```python
 @triton.jit

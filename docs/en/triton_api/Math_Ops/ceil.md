@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Computes the ceiling value for each element in a tensor.
+Description: Computes the ceiling value of each element in a tensor
 
 ```python
 triton.language.ceil(x, _semantic=None)
@@ -12,10 +12,10 @@ triton.language.ceil(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter | Type   | Description |
-| :---:     | :---:  | :---: |
-| `x`       | `tensor` | Tensor data |
-| `_semantic` | -    | Reserved parameter, not yet supported for external calls |
+| Parameter | Type | Description |
+| :---: | :---: | :---: |
+| `x` | `tensor` | Tensor data |
+| `_semantic` | - | Reserved parameter, currently not supported for external calls |
 
 Return value:
 `out`: A tensor with the same shape as `x`
@@ -32,7 +32,7 @@ Return value:
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| :---:  | :---: |
+| :---: | :---: |
 | GPU    | No restrictions |
 | Ascend | No restrictions |
 
@@ -40,13 +40,13 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Community capability gap that cannot be implemented
+> Missing community capabilities that cannot be implemented
 
 Compared to GPU, Ascend lacks support for fp64 but adds support for fp16, bf16, and integer inputs.
 
 ### 2.4 Usage Example
 
-The following example demonstrates performing the ceiling operation on the input tensor `x`:
+The following example demonstrates performing a ceiling operation on the input tensor `x`:
 
 ```python
 @triton.jit

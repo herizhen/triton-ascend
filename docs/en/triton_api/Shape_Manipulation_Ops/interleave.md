@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Interleaves two input tensors of the same shape along the last dimension, producing an output tensor whose last dimension size is twice that of the input tensors, while other dimensions remain unchanged.
+Interleaves two input tensors of the same shape along the last dimension. The last dimension of the output tensor is twice the size of the input tensors, while other dimensions remain unchanged.
 
 **Syntax:**
 
@@ -12,7 +12,7 @@ Interleaves two input tensors of the same shape along the last dimension, produc
 **Functionality:**
 
 - Interleaves two input tensors of the same shape along the last dimension
-- The last dimension size of the output tensor is twice that of the input tensors
+- The last dimension of the output tensor is twice the size of the input tensors
 - Other dimensions remain unchanged
 
 ## 2 Parameter Specifications
@@ -28,13 +28,13 @@ Interleaves two input tensors of the same shape along the last dimension, produc
 
 - **Type:** tensor
 - **Shape:** Last dimension of the input shape multiplied by 2
-- **Data Type:** Same as the input tensors
+- **Data Type:** Same as input tensors
 - **Memory Layout:** Alternating elements of x and y
 
 **Constraints:**
 
 - Both input tensors must have the same shape and data type
-- The output tensor shape has the last dimension multiplied by 2
+- The shape of the output tensor is the input shape with the last dimension multiplied by 2
 
 ### 2.2 DataType Support Table
 
@@ -47,7 +47,7 @@ Interleaves two input tensors of the same shape along the last dimension, produc
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Restrictions
+### 2.4 Special Constraints
 
 None
 
@@ -63,7 +63,7 @@ def interleave_example():
     x = tl.zeros([2, 3], dtype=tl.float32)
     y = tl.ones([2, 3], dtype=tl.float32)
 
-    # Interleave, resulting in 2x6
+    # Interleave to get a 2x6 tensor
     z = tl.interleave(x, y)
 
     return z

@@ -20,7 +20,7 @@ triton.language.inline_asm_elementwise(asm, constraints, args, dtype, is_pure, p
 | `dtype` | `dtype` / `Sequence[dtype]` | Required | Element type of the returned tensor (can be a single type or a tuple of types) |
 | `is_pure` | `bool` | Required | If True, the compiler assumes the assembly block has no side effects |
 | `pack` | `int` | Required | Number of elements processed per inline assembly call |
-| `_semantic` | - | - | Reserved parameter, external calls not supported |
+| `_semantic` | - | - | Reserved parameter, external calls not supported for now |
 
 ### 2.2 Type Support
 
@@ -69,4 +69,4 @@ def triton_asm_add(x_ptr,
 
 1. Inline assembly registers only support `int64(s64)` and `float32(f32)`.
 2. Constraint restrictions only support `l`.
-3. Currently only supports input 1D tensors; computing higher-dimensional tensors requires flattening.
+3. Currently only supports one-dimensional tensor input; computing higher-dimensional tensors requires flattening.

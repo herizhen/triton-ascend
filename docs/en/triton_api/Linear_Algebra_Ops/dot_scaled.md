@@ -34,10 +34,10 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|                | fp4     | fp8     | bf16    | fp16    |
-| -------------- | ------- | ------- | ------- | ------- |
-| GPU            | √       | √       | √       | √       |
-| Ascend A2/A3   | ×       | ×       | √       | √       |
+|       | fp4     | fp8    | bf16    | fp16    |
+| ----- | ------- | ------ | ------- | ------- |
+| GPU   | √       | √      | √       | √       |
+| Ascend A2/A3 | × | × | √ | √ |
 
 Conclusion:
 1. Ascend lacks fp4 and fp8 support compared to GPU (hardware limitation).
@@ -45,23 +45,23 @@ Conclusion:
 
 #### 2.2.2 Shape Support
 
-|        | Supported Dimension Range |
-| ------ | ------------------------- |
-| GPU    | Supports 2~3D tensors     |
-| Ascend | Supports 2~3D tensors     |
+|       | Supported Dimension Range |
+| ----- | ------------------------- |
+| GPU   | Supports 2~3D tensors     |
+| Ascend | Supports 2~3D tensors    |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms. Both lhs/rhs matrices support 2 to 3-dimensional tensors, but the scale matrix only supports 2 dimensions.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms. Both lhs/rhs matrices support 2 to 3 dimensional tensors, but the scale matrix only supports 2 dimensions.
 
 ### 2.3 Special Limitations
 
-1. Due to the lack of fp8 support, the left and right matrices do not support fp4 and fp8 formats. Ascend lacks the matrix decompression support capability for `lhs_k_pack` and `rhs_k_pack` compared to GPU (hardware limitation).
-2. The recommended input range for the input matrices `lhs` and `rhs` is [-5, 5]. Values outside this range may result in extreme values (inf).
+1. Due to lack of fp8 support, left and right matrices do not support fp4 and fp8 formats. Ascend lacks the matrix decompression support capability for `lhs_k_pack` and `rhs_k_pack` compared to GPU (hardware limitation).
+2. The recommended input range for input matrices `lhs` and `rhs` is [-5, 5]; values beyond this may result in extreme values (inf).
 3. Due to hardware alignment requirements, the broadcast multiple of the scale matrix must be limited to at least 16.
 4. The currently supported scale matrix format is int8, while the community uses uint8.
 
 ### 2.4 Usage Example
 
-The following example implements an in-place absolute value calculation on the input tensor `x`:
+The following example implements in-place absolute value computation on the input tensor `x`:
 
 ```python
 @triton.jit

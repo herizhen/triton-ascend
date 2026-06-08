@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Given 1 seed scalar and 1 offset block, returns a random block of float32 type in **U**(**0**,**1**).
+Description: Given 1 seed scalar and 1 offset block, returns 1 random block of float32 type in **U**(**0**,**1**).
 Prototype:
 
 ```python
@@ -17,11 +17,11 @@ triton.language.rand(
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                    |
-| -------------- | ------------------ | -------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                        |
-| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                      |
-| `n_rounds`     | `constexpr`, default value is 10 | Number of iteration rounds for the Philox algorithm |
+| Parameter Name | Type                | Description                                                             |
+| -------------- | ------------------- | ----------------------------------------------------------------------- |
+| `seed`         | `int` or `tensor`   | Seed used for random number generation                                  |
+| `offset`       | `int` or `tensor`   | Offset used for random number generation                                |
+| `n_rounds`     | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm                     |
 
 Return Value:
 1 random block of float32 type, with the same shape as the offset, uniformly distributed in the interval `[0.0, 1.0)`
@@ -34,7 +34,7 @@ Input seed type:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| Ascend A2/A3 | √    | √     | √     | √     | √    | √     | √     |√     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3 | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | √    |
 
 #### 2.2.2 Shape Support
 
@@ -42,11 +42,11 @@ No special requirements
 
 ### 2.3 Special Limitations
 
-> Temporarily not supported compared to community capabilities
+> Not currently supported compared to community capabilities
 
 ### 2.4 Usage Example
 
-The following example demonstrates a call to rand:
+The following example demonstrates calling rand:
 
 ```python
 @triton.jit

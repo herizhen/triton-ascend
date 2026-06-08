@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise reciprocal square root of `x`.
+Description: Computes the element-wise reciprocal square root of x.
 
 ```python
 triton.language.rsqrt(x, _semantic=None)
@@ -12,13 +12,13 @@ triton.language.rsqrt(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type                | Description                                                    |
-| -------------- | ------------------- | -------------------------------------------------------------- |
-| `x`            | `tensor`            | Tensor data                                                    |
-| `_semantic`    | -                   | Reserved parameter, not supported for external calls           |
+| Parameter      | Type              | Description                                                      |
+| -------------- | ----------------- | ---------------------------------------------------------------- |
+| `x`            | `tensor`          | Tensor data                                                      |
+| `_semantic`    | -                 | Reserved parameter, not supported for external calls             |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor `x`
+`x`: The output tensor has the same shape as the input tensor x
 
 ### 2.2 OP Specifications
 

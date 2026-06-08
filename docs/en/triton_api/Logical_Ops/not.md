@@ -16,10 +16,10 @@ x.__not__()
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type       | Description                                                    |
-| -------------- | ---------- | -------------------------------------------------------------- |
-| `x`            | `tensor`   | Tensor data                                                    |
-| `_semantic`    | -          | Reserved parameter, external invocation not supported currently |
+| Parameter Name | Type     | Description                                                    |
+| -------------- | -------- | -------------------------------------------------------------- |
+| `x`            | `tensor` | Tensor data                                                    |
+| `_semantic`    | -        | Reserved parameter, external invocation not supported yet      |
 
 Return Value:
 `out`: The output tensor has the same shape as the input tensor `x`.
@@ -46,7 +46,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community, currently unimplemented.
+> Missing capabilities relative to the community that cannot be implemented.
 
 None at present.
 

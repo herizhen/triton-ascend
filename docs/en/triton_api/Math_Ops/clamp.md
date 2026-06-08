@@ -12,13 +12,13 @@ triton.language.clamp(x, min, max, propagate_nan: constexpr = PropagateNan.NONE,
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                        |
-| -------------- | ------------------ | ------------------------------------------------------------------ |
-| `x`            | `tensor`           | Input tensor data                                                  |
-| `min`          | `tensor`           | Lower bound (can be a tensor or scalar, broadcasted to `x`'s shape)|
-| `max`          | `tensor`           | Upper bound (can be a tensor or scalar, broadcasted to `x`'s shape)|
-| `propagate_nan`| `triton.language.core.constexpr` | Whether to propagate NaN from min or max                           |
-| `_semantic`    | -                  | Reserved parameter, not supported for external calls               |
+| Parameter Name | Type               | Description                                                      |
+| -------------- | ------------------ | ---------------------------------------------------------------- |
+| `x`            | `tensor`           | Tensor data                                                      |
+| `min`          | `tensor`           | Lower bound (can be a tensor or scalar, broadcast to the shape of `x`) |
+| `max`          | `tensor`           | Upper bound (can be a tensor or scalar, broadcast to the shape of `x`) |
+| `propagate_nan`| `triton.language.core.constexpr` | Whether to propagate NaN from `min` or `max`                     |
+| `_semantic`    | -                  | Reserved parameter, external calls not supported                  |
 
 Return value:
 `x`: Output tensor with the same shape as the input tensor `x`
@@ -29,23 +29,23 @@ Return value:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU    | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | √    | √    | ×    |
-| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
+| GPU    | ×    | ×     | ×     | ×     | ×     | ×      | ×      | ×     | √    | √    | √    | √    | ×    |
+| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×     | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
-| GPU    | Only supports 1~5D tensors|
-| Ascend | Only supports 1~5D tensors|
+| GPU    | Only supports 1~5 dimensional tensors |
+| Ascend | Only supports 1~5 dimensional tensors |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5 dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Community capability gap that cannot be implemented
+> Missing capabilities relative to the community that cannot be implemented
 
-Compared to GPU, Ascend lacks fp64 support.
+Ascend lacks fp64 support compared to GPU.
 
 ### 2.4 Usage Example
 

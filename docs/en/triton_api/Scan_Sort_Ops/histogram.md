@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Computes a histogram with `num_bins` bins based on the input, where each bin has a width of 1 and starts at 0.
+Description: Computes a histogram with `num_bins` bins based on the input, each bin having a width of 1, starting from 0.
 Prototype:
 
 ```python
@@ -15,23 +15,23 @@ triton.language.histogram(
 )
 ```
 
-Can be called as a member function of a tensor, e.g., `x.histogram(...)`, which is equivalent to `histogram(x, ...)`.
+It can be called as a member function of a tensor, e.g., `x.histogram(...)`, which is equivalent to `histogram(x, ...)`.
 
 ## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                        |
-| -------------- | ------------------ | ------------------------------------------------------------------ |
-| `input`        | `tensor`           | Input data containing all numerical points for distribution statistics |
+| Parameter Name | Type               | Description                                                      |
+| -------------- | ------------------ | ---------------------------------------------------------------- |
+| `input`        | `tensor`           | Input data containing all numerical points whose distribution is to be counted |
 | `num_bins`     | `int`              | Defines how many equal-width intervals the entire data range is divided into |
 | `mask`         | `int1` or `tensor<int1>`, optional | Specifies the data range to prevent out-of-bounds access |
-| `_semantic`    | -                  | Reserved parameter, external calls not supported yet               |
-| `_generator`   | -                  | Reserved parameter, external calls not supported yet               |
+| `_semantic`    | -                  | Reserved parameter, not yet supported for external calls         |
+| `_generator`   | -                  | Reserved parameter, not yet supported for external calls         |
 
 Return value:
-Histogram represented as a tensor
-Note: The current triton 3.2 version does not support `mask` yet; support will be added in future versions. The input range is limited to `[0, num_bins-1]`; full range support will be added in future versions.
+A tensor representing the histogram
+Note: The current triton 3.2 version does not yet support `mask`; support will be added in a future version. The input range is limited to `[0, num_bins-1]`; full range support will be added in a future version.
 
 ### 2.2 Supported Specifications
 
@@ -48,11 +48,11 @@ Currently only supports 1D
 
 ### 2.3 Special Limitations
 
-> Capability missing relative to the community and cannot be implemented
+> Capabilities missing relative to the community and cannot be implemented
 
-### 2.4 Usage Example
+### 2.4 Usage
 
-The following example demonstrates the invocation of `histogram`:
+The following example demonstrates calling `histogram`:
 
 ```python
 @triton.jit
@@ -68,6 +68,6 @@ z = torch.empty(N, dtype=torch.int32, device=device)
 histogram_kernel[(1, )](x, z, M=M, N=N)
 ```
 
-## 3. Semantic Gap
+## 3. Semantic GAP
 
-> Capability missing relative to the community but can be developed and supported
+> Capabilities missing relative to the community but can be developed and supported

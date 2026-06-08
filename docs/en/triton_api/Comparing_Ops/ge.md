@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Used to compare elements of two tensors, equivalent to `>=`.
+Description: Compares elements of two tensors, equivalent to `>=`.
 Function prototype:
 
 ```python
@@ -46,7 +46,7 @@ Conclusion: Compared to GPU, Triton-Ascend lacks support for uint8/uint16/uint32
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
-Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 

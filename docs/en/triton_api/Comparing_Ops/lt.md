@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Used to compare elements of two tensors, equivalent to `<`.
+Description: Compares two tensors element-wise, equivalent to `<`.
 Function prototype:
 
 ```python

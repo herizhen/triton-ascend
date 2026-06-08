@@ -1,7 +1,7 @@
 # Vector Addition
 
-In this section, we will write a simple vector addition program using Triton.
-Along the way, you will learn:
+In this section, we will write a simple vector addition program using Triton.  
+In the process, you will learn:
 
 - The basic programming pattern of Triton.
 - The `triton.jit` decorator used to define Triton kernels.
@@ -24,16 +24,16 @@ def add_kernel(x_ptr,  # Pointer to the first input vector.
                BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.
                # Note: `constexpr` marks the variable as a constant.
                ):
-    # Different data is processed by different "programs", so we need to allocate:
-    pid = tl.program_id(axis=0)  # Using a 1D launch grid, so the axis is 0.
-    # This program will process input relative to the initial data offset.
-    # For example, if there is a vector of length 256 with a block size of 64, programs will access elements [0:64, 64:128, 128:192, 192:256] respectively.
+    # Different data is processed by different "programs", so we need to assign:
+    pid = tl.program_id(axis=0)  # Using a 1D launch grid, so axis is 0.
+    # This program will process the input relative to the initial data offset.
+    # For example, if there is a vector of length 256 and a block size of 64, the programs will access elements [0:64, 64:128, 128:192, 192:256] respectively.
     # Note that offsets are a list of pointers:
     block_start = pid * BLOCK_SIZE
     offsets = block_start + tl.arange(0, BLOCK_SIZE)
-    # Create a mask to prevent memory operations from accessing out-of-bounds.
+    # Create a mask to prevent memory operations from accessing out of bounds.
     mask = offsets < n_elements
-    # Load x and y from DRAM, masking out any excess elements if the input is not a multiple of the block size.
+    # Load x and y from DRAM, masking out any extra elements if the input is not a multiple of the block size.
     x = tl.load(x_ptr + offsets, mask=mask)
     y = tl.load(y_ptr + offsets, mask=mask)
     output = x + y
@@ -51,7 +51,7 @@ def add(x: torch.Tensor, y: torch.Tensor):
     # Need to pre-allocate the output.
     output = torch.empty_like(x)
     n_elements = output.numel()
-    # The launch grid represents the number of kernel instances running in parallel.
+    # The launch grid represents the number of kernel instances to run in parallel.
     # It can be a Tuple[int] or a Callable(metaparameters) -> Tuple[int].
     # In this case, we use a 1D grid where the size is the number of blocks:
     grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']), )

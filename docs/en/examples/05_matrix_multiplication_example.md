@@ -35,9 +35,9 @@ def triton_dot_2_Bias(
     C: tl.constexpr   # Second dimension size (number of columns)
 ):
     # Create index vectors
-    bidx = tl.arange(0, A)  # [0, 1, ..., A-1], for row dimension
-    cidx = tl.arange(0, B)  # [0, 1, ..., B-1], for x columns / y rows
-    didx = tl.arange(0, C)  # [0, 1, ..., C-1], for column dimension
+    bidx = tl.arange(0, A)  # [0, 1, ..., A-1], used for row dimension
+    cidx = tl.arange(0, B)  # [0, 1, ..., B-1], used for columns of x / rows of y
+    didx = tl.arange(0, C)  # [0, 1, ..., C-1], used for column dimension
 
     # Construct linear index for x: (A, B) -> flattened to A*B
     Xidx = bidx[:, None] * B + cidx[None, :]  # Broadcast to form (A, B) index grid
@@ -56,12 +56,12 @@ def triton_dot_2_Bias(
     # Perform matrix multiplication and add bias
     ret = tl.dot(X, Y) + Z  # tl.dot performs (A, B) × (B, C) → (A, C)
 
-    # Write result back to global memory
+    # Store result back to global memory
     oidx = bidx[:, None] * C + didx[None, :]  # Same as Zidx, can be reused
     tl.store(output_ptr + oidx, ret)
 ```
 
-## Utility Methods
+## Utility Functions
 
 The following helper functions support testing and validation of the Triton kernel, including a PyTorch reference implementation, data type mapping, random tensor generation, and result verification.
 
@@ -124,9 +124,9 @@ def validate_cmp(dtype, y_cal, y_ref):
         raise ValueError('Invalid parameter \"dtype\" is found : {}'.format(dtype))
 ```
 
-## Parameterized Testing
+## Parameterized Tests
 
-Using `pytest` for parameterized functional validation of the `triton_dot_2_Bias` kernel, covering different matrix dimensions and data type combinations.
+Use `pytest` for parameterized functional validation of the `triton_dot_2_Bias` kernel, covering different matrix dimensions and data type combinations.
 
 ```python
 # Test case configuration: (A, B, C) represents matrix x: (A,B), y: (B,C), bias/output: (A,C)
@@ -150,7 +150,7 @@ def test_dot_2_Bias(sigtype, A, B, C):
     # Bias is generated using float32 uniformly (to avoid precision issues with integer bias)
     if 'int' in sigtype:
         bias = generate_tensor(shape=(A, C), dtype='int32').npu()
-        # Integer inputs need to be converted to float32 for computation, then back to target type
+        # Integer inputs need to be converted to float32 for computation, then converted back to target type
         ans = torch_dot_Bias(x0.to(torch.float32), x1.to(torch.float32), bias.to(torch.float32)).to(dtype)
     else:
         bias = generate_tensor(shape=(A, C), dtype='float32').npu()
@@ -168,7 +168,7 @@ def test_dot_2_Bias(sigtype, A, B, C):
 
 
 if __name__ == "__main__":
-    # Supports running a single test case directly (convenient for debugging)
+    # Support running a single test case directly (for debugging convenience)
     test_dot_2_Bias("float16", 16, 16, 16)
 ```
 

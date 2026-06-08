@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Used to compare elements of two tensors, equivalent to `==`. It is used as a built-in operator of `tensor`, such as `x==y`.
+Description: Used to compare elements of two tensors, equivalent to `==`. Used as a built-in operator of `tensor`, such as `x==y`.
 
 ## 2. OP Specification
 
@@ -32,20 +32,20 @@ Conclusion: Compared to GPU, Triton-Ascend lacks support for uint8/uint16/uint32
 
 |        | Supported Dimension Range |
 | -------- | -------------------------- |
-| GPU    | No restrictions |
-| Ascend | No restrictions |
+| GPU    | Unlimited |
+| Ascend | Unlimited |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Relative to community capabilities, these are missing and cannot be implemented
+> Missing community capabilities that cannot be implemented
 
-Compared to GPU, Triton-Ascend lacks support for fp64, while support for uint8/uint16/uint32/uint64 types is under development.
+Compared to GPU, Triton-Ascend lacks support for fp64, and support for uint8/uint16/uint32/uint64 types is under development.
 
 ### 2.4 Usage
 
-The following example implements the `==` operation on tensors `x0` and `x1`:
+The following example demonstrates performing the `==` operation on tensors `x0` and `x1`:
 
 ```python
 @triton.jit

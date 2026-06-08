@@ -19,10 +19,10 @@ Joins two input tensors of the same shape along a new innermost dimension. The o
 
 ### 2.1 Parameter Description
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| x | tensor | Yes | First input tensor |
-| y | tensor | Yes | Second input tensor |
+| Parameter | Type   | Required | Description          |
+|-----------|--------|----------|----------------------|
+| x         | tensor | Yes      | First input tensor   |
+| y         | tensor | Yes      | Second input tensor  |
 
 **Return Value:**
 
@@ -38,7 +38,7 @@ Joins two input tensors of the same shape along a new innermost dimension. The o
 ### 2.2 DataType Support Table
 
 | Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -46,7 +46,7 @@ Joins two input tensors of the same shape along a new innermost dimension. The o
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Constraints
+### 2.4 Special Restrictions
 
 None
 
@@ -74,7 +74,7 @@ def join_example(out_ptr):
     )
     tl.store(out_ptr + offs, z)
 
-## Example call
+## Call example
 out = torch.empty((2, 2, 3), dtype=torch.float32, device="npu")
 join_example[(1,)](out)
 print(out.shape)  # Output: torch.Size([2, 2, 3])

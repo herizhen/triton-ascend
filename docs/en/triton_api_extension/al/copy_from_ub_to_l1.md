@@ -47,7 +47,7 @@ None
 
 - The types and shapes of `src` and `dst` must be identical
 
-## 4. Usage Example
+## 4. Example
 
 ```python
 import os

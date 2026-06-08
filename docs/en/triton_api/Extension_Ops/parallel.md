@@ -19,9 +19,9 @@ triton.language.parallel(arg1, arg2=None, step=None, num_stages=None,
 | `arg1` | `int` / `constexpr` | Required | Start value (when used as a single argument, it serves as the end value, starting from 0) |
 | `arg2` | `int` / `constexpr` | - | End value (exclusive) |
 | `step` | `int` / `constexpr` | `1` | Step increment per iteration |
-| `num_stages` | `int` | - | Number of pipeline stages (number of iterations executed concurrently) |
+| `num_stages` | `int` | - | Number of pipeline stages (number of iterations executed simultaneously) |
 | `loop_unroll_factor` | `int` | - | Loop unroll factor (<2 means no unrolling) |
-| `bind_sub_block` | `bool` | `False` | **Key parameter**: Bind to sub-block, enabling multi-core parallel execution |
+| `bind_sub_block` | `bool` | `False` | **Key parameter**: Binds to sub-blocks, enabling multi-core parallel execution |
 | `_semantic` | - | - | Reserved parameter, external calls not supported |
 
 > **Note**: Compared to `range`, `parallel` removes the following parameters:
@@ -40,7 +40,7 @@ A3:
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | × | × |
 | Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | × | × | ✓ | × | × | × | × | × |
 
-### 2.3 Special Limitations
+### 2.3 Special Constraints
 
 When `bind_sub_block` is true, the IR reflects a difference from `range`, but whether the functionality is actually implemented remains to be verified.
 

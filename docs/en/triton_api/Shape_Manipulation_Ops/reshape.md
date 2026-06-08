@@ -33,7 +33,7 @@ Reinterprets a tensor into a new shape.
 **Constraints:**
 
 - The total number of elements in the input and output tensors must be equal
-- No tensor is allowed to have a shape dimension size less than 1
+- All tensors must not have any shape dimension with a size less than 1
 
 ### 2.2 DataType Support Table
 
@@ -46,9 +46,9 @@ Reinterprets a tensor into a new shape.
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Constraint Description
+### 2.4 Special Limitations
 
-* The can_reorder parameter only supports False
+* The `can_reorder` parameter only supports `False`
 
 ### 2.5 Usage Example
 
@@ -69,7 +69,7 @@ def reshape_example(out_ptr):
     offs = tl.arange(0, 6)[:, None] * 4 + tl.arange(0, 4)[None, :]
     tl.store(out_ptr + offs, y)
 
-## Example call
+## Example invocation
 out = torch.empty((6, 4), dtype=torch.float32, device="npu")
 reshape_example[(1,)](out)
 print(out.shape)  # Output: torch.Size([6, 4])

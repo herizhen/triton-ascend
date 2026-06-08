@@ -16,21 +16,21 @@ triton.language.store(
 )
 ```
 
-Description: Stores a Tensor/Scalar from the UnifiedBuffer to GlobalMemory at the address pointed to by `pointer`.
+Description: Stores a Tensor/Scalar from UnifiedBuffer back to GlobalMemory at the address pointed to by `pointer`.
 
 ## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter        | Type                | Description                                                        |
-| ---------------- | ------------------- | ------------------------------------------------------------------ |
-| `pointer`        | `triton.PointerType` <br> or `tensor<triton.PointerType>` <br> or `triton.PointerType<tensor>` (from `tl.make_block_ptr`) | Pointer to the address in GM where data will be stored             |
-| `value`          | `tensor` or `scalar` | The value to store, supports implicit broadcasting and implicit type conversion |
-| `mask`           | `int1` or `tensor<int1>` | Optional parameter, can only be passed when `pointer` is not from `tl.make_block_ptr`<br>If `mask[i]==False`, `value[i]` will not be stored to the address pointed to by `pointer[i]`; if `True`, it will be stored normally<br>If `pointer` is from `tl.make_block_ptr`, `mask` must be `None` |
-| `boundary_check` | `tuple(int)`        | Optional parameter, can only be passed when `pointer` is from `tl.make_block_ptr`<br>Integer tuple indicating the dimensions that require boundary checking |
-| `cache_modifier` | `""` or `"ca"` or `"cg"` | Optional parameter, controls cache options on NVIDIA PTX, ineffective on Ascend hardware |
-| `eviction_policy`| `str`               | Controls the eviction policy for NVIDIA PTX, ineffective on Ascend hardware |
-| `_semantic`      | -                   | Reserved parameter, external calls are not supported               |
+| Parameter Name   | Type                | Description                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `pointer`        | `triton.PointerType` <br> or `tensor<triton.PointerType>` <br> or `triton.PointerType<tensor>` (from `tl.make_block_ptr`)         | Pointer to the address on GM to be stored                                                    |
+| `value`       | `tensor` or `scalar`  | Value to store, supports implicit broadcasting and implicit type conversion  |
+| `mask`       | `int1` or `tensor<int1>`    | Optional parameter, can only be passed when `pointer` does not originate from `tl.make_block_ptr`<br>If `mask[i]==False`, `value[i]` will not be stored to the address pointed to by `pointer[i]`; if `True`, normal storage occurs <br>If `pointer` originates from `tl.make_block_ptr`, `mask` must be `None`                                        |
+| `boundary_check` | `tuple(int)` | Optional parameter, can only be passed when `pointer` originates from `tl.make_block_ptr`<br>Integer tuple indicating the dimensions that require boundary checking                                         |
+| `cache_modifier`   | `""` or `"ca"` or `"cg"`                | Optional parameter, controls cache options on NVIDIA PTX, ineffective for Ascend hardware                                                |
+| `eviction_policy`   | `str`                | Controls NVIDIA PTX eviction policy, ineffective for Ascend hardware                                                |
+| `_semantic`   | -                 | Reserved parameter, external calls not currently supported                                                |
 
 Return value: None
 
@@ -41,19 +41,19 @@ Return value: None
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
 | GPU    | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | √    |
-| Ascend A2/A3 | √    | √     | √     | ×     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
+| Ascend A2/A3 | √    | √     | √     | ×     | ×      | ×      | ×      | √     | √    | √    | ×    | √    |  √    |
 
-Conclusion: Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
+Conclusion: Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 Expert opinion: See `load` for `eviction_policy` and `cache_modifier`.
 
 #### 2.2.2 Shape Support
 
-|        | Supported Dimension Range |
-| ------ | ------------------------- |
+|        | Supported Dimension Range          |
+| ------ | --------------- |
 | GPU    | Supports scalar and 1~5D tensors |
 | Ascend | Supports scalar and 1~5D tensors |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support tensors from 1 to 5 dimensions.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 #### 2.2.3 Community Constraints
 
@@ -64,20 +64,20 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 2. If `pointer` is an N-Dimensional tensor:
    - `mask` and `value` are implicitly broadcast to the same shape as `pointer`
    - `boundary_check` is not allowed in this case
-3. If `pointer` is from `tl.make_block_ptr`:
+3. If `pointer` originates from `tl.make_block_ptr`:
    - `mask` must be `None`
    - Boundary checking can be set via `boundary_check`
 
 ### 2.3 Special Limitation Notes
 
-> Capabilities missing compared to the community and cannot be implemented
+> Community capability gaps that cannot be implemented
 
-Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation). The `eviction_policy` and `cache_modifier` functionalities are not yet complete on NPU.
+Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation). The `eviction_policy` and `cache_modifier` functionalities are not yet fully functional on NPU.
 
-| Difference Point                     | Description                                                                 | Resolution Approach                     |
-| ------------------------------------ | --------------------------------------------------------------------------- | --------------------------------------- |
-| Generalization issue with discrete masks | Currently, handling discrete masks in store involves decomposing the store into atomic {load, select, store}, which has generalization issues in corner cases | Expose issues through extensive generalization testing, resolve iteratively |
-| Generalization issue with branch and loop statements | The computation of `pointer` and `mask` in `tl.load` may encounter compilation issues if it involves complex loops and branch statements | Expose issues through extensive generalization testing, resolve iteratively |
+| Difference Point                     | Description                                                         | Resolution Approach                       |
+| -------------------------------------- | ------------------------------------------------------------ | ------------------------------ |
+| Generalization issue with discrete masks | Currently, the handling of discrete masks in store involves decomposing the store into atomic {load, select, store}, which has certain generalization issues in corner cases | Expose issues through extensive generalization testing, resolve iteratively |
+| Generalization issue when used with branches and loops | The computation process of `pointer` and `mask` in `tl.load`, if involving complex loops and branch statements, may cause compilation issues | Expose issues through extensive generalization testing, resolve iteratively |
 
 ### 2.4 Usage Example
 

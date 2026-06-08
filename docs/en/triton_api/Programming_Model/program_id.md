@@ -9,7 +9,7 @@ Function prototype:
 triton.language.program_id(axis)
 ```
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
@@ -39,7 +39,7 @@ None
 
 ### 2.4 Usage
 
-Used in triton kernels to obtain the PID
+Used in Triton kernels to obtain the PID
 
 ```python
 @triton.jit

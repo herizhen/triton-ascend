@@ -11,18 +11,18 @@ Reorders the dimensions of a tensor according to the `dims` parameter without al
 
 **Functionality:**
 
-- Reorders tensor dimensions based on the `dims` parameter
-- Does not modify tensor data, only the order of dimensions
+- Reorders tensor dimensions according to the `dims` parameter
+- Does not change the tensor's data, only the order of dimensions
 - Supports arbitrary dimension reordering
 
-## 2 Parameter Specification
+## 2 Parameter Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| input | tensor | Yes | Input tensor |
-| dims | List[int] | Yes | New dimension order |
+| Parameter | Type   | Required | Description          |
+|-----------|--------|----------|----------------------|
+| input     | tensor | Yes      | Input tensor         |
+| dims      | List[int] | Yes    | New dimension order  |
 
 **Return Value:**
 
@@ -33,14 +33,14 @@ Reorders the dimensions of a tensor according to the `dims` parameter without al
 
 **Constraints:**
 
-- `dims` must include all dimension indices of the input tensor
+- `dims` must contain all dimension indices of the input tensor
 
 ### 2.2 DataType Support Table
 
 | Support Status | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
 |----------------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
-| Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
-| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Ascend A2/A3   | ✓    | ✓     | ✓     | ✓     | ✓    | ×     | ×     | ×     | ✓      | ✓      | ✓       | ×        | ×        | ×       | ✓    |
+| GPU Support    | ✓    | ✓     | ✓     | ✓     | ✓    | ✓     | ✓     | ✓     | ✓      | ✓      | ✓       | ✓        | ✓        | ✓       | ✓    |
 
 ### 2.3 Shape Support Table
 

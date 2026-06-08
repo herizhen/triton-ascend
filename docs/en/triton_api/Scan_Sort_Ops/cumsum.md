@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: `triton.language.cumsum` computes the cumulative sum of the input tensor along a specified axis, returning the cumulative summation result.
+Description: `triton.language.cumsum` computes the cumulative sum of the input tensor along a specified axis and returns the cumulative summation result.
 
 ```python
 triton.language.cumsum(input, axis=0, reverse=False)
@@ -20,10 +20,10 @@ triton.language.cumsum(input, axis=0, reverse=False)
 
 The `cumsum` function computes the cumulative sum (prefix sum) along the specified axis. For example, for input `[a, b, c, d]`, the cumulative sum result is `[a, a+b, a+b+c, a+b+c+d]`.
 
-When `reverse=True`, it computes the reverse cumulative sum: `[a+b+c+d, b+c+d, c+d, d]`.
+When `reverse=True`, the reverse cumulative sum is computed: `[a+b+c+d, b+c+d, c+d, d]`.
 
 Return value:
-`tensor`: Computes the cumulative sum of the input tensor along the specified axis, returning the cumulative summation result.
+`tensor`: Computes the cumulative sum of the input tensor along the specified axis and returns the cumulative summation result.
 
 ### 2.2 Supported Specifications
 
@@ -42,7 +42,7 @@ Conclusion: There is no difference in Shape support between GPU and Ascend platf
 
 ### 2.4 Usage
 
-The following example demonstrates performing cumsum operation on a 2D tensor:
+The following example demonstrates performing a cumsum operation on a 2D tensor:
 
 ```python
 @triton.jit

@@ -11,7 +11,7 @@ Broadcasts two tensors to a common compatible shape, enabling element-wise opera
 **Functionality:**
 
 - Automatically aligns tensors of different ranks to the target shape
-- Expands dimensions of size 1 to the corresponding dimension size in the target shape
+- Expands dimensions of size 1 to match the corresponding dimension size in the target shape
 
 ## 2 Parameter Specifications
 
@@ -25,7 +25,7 @@ Broadcasts two tensors to a common compatible shape, enabling element-wise opera
 **Return Value:**
 
 - **Type:** tensor
-- **Shape:** The common compatible target shape of the two tensors
+- **Shape:** The common compatible target shape of both tensors
 - **Data Type:** Each returned tensor retains its input's original data type
 - **Memory Layout:** Returns a newly created tensor
 

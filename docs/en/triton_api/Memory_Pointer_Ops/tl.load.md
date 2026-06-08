@@ -27,14 +27,14 @@ Description: Returns a Tensor/Scalar whose values are loaded from the location p
 | Parameter Name | Type | Description |
 | ------------- | ---- | ----------- |
 | `pointer` | `triton.PointerType` <br> or `tensor<triton.PointerType>` <br> or `triton.PointerType<tensor>` (from `tl.make_block_ptr`) | Pointer to the data to be read on GM |
-| `mask` | `int1` or `tensor<int1>` | Optional parameter, can only be passed when `pointer` is not from `tl.make_block_ptr`<br>If `mask[i]==False`, the data pointed to by `pointer[i]` will not be read; if `True`, it will be read normally <br>If `pointer` is from `tl.make_block_ptr`, `mask` must be `None` |
-| `other` | `tensor` or `scalar` | Optional parameter, can only be passed when `mask!=None`<br>If `mask[i]==False`, set the i-th position of the return value to `other[i]` or `other` (if `other` is a scalar type), needs to support tensor because the tritonGPU community supports both tensor and scalar |
-| `boundary_check` | `tuple(int)` | Optional parameter, can only be passed when `pointer` is from `tl.make_block_ptr`<br>Integer tuple indicating the dimensions that require boundary checking |
+| `mask` | `int1` or `tensor<int1>` | Optional parameter, can only be passed when `pointer` does not originate from `tl.make_block_ptr`<br>If `mask[i]==False`, the data pointed to by `pointer[i]` will not be read; if `True`, it will be read normally<br>If `pointer` originates from `tl.make_block_ptr`, `mask` must be `None` |
+| `other` | `tensor` or `scalar` | Optional parameter, can only be passed when `mask!=None`<br>If `mask[i]==False`, set the i-th position of the return value to `other[i]` or `other` (if `other` is a scalar type). Must support tensor because the tritonGPU community supports both tensor and scalar |
+| `boundary_check` | `tuple(int)` | Optional parameter, can only be passed when `pointer` originates from `tl.make_block_ptr`<br>Integer tuple indicating the dimensions that require boundary checking |
 | `padding_option` | `""` or `"zero"` or `"nan"` | Optional parameter, can only be passed when `boundary_check` is not empty<br>Indicates the fill value when accessing out of bounds |
-| `cache_modifier` | `""` or `"ca"` or `"cg"` | Optional parameter, controls cache options on NVIDIA PTX, invalid for Ascend hardware |
-| `eviction_policy` | `str` | Controls eviction policy on NVIDIA PTX, invalid for Ascend hardware |
-| `volatile` | `str` | Controls volatile option on NVIDIA PTX, invalid for Ascend hardware |
-| `_semantic` | - | Reserved parameter, external calls not supported for now |
+| `cache_modifier` | `""` or `"ca"` or `"cg"` | Optional parameter, controls cache options on NVIDIA PTX, ineffective on Ascend hardware |
+| `eviction_policy` | `str` | Controls eviction policy on NVIDIA PTX, ineffective on Ascend hardware |
+| `volatile` | `str` | Controls volatile option on NVIDIA PTX, ineffective on Ascend hardware |
+| `_semantic` | - | Reserved parameter, external calls not currently supported |
 
 Currently, the 910 generation does not support parameters such as cache_modifier, eviction_policy, and volatile.
 
@@ -56,7 +56,7 @@ Conclusion: Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uin
 | GPU | Supports scalar and 1~5D tensors |
 | Ascend A2/A3 | Supports scalar and 1~5D tensors |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms, both support 1 to 5-dimensional tensors.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 #### 2.2.3 Community Constraints
 
@@ -69,7 +69,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
    - `tl.load` returns an N-Dimensional tensor with the same shape as `pointer`
    - `mask` and `other` will be implicitly broadcast to the same shape as `pointer`
    - `boundary_check` and `padding_option` are not allowed in this case
-3. If `pointer` is from `tl.make_block_ptr`:
+3. If `pointer` originates from `tl.make_block_ptr`:
    - `mask` and `other` must be `None`
    - Boundary checking and out-of-bounds fill values can be set via `boundary_check` and `padding_option`
 
@@ -81,8 +81,8 @@ Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp6
 
 | Difference | Description | Solution |
 | -------------------------------------- | ------------------------------------------------------------ | ------------------------------ |
-| `padding_option` parameter not supported | The currently used community branch adds the `padding_option` parameter for out-of-bounds element padding strategy. | Can be supported via software development |
-| Generalization issues when used with branch and loop statements | If the computation process of `pointer` and `mask` in `tl.load` involves complex loops and branch statements, compilation issues may occur | Expose issues through extensive generalization testing, resolve iteratively |
+| `padding_option` parameter not supported | The currently used community branch added the `padding_option` parameter for out-of-bounds element padding strategy. | Can be supported via software development |
+| Generalization issues with branch and loop statements | The computation process of `pointer` and `mask` in `tl.load` may encounter compilation issues if it involves complex loops and branch statements | Expose issues through extensive generalization testing, resolve iteratively |
 
 ### 2.4 Usage Example
 

@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-The Ascend hardware has different ratios of AIC to AIV cores (1:N). The Triton programming abstraction hides the hardware details of Cube and Vector cores. Therefore, Triton operator developers cannot control how data is split and processed in parallel across N Vector cores. This is automatically implemented by the compiler through the AutoSubTiling Pass.
+The Ascend hardware has different ratios of AIC to AIV cores (1:N). The Triton programming abstraction hides the hardware details of Cube and Vector cores. Therefore, Triton operator developers cannot control how data is split for parallel processing across N Vector cores; this is automatically handled by the compiler through the AutoSubTiling Pass.
 
 The `sub_vec_id` programming interface returns the sub ID of N Vector cores, allowing operator developers to determine which data each core processes based on the vector core sub ID.
 
@@ -20,7 +20,7 @@ The `sub_vec_id` programming interface returns the sub ID of N Vector cores, all
 
 ## 3. Constraints
 
-This interface is only valid in scenarios where AIC and AIV cores are used together. It cannot be used in pure Cube-type operators or pure Vector-type operators; otherwise, a compilation error will be triggered.
+This is only valid in scenarios where AIC and AIV cores are used together. It cannot be used in pure Cube-type operators or pure Vector-type operators; otherwise, a compilation error will be triggered.
 
 ## 4. Example
 

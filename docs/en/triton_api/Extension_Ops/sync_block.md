@@ -22,7 +22,7 @@ triton.language.sync_block_set(sender, receiver, event_id, _builder=None)
 |-----------|------|---------|-------------|
 | `sender` | `str` | Required | Sender core type: "cube" or "vector" |
 | `receiver` | `str` | Required | Receiver core type: "cube" or "vector" |
-| `event_id` | `int` | Required | Event ID, used to distinguish different synchronization points |
+| `event_id` | `int` | Required | Event ID used to distinguish different synchronization points |
 | `_builder` | - | `None` | Reserved parameter, external calls not supported |
 
 #### 2.2.2 Special Constraints
@@ -60,7 +60,7 @@ triton.language.sync_block_wait(sender, receiver, event_id, _builder=None)
 
 ### 4.1 Function Overview
 
-Global barrier synchronization, synchronizing all cores of specified types to the same point.
+Global barrier synchronization that synchronizes all cores of the specified type to the same point.
 
 ```python
 triton.language.sync_block_all(mode, event_id, _builder=None)

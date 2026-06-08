@@ -14,10 +14,10 @@ triton.language.static_range(arg1, arg2=None, step=None, _semantic=None)
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `arg1` | `constexpr` | Required | Start value (when used as a single parameter, it serves as the end value, starting from 0) |
+| `arg1` | `constexpr` | Required | Start value (when used as a single argument, it serves as the end value, starting from 0) |
 | `arg2` | `constexpr` | - | End value (exclusive) |
 | `step` | `constexpr` | `1` | Step increment per iteration |
-| `_semantic` | - | - | Reserved parameter, external calls not supported |
+| `_semantic` | - | - | Reserved parameter, external calls not supported for now |
 
 ### 2.2 Type Support
 
@@ -30,7 +30,7 @@ A3:
 
 ### 2.3 Special Limitations
 
-> Missing capabilities compared to the community, not implementable
+> Relative community capability gap that cannot be implemented
 
 Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 
@@ -54,4 +54,4 @@ def optimized_kernel(x_ptr, y_ptr, BLOCK_SIZE: tl.constexpr):
         tl.store(y_ptr + i, y)
 ```
 
-`static_range` trades off code size for runtime performance, suitable for scenarios with known and small loop iteration counts.
+`static_range` trades code size for runtime performance, suitable for scenarios with known and small loop iteration counts.

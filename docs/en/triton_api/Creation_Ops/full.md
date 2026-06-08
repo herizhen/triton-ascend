@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: `triton.language.full` returns a tensor filled with a scalar value of a given shape and data type
+Introduction: `triton.language.full` returns a tensor filled with a scalar value of a given shape and data type.
 
 ```python
 triton.language.full(shape, value, dtype, _semantic=None)¶
@@ -13,11 +13,11 @@ triton.language.full(shape, value, dtype, _semantic=None)¶
 ### 2.1 Parameter Description
 
 | Parameter      | Type                  | Description                                   |
-| -------------- | --------------------- | --------------------------------------------- |
-| `shape`        | `tuple of ints`       | Shape of the new array, e.g., (8, 16) or (8,) |
-| `value`        | `scalar`              | Scalar value used to fill the array           |
-| `dtype`        | `tl.dtype`            | Data type of the new array, e.g., tl.float16  |
-| `_semantic`    | `Optional[str]`       | Reserved parameter, external calls not supported for now |
+| ------------- | ----------------- | ---------------------------- |
+| `shape`           | `tuple of ints`               | Shape of the new array, e.g., (8, 16) or (8, ) |
+| `value`            | `scalar`               | Scalar value used to fill the array |
+| `dtype`            | `tl.dtype`               | Data type of the new array, e.g., tl.float16  |
+| `_semantic`            | `Optional[str]`               | Reserved parameter, external calls not supported temporarily|
 
 Return value:
 `tensor`: The tensor after filling
@@ -33,7 +33,7 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-Conclusion: There is no difference between GPU and Ascend platforms regarding Shape.
+Conclusion: There is no difference in Shape between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
