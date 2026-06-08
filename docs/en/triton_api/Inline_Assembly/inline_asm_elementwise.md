@@ -1,28 +1,28 @@
 # triton.language.inline_asm_elementwise
 
-## 1. 函数概述
+## 1. Function Overview
 
-`inline_asm_elementwise` 用于在Triton内核中执行内联汇编代码，实现对张量的逐元素操作。
+`inline_asm_elementwise` is used to execute inline assembly code within Triton kernels, enabling element-wise operations on tensors.
 
 ```python
 triton.language.inline_asm_elementwise(asm, constraints, args, dtype, is_pure, pack, _semantic=None)
 ```
 
-## 2. 规格
+## 2. Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数 | 类型 | 默认值 | 含义说明 |
-|------|------|--------|----------|
-| `asm` | `str` | 必需 | 要执行的汇编代码，必须匹配目标平台的汇编格式 |
-| `constraints` | `str` | 必需 | LLVM格式的汇编约束条件 |
-| `args` | `tensor` | 必需 | 输入张量，其值会传递给汇编块 |
-| `dtype` | `dtype` / `Sequence[dtype]` | 必需 | 返回张量的元素类型（可以是单个类型或类型元组） |
-| `is_pure` | `bool` | 必需 | 如果为True，编译器假设汇编块没有副作用 |
-| `pack` | `int` | 必需 | 每次内联汇编调用处理的元素数量 |
-| `_semantic` | - | - | 保留参数，暂不支持外部调用 |
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `asm` | `str` | Required | Assembly code to execute, must match the target platform's assembly format |
+| `constraints` | `str` | Required | LLVM-format assembly constraints |
+| `args` | `tensor` | Required | Input tensor whose values are passed to the assembly block |
+| `dtype` | `dtype` / `Sequence[dtype]` | Required | Element type of the returned tensor (can be a single type or a tuple of types) |
+| `is_pure` | `bool` | Required | If True, the compiler assumes the assembly block has no side effects |
+| `pack` | `int` | Required | Number of elements processed per inline assembly call |
+| `_semantic` | - | - | Reserved parameter, external calls not supported for now |
 
-### 2.2 类型支持
+### 2.2 Type Support
 
 A3:
 
@@ -31,9 +31,9 @@ A3:
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | ×| × | ✓ |×|   ✓  | × | × | ×  |
 
-Ascend 对比 GPU 的输入张量类型 缺失uint8、uint16、uint32、uint64、fp16、 fp64 、bf16 、bool的支持能力。
+Compared to GPU, Ascend lacks support for input tensor types: uint8, uint16, uint32, uint64, fp16, fp64, bf16, and bool.
 
-### 2.3 使用方法
+### 2.3 Usage
 
 ```python
 import triton.language as tl
@@ -65,8 +65,8 @@ def triton_asm_add(x_ptr,
     tl.store(output_ptr + offsets, output, mask=mask)
 ```
 
-## 3. 语义GAP
+## 3. Semantic GAP
 
-1.内联汇编的寄存器仅支持`int64(s64)` 和`float32(f32)`。
-2.约束限制仅支持`l`。
-3.目前仅支持输入一维张量，计算高维张量需展开。
+1. Inline assembly registers only support `int64(s64)` and `float32(f32)`.
+2. Constraint restrictions only support `l`.
+3. Currently only supports 1D input tensors; computing higher-dimensional tensors requires flattening.

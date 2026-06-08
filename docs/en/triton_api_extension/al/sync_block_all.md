@@ -1,8 +1,8 @@
-# 1. 硬件背景
+# 1. Hardware Background
 
-当不同核之间操作同一块全局内存且可能存在读后写、写后读以及写后写等数据依赖问题时，通过调用该函数来插入同步语句来避免上述数据依赖时可能出现的数据读写错误问题。
+When different cores operate on the same global memory and there may be data dependencies such as read-after-write, write-after-read, and write-after-write, this function is called to insert synchronization statements to avoid data read/write errors that may occur due to these data dependencies.
 
-# 2. 接口说明
+# 2. Interface Description
 
 <table>
   <tr>
@@ -10,40 +10,40 @@
   </tr>
 </table>
 
-## 2.1 入参
+## 2.1 Input Parameters
 
 <table>
   <tr>
-    <td>参数名</td>
-    <td>类型</td>
-    <td>必需</td>
-    <td>说明</td>
+    <td>Parameter Name</td>
+    <td>Type</td>
+    <td>Required</td>
+    <td>Description</td>
   </tr>
   <tr>
     <td>mode</td>
     <td>str</td>
-    <td>是</td>
-    <td>同步的模式 ，可选字符串:all_cube/all_vector/all/all_sub_vector。&lt;br&gt;all_cube：同步所有cube核&lt;br&gt;all_vector: 同步所有vector核&lt;br&gt;all: 同步所有cube核和vector核&lt;br&gt;all_sub_vector：Vector子块间同步</td>
+    <td>Yes</td>
+    <td>Synchronization mode, optional strings: all_cube/all_vector/all/all_sub_vector.&lt;br&gt;all_cube: Synchronize all cube cores&lt;br&gt;all_vector: Synchronize all vector cores&lt;br&gt;all: Synchronize all cube and vector cores&lt;br&gt;all_sub_vector: Synchronize between Vector sub-blocks</td>
   </tr>
   <tr>
     <td>event_id</td>
     <td>int</td>
-    <td>是</td>
-    <td>标记id。 范围是[0,15]</td>
+    <td>Yes</td>
+    <td>Marker ID. Range is [0,15]</td>
   </tr>
 </table>
 
-## 2.2 返回值
+## 2.2 Return Value
 
-无
+None
 
-# 3. 约束
+# 3. Constraints
 
-- mode可选字符串:all_cube/all_vector/all/all_sub_vector
+- mode optional strings: all_cube/all_vector/all/all_sub_vector
 
-- event_id范围是[0,15]
+- event_id range is [0,15]
 
-# 4. 示例
+# 4. Example
 
 <table>
   <tr>
@@ -51,7 +51,7 @@
   </tr>
 </table>
 
-输出：
+Output:
 
 <table>
   <tr>

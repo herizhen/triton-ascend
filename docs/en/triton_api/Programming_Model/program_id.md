@@ -1,45 +1,45 @@
 # triton.language.program_id
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：返回当前程序实例沿给定 axis 的 ID。
-函数原型：
+Description: Returns the ID of the current program instance along the given axis.
+Function prototype:
 
 ```python
 triton.language.program_id(axis)
 ```
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名 | 类型 | 说明 |
+| Parameter | Type | Description |
 | :---: | :---: | :---: |
-| `axis` | `int` |  3D 启动网格的轴。必须是 0、1 或 2 |
+| `axis` | `int` | Axis of the 3D launch grid. Must be 0, 1, or 2 |
 
-返回值：
-由轴的值组成的tl.tensor
+Return value:
+A `tl.tensor` composed of the axis value
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
 |       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | × | × | √ | × | × | × | × | × | × | × | × | × | × |
 | Ascend A2/A3 | × | × | √ | × | × | × | × | × | × | × | × | × | × |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-无相关设置
+No relevant settings
 
-### 2.3 特殊限制说明
+### 2.3 Special Constraints
 
-无
+None
 
-### 2.4 使用方法
+### 2.4 Usage
 
-在triton kernel中会用到，用于获取PID
+Used in Triton kernels to obtain the PID
 
 ```python
 @triton.jit

@@ -1,53 +1,53 @@
 # triton.language.sum
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：`triton.language.sum` 计算输入tensor沿指定轴的元素和，返回求和结果。
+Description: `triton.language.sum` computes the sum of elements of the input tensor along the specified axis and returns the result.
 
 ```python
 triton.language.sum(input, axis=None, keep_dims=False)
 ```
 
-> **版本差异说明**
+> **Version Differences**
 >
-> `dtype` 参数为社区 Triton 3.5.0 引入的功能。当前发布的 Triton-Ascend 基于社区 Triton 3.2.0 开发，没有`dtype` 参数。后续升级至社区 Triton 3.5.0 版本时，将完整支持 `dtype` 参数的功能。
+> The `dtype` parameter is a feature introduced in community Triton 3.5.0. The currently released Triton-Ascend is based on community Triton 3.2.0 and does not include the `dtype` parameter. When upgrading to community Triton 3.5.0 in the future, full support for the `dtype` parameter will be provided.
 
-## 2. OP 规格
+## 2. OP Specifications
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名 | 类型 | 说明 |
-|--------|------|------|
-| `input` | `Tensor` | 输入tensor |
-| `axis` | `int` 或 `None` | 沿着哪个维度进行求和操作。如果为None，则对所有维度求和 |
-| `keep_dims` | `bool` | 如果为True，保持被求和的维度为长度1 |
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `input` | `Tensor` | Input tensor |
+| `axis` | `int` or `None` | The dimension along which to perform the sum operation. If None, sums over all dimensions |
+| `keep_dims` | `bool` | If True, retains the reduced dimensions with length 1 |
 
-返回值：
-`tensor`：计算输入tensor沿指定轴的元素和，返回求和结果。
+Return value:
+`tensor`: Computes the sum of elements of the input tensor along the specified axis and returns the result.
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
-|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ |
-| GPU支持 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-结论：在 Shape 方面，GPU 与 Ascend 平台无差异。
+Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitations
 
-> 相对社区能力缺失且无法实现
-> keep_dims=True需要测试更多规格，来确定是否全面支持。目前已测3D dim=2情况下，支持 keep_dims=True。
+> Missing community capabilities that cannot be implemented
+> `keep_dims=True` requires testing with more specifications to determine full support. Currently tested with 3D dim=2, `keep_dims=True` is supported.
 
-> `dtype` 参数当前版本暂未支持。社区 Triton 3.5.0 中，`dtype` 参数用于控制求和运算的累加数据类型：未指定时，位宽小于 32 的整数类型会自动提升为 `int32`/`uint32` 以避免溢出；显式指定时，输入会先转换为指定类型再执行求和。当前 Triton-Ascend 基于社区 Triton 3.2.0，该类型提升逻辑尚未支持，将在后续升级至 3.5.0 版本时完整支持。
+> The `dtype` parameter is not yet supported in the current version. In community Triton 3.5.0, the `dtype` parameter controls the accumulation data type for the sum operation: when not specified, integer types with bit width less than 32 are automatically promoted to `int32`/`uint32` to avoid overflow; when explicitly specified, the input is first converted to the specified type before performing the sum. The current Triton-Ascend is based on community Triton 3.2.0, and this type promotion logic is not yet supported. Full support will be provided when upgrading to version 3.5.0.
 
-### 2.4 使用方法
+### 2.4 Usage Example
 
-以下示例实现了对2Dshape的tensor进行sum运算：
+The following example demonstrates performing a sum operation on a 2D tensor:
 
 ```python
 @triton.jit

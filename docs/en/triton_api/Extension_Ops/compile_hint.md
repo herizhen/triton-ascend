@@ -1,40 +1,40 @@
 # triton.language.compile_hint
 
-## 1.函数概述
+## 1. Function Overview
 
-`compile_hint` 是一个编译器提示（hint）机制，允许用户为张量附加元数据信息，这些信息会被传递到编译器后端，用于指导优化和代码生成。
+`compile_hint` is a compiler hint mechanism that allows users to attach metadata information to tensors. This information is passed to the compiler backend to guide optimization and code generation.
 
 ```python
 triton.language.compile_hint(ptr, hint_name, hint_val=None, _builder=None)
 ```
 
-## 2.规格
+## 2. Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数 | 类型 | 默认值 | 含义说明 |
-|------|------|------|------|
-| `ptr` | `tensor` | 必需 | 需要附加提示的张量对象 |
-| `hint_name` | `str` `constexpr` | 必需 | 提示的名称标识符（必须为字符串） |
-| `hint_val` | `None` `bool` `int` `constexpr` `list` | `None` | 提示的值，支持多种类型 |
-| `_builder` | - | `None` | 保留参数，暂不支持外部调用 |
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `ptr` | `tensor` | Required | The tensor object to attach the hint to |
+| `hint_name` | `str` `constexpr` | Required | The name identifier of the hint (must be a string) |
+| `hint_val` | `None` `bool` `int` `constexpr` `list` | `None` | The value of the hint, supporting multiple types |
+| `_builder` | - | `None` | Reserved parameter, currently not supported for external calls |
 
-### 2.2 类型支持
+### 2.2 Type Support
 
-A3：
+A3:
 
 | | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 |------|-------|-------|-------|-------|--------|--------|--------|-------|------|------|------|------|------|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | ×| × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitations
 
-1. **hint_name 必须为字符串类型**：不能传入其他类型作为提示名称
-2. **list 参数仅支持整数数组**：元素须为整数（`int` 或 `constexpr` 整数），不支持浮点数或混合类型的列表
-3. **非侵入式设计**：`compile_hint` 不改变计算语义，仅添加元数据
-4. **同一张量可多次标注**：同一个张量可以附加多个不同名称的提示
+1. **hint_name must be a string type**: No other types can be passed as the hint name
+2. **list parameters only support integer arrays**: Elements must be integers (`int` or `constexpr` integers); lists with floating-point numbers or mixed types are not supported
+3. **Non-intrusive design**: `compile_hint` does not change computation semantics; it only adds metadata
+4. **Same tensor can be annotated multiple times**: A single tensor can have multiple hints with different names attached
 
-### 2.4 使用方法
+### 2.4 Usage
 
 ```python
 @triton.jit

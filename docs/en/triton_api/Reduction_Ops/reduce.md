@@ -1,52 +1,52 @@
 # triton.language.reduce
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：`triton.language.reduce` 沿指定轴 `axis` 对输入 tensor 应用 `combine_fn` 进行规约，返回规约后的结果张量。
+Description: `triton.language.reduce` applies `combine_fn` along the specified `axis` to reduce the input tensor, returning the resulting reduced tensor.
 
 ```python
 triton.language.reduce(input, axis, combine_fn, keep_dims=False, _semantic=None, _generator=None)
 ```
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名 | 类型 | 说明 |
-|--------|------|------|
-| `input` | `Tensor` 或 `tuple of Tensor` | 输入tensor，可以是单个tensor或tensor元组 |
-| `axis` | `int` 或 `None` | 沿着哪个维度进行reduce操作。如果为None，则reduce所有维度 |
-| `combine_fn` | `Callable` | 用于组合两个标量tensor组的函数（必须用@triton.jit标记） |
-| `keep_dims` | `bool` | 如果为True，保持被reduce的维度为长度1 |
-| `_semantic` | `Optional[str]` | 保留参数，暂不支持外部调用 |
-| `_generator` | `Optional[Generator]` | 保留参数，暂不支持外部调用 |
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `input` | `Tensor` or `tuple of Tensor` | Input tensor, can be a single tensor or a tuple of tensors |
+| `axis` | `int` or `None` | The dimension along which to perform the reduce operation. If None, all dimensions are reduced |
+| `combine_fn` | `Callable` | Function to combine two groups of scalar tensors (must be decorated with `@triton.jit`) |
+| `keep_dims` | `bool` | If True, keeps the reduced dimension with length 1 |
+| `_semantic` | `Optional[str]` | Reserved parameter, external calls not supported |
+| `_generator` | `Optional[Generator]` | Reserved parameter, external calls not supported |
 
-**注意**：此函数也可以作为tensor的成员函数调用，如 `x.reduce(...)` 而不是 `reduce(x, ...)`
+**Note**: This function can also be called as a member function of a tensor, e.g., `x.reduce(...)` instead of `reduce(x, ...)`
 
-返回值：
-`tensor`：沿指定轴 `axis` 规约后的结果张量。
+Return value:
+`tensor`: The resulting tensor after reduction along the specified `axis`.
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
 || uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ |
-| GPU支持 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-结论：在 Shape 方面，GPU 与 Ascend 平台无差异。
+Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitations
 
-> 相对社区能力缺失且无法实现
-> keep_dims=True需要测试更多规格，来确定是否全面支持。目前已测3D dim=2情况下，支持 keep_dims=True。
+> Relative community capability missing and cannot be implemented
+> `keep_dims=True` requires more test cases to determine full support. Currently tested with 3D dim=2, `keep_dims=True` is supported.
 
-### 2.4 使用方法
+### 2.4 Usage Example
 
-以下示例实现了对2Dshape的tensor进行reduce计算，其中的combine_fn使用简单加法：
+The following example demonstrates performing a reduce computation on a 2D tensor, using simple addition as the `combine_fn`:
 
 ```python
 @triton.jit

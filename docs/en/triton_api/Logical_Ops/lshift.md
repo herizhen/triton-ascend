@@ -1,8 +1,8 @@
 # triton.language.core.__lshift__
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：根据给定值 将tensor张量进行左移位。
+Description: Performs a left bitwise shift on a tensor based on a given value.
 
 ```python
 triton.language.core.__lshift__(
@@ -12,51 +12,51 @@ triton.language.core.__lshift__(
 ) -> tl.tensor
 ```
 
-作为`tensor`的内置运算符使用，如`x<<y`。
+Used as a built-in operator for `tensor`, e.g., `x << y`.
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名 | 类型 | 说明 |
+| Parameter | Type | Description |
 | :---: | :---: | --- |
-| `input` | `tensor` | 张量数据，左操作数，代表要进行移位的主数据 |
-| `other`   | `tensor or scalar` | 张量数据，右操作数，进行移位的数值 |
-| `_builder` | - | 保留参数，暂不支持外部调用 |
+| `input` | `tensor` | Tensor data, left operand, representing the main data to be shifted |
+| `other` | `tensor or scalar` | Tensor data, right operand, the value by which to shift |
+| `_builder` | - | Reserved parameter, external invocation not supported |
 
-返回值：
-`tl.tensor`：同`input`的shape的张量
+Return value:
+`tl.tensor`: A tensor with the same shape as `input`
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
 |       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | GPU      | √ | √ | √ | √ | √ | √ | √ | √ | × | × | × | × | √ |
 | Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | × | × | × | × | √ |
 
-结论：Ascend 对比 GPU 缺失uint的支持能力。
+Conclusion: Ascend lacks uint support compared to GPU.
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-|        | 支持维度范围         |
+|        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU    | 无限制 |
-| Ascend A2/A3 | 无限制 |
+| GPU    | No restrictions |
+| Ascend A2/A3 | No restrictions |
 
-结论：在 Shape 方面，GPU 与 Ascend 平台无差异。
+Conclusion: There is no difference between GPU and Ascend platforms in terms of shape.
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitations
 
-> 相对社区能力缺失且无法实现
+> Capabilities missing relative to the community and not implementable
 
-1. Ascend 相比 GPU 缺失 uint 类型支持。
-2. 右操作数 `other` 仅支持标量，不支持 tensor（即 `x << 2` 合法，`x << y`（`y` 为 tensor）暂不支持）。
+1. Ascend lacks uint type support compared to GPU.
+2. The right operand `other` only supports scalars, not tensors (i.e., `x << 2` is valid, `x << y` (where `y` is a tensor) is not supported).
 
-### 2.4 使用方法
+### 2.4 Usage Example
 
-以下示例实现了对三维张量`x0`、`x1`做左移位运算：
+The following example performs a left shift operation on 3D tensors `x0` and `x1`:
 
 ```python
 @triton.jit

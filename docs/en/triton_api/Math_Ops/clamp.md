@@ -1,55 +1,55 @@
 # triton.language.clamp
 
-## 1. 函数概述
+## 1. Function Overview
 
-简介：限制张量x的范围为[min，max]之间。
+Description: Clamps the tensor `x` to the range [min, max].
 
 ```python
 triton.language.clamp(x, min, max, propagate_nan: constexpr = PropagateNan.NONE, _semantic=None)
 ```
 
-## 2. 规格
+## 2. Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名           | 类型                | 说明                                                             |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `x`        | `tensor`          | 张量数据                                                      |
-| `min`       | `tensor`       | 下界（可为张量或标量，会广播到 `x` 的 shape） |
-| `max`       | `tensor`       | 上界（可为张量或标量，会广播到 `x` 的 shape） |
-| `propagate_nan` | `triton.language.core.constexpr` | 是否对min或max做Nan的传播                                              |
-| `_semantic`   | -                 | 保留参数，暂不支持外部调用
+| Parameter Name | Type               | Description                                                      |
+| -------------- | ------------------ | ---------------------------------------------------------------- |
+| `x`            | `tensor`           | Input tensor data                                                |
+| `min`          | `tensor`           | Lower bound (can be a tensor or scalar, broadcast to `x`'s shape)|
+| `max`          | `tensor`           | Upper bound (can be a tensor or scalar, broadcast to `x`'s shape)|
+| `propagate_nan`| `triton.language.core.constexpr` | Whether to propagate NaN from min or max                         |
+| `_semantic`    | -                  | Reserved parameter, not supported for external calls             |
 
-返回值：
-`x`：输出张量的shape与输入x的shape相同
+Return value:
+`x`: Output tensor with the same shape as the input tensor `x`
 
-### 2.2 OP 规格
+### 2.2 OP Specification
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU    | ×    | ×     | ×     | ×     | ×     | ×      | ×      | ×     | √    | √    | √    | √    | ×    |
-| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×     | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
+| GPU    | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | √    | √    | ×    |
+| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-|        | 支持维度范围          |
-| ------ | --------------- |
-| GPU    | 仅支持 1~5维 tensor |
-| Ascend | 仅支持 1~5维 tensor |
+|        | Supported Dimension Range |
+| ------ | ------------------------- |
+| GPU    | Only supports 1~5D tensors|
+| Ascend | Only supports 1~5D tensors|
 
-结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 1 至 5 维张量。
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitation Notes
 
-> 相对社区能力缺失且无法实现
+> Missing capability relative to the community, cannot be implemented
 
-Ascend 相比 GPU 缺失 fp64 支持。
+Ascend lacks fp64 support compared to GPU.
 
-### 2.4 使用方法
+### 2.4 Usage Example
 
-以下示例实现了对输入张量 `x` 做截断计算：
+The following example demonstrates clamping the input tensor `x`:
 
 ```python
 @triton.jit

@@ -1,12 +1,12 @@
 # subview
 
-## 1. 硬件背景
+## 1. Hardware Background
 
-昇腾硬件 A5 支持了定义新视图，仅通过偏移、大小和步幅实现，不复制底层数据。
+The Ascend hardware A5 supports defining new views, implemented solely through offsets, sizes, and strides, without copying the underlying data.
 
-## 2. 接口说明
+## 2. Interface Description
 
-### 接口一
+### Interface 1
 
 <table>
   <tr>
@@ -14,7 +14,7 @@
   </tr>
 </table>
 
-### 接口二
+### Interface 2
 
 <table>
   <tr>
@@ -22,37 +22,37 @@
   </tr>
 </table>
 
-返回值：bl.buffer
+Return value: bl.buffer
 
-## 3. 入参说明
+## 3. Parameter Description
 
-- src: buffer -> 源buffer
+- src: buffer -> Source buffer
 
-- offsets: List[tl.tensor] -> 偏移
+- offsets: List[tl.tensor] -> Offsets
 
-- sizes: List[tl.constexpr] -> 输出的size
+- sizes: List[tl.constexpr] -> Output sizes
 
-- strides: List[tl.constexpr] -> 步长
+- strides: List[tl.constexpr] -> Strides
 
-## 4. 约束说明
+## 4. Constraints
 
-- 输入的参数size、offset、stride必须大于0（offset可以是0），不能为负值。
+- The input parameters size, offset, and stride must be greater than 0 (offset can be 0); negative values are not allowed.
 
-- size的每一个维度的大小不能大于原buffer的大小。
+- The size of each dimension must not exceed the size of the original buffer.
 
-- 子视图的每一个维度的大小不能超过原buffer的大小。
+- The size of each dimension of the subview must not exceed the size of the original buffer.
 
-- stride的访问不能超过src的大小，stride所有元素全为1。
+- The stride access must not exceed the size of src; all elements of stride must be 1.
 
-- 参数的设置要指明每一个维度的值，参数维度应该和输入buffer的维度保持一致。
+- The parameter settings must specify values for each dimension, and the parameter dimensions must be consistent with the input buffer dimensions.
 
-- offset必须32字节对齐。
+- The offset must be 32-byte aligned.
 
-- 子视图中最后一个维度的第二行第一个点的偏移必须是32字节对齐。
+- The offset of the first point in the second row of the last dimension of the subview must be 32-byte aligned.
 
-解释补充：sizes、strides在使用的时候传入类型：List[tl.constexpr]（注意不要误传tensor，否则会报错-类型不匹配）。offsets补充支持了tensor传入（也可以传入constexpr）
+Explanation: When using sizes and strides, the input type is `List[tl.constexpr]` (be careful not to pass a tensor, otherwise a type mismatch error will occur). offsets now additionally supports tensor input (constexpr input is also supported).
 
-## 5. 用例示例
+## 5. Usage Example
 
 <table>
   <tr>
@@ -60,7 +60,7 @@
   </tr>
 </table>
 
-输出：
+Output:
 
 <table>
   <tr>

@@ -1,10 +1,10 @@
-# bl.to_tensor 接口文档
+# bl.to_tensor Interface Documentation
 
-## 1. 硬件背景
+## 1. Hardware Background
 
-将Ascend上分配的buffer转成tl.tensor并返回
+Converts a buffer allocated on Ascend to a tl.tensor and returns it.
 
-## 2. 接口说明
+## 2. Interface Description
 
 <table>
   <tr>
@@ -12,40 +12,40 @@
   </tr>
 </table>
 
-### 入参说明
+### Input Parameters Description
 
 <table>
   <tr>
-    <td>参数名</td>
-    <td>类型</td>
-    <td>必需</td>
-    <td>说明</td>
+    <td>Parameter Name</td>
+    <td>Type</td>
+    <td>Required</td>
+    <td>Description</td>
   </tr>
   <tr>
     <td>memref</td>
     <td>bl.buffer</td>
-    <td>是</td>
-    <td>输入bl.buffer对象</td>
+    <td>Yes</td>
+    <td>Input bl.buffer object</td>
   </tr>
   <tr>
     <td>writable</td>
     <td>bool</td>
-    <td>否</td>
-    <td>如果设置成True, 返回的tensor在bufferization过程中允许被原地修改，默认为True</td>
+    <td>No</td>
+    <td>If set to True, the returned tensor allows in-place modification during bufferization. Default is True.</td>
   </tr>
   <tr>
     <td>_builder</td>
     <td>-</td>
-    <td>内部参数</td>
-    <td>编译器自动传参，用户无需使用</td>
+    <td>Internal parameter</td>
+    <td>Automatically passed by the compiler; users do not need to use it.</td>
   </tr>
 </table>
 
-## 3. 约束说明
+## 3. Constraints
 
-该接口约束同bl.allocate_local_buffer
+This interface has the same constraints as bl.allocate_local_buffer.
 
-## 4. 用例示例
+## 4. Usage Example
 
 <table>
   <tr>
@@ -53,7 +53,7 @@
   </tr>
 </table>
 
-## 5. 编译输出结果
+## 5. Compilation Output
 
 <table>
   <tr>

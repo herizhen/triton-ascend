@@ -1,19 +1,19 @@
-# Triton-Ascend max_autotune 使用指南
+# Triton-Ascend max_autotune Usage Guide
 
-## 文档定位
+## Document Purpose
 
-本文面向已经熟悉 Triton-Ascend 自动调优机制的用户，介绍 `max_autotune` 装饰器的高级用法：
+This document is intended for users already familiar with the Triton-Ascend auto-tuning mechanism, introducing advanced usage of the `max_autotune` decorator:
 
-- `max_autotune` 与标准 `@triton.autotune` 的区别与联系；
-- 如何利用笛卡尔积展开机制批量生成候选配置；
-- 不同 `kernel_type` 支持的调优参数及其适用场景；
-- 何时选择 `max_autotune` 而非手写配置列表。
+- Differences and relationships between `max_autotune` and the standard `@triton.autotune`;
+- How to batch-generate candidate configurations using the Cartesian product expansion mechanism;
+- Tuning parameters supported by different `kernel_type` and their applicable scenarios;
+- When to choose `max_autotune` over manually writing configuration lists.
 
-## 快速上手
+## Quick Start
 
-`max_autotune` 是 `@triton.autotune` 的扩展版装饰器，它允许在自动调优前将每个基础配置与额外的调优参数进行笛卡尔积展开，从而大幅减少用户需要手工枚举的配置数量。
+`max_autotune` is an extended version of the `@triton.autotune` decorator. It allows performing a Cartesian product expansion of each base configuration with additional tuning parameters before auto-tuning, significantly reducing the number of configurations users need to manually enumerate.
 
-### 1. 基本用法
+### 1. Basic Usage
 
 ```python
 import triton
@@ -28,7 +28,7 @@ from triton.backends.ascend.backend.runtime import max_autotune
     ],
     key=["M", "N"],
     kernel_type="mix",
-    # 额外的调优参数，每个值必须是列表
+    # Additional tuning parameters, each value must be a list
     enable_hivm_auto_cv_balance=[True, False],
     tile_mix_vector_loop=[2, 4],
 )
@@ -45,69 +45,69 @@ def kernel(
     ...
 ```
 
-上述配置展开后的等效配置数量为：
+The equivalent number of configurations after expansion is:
 
-- 基础配置：2 个
-- 用户提供的调优参数：`enable_hivm_auto_cv_balance`（2 种）、`tile_mix_vector_loop`（2 种）
-- 使用默认值的参数：`set_workspace_multibuffer`（2 种）、`tile_mix_cube_loop`（2 种）、其他参数各 1 种
+- Base configurations: 2
+- User-provided tuning parameters: `enable_hivm_auto_cv_balance` (2 values), `tile_mix_vector_loop` (2 values)
+- Parameters using default values: `set_workspace_multibuffer` (2 values), `tile_mix_cube_loop` (2 values), other parameters with 1 value each
 
-总配置数量：`2 × 2 × 2 × 2 × 2 = 32` 个配置。
+Total configurations: `2 × 2 × 2 × 2 × 2 = 32` configurations.
 
-> 注：`kernel_type="mix"` 支持的参数较多，未显式提供的参数会使用默认值参与展开。如果希望某个参数不参与展开，可在基础 `Config` 的 `kwargs` 中固定其值。
+> Note: `kernel_type="mix"` supports many parameters. Parameters not explicitly provided will use default values and participate in the expansion. If you want a specific parameter not to participate in the expansion, you can fix its value in the base `Config`'s `kwargs`.
 
-### 2. `max_autotune` 与 `@triton.autotune` 的关系
+### 2. Relationship between `max_autotune` and `@triton.autotune`
 
-`max_autotune` 本质上是先调用 `get_max_configs` 对基础配置进行展开，然后将展开后的配置列表传递给标准的 `@triton.autotune`。因此：
+`max_autotune` essentially first calls `get_max_configs` to expand the base configurations, then passes the expanded configuration list to the standard `@triton.autotune`. Therefore:
 
-- 所有 `@triton.autotune` 支持的参数（`key`、`prune_configs_by`、`reset_to_zero` 等）在 `max_autotune` 中同样有效；
-- `max_autotune` 额外增加了 `kernel_type` 参数和 `**tuning_params` 调优参数空间；
-- 最终仍然是 `@triton.autotune` 完成 benchmark、选优和缓存。
+- All parameters supported by `@triton.autotune` (`key`, `prune_configs_by`, `reset_to_zero`, etc.) are also valid in `max_autotune`;
+- `max_autotune` additionally adds the `kernel_type` parameter and the `**tuning_params` tuning parameter space;
+- Ultimately, `@triton.autotune` still handles benchmarking, selection, and caching.
 
-### 3. 必须导入 Ascend backend 扩展
+### 3. Must Import Ascend Backend Extension
 
-与使用 `configs=[]` 自动 Tiling 一样，`max_autotune` 需要 Ascend backend 扩展支持。`max_autotune` 需要从 Ascend backend 模块单独导入：
+Similar to using `configs=[]` for automatic tiling, `max_autotune` requires the Ascend backend extension. `max_autotune` needs to be imported separately from the Ascend backend module:
 
 ```python
 from triton.backends.ascend.backend.runtime import max_autotune
 ```
 
-## Kernel 类型与支持的参数
+## Kernel Types and Supported Parameters
 
-`max_autotune` 通过 `kernel_type` 参数区分不同类型的算子，每种类型支持不同的调优参数集合。
+`max_autotune` distinguishes different types of operators via the `kernel_type` parameter, with each type supporting a different set of tuning parameters.
 
-### 参数支持矩阵
+### Parameter Support Matrix
 
-| 参数 | cube | mix | vector | 默认值 | 有效值 | 说明 |
-|------|:----:|:---:|:------:|--------|--------|------|
-| `num_stages` | ✅ | ✅ | ✅ | `[2]` | `[1, 2]` | pipeline stages 数量 |
-| `unit_flag` | ✅ | ✅ | ❌ | `[False]` | 布尔列表 | Cube 搬出相关同步优化项 |
-| `limit_auto_multi_buffer_of_local_buffer` | ✅ | ✅ | ❌ | `["no-l0c"]` | `["no-limit", "no-l0c"]` | 配置 local buffer 自动 multi-buffer 的 scope |
-| `limit_auto_multi_buffer_only_for_local_buffer` | ❌ | ✅ | ❌ | `[False]` | 布尔列表 | 限制自动 multi-buffer 只作用于 local buffer |
-| `set_workspace_multibuffer` | ❌ | ✅ | ❌ | `[2, 4]` | `[2, 4]` | 配置 workspace multi-buffer 档位 |
-| `enable_hivm_auto_cv_balance` | ❌ | ✅ | ❌ | `[True]` | 布尔列表 | 启用或禁用自动 CV balance |
-| `tile_mix_vector_loop` | ❌ | ✅ | ❌ | `[2, 4]` | `[2, 4, 8]` | 配置 Vector loop 的切分份数 |
-| `tile_mix_cube_loop` | ❌ | ✅ | ❌ | `[2, 4]` | `[2, 4, 8]` | 配置 Cube loop 的切分份数 |
-| `enable_ubuf_saving` | ❌ | ✅ | ✅ | `[True]` | 布尔列表 | 是否启用 ubuf 节省 |
+| Parameter | cube | mix | vector | Default Value | Valid Values | Description |
+|-----------|:----:|:---:|:------:|---------------|--------------|-------------|
+| `num_stages` | ✅ | ✅ | ✅ | `[2]` | `[1, 2]` | Number of pipeline stages |
+| `unit_flag` | ✅ | ✅ | ❌ | `[False]` | Boolean list | Cube transfer-related synchronization optimization |
+| `limit_auto_multi_buffer_of_local_buffer` | ✅ | ✅ | ❌ | `["no-l0c"]` | `["no-limit", "no-l0c"]` | Configures the scope of automatic multi-buffer for local buffers |
+| `limit_auto_multi_buffer_only_for_local_buffer` | ❌ | ✅ | ❌ | `[False]` | Boolean list | Restricts automatic multi-buffer to only local buffers |
+| `set_workspace_multibuffer` | ❌ | ✅ | ❌ | `[2, 4]` | `[2, 4]` | Configures workspace multi-buffer level |
+| `enable_hivm_auto_cv_balance` | ❌ | ✅ | ❌ | `[True]` | Boolean list | Enables or disables automatic CV balance |
+| `tile_mix_vector_loop` | ❌ | ✅ | ❌ | `[2, 4]` | `[2, 4, 8]` | Configures the split count for the Vector loop |
+| `tile_mix_cube_loop` | ❌ | ✅ | ❌ | `[2, 4]` | `[2, 4, 8]` | Configures the split count for the Cube loop |
+| `enable_ubuf_saving` | ❌ | ✅ | ✅ | `[True]` | Boolean list | Enables ubuf saving |
 
-### Kernel 类型说明
+### Kernel Type Description
 
-- **cube**：纯 cube（矩阵乘法类）算子，支持最少的调优参数；
-- **vector**：纯向量算子，仅支持 `num_stages` 和 `enable_ubuf_saving`；
-- **mix**：混合 cube+vector 算子（默认类型），支持最完整的调优参数集合。
+- **cube**: Pure cube (matrix multiplication-like) operators, supporting the fewest tuning parameters;
+- **vector**: Pure vector operators, only supporting `num_stages` and `enable_ubuf_saving`;
+- **mix**: Mixed cube+vector operators (default type), supporting the most complete set of tuning parameters.
 
-## 参数值优先级与展开逻辑
+## Parameter Value Priority and Expansion Logic
 
-### 参数值优先级
+### Parameter Value Priority
 
-调优参数的值按以下优先级确定：
+The value of a tuning parameter is determined by the following priority:
 
-1. **tuning_params 参数**（最高优先级）：通过 `**tuning_params` 传递的候选值列表；
-2. **基础配置中的值**：如果基础 `Config` 的 `kwargs` 中已存在该参数，则固定为该值（转换为单元素列表）；
-3. **默认值**（最低优先级）：从内部默认值表获取。
+1. **tuning_params argument** (Highest priority): Candidate value list passed via `**tuning_params`;
+2. **Value in base configuration**: If the parameter already exists in the base `Config`'s `kwargs`, it is fixed to that value (converted to a single-element list);
+3. **Default value** (Lowest priority): Obtained from the internal default value table.
 
-### 展开示例
+### Expansion Example
 
-假设有以下配置：
+Assume the following configuration:
 
 ```python
 @max_autotune(
@@ -121,14 +121,14 @@ def kernel(...):
     ...
 ```
 
-展开过程：
+Expansion process:
 
-1. `kernel_type="vector"` 支持的参数为 `num_stages` 和 `enable_ubuf_saving`；
-2. `num_stages` 在 `tuning_params` 中提供 `[1, 2]`，优先级最高；
-3. `enable_ubuf_saving` 未提供，使用默认值 `[True]`；
-4. 笛卡尔积展开后得到 2 个配置。
+1. `kernel_type="vector"` supports the parameters `num_stages` and `enable_ubuf_saving`;
+2. `num_stages` is provided in `tuning_params` as `[1, 2]`, highest priority;
+3. `enable_ubuf_saving` is not provided, uses default value `[True]`;
+4. Cartesian product expansion yields 2 configurations.
 
-展开结果等效于：
+The expanded result is equivalent to:
 
 ```python
 configs=[
@@ -137,9 +137,9 @@ configs=[
 ]
 ```
 
-### 在基础配置中固定参数
+### Fixing Parameters in Base Configuration
 
-如果希望某个调优参数不参与展开，可以在基础配置中直接固定：
+If you want a specific tuning parameter not to participate in the expansion, you can fix it directly in the base configuration:
 
 ```python
 @max_autotune(
@@ -149,68 +149,68 @@ configs=[
     key=["M", "N"],
     kernel_type="vector",
     num_stages=[1, 2],
-    # enable_ubuf_saving 已在基础配置中固定为 False，不会使用默认值 [True]
+    # enable_ubuf_saving is fixed to False in the base configuration, will not use default [True]
 )
 @triton.jit
 def kernel(...):
     ...
 ```
 
-## 使用注意事项
+## Usage Notes
 
-### 1. 不支持的参数会被忽略
+### 1. Unsupported Parameters are Ignored
 
-如果通过 `tuning_params` 传递了当前 `kernel_type` 不支持的参数，会产生警告并忽略该参数：
+If a parameter not supported by the current `kernel_type` is passed via `tuning_params`, a warning will be generated and the parameter will be ignored:
 
 ```python
-# 警告：tile_mix_vector_loop 不支持 kernel_type="vector"
+# Warning: tile_mix_vector_loop is not supported for kernel_type="vector"
 @max_autotune(
     configs=[...],
     key=["M"],
     kernel_type="vector",
-    tile_mix_vector_loop=[2, 4],  # 将被忽略并产生警告
+    tile_mix_vector_loop=[2, 4],  # Will be ignored and generate a warning
 )
 @triton.jit
 def kernel(...):
     ...
 ```
 
-### 2. 参数值必须是列表
+### 2. Parameter Values Must Be Lists
 
-`tuning_params` 中的每个值必须是列表或元组，且不能为空：
+Each value in `tuning_params` must be a list or tuple, and cannot be empty:
 
 ```python
-# 正确写法
+# Correct usage
 enable_hivm_auto_cv_balance=[True, False]
 
-# 错误写法：不是列表
-enable_hivm_auto_cv_balance=True  # 将导致验证错误
+# Incorrect usage: not a list
+enable_hivm_auto_cv_balance=True  # Will cause a validation error
 ```
 
-### 3. 配置数量增长
+### 3. Configuration Count Growth
 
-展开后的配置数量等于：
-基础配置数量 × Π(每个 tuning_param 的列表长度)
+The number of configurations after expansion equals:
+Number of base configurations × Π(length of each tuning_param list)
 
-例如，2 个基础配置 × 3 个参数（列表长度分别为 2、3、2）= 12 个展开配置。
+For example, 2 base configurations × 3 parameters (list lengths 2, 3, 2) = 12 expanded configurations.
 
-过多的配置会增加首次调优时间，建议根据实际需要合理控制参数空间。
+Too many configurations can increase the initial tuning time. It is recommended to reasonably control the parameter space based on actual needs.
 
-### 4. 与 `configs=[]` 的区别
+### 4. Difference from `configs=[]`
 
-`max_autotune` 与 `@triton.autotune(configs=[], ...)` 是两种不同的自动调优策略：
+`max_autotune` and `@triton.autotune(configs=[], ...)` are two different auto-tuning strategies:
 
-| 特性 | `max_autotune` | `@triton.autotune(configs=[])` |
-|------|----------------|--------------------------------|
-| Tiling 参数生成 | 需要用户在基础配置中指定 | Ascend backend 自动生成 |
-| 编译参数调优 | 支持通过 `tuning_params` 展开 | 通过 `hints` 参数传入 |
-| 适用场景 | 明确知道 Tiling 参数空间，需要调优编译参数 | 希望 Tiling 参数也自动生成 |
+| Feature | `max_autotune` | `@triton.autotune(configs=[])` |
+|---------|----------------|--------------------------------|
+| Tiling parameter generation | User specifies in base configurations | Automatically generated by Ascend backend |
+| Compilation parameter tuning | Supported via `tuning_params` expansion | Passed via `hints` parameter |
+| Applicable scenario | Knows the tiling parameter space, needs to tune compilation parameters | Wants tiling parameters to also be automatically generated |
 
-## 进阶用法
+## Advanced Usage
 
-### 1. 结合多个调优参数
+### 1. Combining Multiple Tuning Parameters
 
-对于混合类型算子（`kernel_type="mix"`），可以同时调优多个参数：
+For mixed-type operators (`kernel_type="mix"`), multiple parameters can be tuned simultaneously:
 
 ```python
 @max_autotune(
@@ -230,17 +230,17 @@ def mixed_kernel(...):
     ...
 ```
 
-展开后配置数量计算：
+Expanded configuration count calculation:
 
-- 基础配置：2 个
-- 用户提供的参数：`num_stages`（2）、`enable_hivm_auto_cv_balance`（2）、`tile_mix_vector_loop`（3）、`tile_mix_cube_loop`（2）
-- 使用默认值的参数：`set_workspace_multibuffer`（默认 `[2, 4]` → 2）、其他参数各 1
+- Base configurations: 2
+- User-provided parameters: `num_stages` (2), `enable_hivm_auto_cv_balance` (2), `tile_mix_vector_loop` (3), `tile_mix_cube_loop` (2)
+- Parameters using default values: `set_workspace_multibuffer` (default `[2, 4]` → 2), other parameters with 1 value each
 
-总配置数量：`2 × 2 × 2 × 2 × 3 × 2 = 96` 个配置。
+Total configurations: `2 × 2 × 2 × 2 × 3 × 2 = 96` configurations.
 
-### 2. 针对 cube 类型算子的调优
+### 2. Tuning for Cube-Type Operators
 
-cube 类型算子（如纯矩阵乘法）支持的参数较少：
+Cube-type operators (e.g., pure matrix multiplication) support fewer parameters:
 
 ```python
 @max_autotune(
@@ -258,9 +258,9 @@ def matmul_kernel(...):
     ...
 ```
 
-### 3. 针对向量算子的调优
+### 3. Tuning for Vector Operators
 
-向量算子支持最少的调优参数：
+Vector operators support the fewest tuning parameters:
 
 ```python
 @max_autotune(
@@ -278,12 +278,12 @@ def vector_kernel(...):
     ...
 ```
 
-## 小结
+## Summary
 
-`max_autotune` 是 Triton-Ascend 提供的高级自动调优工具，适合以下场景：
+`max_autotune` is an advanced auto-tuning tool provided by Triton-Ascend, suitable for the following scenarios:
 
-1. 已知 Tiling 参数空间，希望减少手工枚举配置的工作量；
-2. 需要联合调优多个 Ascend 编译参数（如 `num_stages`、`enable_hivm_auto_cv_balance` 等）；
-3. 希望通过笛卡尔积方式批量生成候选配置。
+1. The tiling parameter space is known, and you want to reduce the workload of manually enumerating configurations;
+2. You need to jointly tune multiple Ascend compilation parameters (such as `num_stages`, `enable_hivm_auto_cv_balance`, etc.);
+3. You want to batch-generate candidate configurations via the Cartesian product method.
 
-`max_autotune` 的核心价值在于：用少量基础配置 + 调优参数空间描述，自动展开出完整的候选配置集合，兼顾了灵活性与便利性。
+The core value of `max_autotune` is: using a small number of base configurations + a description of the tuning parameter space to automatically expand into a complete set of candidate configurations, balancing flexibility and convenience.

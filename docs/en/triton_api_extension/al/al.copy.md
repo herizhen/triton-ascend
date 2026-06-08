@@ -1,12 +1,10 @@
 # al.copy
 
-## 1. 背景
+## 1. Background
 
-功能类似 copy_from_ub_to_l1 , 在 copy_from_ub_to_l1 的基础上增加了 ub 到 ub 的复制，原来的 copy_from_ub_to_l1 添加废弃警告。
+Its functionality is similar to `copy_from_ub_to_l1`. Based on `copy_from_ub_to_l1`, it adds support for UB-to-UB copying. The original `copy_from_ub_to_l1` has been updated to include a deprecation warning.
 
-Its functionality is similar to copy_from_ub_to_l1. Based on copy_from_ub_to_l1, it adds support for UB-to-UB copying. The original copy_from_ub_to_l1 has been updated to include a deprecation warning.
-
-## 2. 接口说明
+## 2. Interface Description
 
 <table>
   <tr>
@@ -14,42 +12,42 @@ Its functionality is similar to copy_from_ub_to_l1. Based on copy_from_ub_to_l1,
   </tr>
 </table>
 
-### 参数
+### Parameters
 
 <table>
   <tr>
-    <td>参数名</td>
-    <td>类型</td>
-    <td>必需</td>
-    <td>说明</td>
+    <td>Parameter Name</td>
+    <td>Type</td>
+    <td>Required</td>
+    <td>Description</td>
   </tr>
   <tr>
     <td>src</td>
     <td>tensor / buffer</td>
-    <td>是</td>
-    <td>源数据，位于ub 上</td>
+    <td>Yes</td>
+    <td>Source data, located on UB</td>
   </tr>
   <tr>
     <td>dst</td>
     <td>tensor / buffer</td>
-    <td>是</td>
-    <td>目标数据，位于l1  或者 ub 上</td>
+    <td>Yes</td>
+    <td>Destination data, located on L1 or UB</td>
   </tr>
 </table>
 
-### 返回值
+### Return Value
 
-无
+None
 
-## 3. 约束说明
+## 3. Constraints
 
-- src 和 dst 必须同时为 tensor 或者 buffer ，tensor 暂时不支持
+- `src` and `dst` must both be tensors or both be buffers; tensor mode is not yet supported.
 
-- src 的address space 必须为UB， dst 的address space 必须为L1
+- The address space of `src` must be UB, and the address space of `dst` must be L1.
 
-- src 和 dst 类型 ，形状必须相同
+- The types and shapes of `src` and `dst` must be identical.
 
-## 4. 用例示例
+## 4. Usage Example
 
 ```python
 import os
@@ -129,7 +127,7 @@ if __name__ == "__main__":
     test_copy()
 ```
 
-## 5. 编译输出结果
+## 5. Compilation Output
 
 <table>
   <tr>

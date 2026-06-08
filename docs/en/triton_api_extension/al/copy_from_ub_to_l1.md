@@ -1,10 +1,10 @@
-# al.copy_from_ub_to_l1 接口文档
+# al.copy_from_ub_to_l1 API Documentation
 
-## 1. 硬件背景
+## 1. Hardware Background
 
-昇腾硬件 A5 支持了直接从 UB 复制数据到 L1 ， 避免了先从 UB 到 GM 再从 GM 到 L1 复制两次，可以提高数据复制的效率。 因此，提供 copy_from_ub_to_l1 接口实现数据从 UB 到 L1 的复制。
+The Ascend hardware A5 supports direct data copying from UB to L1, avoiding the two-step copy from UB to GM and then from GM to L1, thereby improving data copy efficiency. Therefore, the `copy_from_ub_to_l1` interface is provided to implement data copying from UB to L1.
 
-## 2. 接口说明
+## 2. API Description
 
 <table>
   <tr>
@@ -12,42 +12,42 @@
   </tr>
 </table>
 
-### 参数
+### Parameters
 
 <table>
   <tr>
-    <td>参数名</td>
-    <td>类型</td>
-    <td>必需</td>
-    <td>说明</td>
+    <td>Parameter Name</td>
+    <td>Type</td>
+    <td>Required</td>
+    <td>Description</td>
   </tr>
   <tr>
     <td>src</td>
     <td>tensor / buffer</td>
-    <td>是</td>
-    <td>源数据，位于ub 上</td>
+    <td>Yes</td>
+    <td>Source data, located on UB</td>
   </tr>
   <tr>
     <td>dst</td>
     <td>tensor / buffer</td>
-    <td>是</td>
-    <td>目标数据，位于l1 上</td>
+    <td>Yes</td>
+    <td>Destination data, located on L1</td>
   </tr>
 </table>
 
-### 返回值
+### Return Value
 
-无
+None
 
-## 3. 约束说明
+## 3. Constraints
 
-- src 和 dst 必须同时为 tensor 或者 buffer ，tensor 暂时不支持
+- `src` and `dst` must both be either tensor or buffer; tensor is currently not supported
 
-- src 的address space 必须为UB， dst 的address space 必须为L1
+- The address space of `src` must be UB, and the address space of `dst` must be L1
 
-- src 和 dst 类型 ，形状必须相同
+- `src` and `dst` must have the same type and shape
 
-## 4. 用例示例
+## 4. Usage Example
 
 ```python
 import os
@@ -127,7 +127,7 @@ if __name__ == "__main__":
     test_copy()
 ```
 
-## 5. 编译输出结果
+## 5. Compilation Output
 
 <table>
   <tr>

@@ -1,48 +1,48 @@
 # triton.language.cumsum
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：`triton.language.cumsum` 计算输入tensor沿指定轴的累积和，返回累积求和结果。
+Description: `triton.language.cumsum` computes the cumulative sum of the input tensor along a specified axis, returning the cumulative summation result.
 
 ```python
 triton.language.cumsum(input, axis=0, reverse=False)
 ```
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名 | 类型 | 说明 |
-|--------|------|------|
-| `input` | `Tensor` | 输入tensor |
-| `axis` | `int` | 沿着哪个维度进行累积和操作，默认为0 |
-| `reverse` | `bool` | 如果为True，沿反方向进行累积和操作 |
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `input` | `Tensor` | Input tensor |
+| `axis` | `int` | The dimension along which to compute the cumulative sum, default is 0 |
+| `reverse` | `bool` | If True, computes the cumulative sum in the reverse direction |
 
-`cumsum` 函数计算沿指定轴的累积和（前缀和）。例如，对于输入 `[a, b, c, d]`，累积和结果为 `[a, a+b, a+b+c, a+b+c+d]`。
+The `cumsum` function computes the cumulative sum (prefix sum) along the specified axis. For example, for input `[a, b, c, d]`, the cumulative sum result is `[a, a+b, a+b+c, a+b+c+d]`.
 
-当 `reverse=True` 时，计算反向累积和：`[a+b+c+d, b+c+d, c+d, d]`。
+When `reverse=True`, it computes the reverse cumulative sum: `[a+b+c+d, b+c+d, c+d, d]`.
 
-返回值：
-`tensor`：计算输入tensor沿指定轴的累积和，返回累积求和结果。
+Return value:
+`tensor`: Computes the cumulative sum of the input tensor along the specified axis, returning the cumulative summation result.
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
-|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-|---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
+| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+|---|-------|------|--------|-------|--------|-------|--------|-------|------|------|------|-----------|
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ |
-| GPU支持 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-结论：在 Shape 方面，GPU 与 Ascend 平台无差异。
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 特殊限制说明
+### 2.3 Special Constraints
 
-### 2.4 使用方法
+### 2.4 Usage
 
-以下示例实现了对2Dshape的tensor进行cumsum运算：
+The following example demonstrates performing cumsum operation on a 2D tensor:
 
 ```python
 @triton.jit

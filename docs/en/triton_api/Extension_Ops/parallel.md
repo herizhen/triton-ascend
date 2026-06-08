@@ -1,8 +1,8 @@
 # triton.language.parallel
 
-## 1. 函数概述
+## 1. Function Overview
 
-`parallel` 是一个专门用于多核心并行执行的迭代器，继承自 `range` 类，提供显式的多核心并行语义。
+`parallel` is an iterator specifically designed for multi-core parallel execution, inheriting from the `range` class and providing explicit multi-core parallel semantics.
 
 ```python
 triton.language.parallel(arg1, arg2=None, step=None, num_stages=None,
@@ -10,41 +10,41 @@ triton.language.parallel(arg1, arg2=None, step=None, num_stages=None,
                          _semantic=None)
 ```
 
-## 2. 规格
+## 2. Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数 | 类型 | 默认值 | 含义说明 |
-|------|------|--------|----------|
-| `arg1` | `int` /`constexpr`| 必需 | 起始值（单参数时作为结束值，从0开始） |
-| `arg2` | `int`/`constexpr` | - | 结束值（不包含在范围内） |
-| `step` | `int` /`constexpr`| `1` | 每次迭代的步长增量 |
-| `num_stages` | `int` | - | 流水线阶段数（同时执行的迭代数量） |
-| `loop_unroll_factor` | `int` | - | 循环展开因子（<2表示不展开） |
-| `bind_sub_block` | `bool` | `False` | **关键参数**：绑定到子块，启用多核心并行执行 |
-| `_semantic` | - | - | 保留参数，暂不支持外部调用 |
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `arg1` | `int` / `constexpr` | Required | Start value (when used as a single argument, it serves as the end value, starting from 0) |
+| `arg2` | `int` / `constexpr` | - | End value (exclusive) |
+| `step` | `int` / `constexpr` | `1` | Step increment per iteration |
+| `num_stages` | `int` | - | Number of pipeline stages (number of iterations executed concurrently) |
+| `loop_unroll_factor` | `int` | - | Loop unroll factor (<2 means no unrolling) |
+| `bind_sub_block` | `bool` | `False` | **Key parameter**: Bind to sub-block, enabling multi-core parallel execution |
+| `_semantic` | - | - | Reserved parameter, external calls not supported |
 
-> **注意**：`parallel` 相比于 `range` 移除了以下参数：
+> **Note**: Compared to `range`, `parallel` removes the following parameters:
 >
 > - `disallow_acc_multi_buffer`
 > - `flatten`
 > - `warp_specialize`
 > - `disable_licm`
 
-### 2.2 类型支持
+### 2.2 Type Support
 
-A3：
+A3:
 
 | | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 |------|-------|-------|-------|-------|--------|--------|--------|-------|------|------|------|------|------|
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | × | × |
-| Ascend A2/A3 | ✓ | ✓ | ✓ | ×|×| × | × | ✓ | × | × | × | × | × |
+| Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | × | × | ✓ | × | × | × | × | × |
 
-### 2.3 特殊限制说明
+### 2.3 Special Restrictions
 
-`bind_sub_block` 为真时在IR中并体现出跟`range`的区别，功能是否实现待验证。
+When `bind_sub_block` is true, the IR reflects a difference from `range`, but whether the functionality is actually implemented remains to be verified.
 
-## 3. 使用方法
+## 3. Usage
 
 ```python
 @triton.jit

@@ -1,56 +1,56 @@
 # triton.language.reshape
 
-## 1 功能作用说明
+## 1 Function Description
 
-将张量重新解释为新的形状。
+Reinterprets a tensor with a new shape.
 
-**语法：**
+**Syntax:**
 
-- `triton.language.reshape(input, shape, can_reorder=False)` - 函数调用形式
-- `input.reshape(shape, can_reorder=False)` - 成员函数形式
+- `triton.language.reshape(input, shape, can_reorder=False)` - Function call form
+- `input.reshape(shape, can_reorder=False)` - Member function form
 
-**功能：**
+**Functionality:**
 
-- 将张量重新解释为新的形状
+- Reinterprets a tensor with a new shape
 
-## 2 参数规格
+## 2 Parameter Specifications
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名 | 类型 | 必需 | 说明 |
-|--------|------|------|------|
-| input | tensor | 是 | 输入张量 |
-| shape | List[int] | 是 | 目标形状 |
-| can_reorder | bool | 否 | 是否允许重新排序元素，默认False |
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| input | tensor | Yes | Input tensor |
+| shape | List[int] | Yes | Target shape |
+| can_reorder | bool | No | Whether to allow reordering of elements, default False |
 
-**返回值：**
+**Return Value:**
 
-- **类型：** tensor
-- **形状：** 与shape参数指定的目标形状相同
-- **数据类型：** 与输入张量相同
-- **内存布局：** 根据can_reorder参数决定
+- **Type:** tensor
+- **Shape:** Same as the target shape specified by the shape parameter
+- **Data Type:** Same as the input tensor
+- **Memory Layout:** Determined by the can_reorder parameter
 
-**约束条件：**
+**Constraints:**
 
-- 输入和输出张量的总元素数必须相等
-- 所有tensor不允许某个shape的size小于1
+- The total number of elements in the input and output tensors must be equal
+- No tensor is allowed to have a shape dimension size less than 1
 
-### 2.2 DataType支持表
+### 2.2 DataType Support Table
 
-| 支持情况 | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|----------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:----:|:----:|:------:|:---:|
+| Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
-| GPU支持 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
-### 2.3 Shape支持表
+### 2.3 Shape Support Table
 
-支持任意维度数、任意形状大小。
+Supports any number of dimensions and any shape size.
 
-### 2.4 特殊限制说明
+### 2.4 Special Constraints
 
-* can_reorder参数仅支持False
+* The `can_reorder` parameter only supports `False`
 
-### 2.5 使用方法
+### 2.5 Usage Example
 
 ```python
 import torch
@@ -59,18 +59,18 @@ import triton.language as tl
 
 @triton.jit
 def reshape_example(out_ptr):
-    # 创建2x3x4的张量
+    # Create a 2x3x4 tensor
     x = tl.zeros([2, 3, 4], dtype=tl.float32)
 
-    # reshape为6x4
+    # Reshape to 6x4
     y = tl.reshape(x, [6, 4])
 
-    # 将结果写回外部张量
+    # Write the result back to the external tensor
     offs = tl.arange(0, 6)[:, None] * 4 + tl.arange(0, 4)[None, :]
     tl.store(out_ptr + offs, y)
 
-## 调用示例
+## Example call
 out = torch.empty((6, 4), dtype=torch.float32, device="npu")
 reshape_example[(1,)](out)
-print(out.shape)  # 输出: torch.Size([6, 4])
+print(out.shape)  # Output: torch.Size([6, 4])
 ```

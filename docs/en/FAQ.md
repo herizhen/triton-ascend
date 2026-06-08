@@ -1,24 +1,24 @@
 # Triton-Ascend FAQ
 
-## 1. 安装与环境配置
+## 1. Installation and Environment Configuration
 
-**Q: 如何正确安装 Triton-Ascend？是否支持 pip 直接安装？**
+**Q: How to properly install Triton-Ascend? Does it support direct pip installation?**
 
-A: 可以直接使用pip 安装
+A: You can install it directly using pip.
 
 ```Python
 pip install triton-ascend
 ```
 
-**Q: 社区 Triton 和 Triton-Ascend 能否同时存在？**
+**Q: Can community Triton and Triton-Ascend coexist?**
 
-A: triton-ascend 3.2.0 及以下不可以。需要先卸载社区 Triton，再安装 Triton-Ascend。<br>
-triton-ascend 3.2.1 及以上，Triton-Ascend 通过将 Triton 声明为安装依赖来缓解安装覆盖问题。
-安装 Triton-Ascend 时会先安装社区 Triton，再由 Triton-Ascend 覆盖同名目录，从而避免后续安装其他依赖 Triton 的软件包时再次安装 Triton 而覆盖 Triton-Ascend。
-x86 与 arm 使用不同版本的社区 Triton 安装包的原因是社区从 3.5 版本开始才提供 arm 版本安装包：x86 依赖 triton==3.2.0，arm 依赖 triton==3.5.0。
+A: For triton-ascend 3.2.0 and below, no. You need to uninstall the community Triton first, then install Triton-Ascend.<br>
+For triton-ascend 3.2.1 and above, Triton-Ascend mitigates the installation overwrite issue by declaring Triton as an installation dependency.
+When installing Triton-Ascend, the community Triton is installed first, and then Triton-Ascend overwrites the directory with the same name, thus preventing subsequent installations of other software packages that depend on Triton from overwriting Triton-Ascend.
+The reason x86 and arm use different versions of the community Triton installation package is that the community only started providing arm version packages from version 3.5 onwards: x86 depends on triton==3.2.0, arm depends on triton==3.5.0.
 
-- 注：若安装triton-ascend后，在安装依赖triton的三方件或者triton本身，将覆盖掉已安装的 Triton-Ascend 目录。
-此时需要先卸载社区 Triton 和 Triton-Ascend，再安装 Triton-Ascend。
+- Note: If, after installing triton-ascend, you install a third-party package that depends on triton, or triton itself, it will overwrite the installed Triton-Ascend directory.
+In this case, you need to uninstall the community Triton and Triton-Ascend first, then reinstall Triton-Ascend.
 
 ```Python
 pip uninstall triton
@@ -26,45 +26,45 @@ pip uninstall triton-ascend
 pip install triton-ascend
 ```
 
-**Q: 能否在非 Ascend 硬件（如 CUDA AMD）上使用 Triton-Ascend？**
+**Q: Can Triton-Ascend be used on non-Ascend hardware (e.g., CUDA, AMD)?**
 
-A: 不可以，只能在 Ascend NPU 硬件环境使用 Triton-Ascend
+A: No, Triton-Ascend can only be used in an Ascend NPU hardware environment.
 
-## 2. 精度与数值一致性问题
+## 2. Accuracy and Numerical Consistency Issues
 
-**Q: NPU 运行结果和 PyTorch/CPU/GPU 参考结果不一致，如何排查？**
+**Q: The NPU execution results are inconsistent with PyTorch/CPU/GPU reference results. How to debug?**
 
-A: 用例请参考 [07_accuracy_comparison_example.md](../zh/examples/07_accuracy_comparison_example.md)
-调试方法请参考 [解释器模式调试方法](./debug_guide/debugging.md#4-解释器模式)
+A: For examples, please refer to [07_accuracy_comparison_example.md](../zh/examples/07_accuracy_comparison_example.md)
+For debugging methods, please refer to [Interpreter Mode Debugging Method](./debug_guide/debugging.md#4-interpreter-mode)
 
-## 3. 错误代码与异常处理
+## 3. Error Codes and Exception Handling
 
-**Q: 为什么 kernel 编译时报 MLIRCompilationError？如何定位具体失败的 Pass？**
+**Q: Why does the kernel compilation report MLIRCompilationError? How to locate the specific failing Pass?**
 
-A: 请参考 [编译错误调试方法](./debug_guide/debugging.md#52-编译错误调试方法)
+A: Please refer to [Compilation Error Debugging Method](./debug_guide/debugging.md#52-compilation-error-debugging-method)
 
-## 4. 调试与日志
+## 4. Debugging and Logging
 
-**Q: 如何开启详细日志输出？TRITON_DEBUG=1 输出在哪？**
+**Q: How to enable verbose log output? Where is TRITON_DEBUG=1 output?**
 
-A: 可以使用 TRITON_DEBUG=1 获取详细的调试转储文件，请参考 [调试转储文件（Dump Files）](./debug_guide/debugging.md#32-调试转储文件dump-files)
+A: You can use TRITON_DEBUG=1 to obtain detailed debug dump files. Please refer to [Debug Dump Files](./debug_guide/debugging.md#32-debug-dump-files)
 
-**Q: 能否在 kernel 中打印中间张量值？tl.device_print 是否可用？**
+**Q: Can I print intermediate tensor values in the kernel? Is tl.device_print available?**
 
-A: 可以使用 tl.device_print 打印 kernel 中的张量，请参考 [打印调试方法](debug_guide/debugging.md#51-打印调试方法)
+A: You can use tl.device_print to print tensors in the kernel. Please refer to [Print Debugging Method](debug_guide/debugging.md#51-print-debugging-method)
 
-## 5. 开发与贡献
+## 5. Development and Contribution
 
-**Q: 如何本地构建并测试 Triton-Ascend？**
+**Q: How to build and test Triton-Ascend locally?**
 
-A: 本地构建和测试方法，请参考 [通过源码安装Triton-Ascend](./installation_guide.md#通过源码安装triton-ascend)
+A: For local build and test methods, please refer to [Install Triton-Ascend from Source](./installation_guide.md#install-triton-ascend-from-source)
 
-**Q: 提交 PR 需要通过哪些 CI 检查？**
+**Q: Which CI checks must a PR pass?**
 
-A: PR 的 CI 检查包括：编码安全与规范检查、开源片段检查、恶意代码检查、编译构建、开发者测试
+A: The CI checks for a PR include: Code security and specification checks, Open-source snippet checks, Malicious code checks, Compilation and build, Developer tests
 
-## 6. 性能调优
+## 6. Performance Tuning
 
-**Q: 有没有性能分析工具（profiler）可以使用？**
+**Q: Is there a performance analysis tool (profiler) available?**
 
-A: 有集成性能分析工具（profiler），请参考 [算子性能调优方法](./debug_guide/profiling.md)
+A: Yes, an integrated performance analysis tool (profiler) is available. Please refer to [Operator Performance Tuning Method](./debug_guide/profiling.md)

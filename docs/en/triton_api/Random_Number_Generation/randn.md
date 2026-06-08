@@ -1,9 +1,9 @@
 # triton.language.randn
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：给定 1 个 seed 标量和 1 个 offset 块，返回 1 个 在 **N**(**0**,**1**)中（服从标准正态分布）的 float32 类型的随机块。
-原型：
+Description: Given 1 seed scalar and 1 offset block, returns 1 random block of float32 type following the standard normal distribution **N**(**0**,**1**).
+Prototype:
 
 ```python
 triton.language.randn(
@@ -13,40 +13,40 @@ triton.language.randn(
 )
 ```
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名           | 类型                | 说明                                                             |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `seed`        | `int`或 `tensor`           | 用于生成随机数的种子                                                   |
-| `offset`       |`int`或 `tensor`     | 用于生成随机数的偏移量                     |
-| `n_rounds`     | `constexpr`，默认值为10   | Philox 算法的迭代轮数 |
+| Parameter Name | Type               | Description                                                      |
+| -------------- | ------------------ | ---------------------------------------------------------------- |
+| `seed`         | `int` or `tensor`  | Seed used for random number generation                           |
+| `offset`       | `int` or `tensor`  | Offset used for random number generation                         |
+| `n_rounds`     | `constexpr`, default 10 | Number of iterations for the Philox algorithm                    |
 
-返回值：
-1 个 float32 类型的随机块，shape与offset的相同，其值服从标准正态分布 `N(0, 1)`
+Return Value:
+1 random block of float32 type, with the same shape as `offset`, whose values follow the standard normal distribution `N(0, 1)`
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
-输入seed的type：
+Supported types for input seed:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| Ascend A2/A3 | √    | √     | √     | √     | √    | √     | √     |√     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3 | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | √    |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-无特殊要求
+No special requirements
 
-### 2.3 特殊限制说明
+### 2.3 Special Constraints
 
-> 相对社区能力缺失且无法实现
+> Missing community capability and cannot be implemented
 
-### 2.4 使用方法
+### 2.4 Usage Example
 
-以下示例实现了对randn的调用：
+The following example demonstrates the invocation of `randn`:
 
 ```python
 import math
@@ -57,9 +57,9 @@ import triton.language as tl
 @triton.jit
 def kernel_randn(x_ptr, n_rounds: tl.constexpr, N: tl.constexpr, XBLOCK: tl.constexpr):
     block_offset = tl.program_id(0) * XBLOCK
-    offsets = block_offset + tl.arange(0, XBLOCK)  # 块级 offset 张量
+    offsets = block_offset + tl.arange(0, XBLOCK)  # Block-level offset tensor
     mask = offsets < N
-    rand_vals = tl.randn(5, 10 + offsets, n_rounds)  # 一次生成一整块随机数
+    rand_vals = tl.randn(5, 10 + offsets, n_rounds)  # Generate a full block of random numbers at once
     tl.store(x_ptr + offsets, rand_vals, mask=mask)
 
 shape = (1024,)

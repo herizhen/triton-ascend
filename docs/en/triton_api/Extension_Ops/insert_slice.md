@@ -1,9 +1,9 @@
 # triton.language.insert_slice
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：将一个张量（子张量）插入到另一个张量的指定位置，即将一个张量按照操作指定的偏移量、大小和步幅参数插入到另一个张量中。
-原型：
+Description: Inserts a tensor (sub-tensor) into another tensor at a specified position, i.e., inserting one tensor into another according to the operation's specified offset, size, and stride parameters.
+Prototype:
 
 ```python
 triton.language.insert_slice(
@@ -17,46 +17,46 @@ triton.language.insert_slice(
 ) -> tensor
 ```
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名           | 类型                | 说明                                                             |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `ful`        | `tensor`          | 接收插入的目标张量                                                     |
-| `sub`       | `tensor`    | 要插入的子张量，其形状必须与`sizes`参数指定的形状匹配                                                        |
-| `offsets`     | `tuple of ints`    | 指定在`ful`张量中插入的起始偏移量（每个维度） |
-| `sizes` | `tuple of ints` | 指定插入区域的大小（每个维度）                                             |
-| `strides` | `tuple of ints` | 指定插入区域的步长（每个维度）                                            |
-| `_builder` |- | 保留参数，暂不支持外部调用                                            |
-| `_generator`   | -               | 保留参数，暂不支持外部调用                                                |
+| Parameter    | Type             | Description                                                      |
+| ------------ | ---------------- | ---------------------------------------------------------------- |
+| `ful`        | `tensor`         | The target tensor to receive the insertion                       |
+| `sub`        | `tensor`         | The sub-tensor to be inserted, whose shape must match the shape specified by the `sizes` parameter |
+| `offsets`    | `tuple of ints`  | Specifies the starting offsets (per dimension) for insertion into the `ful` tensor |
+| `sizes`      | `tuple of ints`  | Specifies the size of the insertion region (per dimension)       |
+| `strides`    | `tuple of ints`  | Specifies the stride of the insertion region (per dimension)     |
+| `_builder`   | -                | Reserved parameter, currently not supported for external calls   |
+| `_generator` | -                | Reserved parameter, currently not supported for external calls   |
 
-返回值：
-`tensor`：插入子张量后的新张量
+Return value:
+`tensor`: A new tensor after inserting the sub-tensor
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
 | Ascend A2/A3 | √    | √     | √     | √     | √     | √       | √         |  √       | √    | √    |  √    | ×    |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-支持任意形状的张量，但需满足：
+Supports tensors of arbitrary shapes, with the following requirements:
 
-1. `ful`和`sub`的维度数必须相同
-2. `offsets`、`sizes`、`strides`的长度必须与张量维度数相同
-3. 插入区域不能超出`ful`张量的边界
+1. The number of dimensions of `ful` and `sub` must be the same
+2. The lengths of `offsets`, `sizes`, and `strides` must match the number of tensor dimensions
+3. The insertion region must not exceed the boundaries of the `ful` tensor
 
-### 2.3 特殊限制说明
+### 2.3 Special Constraints
 
-无特殊限制
+No special constraints
 
-### 2.4 使用方法
+### 2.4 Usage Example
 
-以下示例实现了将切片计算结果插入回原张量：
+The following example demonstrates inserting the result of a slice computation back into the original tensor:
 
 ```python
 @triton.jit
@@ -67,17 +67,17 @@ def triton_kernel(x_ptr, y_ptr, output_ptr, n_elements, BLOCK_SIZE: tl.constexpr
     mask = offsets < n_elements
     x = tl.load(x_ptr + offsets, mask=mask)
     y = tl.load(y_ptr + offsets, mask=mask)
-    # 提取切片
+    # Extract slice
     x_sub = tl.extract_slice(x, [block_start+SLICE_OFFSET], [SLICE_SIZE], [1])
     y_sub = tl.extract_slice(y, [block_start+SLICE_OFFSET], [SLICE_SIZE], [1])
     output_sub = x_sub + y_sub
-    # 加载原始输出张量
+    # Load original output tensor
     output = tl.load(output_ptr + offsets, mask=mask)
-    # 将计算结果插入回原张量
+    # Insert computation result back into the original tensor
     output = tl.insert_slice(output, output_sub, [block_start+SLICE_OFFSET], [SLICE_SIZE], [1])
     tl.store(output_ptr + offsets, output, mask=mask)
 ```
 
-## 3. 语义GAP
+## 3. Semantic Gap
 
-无语义差异
+No semantic differences

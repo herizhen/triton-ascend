@@ -1,46 +1,46 @@
 # triton.language.zeros
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：`triton.language.zeros`返回用给定形状和dtype的标量值0填充的张量。
+Description: `triton.language.zeros` returns a tensor filled with the scalar value 0 of the given shape and dtype.
 
 ```python
 triton.language.zeros(shape, dtype)
 ```
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名           | 类型                  | 说明                                   |
+| Parameter Name | Type | Description |
 | ------------- | ----------------- | ---------------------------- |
-| `shape`           | `tuple of ints`               | 新数组的形状，例如 (8, 16) 或 (8, ) |
-| `dtype`            | `tl.dtype`               |  新数组的数据类型，例如 tl.float16  |
+| `shape` | `tuple of ints` | Shape of the new array, e.g., (8, 16) or (8, ) |
+| `dtype` | `tl.dtype` | Data type of the new array, e.g., tl.float16 |
 
-返回值：
-`tensor`：返回用给定形状和dtype的标量值0填充的张量。
+Return Value:
+`tensor`: Returns a tensor filled with the scalar value 0 of the given shape and dtype.
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
 || uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | × |
-| GPU支持 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × |
+| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-结论：在 Shape 方面，GPU 与 Ascend 平台无差异。
+Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitations
 
-> 相对社区能力缺失且无法实现
-> 无
+> Missing capabilities relative to the community that cannot be implemented
+> None
 
-### 2.4 使用方法
+### 2.4 Usage Example
 
-以下示例实现了返回填充了0数值的(XB,YB,ZB)shape的tensor：
+The following example demonstrates returning a tensor of shape (XB, YB, ZB) filled with 0 values:
 
 ```python
 @triton.jit

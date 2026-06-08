@@ -1,8 +1,8 @@
 # triton.language.load
 
-## 1. OP 概述
+## 1. OP Overview
 
-原型：
+Prototype:
 
 ```python
 triton.language.load(
@@ -18,75 +18,75 @@ triton.language.load(
 )
 ```
 
-简介：返回一个Tensor/Scalar，其值从GlobalMemory中`pointer`参数指向的位置加载。
+Description: Returns a Tensor/Scalar whose values are loaded from the location pointed to by the `pointer` parameter in GlobalMemory.
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名           | 类型                | 说明                                                             |
+| Parameter Name  | Type                | Description                                                        |
 | ------------- | ----------------- | -------------------------------------------------------------- |
-| `pointer`        | `triton.PointerType` <br> 或 `tensor<triton.PointerType>` <br> 或`triton.PointerType<tensor>`（来源于`tl.make_block_ptr`）         | 指向GM上待读取数据的指针                                                    |
-| `mask`       | `int1`或`tensor<int1>`    | 可选参数，当且仅当`pointer` 不来源于`tl.make_block_ptr`时可传入<br>若`mask[i]==False` ，则不会读取`pointer[i]`指向的数据,是`True`则正常读取 <br>若`pointer`来源于`tl.make_block_ptr`，则`mask`必须是`None`                                        |
-| `other`     | `tensor` 或`scalar`   | 可选参数，当且仅当`mask!=None`时可传入<br> 若`mask[i]==False` ，将返回值的第`i`个位置设置为`other[i]`或`other`（若`other`是`scalar`类型）, 需要支持tensor，因为tritonGPU社区上是tensor和scalar都支持的 |
-| `boundary_check` | `tuple(int)` | 可选参数，当且仅当`pointer`来源于`tl.make_block_ptr`时可传入<br>整数元组，指示需要做边界检查的维度                                         |
-| `padding_option`   | `""`或`"zero"`或`"nan"`               | 可选参数，当且仅当`boundary_check`不为空时可传入<br>表示访问越界时填充的值 |
-| `cache_modifier`   | `""` 或 `"ca"`或`"cg"`                | 可选参数，控制NVIDIA PTX上的cache选项，对Ascend硬件无效                                                |
-| `eviction_policy`   | `str`                | 控制NVIDIA PTX的eviction策略， 对Ascend硬件无效                                                |
-| `volatile`   | `str`                 | 控制NVIDIA PTX的volatile选项， 对Ascend硬件无效                                        |
-| `_semantic`   | -                 | 保留参数，暂不支持外部调用                                                |
+| `pointer`        | `triton.PointerType` <br> or `tensor<triton.PointerType>` <br> or `triton.PointerType<tensor>` (from `tl.make_block_ptr`)         | Pointer to the data to be read on GM                                                    |
+| `mask`       | `int1` or `tensor<int1>`    | Optional parameter, can only be passed when `pointer` is not from `tl.make_block_ptr`<br>If `mask[i]==False`, the data pointed to by `pointer[i]` will not be read; if `True`, it will be read normally <br>If `pointer` is from `tl.make_block_ptr`, `mask` must be `None`                                        |
+| `other`     | `tensor` or `scalar`   | Optional parameter, can only be passed when `mask!=None`<br>If `mask[i]==False`, set the `i`-th position of the return value to `other[i]` or `other` (if `other` is a `scalar` type). Tensor support is required because the tritonGPU community supports both tensor and scalar |
+| `boundary_check` | `tuple(int)` | Optional parameter, can only be passed when `pointer` is from `tl.make_block_ptr`<br>Integer tuple indicating the dimensions that require boundary checking                                         |
+| `padding_option`   | `""` or `"zero"` or `"nan"`               | Optional parameter, can only be passed when `boundary_check` is not empty<br>Indicates the fill value when accessing out-of-bounds |
+| `cache_modifier`   | `""` or `"ca"` or `"cg"`                | Optional parameter, controls cache options on NVIDIA PTX, invalid for Ascend hardware                                                |
+| `eviction_policy`   | `str`                | Controls the eviction policy of NVIDIA PTX, invalid for Ascend hardware                                                |
+| `volatile`   | `str`                 | Controls the volatile option of NVIDIA PTX, invalid for Ascend hardware                                        |
+| `_semantic`   | -                 | Reserved parameter, external calls not supported currently                                                |
 
-当前910代际均还不支持cache_modifier，eviction_policy， volatile等参数
+The current 910 generation does not support parameters such as `cache_modifier`, `eviction_policy`, and `volatile`.
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
 | GPU    | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | √    |
 | Ascend A2/A3 | √    | √     | √     | ×     | ×      | ×      | ×      | √     | √    | √    | ×    | √    |  √    |
 
-结论：Ascend 对比 GPU 缺失uint8、uint16、uint32、uint64、fp64的支持能力（硬件限制）。
+Conclusion: Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-|        | 支持维度范围          |
+|        | Supported Dimension Range          |
 | ------ | --------------- |
-| GPU    | 支持scalar和1~5维tensor |
-| Ascend A2/A3 | 支持scalar和1~5维 tensor |
+| GPU    | Supports scalar and 1~5D tensors |
+| Ascend A2/A3 | Supports scalar and 1~5D tensors |
 
-结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 1 至 5 维张量。
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
-#### 2.2.3 社区约束
+#### 2.2.3 Community Constraints
 
-1. 若`pointer`是一个单指针：
-   - 此时`tl.load`返回一个标量
-   - `mask`和`other`必须是标量
-   - `other`会隐式类型转换成`pointer.dtype.element_ty`的数据类型
-   - 此时不允许传入`boundary_check`和`padding_option`
-2. 若`pointer`是一个N-Dimensional tensor：
-   - 此时`tl.load`返回一个与`pointer`shape相同的N-Dimensional tensor
-   - `mask`和`other`会隐式广播到和`pointer`相同的shape
-   - 此时不允许传入`boundary_check`和`padding_option`
-3. 若`pointer`来自于`tl.make_block_ptr`:
-   - 此时`mask` 和 `other` 必须是None
-   - 此时可以通过`boundary_check`和`padding_option`设置边界检查和越界补充值
+1. If `pointer` is a single pointer:
+   - `tl.load` returns a scalar
+   - `mask` and `other` must be scalars
+   - `other` is implicitly type-cast to the data type of `pointer.dtype.element_ty`
+   - `boundary_check` and `padding_option` are not allowed in this case
+2. If `pointer` is an N-Dimensional tensor:
+   - `tl.load` returns an N-Dimensional tensor with the same shape as `pointer`
+   - `mask` and `other` are implicitly broadcast to the same shape as `pointer`
+   - `boundary_check` and `padding_option` are not allowed in this case
+3. If `pointer` is from `tl.make_block_ptr`:
+   - `mask` and `other` must be `None`
+   - Boundary checking and out-of-bounds fill values can be set via `boundary_check` and `padding_option`
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitation Notes
 
-> 相对社区能力缺失且无法实现
+> Capabilities missing relative to the community and cannot be implemented
 
-Ascend 对比 GPU 缺失uint8、uint16、uint32、uint64、fp64的支持能力（硬件限制）。
+Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
 
-| 差异点                                 | 描述                                                         | 解决途径                       |
+| Difference Point                         | Description                                                        | Solution                       |
 | -------------------------------------- | ------------------------------------------------------------ | ------------------------------ |
-| 不支持`padding_option`入参             | 当前使用的社区分支新增`padding_option`入参，用于越界元素填充策略。 | 可软件开发支持                 |
-| 与分支、循环语句搭配使用时的泛化性问题 | 当前tl.load的`pointer`和`mask`的计算过程，如果涉及较复杂的循环和分支语句，可能会出现编译问题 | 大量泛化测试暴露问题，迭代解决 |
+| `padding_option` parameter not supported             | The currently used community branch adds the `padding_option` parameter for out-of-bounds element padding strategy. | Can be supported via software development                 |
+| Generalization issues when used with branch and loop statements | The computation process of `pointer` and `mask` in `tl.load` may encounter compilation issues if it involves complex loops and branch statements | Expose issues through extensive generalization testing, iterate to resolve |
 
-### 2.4 使用方法
+### 2.4 Usage Example
 
-以下示例中通过`triton_ldst_indirect_07_kernel`和`triton_ldst_indirect_07_func`的配合调用，实现了`torch_ldst_indirect_07_func`的功能：
+The following example demonstrates the functionality of `torch_ldst_indirect_07_func` through the coordinated call of `triton_ldst_indirect_07_kernel` and `triton_ldst_indirect_07_func`:
 
 ```python
 @triton.jit

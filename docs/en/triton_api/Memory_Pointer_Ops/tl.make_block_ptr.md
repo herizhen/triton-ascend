@@ -1,9 +1,9 @@
 # triton.language.make_block_ptr
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：创建指向GM上张量的指针
-原型：
+Description: Creates a pointer to a tensor in global memory (GM)
+Prototype:
 
 ```python
 triton.language.make_block_ptr(
@@ -17,47 +17,47 @@ triton.language.make_block_ptr(
 )
 ```
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名           | 类型                | 说明                                                             |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `base`        | `triton.PointerType`          | 张量的基指针                                                      |
-| `shape`       | `tuple(int \| constexpr)`    | 张量在GM上的形状                                                        |
-| `strides`     | `tuple(int \| constexpr)`    | 张量各维度的步长列表 |
-| `offsets`     | `tuple(int \| constexpr)`    | 张量各维度的基址偏移量列表 |
-| `block_shape` | `tuple(constexpr)` | 单次从全局内存加载 / 存储的块的形状                                              |
-| `order` | `tuple(constexpr)` | 单次从全局内存加载 / 存储的块的形状                                              |
-| `_semantic`   | -                 | 保留参数，暂不支持外部调用                                                |
+| Parameter    | Type                | Description                                                      |
+| ------------ | ------------------- | ---------------------------------------------------------------- |
+| `base`       | `triton.PointerType`| Base pointer of the tensor                                       |
+| `shape`      | `tuple(int \| constexpr)` | Shape of the tensor in GM                                        |
+| `strides`    | `tuple(int \| constexpr)` | List of strides for each dimension of the tensor                 |
+| `offsets`    | `tuple(int \| constexpr)` | List of base offsets for each dimension of the tensor            |
+| `block_shape`| `tuple(constexpr)`  | Shape of the block loaded/stored from global memory in a single operation |
+| `order`      | `tuple(constexpr)`  | Order of the block loaded/stored from global memory in a single operation |
+| `_semantic`  | -                   | Reserved parameter, not supported for external calls             |
 
-返回值：`pointer_type<blocked<shape, element_type>>`： 指向tensor的指针
+Return value: `pointer_type<blocked<shape, element_type>>`: Pointer to the tensor
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
-|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU    | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | ×    |
+|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU          | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | ×    |
 | Ascend A2/A3 | √    | √     | √     | ×     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | ×    |
 
-结论：Ascend 对比 GPU 缺失uint8、uint16、uint32、uint64、fp64的支持能力（硬件限制）。
+Conclusion: Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-|        | 支持维度范围          |
-| ------ | --------------- |
-| GPU    | 仅支持 1~5维 tensor |
-| Ascend A2/A3 | 仅支持 1~5维 tensor |
+|              | Supported Dimension Range |
+| ------------ | ------------------------- |
+| GPU          | Only supports 1~5D tensors |
+| Ascend A2/A3 | Only supports 1~5D tensors |
 
-结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 1 至 5 维张量。
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5 dimensional tensors.
 
-#### 2.2.3 社区约束
+#### 2.2.3 Community Constraints
 
-`tl.make_block_ptr`的结果不允许进行算数运算，需要改变偏移量时，可以通过：
+The result of `tl.make_block_ptr` does not allow arithmetic operations. To change the offset, you can:
 
-1. 重新调用make_block_ptr，修改`offset`参数:
+1. Re-call `make_block_ptr` and modify the `offset` parameter:
 
    ```python
    for block_idx in range(pid, NUM_BLOCKS, 20):
@@ -77,7 +77,7 @@ triton.language.make_block_ptr(
        )
    ```
 
-2. 调用`tl.advance`调整偏移量:
+2. Call `tl.advance` to adjust the offset:
 
    ```python
    block_ptr_in=tl.make_block_ptr(
@@ -91,21 +91,21 @@ triton.language.make_block_ptr(
    bbptr = tl.advance(block_ptr_in,(-9,-6,-5))
    ```
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitations
 
-> 相对社区能力缺失且无法实现
+> Missing community capabilities that cannot be implemented
 
-- Ascend 对比 GPU 缺失uint8、uint16、uint32、uint64、fp64的支持能力（硬件限制）。
+- Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
 
-- Ascend只允许通过调整`order`参数的顺序来表达转置语义，不能通过调整`stride`参数的顺序实现转置语义。
+- Ascend only allows expressing transpose semantics by adjusting the order of the `order` parameter; it cannot achieve transpose semantics by adjusting the order of the `stride` parameter.
 
-- | 差异点                                 | 描述                                                         | 解决途径                       |
-  | -------------------------------------- | ------------------------------------------------------------ | ------------------------------ |
-  | 与分支、循环语句搭配使用时的泛化性问题 | 当前`tl.make_block_ptr`，如果与较复杂的循环和分支语句搭配使用，可能会出现编译问题 | 大量泛化测试暴露问题，迭代解决 |
+- | Difference Point                                  | Description                                                                        | Solution                                      |
+  | ------------------------------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------- |
+  | Generalization issues with branch/loop statements | Currently, `tl.make_block_ptr` may encounter compilation issues with complex loops and branch statements | Expose issues through extensive generalization testing, resolve iteratively |
 
-### 2.4 使用方法
+### 2.4 Usage Example
 
-以下示例实现了通过tl.make_block_ptr读取一个tensor并将其转置的功能：
+The following example demonstrates reading a tensor and transposing it using `tl.make_block_ptr`:
 
 ```python
 import torch

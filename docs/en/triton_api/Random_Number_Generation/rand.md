@@ -1,9 +1,9 @@
 # triton.language.rand
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：给定 1 个 seed 标量和 1 个 offset 块，返回 1 个 在 **U**(**0**,**1**) 中的 float32 类型的随机块。
-原型：
+Description: Given 1 seed scalar and 1 offset block, returns 1 random block of float32 type in **U**(**0**,**1**).
+Prototype:
 
 ```python
 triton.language.rand(
@@ -13,40 +13,40 @@ triton.language.rand(
 )
 ```
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名           | 类型                | 说明                                                             |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `seed`        | `int`或 `tensor`           | 用于生成随机数的种子                                                   |
-| `offset`       |`int`或 `tensor`     | 用于生成随机数的偏移量                     |
-| `n_rounds`     | `constexpr`，默认值为10   | Philox 算法的迭代轮数 |
+| Parameter Name | Type               | Description                                                    |
+| -------------- | ------------------ | -------------------------------------------------------------- |
+| `seed`         | `int` or `tensor`  | Seed used for random number generation                         |
+| `offset`       | `int` or `tensor`  | Offset used for random number generation                       |
+| `n_rounds`     | `constexpr`, default value is 10 | Number of iteration rounds for the Philox algorithm |
 
-返回值：
-1 个 float32 类型的随机块，其shape与offset的shape相同，其值在 `[0.0, 1.0)` 区间内均匀分布
+Return Value:
+1 random block of float32 type, with the same shape as the offset, uniformly distributed in the interval `[0.0, 1.0)`
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
-输入seed的type：
+Input seed type:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
 | Ascend A2/A3 | √    | √     | √     | √     | √    | √     | √     |√     | ×    | ×    | ×    | ×    | √    |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-无特殊要求
+No special requirements
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitations
 
-> 相对社区能力暂不支持
+> Not currently supported compared to community capabilities
 
-### 2.4 使用方法
+### 2.4 Usage Example
 
-以下示例实现了对rand的调用：
+The following example demonstrates the call to rand:
 
 ```python
 @triton.jit
@@ -55,8 +55,8 @@ def kernel_rand(x_ptr, n_rounds: tl.constexpr, N: tl.constexpr, XBLOCK: tl.const
     block_size = XBLOCK if block_offset + XBLOCK <= N else N - block_offset
     for inner_idx in range(block_size):
         global_offset = block_offset + inner_idx
-        rand_vals = tl.rand(5, 10 + global_offset, n_rounds) # 对每个索引生成一个随机数
-        tl.store(x_ptr + global_offset, rand_vals) # 存储随机数
+        rand_vals = tl.rand(5, 10 + global_offset, n_rounds) # Generate a random number for each index
+        tl.store(x_ptr + global_offset, rand_vals) # Store the random number
 
 y_calf = torch.zeros(shape, dtype=eval('torch.float32')).npu()
 numel = y_calf.numel()

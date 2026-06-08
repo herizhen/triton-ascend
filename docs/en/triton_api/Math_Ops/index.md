@@ -1,36 +1,36 @@
-# 数学操作
+# Mathematical Operations
 
-|api|简要说明|
+| API | Brief Description |
 |--|--|
-|[add](./add.md) | 四则运算加法 ‘+’ |
-|[sub](./sub.md) | 四则运算减法 ‘-’ |
-|[mul](./mul.md) | 四则运算乘法 ‘*’ |
-|[div](./div.md) | 四则运算除法 ‘/’ |
-|[abs](./abs.md) |计算 x 的逐元素绝对值 |
-|[neg](./neg.md) | 将tensor的值取负。 |   x
-|[cdiv](./cdiv.md) |计算 x 除以 div 的向上取整除法 |
-|[ceil](./ceil.md) |计算 x 的逐元素向上取整值 |
-|[clamp](./clamp.md) |将输入张量 x 的值限制在 [min, max] 范围内 |
-|[cos](./cos.md) |计算 x 的逐元素余弦值 |
-|[div_rn](./div_rn.md) |计算 x 和 y 的逐元素精确除法（根据 IEEE 标准四舍五入到最近的值） |
-|[erf](./erf.md) |计算 x 的逐元素误差函数 |
-|[exp](./exp.md) |计算 x 的逐元素指数 |
-|[exp2](./exp2.md) |计算 x 的逐元素指数（以 2 为底）|
-|[fdiv](./fdiv.md) |计算 x 和 y 的逐元素快速除法 |
-|[floor](./floor.md) |计算 x 的逐元素向下取整 |
-|[fma](./fma.md) |计算 x、y 和 z 的逐元素融合乘加运算 |
-|[log](./log.md) |计算 x 的逐元素自然对数 |
-|[log2](./log2.md) |计算 x 的逐元素对数（以 2 为底）|
-|[mod](./mod.md) | 取模运算 |
-|[maximum](./maximum.md) |计算 x 和 y 的逐元素最大值 |
-|[minimum](./minimum.md) |计算 x 和 y 的逐元素最小值 |
-|[rsqrt](./rsqrt.md) |计算 x 的逐元素的平方根倒数 |
-|[sigmoid](./sigmoid.md) |计算 x 的逐元素 sigmoid 函数值 |
-|[sin](./sin.md) |Computes the element-wise sine of x. 计算 x 的逐元素正弦值 |
-|[softmax](./softmax.md) |计算 x 的逐元素 softmax 值 |
-|[sqrt](./sqrt.md) |计算 x 的逐元素快速平方根 |
-|[sqrt_rn](./sqrt_rn.md) |计算 x 的逐元素精确平方根（根据 IEEE 标准四舍五入到最近的值） |
-|[umulhi](./umulhi.md)  |计算 x 和 y 的 2N 位乘积的逐元素最高有效 N 位 |
+| [add](./add.md) | Arithmetic addition ‘+’ |
+| [sub](./sub.md) | Arithmetic subtraction ‘-’ |
+| [mul](./mul.md) | Arithmetic multiplication ‘*’ |
+| [div](./div.md) | Arithmetic division ‘/’ |
+| [abs](./abs.md) | Computes the element-wise absolute value of x |
+| [neg](./neg.md) | Negates the values of the tensor. |
+| [cdiv](./cdiv.md) | Computes the ceiling division of x by div |
+| [ceil](./ceil.md) | Computes the element-wise ceiling value of x |
+| [clamp](./clamp.md) | Clamps the values of the input tensor x to the range [min, max] |
+| [cos](./cos.md) | Computes the element-wise cosine of x |
+| [div_rn](./div_rn.md) | Computes the element-wise exact division of x and y (rounded to the nearest value according to IEEE standard) |
+| [erf](./erf.md) | Computes the element-wise error function of x |
+| [exp](./exp.md) | Computes the element-wise exponential of x |
+| [exp2](./exp2.md) | Computes the element-wise exponential of x (base 2) |
+| [fdiv](./fdiv.md) | Computes the element-wise fast division of x and y |
+| [floor](./floor.md) | Computes the element-wise floor of x |
+| [fma](./fma.md) | Computes the element-wise fused multiply-add of x, y, and z |
+| [log](./log.md) | Computes the element-wise natural logarithm of x |
+| [log2](./log2.md) | Computes the element-wise logarithm of x (base 2) |
+| [mod](./mod.md) | Modulo operation |
+| [maximum](./maximum.md) | Computes the element-wise maximum of x and y |
+| [minimum](./minimum.md) | Computes the element-wise minimum of x and y |
+| [rsqrt](./rsqrt.md) | Computes the element-wise reciprocal square root of x |
+| [sigmoid](./sigmoid.md) | Computes the element-wise sigmoid function of x |
+| [sin](./sin.md) | Computes the element-wise sine of x. |
+| [softmax](./softmax.md) | Computes the element-wise softmax of x |
+| [sqrt](./sqrt.md) | Computes the element-wise fast square root of x |
+| [sqrt_rn](./sqrt_rn.md) | Computes the element-wise exact square root of x (rounded to the nearest value according to IEEE standard) |
+| [umulhi](./umulhi.md) | Computes the element-wise most significant N bits of the 2N-bit product of x and y |
 
 ```{toctree}
 :maxdepth: 3
@@ -64,3 +64,4 @@ softmax.md
 sqrt.md
 sqrt_rn.md
 umulhi.md
+```

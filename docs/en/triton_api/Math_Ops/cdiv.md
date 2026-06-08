@@ -1,57 +1,57 @@
 # triton.language.cdiv
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：计算张量的向上取整除法
-函数原型：
+Introduction: Computes the ceiling division of tensors.
+Function prototype:
 
 ```python
 triton.language.cdiv(x, div)
 ```
 
-可以作为张量的成员函数调用, 如`x.cdiv(...)`, 与`cdiv(x, ...)`等效。
+Can be called as a member function of a tensor, e.g., `x.cdiv(...)`, which is equivalent to `cdiv(x, ...)`.
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名 | 类型 | 说明 |
+| Parameter | Type | Description |
 | :---: | :---: | :---: |
-| `x` | `tensor` | 张量数据, 被除数 |
-| `div`   | `tensor` | 张量数据, 除数 |
+| `x` | `tensor` | Tensor data, dividend |
+| `div` | `tensor` | Tensor data, divisor |
 
-返回值：
-`out`：同`x`、`div`的shape的张量
+Return value:
+`out`: A tensor with the same shape as `x` and `div`.
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | √ | √ | √ | √ | √ | √ | √ | √ | × | × | × | × | √ |
 | Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | × | × | × | × | × |
 
-结论：Ascend 对比 GPU , 不支持uint, bool输入。
+Conclusion: Compared to GPU, Ascend does not support uint and bool inputs.
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-|        | 支持维度范围         |
-| -------- | ---------------------- |
-| GPU    | 无限制 |
-| Ascend | 无限制 |
+|        | Supported Dimension Range |
+| -------- | -------------------------- |
+| GPU    | No restrictions |
+| Ascend | No restrictions |
 
-结论：在 Shape 方面, GPU 与 Ascend 平台无差异。
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitations
 
-> 相对社区能力缺失且无法实现
+> Missing relative to community capabilities and cannot be implemented
 
-输入范围：0~16777216
+Input range: 0~16777216
 
-### 2.4 使用方法
+### 2.4 Usage Example
 
-以下示例实现了对输入张量 `x` 和`y`做向上取整除法运算：
+The following example demonstrates performing ceiling division on input tensors `x` and `y`:
 
 ```python
 @triton.jit

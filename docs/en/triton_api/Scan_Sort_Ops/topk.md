@@ -1,60 +1,60 @@
 # triton.language.topk
 
-## 1. 函数概述
+## 1. Function Overview
 
-简介：返回输入张量 `x` 沿指定维度的前 `k` 个最大元素，返回结果按从大到小排序。
+Description: Returns the top `k` largest elements of the input tensor `x` along the specified dimension, sorted in descending order.
 
 ```python
 triton.language.topk(x, k, dim: constexpr | None = None)
 ```
 
-## 2. 规格
+## 2. Specifications
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名 | 类型 | 说明 |
-| ------ | ---- | ---- |
-| `x` | `tensor` | 输入张量 |
-| `k` | `int` | 要返回的top元素数量，必须是 2 的幂 |
-| `dim` | `constexpr int` 或 `None` | 要查找 top k 元素的维度；该参数需要在编译期确定；如果为 `None`，则使用最后一个维度；当前仅支持最后一个维度 |
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `x` | `tensor` | Input tensor |
+| `k` | `int` | Number of top elements to return; must be a power of 2 |
+| `dim` | `constexpr int` or `None` | Dimension along which to find the top k elements; this parameter must be determined at compile time; if `None`, the last dimension is used; currently only the last dimension is supported |
 
-返回值：
-`out`：输出张量的 shape 与输入张量一致，但指定维度长度变为 `k`
+Return value:
+`out`: The output tensor has the same shape as the input tensor, except the specified dimension length becomes `k`
 
-### 2.2 OP 规格
+### 2.2 OP Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
 | GPU    | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | √    | √    | √    |
 | Ascend A2/A3 | √ | √ | × | × | × | × | × | × | √ | √ | × | √ | × |
 
-结论：Ascend 相比 GPU 缺失 int32、uint8、int64、float64、bool 支持。
-torch_npu 支持 uint8。
+Conclusion: Compared to GPU, Ascend lacks support for int32, uint8, int64, float64, and bool.
+torch_npu supports uint8.
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-|        | 支持维度范围 |
-| ------ | ------------ |
-| GPU    | 仅支持 1~5 维 tensor |
-| Ascend A2/A3 | 仅支持 1~5 维 tensor |
+|        | Supported Dimension Range |
+| ------ | ------------------------- |
+| GPU    | Only supports 1~5 dimensional tensors |
+| Ascend A2/A3 | Only supports 1~5 dimensional tensors |
 
-结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 1 至 5 维张量。
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5 dimensional tensors.
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitations
 
-> 相对社区能力缺失且无法实现
+> Missing capabilities relative to the community that cannot be implemented
 
-毕升编译器限制，int32、uint8、int64、float64、bool 无法实现。
+Due to limitations of the Bisheng compiler, int32, uint8, int64, float64, and bool cannot be implemented.
 
-当前 `topk` 仅返回最大值，不支持通过参数切换为返回最小值。
-`dim` 仅支持最后一个维度。
-`k` 必须为 2 的幂。
+Currently, `topk` only returns the maximum values; switching to return minimum values via parameters is not supported.
+`dim` only supports the last dimension.
+`k` must be a power of 2.
 
-### 2.4 使用方法
+### 2.4 Usage Example
 
-以下示例实现了对输入张量 `x` 沿最后一个维度取前 `k` 个最大元素：
+The following example demonstrates taking the top `k` largest elements along the last dimension of the input tensor `x`:
 
 ```python
 @triton.jit

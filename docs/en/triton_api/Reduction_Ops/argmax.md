@@ -1,54 +1,54 @@
 # triton.language.argmax
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：在指定维度上返回最大值所在的下标
+Description: Returns the index of the maximum value along the specified axis
 
 ```python
 triton.language.argmax(input, axis, tie_break_left=True, keep_dims=False)
 ```
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名 | 类型 | 说明 |
+| Parameter | Type | Description |
 | :---: | :---: | --- |
-| `input` | `tensor` | 张量数据，左操作数 |
-| `axis`   | `int` | 指定在哪个维度上进行规约 |
-| `keep_dims` | `bool` | 保持规约轴规约后的维度 |
-| `tie_break_left` | `bool` | 如果多个元素有相同的最大值，返回最左侧最大值的下标 |
+| `input` | `tensor` | Tensor data, left operand |
+| `axis`   | `int` | Specifies the dimension along which to reduce |
+| `keep_dims` | `bool` | Whether to keep the reduced dimension |
+| `tie_break_left` | `bool` | If multiple elements have the same maximum value, returns the index of the leftmost maximum |
 
-返回值：
-`tl.tensor`：同`input`的shape的张量
+Return value:
+`tl.tensor`: A tensor with the same shape as `input`
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
 || uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 |GPU| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
-|Ascend A2A3系列| √ | √ | × | √ | × | √ | × | √ | √ | √ | √ | √ |
+|Ascend A2A3 Series| √ | √ | × | √ | × | √ | × | √ | √ | √ | √ | √ |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-|        | 支持维度范围         |
+|        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU    | 无限制 |
-| Ascend | 无限制 |
+| GPU    | No restrictions |
+| Ascend | No restrictions |
 
-结论：在 Shape 方面，GPU 与 Ascend 平台无差异。
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitations
 
-> 相对社区能力缺失且无法实现
+> Relative community capability deficiency and unimplementable
 
-Ascend A3 对比 GPU 缺失uint16、uint32、uint64、fp64的支持
+Ascend A3 lacks support for uint16, uint32, uint64, and fp64 compared to GPU
 
-### 2.4 使用方法
+### 2.4 Usage Examples
 
-更多示例参考triton-ascend代码仓，ascend/examples/generalization_cases/test_argmax.py
+For more examples, refer to the triton-ascend code repository, ascend/examples/generalization_cases/test_argmax.py
 
 ```@triton.jit
 def triton_argmax_1d(in_ptr0, out_ptr1, xnumel, XBLOCK: tl.constexpr):
@@ -58,6 +58,6 @@ def triton_argmax_1d(in_ptr0, out_ptr1, xnumel, XBLOCK: tl.constexpr):
     tl.store(out_ptr1, tmp4, None)
 ```
 
-## 3. 特殊取值情况
+## 3. Special Value Cases
 
-对于 tensor[nan,inf] 的情况，返回inf所在的下标
+For tensor[nan, inf], returns the index of inf

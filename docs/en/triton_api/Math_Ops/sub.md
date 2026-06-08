@@ -1,42 +1,42 @@
 # sub
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：减法  ，四则运算 ‘-’，无tl.sub方法
+Description: Subtraction, arithmetic operation '-', no tl.sub method
 
-## 2. OP 规格
+## 2. OP Specifications
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名           | 类型                | 说明                                                             |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `x`        | `tensor or Number`     |     第一个入参     |                                                       |
-| `y`       | `tensor or Number`     |     第二个入参     |                                                   |
+| Parameter | Type              | Description                                                    |
+| --------- | ----------------- | -------------------------------------------------------------- |
+| `x`       | `tensor or Number`| First input parameter                                          |
+| `y`       | `tensor or Number`| Second input parameter                                         |
 
-返回值：
-`tl.tensor`：减法结果
+Return value:
+`tl.tensor`: Subtraction result
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
 || uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 |GPU| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 |Ascend A2/A3| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-|        | 支持维度范围          |
-| ------ | --------------- |
-| GPU    | 无限制 |
-| Ascend |无限制  |
+|        | Supported Dimension Range |
+| ------ | ------------------------- |
+| GPU    | No restrictions           |
+| Ascend | No restrictions           |
 
-结论：在 Shape 方面，GPU 与 Ascend 平台无差异。
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 使用方法
+### 2.3 Usage Example
 
-以下示例实现了对输入张量 `in_ptr0, in_ptr1` 做减法计算：
+The following example demonstrates performing subtraction on input tensors `in_ptr0, in_ptr1`:
 
 ```python
 @triton.jit
@@ -53,6 +53,6 @@ def triton_sub(in_ptr0, in_ptr1, out_ptr0, XBLOCK: tl.constexpr, XBLOCK_SUB: tl.
         tl.store(out_ptr0 + (x0), tmp2, None)
 ```
 
-## 3. 特殊说明
+## 3. Special Notes
 
-> Ascend A3 对比 GPU 缺失fp64的支持
+> Ascend A3 lacks fp64 support compared to GPU

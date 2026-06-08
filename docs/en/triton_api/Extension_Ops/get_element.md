@@ -1,9 +1,9 @@
 # triton.language.get_element
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：根据给定的索引，从输入张量中读取单个元素。
-原型：
+Description: Reads a single element from an input tensor based on the given index.
+Prototype:
 
 ```python
 triton.language.get_element(
@@ -14,42 +14,42 @@ triton.language.get_element(
 ) -> scalar
 ```
 
-可以作为tensor的成员函数调用，如`x.get_element(...)`，与`get_element(x, ...)`等效。
+Can be called as a member function of a tensor, e.g., `x.get_element(...)`, which is equivalent to `get_element(x, ...)`.
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名           | 类型                | 说明                                                             |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `src`        | `tensor`          | 要被访问的源张量                                                     |
-| `indice`       | `tuple of ints` 或 `tuple of tensors`    | 用于指定元素位置的索引                                                    |
-| `_builder` |- | 保留参数，暂不支持外部调用                                            |
-| `_generator`   | -               | 保留参数，暂不支持外部调用                                                |
+| Parameter    | Type                          | Description                                                    |
+| ------------ | ----------------------------- | -------------------------------------------------------------- |
+| `src`        | `tensor`                      | The source tensor to be accessed                               |
+| `indice`     | `tuple of ints` or `tuple of tensors` | Indices specifying the element position                        |
+| `_builder`   | -                             | Reserved parameter, not yet supported for external calls       |
+| `_generator` | -                             | Reserved parameter, not yet supported for external calls       |
 
-返回值：
-`scalar`：与 `src` 张量元素类型相同的标量值
+Return value:
+`scalar`: A scalar value with the same element type as the `src` tensor
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
-|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | bf16 | bool |
-| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
-| Ascend A2/A3 | √    | √     | √     | √     | √     | √       | √         |  √       | √    | √    |  √    | ×    |
+|            | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | bf16 | bool |
+| ---------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
+| Ascend A2/A3 | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | ×    |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-支持任意形状的张量，但需满足：
-`indice` 的长度必须与 `src` 张量的维度数相同。
+Supports tensors of arbitrary shapes, with the following requirement:
+The length of `indice` must be equal to the number of dimensions of the `src` tensor.
 
-### 2.3 特殊限制说明
+### 2.3 Special Constraints
 
-无特殊限制
+No special constraints
 
-### 2.4 使用方法
+### 2.4 Usage Example
 
-以下示例实现了get_element的调用：
+The following example demonstrates a call to `get_element`:
 
 ```python
 @triton.jit
@@ -82,6 +82,6 @@ def index_select_manual_kernel(in_ptr, indices_ptr, out_ptr, dim,
                      tmp_buf, g_mask[:, None] & other_mask[None, :])
 ```
 
-## 3. 语义GAP
+## 3. Semantic GAP
 
-无语义差异
+No semantic differences

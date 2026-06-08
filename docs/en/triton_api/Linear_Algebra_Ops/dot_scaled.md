@@ -1,8 +1,8 @@
 # triton.language.dot_scaled
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：**计算以缩放格式表示两个矩阵块的矩阵乘积**
+Description: **Computes the matrix product of two matrix blocks represented in scaled format**
 
 ```python
 triton.language.dot_scaled(lhs, lhs_scale, lhs_format, rhs, rhs_scale, rhs_format,
@@ -10,59 +10,58 @@ triton.language.dot_scaled(lhs, lhs_scale, lhs_format, rhs, rhs_scale, rhs_forma
     out_dtype=triton.language.float32, _semantic=None)
 ```
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名           | 类型                | 说明                                                             |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `lhs`        | `tensor`          | 左矩阵张量的基指针（支持bf16、fp16格式）                                                      |
-| `lhs_scale`        | `tensor`          | 左矩阵缩放张量的基指针（支持int8格式）                                                      |
-| `lhs_format`        | `string`          | 左矩阵张量的存放格式 （支持"bf16"和"fp16"）                                                     |
-| `rhs`        | `tensor`          | 右矩阵张量的基指针 （支持bf16、fp16格式）                                                     |
-| `rhs_scale`        | `tensor`          | 右矩阵缩放张量的基指针（支持int8格式）                                                       |
-| `rhs_format`        | `string`          | 右矩阵张量的存放格式 （支持"bf16"和"fp16"）                                                      |
-| `acc`       | `tensor`    | 累积张量                                                        |
-| `lhs_k_pack`     | `(bool, optional)`    | true 沿 K 维度打包<br>false 沿 M 维度打包<br>|
-| `rhs_k_pack` | `(bool, optional)` | true 沿 K 维度打包<br>false 沿 N 维度打包<br>|
-| `_semantic`   | -                 | 保留参数，暂不支持外部调用                                                |
+| Parameter Name | Type               | Description                                                        |
+| -------------- | ------------------ | ------------------------------------------------------------------ |
+| `lhs`          | `tensor`           | Base pointer of the left matrix tensor (supports bf16, fp16 formats) |
+| `lhs_scale`    | `tensor`           | Base pointer of the left matrix scale tensor (supports int8 format) |
+| `lhs_format`   | `string`           | Storage format of the left matrix tensor (supports "bf16" and "fp16") |
+| `rhs`          | `tensor`           | Base pointer of the right matrix tensor (supports bf16, fp16 formats) |
+| `rhs_scale`    | `tensor`           | Base pointer of the right matrix scale tensor (supports int8 format) |
+| `rhs_format`   | `string`           | Storage format of the right matrix tensor (supports "bf16" and "fp16") |
+| `acc`          | `tensor`           | Accumulation tensor                                                 |
+| `lhs_k_pack`   | `(bool, optional)` | true: packed along K dimension<br>false: packed along M dimension   |
+| `rhs_k_pack`   | `(bool, optional)` | true: packed along K dimension<br>false: packed along N dimension   |
+| `_semantic`    | -                  | Reserved parameter, external invocation not supported               |
 
-返回值：
-`out`：tensor类型，计算缩放矩阵乘后输出的值
+Return value:
+`out`: tensor type, the output value after computing the scaled matrix multiplication
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
-|        |     fp4     |    fp8    |    bf16    |    fp16    |
-| ------------- | --------- | -------- | -------- | -------- |
-| GPU    | √    | √     | √     | √     |
-| Ascend A2/A3 | ×    | ×     | √     | √    |
+|                | fp4     | fp8    | bf16    | fp16    |
+| -------------- | ------- | ------ | ------- | ------- |
+| GPU            | √       | √      | √       | √       |
+| Ascend A2/A3   | ×       | ×      | √       | √       |
 
-结论：
-1、Ascend 对比 GPU 缺失fp4、fp8的支持能力（硬件限制）。
-2、缩放张量的值为int8，GPU上为uint8。
+Conclusion:
+1. Compared to GPU, Ascend lacks support for fp4 and fp8 (hardware limitation).
+2. The scale tensor value is int8, while on GPU it is uint8.
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-|        | 支持维度范围          |
-| ------ | --------------- |
-| GPU    | 可支持 2~3维 tensor |
-| Ascend | 可支持 2~3维 tensor |
+|        | Supported Dimension Range |
+| ------ | ------------------------- |
+| GPU    | Supports 2~3D tensors     |
+| Ascend | Supports 2~3D tensors     |
 
-结论：在 Shape 方面，GPU 与 Ascend 平台无差异，lhs/rhs矩阵均支持 2 至 3 维张量，但scale矩阵只支持2维。
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms. Both lhs/rhs matrices support 2 to 3 dimensional tensors, but the scale matrix only supports 2 dimensions.
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitations
 
-1、由于不支持fp8，左右矩阵不支持fp4、fp8格式，Ascend 对比 GPU 缺失lhs_k_pack、rhs_k_pack的矩阵解压缩支持能力（硬件限制）。
-2、输入矩阵lhs、rhs推荐输入范围为[-5, 5]，超过可能会出现极值inf。
-3、由于硬件存在对齐要求，需要限制scale矩阵做broadcast的倍数，至少应为16
+1. Due to lack of fp8 support, left and right matrices do not support fp4 and fp8 formats. Compared to GPU, Ascend lacks matrix decompression support for `lhs_k_pack` and `rhs_k_pack` (hardware limitation).
+2. The recommended input range for lhs and rhs matrices is [-5, 5]; values beyond this may result in extreme values (inf).
+3. Due to hardware alignment requirements, the broadcast multiple of the scale matrix must be limited to at least 16.
+4. The currently supported scale matrix format is int8, while the community uses uint8.
 
-4、当前支持的缩放矩阵格式为int8，社区为uint8
+### 2.4 Usage Example
 
-### 2.4 使用方法
-
-以下示例实现了对输入张量 `x` 做就地绝对值计算：
+The following example implements in-place absolute value computation on the input tensor `x`:
 
 ```python
 @triton.jit

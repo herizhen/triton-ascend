@@ -1,89 +1,89 @@
 # triton.language.sync_block_set
 
-## 1. 函数概述
+## 1. Function Overview
 
-显式的核心间同步指令，用于协调 Cube-Vector 架构中不同核心间的执行顺序和数据一致性。
+An explicit inter-core synchronization instruction used to coordinate execution order and data consistency between different cores in the Cube-Vector architecture.
 
-## 2. `sync_block_set` 操作
+## 2. `sync_block_set` Operation
 
-### 2.1 函数概述
+### 2.1 Function Overview
 
-生产者核心完成任务后，向消费者发送同步信号。
+The producer core sends a synchronization signal to the consumer after completing its task.
 
 ```python
 triton.language.sync_block_set(sender, receiver, event_id, _builder=None)
 ```
 
-### 2.2 规格
+### 2.2 Specifications
 
-#### 2.2.1 参数说明
+#### 2.2.1 Parameter Description
 
-| 参数 | 类型 | 默认值 | 含义说明 |
-|------|------|--------|----------|
-| `sender` | `str` | 必需 | 发送方核心类型："cube" 或 "vector" |
-| `receiver` | `str` | 必需 | 接收方核心类型："cube" 或 "vector" |
-| `event_id` | `int` | 必需 | 事件ID，用于区分不同的同步点 |
-| `_builder` | - | `None` | 保留参数，暂不支持外部调用 |
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `sender` | `str` | Required | Sender core type: "cube" or "vector" |
+| `receiver` | `str` | Required | Receiver core type: "cube" or "vector" |
+| `event_id` | `int` | Required | Event ID, used to distinguish different synchronization points |
+| `_builder` | - | `None` | Reserved parameter, external calls not supported |
 
-#### 2.2.2 特殊限制说明
+#### 2.2.2 Special Constraints
 
-1. `sender` 和 `receiver` 不能相同，不能自己给自己发信号
-2. `event_id` 必须在 0-15 范围内（共16个独立事件）
+1. `sender` and `receiver` cannot be the same; a core cannot send a signal to itself
+2. `event_id` must be in the range 0-15 (16 independent events total)
 
-## 3. `sync_block_wait` 操作
+## 3. `sync_block_wait` Operation
 
-### 3.1 函数概述
+### 3.1 Function Overview
 
-消费者核心等待生产者的同步信号。
+The consumer core waits for the synchronization signal from the producer.
 
 ```python
 triton.language.sync_block_wait(sender, receiver, event_id, _builder=None)
 ```
 
-### 3.2 规格
+### 3.2 Specifications
 
-#### 3.2.1 参数说明
+#### 3.2.1 Parameter Description
 
-| 参数 | 类型 | 默认值 | 含义说明 |
-|------|------|--------|----------|
-| `sender` | `str` | 必需 | 发送方核心类型："cube" 或 "vector" |
-| `receiver` | `str` | 必需 | 接收方核心类型："cube" 或 "vector" |
-| `event_id` | `int` | 必需 | 等待的事件ID |
-| `_builder` | - | `None` | 保留参数，暂不支持外部调用 |
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `sender` | `str` | Required | Sender core type: "cube" or "vector" |
+| `receiver` | `str` | Required | Receiver core type: "cube" or "vector" |
+| `event_id` | `int` | Required | Event ID to wait for |
+| `_builder` | - | `None` | Reserved parameter, external calls not supported |
 
-#### 3.2.2 特殊限制说明
+#### 3.2.2 Special Constraints
 
-1. `sender` 和 `receiver` 不能相同
-2. `event_id` 必须与对应 `sync_block_set` 使用的 ID 一致
+1. `sender` and `receiver` cannot be the same
+2. `event_id` must match the ID used by the corresponding `sync_block_set`
 
-## 4. `sync_block_all` 操作
+## 4. `sync_block_all` Operation
 
-### 4.1 函数概述
+### 4.1 Function Overview
 
-全局屏障同步，让所有指定类型的核心同步到同一点。
+Global barrier synchronization, synchronizing all cores of specified types to the same point.
 
 ```python
 triton.language.sync_block_all(mode, event_id, _builder=None)
 ```
 
-### 4.2 规格
+### 4.2 Specifications
 
-#### 4.2.1 参数说明
+#### 4.2.1 Parameter Description
 
-| 参数 | 类型 | 默认值 | 含义说明 |
-|------|------|--------|----------|
-| `mode` | `str` | 必需 | 同步模式："all_cube"、"all_vector" 或 "all" |
-| `event_id` | `int` | 必需 | 全局同步事件ID |
-| `_builder` | - | `None` | 保留参数，暂不支持外部调用 |
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `mode` | `str` | Required | Synchronization mode: "all_cube", "all_vector", or "all" |
+| `event_id` | `int` | Required | Global synchronization event ID |
+| `_builder` | - | `None` | Reserved parameter, external calls not supported |
 
-#### 4.2.2 特殊限制说明
+#### 4.2.2 Special Constraints
 
-1. `mode` 必须为 "all_cube"、"all_vector" 或 "all" 之一
-2. `event_id` 必须在 0-15 范围内
+1. `mode` must be one of "all_cube", "all_vector", or "all"
+2. `event_id` must be in the range 0-15
 
-## 5. 使用方法
+## 5. Usage
 
-### 5.1 基础使用示例
+### 5.1 Basic Usage Example
 
 ```python
 import triton
@@ -92,18 +92,18 @@ import triton.language.ascend as al
 
 @triton.jit
 def sync_example():
-    # Cube 核心计算并通知 Vector
+    # Cube core computes and notifies Vector
     with al.Scope(core_mode="cube"):
-        # ... 执行 Cube 计算 ...
+        # ... perform Cube computation ...
         tl.sync_block_set("cube", "vector", 0)
 
-    # Vector 核心等待 Cube 完成
+    # Vector core waits for Cube to complete
     with al.Scope(core_mode="vector"):
         tl.sync_block_wait("cube", "vector", 0)
-        # ... 执行 Vector 计算 ...
+        # ... perform Vector computation ...
 ```
 
-### 5.2 Flash Attention 流水线示例
+### 5.2 Flash Attention Pipeline Example
 
 ```python
 @triton.jit

@@ -1,55 +1,55 @@
 # triton.language.arange
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：`triton.language.arange`函数用于生成一个从`start`到`end`（不包括`end`）的连续整数序列。
+Description: The `triton.language.arange` function generates a contiguous integer sequence from `start` to `end` (excluding `end`).
 
 ```python
 triton.language.arange(start, end, _semantic=None)
 ```
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名           | 类型                  | 说明                                   |
-| ------------- | ----------------- | ---------------------------- |
-| `start`           | `scalar`               | 创建连续整数序列的起始数值，必须是编译时常量（tl.constexpr） |
-| `end`            | `scalar`               | 创建连续整数序列的结束数值 |
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `start` | `scalar` | The starting value for creating the contiguous integer sequence. Must be a compile-time constant (`tl.constexpr`). |
+| `end` | `scalar` | The ending value for creating the contiguous integer sequence. |
 
-返回值：
-`tensor`：连续整数序列的tensor
+Return value:
+`tensor`: A tensor containing the contiguous integer sequence.
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
-结论：要求arange的参数start、end必须是constant，因此无类型，支持类型对应的值范围，最大到int32，硬件指令也只支持到int32。
+Conclusion: The `start` and `end` parameters of `arange` must be constants, hence they have no type. The supported type corresponds to the value range, up to `int32`. Hardware instructions also only support up to `int32`.
 
-|                | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-| --------- | ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
-| GPU            | ×    | ×     | ×     | ×     | ×      | √      | ×      | ×     | ×    | ×    | ×    | ×    | ×    |
-| Ascend  A2/A3 | ×    | ×     | √     | ×     | ×      | ×      | ×      | ×     | ×    | ×    | ×    | ×    | ×    |
+| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| GPU | × | × | × | × | × | √ | × | × | × | × | × | × |
+| Ascend A2/A3 | × | × | √ | × | × | × | × | × | × | × | × | × |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-0 =< (end - start) <1048576
-end >= 0,  start  >= 0
+0 =< (end - start) < 1048576
+end >= 0, start >= 0
 
-结论：在 Shape 方面，GPU 与 Ascend 平台无差异。
+Conclusion: There is no difference between GPU and Ascend platforms regarding Shape.
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitations
 
-> 相对社区能力缺失且无法实现
+> Features missing relative to the community that cannot be implemented
 
-1.函数用于生成一个[start, end) 的连续整数序列，CUDA要求range=(end-start)必须为2的幂次方。Triton-ascend并无此要求。
-2.NV和Triton-ascend都限制end的最大值TRITON_MAX_TENSOR_NUMEL = 1048576
-3.arange的输入必须是constant常量，支持uint、int类型的小于1048576（最大值TRITON_MAX_TENSOR_NUMEL ）的数值。int64不支持。
-4.arange的start 和 end 应大于等于0。
+1. The function generates a contiguous integer sequence [start, end). CUDA requires that `range = (end - start)` must be a power of 2. Triton-ascend does not have this requirement.
+2. Both NV and Triton-ascend limit the maximum value of `end` to `TRITON_MAX_TENSOR_NUMEL = 1048576`.
+3. The inputs to `arange` must be constant values. It supports `uint` and `int` type values less than 1048576 (the maximum value `TRITON_MAX_TENSOR_NUMEL`). `int64` is not supported.
+4. The `start` and `end` of `arange` must be greater than or equal to 0.
 
-### 2.4 使用方法
+### 2.4 Usage
 
-以下示例实现了生成一个[0, 128) 的连续整数序列：
+The following example implements generating a contiguous integer sequence [0, 128):
 
 ```python
 @triton.jit

@@ -1,10 +1,10 @@
-# al.ascend_address_space 接口文档
+# al.ascend_address_space Interface Documentation
 
-## 1. 背景
+## 1. Background
 
-为了支持Ascend级编程的需要，需要支持用户手动创建指定地址空间上的内存(buffer)，对接hivm::AddressSpace枚举。
+To support Ascend-level programming needs, users must be able to manually create memory (buffers) on specified address spaces, interfacing with the `hivm::AddressSpace` enumeration.
 
-## 2. 接口说明
+## 2. Interface Description
 
 <table>
   <tr>
@@ -12,19 +12,19 @@
   </tr>
 </table>
 
-### 2.1. 返回值
+### 2.1. Return Value
 
-不涉及
+Not applicable
 
-### 2.2. 入参
+### 2.2. Input Parameters
 
-不涉及
+Not applicable
 
-## 3. 约束说明
+## 3. Constraints
 
-- 需要配合bl.alloc使用
+- Must be used in conjunction with `bl.alloc`
 
-## 4. 用例示例
+## 4. Usage Example
 
 <table>
   <tr>
@@ -32,7 +32,7 @@
   </tr>
 </table>
 
-## 5. 编译输出结果
+## 5. Compilation Output
 
 <table>
   <tr>

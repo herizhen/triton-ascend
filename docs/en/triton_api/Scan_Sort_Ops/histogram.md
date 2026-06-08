@@ -1,9 +1,9 @@
 # triton.language.histogram
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：基于 input 计算 1 个具有 num_bins 个 bin 的直方图，每个 bin 宽度为 1，起始于 0。
-原型：
+Description: Computes a histogram with `num_bins` bins based on the input, each bin having a width of 1 and starting from 0.
+Prototype:
 
 ```python
 triton.language.histogram(
@@ -15,44 +15,44 @@ triton.language.histogram(
 )
 ```
 
-可以作为tensor的成员函数调用，如`x.histogram(...)`，与`histogram(x, ...)`等效。
+Can be called as a member function of a tensor, e.g., `x.histogram(...)`, which is equivalent to `histogram(x, ...)`.
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名           | 类型                | 说明                                                             |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `input`        | `tensor`          | 输入数据，包含需要统计分布的所有数值点                                                    |
-| `num_bins`       | `int`    | 定义要将整个数据范围划分成多少个等宽的区间                       |
-| `mask`     | `int1`或`tensor<int1>`，可选    | 指定数据范围，防止访问越界 |
-| `_semantic`   | -                 | 保留参数，暂不支持外部调用                                                |
-| `_generator` |-                 | 保留参数，暂不支持外部调用
+| Parameter    | Type                | Description                                                             |
+| ------------ | ------------------- | ----------------------------------------------------------------------- |
+| `input`      | `tensor`            | Input data containing all numerical points whose distribution is to be counted |
+| `num_bins`   | `int`               | Defines how many equal-width intervals the entire data range is divided into |
+| `mask`       | `int1` or `tensor<int1>`, optional | Specifies the data range to prevent out-of-bounds access |
+| `_semantic`  | -                   | Reserved parameter, external calls not supported yet                    |
+| `_generator` | -                   | Reserved parameter, external calls not supported yet                    |
 
-返回值：
-用tensor表示的直方图
-注：当前triton3.2版本暂未支持mask，待版本更新后支持；input输入范围限制在[0,num_bins-1]中，待版本更新后支持全范围
+Return value:
+Histogram represented as a tensor
+Note: The current triton 3.2 version does not support `mask` yet; support will be added in future versions. The input range is limited to `[0, num_bins-1]`; full range support will be added in future versions.
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
-|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU    | ×    | ×     | √     | ×     | ×      | √      | ×      | ×     | ×    | ×    | ×    | ×    | ×       |
-| Ascend A2/A3 | ×    | ×     | √    | ×     | ×      | √      | √      | √     | ×    | ×    | ×    | ×    | ×    |
+|            | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ---------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU        | ×    | ×     | √     | ×     | ×      | √      | ×      | ×     | ×    | ×    | ×    | ×    | ×    |
+| Ascend A2/A3 | ×  | ×     | √     | ×     | ×      | √      | √      | √     | ×    | ×    | ×    | ×    | ×    |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-目前仅支持一维
+Currently only supports 1D
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitations
 
-> 相对社区能力缺失且无法实现
+> Capabilities missing compared to the community and cannot be implemented
 
-### 2.4 使用方法
+### 2.4 Usage
 
-以下示例实现了histogram的调用：
+The following example demonstrates the call to `histogram`:
 
 ```python
 @triton.jit
@@ -68,6 +68,6 @@ z = torch.empty(N, dtype=torch.int32, device=device)
 histogram_kernel[(1, )](x, z, M=M, N=N)
 ```
 
-## 3. 语义GAP
+## 3. Semantic GAP
 
-> 相对社区能力缺失但能开发支持
+> Capabilities missing compared to the community but can be developed and supported

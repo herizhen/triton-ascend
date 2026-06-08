@@ -1,57 +1,57 @@
 # triton.language.expand_dims
 
-## 1 功能作用说明
+## 1 Function Description
 
-在指定轴位置插入大小为1的维度，不改变张量的数据，仅增加维度数。支持负索引，从右向左计数。
+Inserts a dimension of size 1 at the specified axis position, without changing the tensor's data, only increasing the number of dimensions. Supports negative indexing, counting from right to left.
 
-**语法：**
+**Syntax:**
 
-- `triton.language.expand_dims(input, axis)` - 函数调用形式
-- `input.expand_dims(axis)` - 成员函数形式
+- `triton.language.expand_dims(input, axis)` - Function call form
+- `input.expand_dims(axis)` - Member function form
 
-**功能：**
+**Functionality:**
 
-- 在指定轴位置插入大小为1的维度
-- 不改变张量的数据，仅增加维度数
-- 支持负索引，从右向左计数
+- Inserts a dimension of size 1 at the specified axis position
+- Does not change the tensor's data, only increases the number of dimensions
+- Supports negative indexing, counting from right to left
 
-## 2 参数规格
+## 2 Parameter Specifications
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名 | 类型 | 必需 | 说明 |
-|--------|------|------|------|
-| input | tensor | 是 | 输入张量 |
-| axis | int \| Tuple[int] | 是 | 插入维度的位置，支持负索引 |
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| input | tensor | Yes | Input tensor |
+| axis | int \| Tuple[int] | Yes | Position to insert the dimension, supports negative indexing |
 
-**返回值：**
+**Return Value:**
 
-- **类型：** tensor
-- **形状：** 在指定axis位置插入大小为1的维度
-- **数据类型：** 与输入张量相同
-- **内存布局：** 通过tensor::ExpandShapeOp实现，无数据拷贝
+- **Type:** tensor
+- **Shape:** Inserts a dimension of size 1 at the specified axis position
+- **Data Type:** Same as the input tensor
+- **Memory Layout:** Implemented via tensor::ExpandShapeOp, no data copy
 
-**约束条件：**
+**Constraints:**
 
-- axis必须在[-rank-1, rank]范围内，其中rank为输入张量的维度数
-- 插入的维度大小固定为1
+- axis must be within the range [-rank-1, rank], where rank is the number of dimensions of the input tensor
+- The inserted dimension size is fixed to 1
 
-### 2.2 DataType支持表
+### 2.2 DataType Support Table
 
-| 支持情况 | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|----------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:----:|:----:|:------:|:---:|
+| Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:----:|:----:|:------:|:---:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
-| GPU支持 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
-### 2.3 Shape支持表
+### 2.3 Shape Support Table
 
-支持任意维度数、任意形状大小。
+Supports any number of dimensions and any shape size.
 
-### 2.4 特殊限制说明
+### 2.4 Special Limitations
 
-无
+None
 
-### 2.5 使用方法
+### 2.5 Usage Example
 
 ```python
 import torch
@@ -60,13 +60,13 @@ import triton.language as tl
 
 @triton.jit
 def expand_dims_example(out_ptr):
-    # 创建2x3的张量
+    # Create a 2x3 tensor
     x = tl.zeros([2, 3], dtype=tl.float32)
 
-    # 在axis=1位置插入维度，变成2x1x3
+    # Insert a dimension at axis=1, resulting in 2x1x3
     y = tl.expand_dims(x, axis=1)
 
-    # 将结果写回外部张量
+    # Write the result back to the external tensor
     offs = (
         tl.arange(0, 2)[:, None, None] * 3
         + tl.arange(0, 1)[None, :, None] * 3
@@ -74,8 +74,8 @@ def expand_dims_example(out_ptr):
     )
     tl.store(out_ptr + offs, y)
 
-## 调用示例
+## Example call
 out = torch.empty((2, 1, 3), dtype=torch.float32, device="npu")
 expand_dims_example[(1,)](out)
-print(out.shape)  # 输出: torch.Size([2, 1, 3])
+print(out.shape)  # Output: torch.Size([2, 1, 3])
 ```

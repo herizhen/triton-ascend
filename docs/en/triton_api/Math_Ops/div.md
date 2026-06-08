@@ -1,56 +1,56 @@
 # div
 
-## 1. OP 概述
+## 1. OP Overview
 
-简介：除法，四则运算 ‘/’，无tl.div方法
+Description: Division, arithmetic operator '/', no tl.div method.
 
-底层实现与fdiv算子相同，只不过fdiv明确限制入参必须是float类型，‘/’无此限制，它会把非浮点型转换为浮点型再做计算
+The underlying implementation is the same as the fdiv operator, except that fdiv explicitly requires the input to be of float type. '/' has no such restriction; it converts non-floating-point types to floating-point before computation.
 
-## 2. OP 规格
+## 2. OP Specification
 
-### 2.1 参数说明
+### 2.1 Parameter Description
 
-| 参数名           | 类型                | 说明                                                             |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `self`        | `tensor or Number`     |     第一个入参 ，被除数    |                                                       |
-| `other`       | `tensor or Number`     |     第二个入参 ，除数    |                                                   |
+| Parameter    | Type                | Description                                                             |
+| ------------ | ------------------- | ----------------------------------------------------------------------- |
+| `self`       | `tensor or Number`  | First input, dividend                                                   |
+| `other`      | `tensor or Number`  | Second input, divisor                                                   |
 
-返回值：
-`tl.tensor`：除法结果
-返回结果类型：总是返回浮点型
+Return value:
+`tl.tensor`: Division result
+Return type: Always returns floating-point type
 
-| 输入类型            | 处理方式                 | 结果类型      |
-| --------------------- | -------------------------- | --------------- |
-| `int / int`     | 两个都转成 `float32` | `float32` |
-| `int / float`   | int 转 float             | float 类型    |
-| `float / float` | 统一到更高精度 float     | 高精度 float  |
-| `float / int`   | int 转 float             | float 类型    |
+| Input Type             | Processing Method            | Result Type   |
+| ---------------------- | ---------------------------- | ------------- |
+| `int / int`            | Both converted to `float32`  | `float32`     |
+| `int / float`          | int converted to float       | float type    |
+| `float / float`        | Unified to higher precision float | Higher precision float |
+| `float / int`          | int converted to float       | float type    |
 
-### 2.2 支持规格
+### 2.2 Supported Specifications
 
-#### 2.2.1 DataType 支持
+#### 2.2.1 DataType Support
 
 || uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-|---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
+|---|-------|------|--------|-------|--------|-------|--------|-------|------|------|------|-----------|
 |GPU| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 |Ascend A2/A3| × | √ | × | √ | × | √ | × | √ | √ | √ | √ | √ |
 
-#### 2.2.2 Shape 支持
+#### 2.2.2 Shape Support
 
-|        | 支持维度范围          |
-| ------ | --------------- |
-| GPU    | 无限制 |
-| Ascend A2/A3 |无限制  |
+|        | Supported Dimension Range |
+| ------ | ------------------------- |
+| GPU    | No restriction            |
+| Ascend A2/A3 | No restriction            |
 
-结论：在 Shape 方面，GPU 与 Ascend 平台无差异。
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 特殊限制说明
+### 2.3 Special Limitations
 
-Ascend A3 对比 GPU 缺失uint8、uint16、uint32、uint64、fp64的支持
+Ascend A3 lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU.
 
-### 2.4 使用方法
+### 2.4 Usage Example
 
-以下示例实现了对输入张量 `in_ptr0, in_ptr1` 做除法计算：
+The following example demonstrates division computation on input tensors `in_ptr0, in_ptr1`:
 
 ```python
 @triton.jit

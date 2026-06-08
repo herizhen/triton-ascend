@@ -1,63 +1,63 @@
-# 环境变量与编译选项
+# Environment Variables and Compilation Options
 
-本文汇总 Triton-Ascend 中可由开发者显式控制的行为开关，包括运行前设置的环境变量，以及编译期通过 `triton.Config` 或 kernel launch meta-parameter 传入的 NPU 编译选项。
+This document summarizes the behavior switches in Triton-Ascend that can be explicitly controlled by developers, including environment variables set before runtime and NPU compilation options passed via `triton.Config` or kernel launch meta-parameters during compilation.
 
-## 环境变量
+## Environment Variables
 
-### 环境变量用法示例
+### Environment Variable Usage Example
 
-环境变量需在运行 Python 程序前设置，例如：
+Environment variables must be set before running the Python program, for example:
 
 ```bash
 export TRITON_DEBUG=1
 python run_kernel.py
 ```
 
-### 环境变量参考表
+### Environment Variable Reference Table
 
-环境变量配置参考下表：
+The environment variable configuration is referenced in the table below:
 
-| 类别 | 环境变量 | 默认值 | 功能说明 | 配置说明 | 变更声明 |
-|------|----------|--------|----------|----------|----------|
-| **调试与日志** | TRITON_DEBUG | 0 或未设置 | 启用 Triton 的调试输出功能，用于在运行时打印详细的调试信息。这对于排查编译或执行阶段的问题非常有用。 当设置为 1 时，Triton 会输出更多关于编译过程、内核生成和执行的信息。 某些实现中可能支持更细粒度的调试级别（如 2, 3 等），具体取决于 Triton 的版本和实现。 | 0：不启用DEBUG<br>1：启用DEBUG | |
-| **调试与日志** | MLIR_ENABLE_DUMP | 0 或未设置 | 在每次 MLIR 优化前转储所有内核的 IR。使用 `MLIR_ENABLE_DUMP=kernelName`可以只转储特定内核的IR。 | 0：不转储<br>1：转储所有内核IR kernelName：转储特定内核IR | Triton 缓存可能干扰转储。如果 `MLIR_ENABLE_DUMP=1`  不生效，可尝试清理 Triton 缓存： `rm -r ~/.triton/cache` |
-| **调试与日志** | LLVM_IR_ENABLE_DUMP | 0 或未设置 | 在每次 LLVM IR 优化前转储 IR。 | 0：不转储<br>1：转储IR | |
-| **调试与日志** | TRITON_REPRODUCER_PATH | 未设置 | 在每个 MLIR 编译阶段前生成 MLIR 复现文件。如果某阶段失败，`<reproducer_path>`  将保存失败前的 MLIR 状态。 | <reproducer_path>：保存路径 | |
-| **调试与日志** | TRITON_INTERPRET | 0 或未设置 | 使用 Triton 解释器而非 GPU 运行，支持在核函数代码中插入 Python 断点 | 0：不支持断点<br>1：支持断点 | |
-| **调试与日志** | TRITON_ENABLE_LLVM_DEBUG | 0 或未设置 | 向LLVM 传递`-debug`参数，输出大量调试信息。若信息过多，可使用`TRITON_LLVM_DEBUG_ONLY`限制输出范围。 | 0：不传递<br>1：传递 | 另一种减少输出干扰的方法是：先设置 `LLVM_IR_ENABLE_DUMP=1`运行程序，提取目标LLVM优化通道前的中间表示（IR），然后单独运行LLVM的`opt`工具，此时可通过命令行添加`-debug-only=foo`参数来限定调试范围。 |
-| **调试与日志** | TRITON_LLVM_DEBUG_ONLY | 未设置 | 功能等同于 LLVM 的`-debug-only`命令行选项。该参数可将 LLVM 调试输出限定到特定的优化通道或组件名称（这些名称通过 LLVM 和 Triton 中的`#define DEBUG_TYPE`宏定义），从而有效减少调试信息的冗余输出。用户可指定一个或多个逗号分隔的值，例如：`TRITON_LLVM_DEBUG_ONLY="tritongpu-remove-layout-conversions"`或`TRITON_LLVM_DEBUG_ONLY="tritongpu-remove-layout-conversions,regalloc"`。 | 逗号分隔值：通道或组件名称 | |
-| **调试与日志** | USE_IR_LOC | 0 或未设置 | 控制是否在生成的中间表示（IR）中包含位置信息（如文件名、行号等）。这些信息对调试很有帮助，但可能会增加生成的IR的大小。设置为1，会重新解析中间表示(IR)，将位置信息映射为具有特定扩展名的IR文件行号（而非Python源文件行号）。这能建立从IR到LLVM IR/PTX的直接映射关系。配合性能分析工具使用时，可实现对IR指令的细粒度性能剖析。 | 0：不包含位置信息<br>1：包含位置信息 | |
-| **调试与日志** | TRITON_PRINT_AUTOTUNING | 0 或未设置 | 在自动调优完成后，输出每个内核的最佳配置及总耗时。 | 0：不输出<br>1：输出 | |
-| **调试与日志** | MLIR_ENABLE_REMARK | 0 或未设置 | 启用MLIR 编译过程中的备注信息输出，包括以备注形式输出的性能警告。 | 0：不启用<br>1：启用 | |
-| **调试与日志** | TRITON_KERNEL_DUMP | 0 或未设置 | 启用或禁用 Triton 内核的转储功能，当启用时，Triton 会将生成的内核代码（各编译阶段IR及最终PTX）保存到指定目录。 | 0：不启用<br>1：启用 | |
-| **调试与日志** | TRITON_DUMP_DIR | 当前工作目录或未设置 | 指定 Triton 内核转储文件的保存目录。当`TRITON_KERNEL_DUMP=1`时保存IR和PTX的目录。 | "path"：保存路径 | |
-| **调试与日志** | TRITON_DEVICE_PRINT | 0 或未设置 | 当设置为`1` 或者 `true`时（`TRUE` 将被转换为 `true`），启用`tl.device_print`功能。 重要说明：该功能使用GM缓冲区（其指针被传递给内核）。 | 0：不启动<br>1：启用`tl.device_print`功能 | 每个线程的GM缓冲区最大为16KB，超限内容将被丢弃。该值目前固定，后续将通过环境变量调整。 |
-| **调试与日志** | TRITON_MEMORY_DISPLAY | 0 或未设置 | 控制是否生成内存使用情况的 json 文件。当`TRITON_MEMORY_DISPLAY=1`时保存 memory_info_aic/aiv.json 文件到当前目录 。 | 0：不启用<br>1：启用 | |
-| **编译控制** | TRITON_ALWAYS_COMPILE | 0 或未设置 | 控制 Triton 是否每次运行都强制重新编译内核，而不是使用已有的缓存版本。 默认情况下，Triton 会对已经编译过的内核进行缓存（基于参数和配置），以提高性能。 设置为 1 后，Triton 将忽略缓存并每次都重新编译内核，这在调试或测试新编译器特性时非常有用。 | 0：不启用<br>1：每次运行都重新编译所有内核 | |
-| **编译控制** | DISABLE_LLVM_OPT | 0 或未设置 | 当设置为 1 时，可以禁用 LLVM 编译过程中的优化步骤(make_llir和make_ptx的LLVM优化)。当设置为字符串，解析为要禁用的LLVM优化标志列表。例如使用`DISABLE_LLVM_OPT="disable-lsr"`可禁用循环强度优化（该优化在某些存在寄存器压力的内核中可能导致高达10%的性能波动）。 | 0：LLVM 的优化是启用状态<br>1：禁用 LLVM 编译过程中的优化步骤(make_llir和make_ptx的LLVM优化) <list>:"disable-lsr":禁用循环强度优化 </list>| |
-| **编译控制** | MLIR_ENABLE_TIMING | 0 或未设置 | 启用或禁用 MLIR 编译过程中的时间统计功能。 | 0：不启用<br>1：启用 | |
-| **编译控制** | LLVM_ENABLE_TIMING | 0 或未设置 | 启用或禁用 LLVM 编译过程中的时间统计功能。 | 0：不启用<br>1：启用 | |
-| **编译控制** | TRITON_DEFAULT_FP_FUSION | 1 启用 | 控制是否默认启用浮点运算融合优化，覆盖默认的浮点运算融合行为（如mul+add->fma）。 | 0：不启用<br>1：启用 | |
-| **编译控制** | TRITON_KERNEL_OVERRIDE | 0 或未设置 | 启用或禁用 Triton 内核覆盖功能，允许在每个编译阶段开始时用用户指定的外部文件（IR/PTX等）覆盖默认生成的内核代码。 | 0：不启用<br>1：启用 | |
-| **编译控制** | TRITON_OVERRIDE_DIR | 当前工作目录或未设置 | 指定 Triton 内核覆盖文件的查找目录。当`TRITON_KERNEL_OVERRIDE=1`时加载IR/PTX文件的目录。 | "path"：保存路径 | |
-| **编译控制** | TRITON_ASCEND_COMPILE_SPEED_OPT | 0 或未设置 | 控制JIT编译器在发现内核编译失败后是否跳过后续编译阶段。设为`1`跳过（默认`0`继续尝试）。 | 0：继续尝试<br>1：跳过 | |
-| **编译控制** | TRITON_COMPILE_ONLY | 0 或未设置 | remote_launch时使用，只编译不运行。 | 0：不启用<br>1：启用 | |
-| **编译控制** | TRITON_DISABLE_FFTS | 0 或未设置 | 是否禁用FFTS。 | 0：启用<br>1：禁用 | |
-| **编译控制** | TRITON_DISABLE_PRECOMPILE | 0 或未设置 | 是否禁用预编译。                                                                                                                                                                                                                                                                                  | 0：启用预编译<br>1：禁用预编译                                                                               | |
-| **运行与调度** | TRITON_ALL_BLOCKS_PARALLEL | 0 或未设置 | 启用或禁用自动根据物理核数优化逻辑核数，仅当逻辑核间可并行时方可启动。当逻辑核数大于物理核数时，启动该优化，则编译器自动调整逻辑核数量为物理核数，减少调度开销；启用后允许grid>65535。限制：triton kernel的逻辑必须对执行顺序不敏感才能开启该选项，否则可能会导致死锁。 | 0：不启用<br>1：启用 | |
-| **运行与调度** | TRITON_ENABLE_TASKQUEUE | 0 或未设置 | 是否开启task_queue。 | 0：不启用<br>1：启用 | |
-| **运行与调度** | TRITON_ENABLE_SANITIZER | 0 或未设置 | 是否启用 SANITIZER。 | 0：不启用<br>1：启用 | |
-| **运行与调度** | ENABLE_PRINT_UB_BITS | 0 或未设置 | 打开后可以获取当前UB占用量，给inductor使用。 | 0：不启用<br>1：启用 | |
-| **其他** | TRITON_BENCH_METHOD | 未设置 | 使用昇腾NPU时，将`testing.py`中的`do_bench`切换为`do_bench_npu`（需配合`INDUCTOR_ASCEND_AGGRESSIVE_AUTOTUNE = 1`使用）。设为`default`时即使NPU可用，仍调用原`do_bench`函数。 | "npu"：切换为`do_bench_npu` | |
-| **其他** | TRITON_REMOTE_RUN_CONFIG_PATH | path | 指定远程运行的配置路径。 | 直接给定path | |
+| Category | Environment Variable | Default Value | Description | Configuration Notes | Change Declaration |
+|----------|---------------------|---------------|-------------|--------------------|--------------------|
+| **Debug & Logging** | TRITON_DEBUG | 0 or unset | Enables Triton's debug output functionality for printing detailed debug information at runtime. Useful for troubleshooting compilation or execution issues. When set to 1, Triton outputs more information about the compilation process, kernel generation, and execution. Some implementations may support finer-grained debug levels (e.g., 2, 3, etc.), depending on the Triton version and implementation. | 0: Disable DEBUG<br>1: Enable DEBUG | |
+| **Debug & Logging** | MLIR_ENABLE_DUMP | 0 or unset | Dumps the IR of all kernels before each MLIR optimization pass. Use `MLIR_ENABLE_DUMP=kernelName` to dump the IR of a specific kernel only. | 0: Do not dump<br>1: Dump IR of all kernels<br>kernelName: Dump IR of a specific kernel | Triton cache may interfere with dumping. If `MLIR_ENABLE_DUMP=1` does not take effect, try clearing the Triton cache: `rm -r ~/.triton/cache` |
+| **Debug & Logging** | LLVM_IR_ENABLE_DUMP | 0 or unset | Dumps IR before each LLVM IR optimization pass. | 0: Do not dump<br>1: Dump IR | |
+| **Debug & Logging** | TRITON_REPRODUCER_PATH | Unset | Generates an MLIR reproducer file before each MLIR compilation stage. If a stage fails, `<reproducer_path>` will save the MLIR state before the failure. | <reproducer_path>: Save path | |
+| **Debug & Logging** | TRITON_INTERPRET | 0 or unset | Uses the Triton interpreter instead of running on the GPU, supporting the insertion of Python breakpoints in kernel code. | 0: Breakpoints not supported<br>1: Breakpoints supported | |
+| **Debug & Logging** | TRITON_ENABLE_LLVM_DEBUG | 0 or unset | Passes the `-debug` argument to LLVM, outputting a large amount of debug information. If the output is excessive, use `TRITON_LLVM_DEBUG_ONLY` to limit the output scope. | 0: Do not pass<br>1: Pass | Another method to reduce output noise is to first run the program with `LLVM_IR_ENABLE_DUMP=1`, extract the intermediate representation (IR) before the target LLVM optimization pass, then run LLVM's `opt` tool separately, adding the `-debug-only=foo` argument via the command line to limit the debug scope. |
+| **Debug & Logging** | TRITON_LLVM_DEBUG_ONLY | Unset | Functions equivalently to LLVM's `-debug-only` command-line option. This parameter limits LLVM debug output to specific optimization passes or component names (defined by the `#define DEBUG_TYPE` macro in LLVM and Triton), effectively reducing redundant debug information output. Users can specify one or more comma-separated values, for example: `TRITON_LLVM_DEBUG_ONLY="tritongpu-remove-layout-conversions"` or `TRITON_LLVM_DEBUG_ONLY="tritongpu-remove-layout-conversions,regalloc"`. | Comma-separated values: Pass or component names | |
+| **Debug & Logging** | USE_IR_LOC | 0 or unset | Controls whether location information (e.g., file name, line number) is included in the generated intermediate representation (IR). This information is helpful for debugging but may increase the size of the generated IR. When set to 1, the IR is re-parsed, mapping location information to line numbers in IR files with specific extensions (rather than Python source file line numbers). This establishes a direct mapping from IR to LLVM IR/PTX. When used with profiling tools, it enables fine-grained performance analysis of IR instructions. | 0: Do not include location info<br>1: Include location info | |
+| **Debug & Logging** | TRITON_PRINT_AUTOTUNING | 0 or unset | After autotuning completes, outputs the best configuration and total time for each kernel. | 0: Do not output<br>1: Output | |
+| **Debug & Logging** | MLIR_ENABLE_REMARK | 0 or unset | Enables remark output during the MLIR compilation process, including performance warnings output as remarks. | 0: Disable<br>1: Enable | |
+| **Debug & Logging** | TRITON_KERNEL_DUMP | 0 or unset | Enables or disables the dump functionality for Triton kernels. When enabled, Triton saves the generated kernel code (IR at each compilation stage and final PTX) to a specified directory. | 0: Disable<br>1: Enable | |
+| **Debug & Logging** | TRITON_DUMP_DIR | Current working directory or unset | Specifies the directory for saving Triton kernel dump files. The directory where IR and PTX are saved when `TRITON_KERNEL_DUMP=1`. | "path": Save path | |
+| **Debug & Logging** | TRITON_DEVICE_PRINT | 0 or unset | When set to `1` or `true` (`TRUE` will be converted to `true`), enables the `tl.device_print` functionality. Important note: This functionality uses GM buffers (whose pointers are passed to the kernel). | 0: Disable<br>1: Enable `tl.device_print` functionality | The GM buffer per thread is a maximum of 16KB; content exceeding this limit will be discarded. This value is currently fixed and will be adjustable via an environment variable in the future. |
+| **Debug & Logging** | TRITON_MEMORY_DISPLAY | 0 or unset | Controls whether to generate a JSON file for memory usage. When `TRITON_MEMORY_DISPLAY=1`, saves the `memory_info_aic/aiv.json` file to the current directory. | 0: Disable<br>1: Enable | |
+| **Compilation Control** | TRITON_ALWAYS_COMPILE | 0 or unset | Controls whether Triton forces recompilation of kernels on every run instead of using cached versions. By default, Triton caches previously compiled kernels (based on parameters and configuration) to improve performance. When set to 1, Triton ignores the cache and recompiles kernels every time, which is useful for debugging or testing new compiler features. | 0: Disable<br>1: Recompile all kernels on every run | |
+| **Compilation Control** | DISABLE_LLVM_OPT | 0 or unset | When set to 1, disables optimization steps during LLVM compilation (LLVM optimizations for `make_llir` and `make_ptx`). When set to a string, it is parsed as a list of LLVM optimization flags to disable. For example, using `DISABLE_LLVM_OPT="disable-lsr"` disables loop strength reduction optimization (which can cause up to 10% performance fluctuation in some kernels with register pressure). | 0: LLVM optimizations are enabled<br>1: Disable optimization steps during LLVM compilation (LLVM optimizations for `make_llir` and `make_ptx`)<br><list>:"disable-lsr": Disable loop strength reduction </list>| |
+| **Compilation Control** | MLIR_ENABLE_TIMING | 0 or unset | Enables or disables timing statistics during the MLIR compilation process. | 0: Disable<br>1: Enable | |
+| **Compilation Control** | LLVM_ENABLE_TIMING | 0 or unset | Enables or disables timing statistics during the LLVM compilation process. | 0: Disable<br>1: Enable | |
+| **Compilation Control** | TRITON_DEFAULT_FP_FUSION | 1 (enabled) | Controls whether floating-point operation fusion optimization is enabled by default, overriding the default floating-point fusion behavior (e.g., `mul+add` -> `fma`). | 0: Disable<br>1: Enable | |
+| **Compilation Control** | TRITON_KERNEL_OVERRIDE | 0 or unset | Enables or disables the Triton kernel override functionality, allowing user-specified external files (IR/PTX, etc.) to override the default generated kernel code at the beginning of each compilation stage. | 0: Disable<br>1: Enable | |
+| **Compilation Control** | TRITON_OVERRIDE_DIR | Current working directory or unset | Specifies the directory for finding Triton kernel override files. The directory from which IR/PTX files are loaded when `TRITON_KERNEL_OVERRIDE=1`. | "path": Save path | |
+| **Compilation Control** | TRITON_ASCEND_COMPILE_SPEED_OPT | 0 or unset | Controls whether the JIT compiler skips subsequent compilation stages after a kernel compilation failure. Set to `1` to skip (default `0` continues trying). | 0: Continue trying<br>1: Skip | |
+| **Compilation Control** | TRITON_COMPILE_ONLY | 0 or unset | Used with `remote_launch`, compiles only without running. | 0: Disable<br>1: Enable | |
+| **Compilation Control** | TRITON_DISABLE_FFTS | 0 or unset | Whether to disable FFTS. | 0: Enable<br>1: Disable | |
+| **Compilation Control** | TRITON_DISABLE_PRECOMPILE | 0 or unset | Whether to disable precompilation.                                                                                                                                                                                                                                                                                  | 0: Enable precompilation<br>1: Disable precompilation                                                                               | |
+| **Runtime & Scheduling** | TRITON_ALL_BLOCKS_PARALLEL | 0 or unset | Enables or disables automatically optimizing the number of logical cores based on the number of physical cores. Only effective when logical cores can run in parallel. When the number of logical cores is greater than the number of physical cores, enabling this optimization causes the compiler to automatically adjust the number of logical cores to the number of physical cores, reducing scheduling overhead. When enabled, allows `grid > 65535`. Limitation: The logic of the Triton kernel must be insensitive to execution order to enable this option; otherwise, it may cause deadlocks. | 0: Disable<br>1: Enable | |
+| **Runtime & Scheduling** | TRITON_ENABLE_TASKQUEUE | 0 or unset | Whether to enable `task_queue`. | 0: Disable<br>1: Enable | |
+| **Runtime & Scheduling** | TRITON_ENABLE_SANITIZER | 0 or unset | Whether to enable the SANITIZER. | 0: Disable<br>1: Enable | |
+| **Runtime & Scheduling** | ENABLE_PRINT_UB_BITS | 0 or unset | When enabled, allows obtaining the current UB usage, for use by the inductor. | 0: Disable<br>1: Enable | |
+| **Other** | TRITON_BENCH_METHOD | Unset | When using Ascend NPU, switches `do_bench` in `testing.py` to `do_bench_npu` (requires `INDUCTOR_ASCEND_AGGRESSIVE_AUTOTUNE = 1`). When set to `default`, the original `do_bench` function is called even if an NPU is available. | "npu": Switch to `do_bench_npu` | |
+| **Other** | TRITON_REMOTE_RUN_CONFIG_PATH | path | Specifies the configuration path for remote execution. | Provide path directly | |
 
-## 编译选项
+## Compilation Options
 
-编译选项用于控制单个 Triton kernel 的编译策略，可通过 `triton.Config`、Autotune 参数或 kernel launch meta-parameter 传入。
+Compilation options control the compilation strategy for a single Triton kernel and can be passed via `triton.Config`, Autotune parameters, or kernel launch meta-parameters.
 
-### 编译选项用法示例
+### Compilation Option Usage Example
 
-例如，可在 kernel launch 时直接传入 `multibuffer`：
+For example, `multibuffer` can be passed directly during kernel launch:
 
 ```python
 import triton
@@ -71,26 +71,26 @@ grid = (triton.cdiv(n_elements, 1024),)
 kernel[grid](..., BLOCK_SIZE=1024, multibuffer=True)
 ```
 
-### 编译选项参考表
+### Compilation Option Reference Table
 
-编译选项配置参考下表：
+The compilation option configuration is referenced in the table below:
 
-| 类别 | 编译选项 | 默认值/可选值 | 功能说明 | 配置说明 |
-|------|----------|----------------|----------|----------|
-| **通用流水** | `multibuffer` | `True`（默认）、`False` | 启用或禁用 ping-pong/double buffer 流水。默认开启。 | `triton.Config` 或 launch meta-parameter |
-| **CV 融合** | `enable_auto_bind_sub_block` | `None`、`True`、`False` | 启用或禁用自动绑定 sub-block。 | `triton.Config` 或 launch meta-parameter |
-| **CV 融合** | `enable_hivm_auto_cv_balance` | `None`、`True`、`False` | 启用或禁用自动 CV balance。 | `triton.Config` 或 Autotune 参数 |
-| **CV 融合/同步** | `sync_solver` | `None`、`True`、`False` | 启用或禁用 HIVM 同步求解器。 | `triton.Config` 或 launch meta-parameter |
-| **同步** | `unit_flag` | `None`、`True`、`False` | Cube 搬出相关同步优化项。 | `triton.Config` 或 Autotune 参数 |
-| **同步** | `inject_barrier_all` | `None`、`True`、`False` | 启用或禁用自动注入 barrier 同步。 | `triton.Config` 或 launch meta-parameter |
-| **同步** | `inject_block_all` | `None`、`True`、`False` | 启用或禁用自动注入 block 同步。 | `triton.Config` 或 launch meta-parameter |
-| **多缓冲范围** | `limit_auto_multi_buffer_only_for_local_buffer` | `None`、`True`、`False` | 限制自动 multi-buffer 只作用于 local buffer。 | `triton.Config` 或 Autotune 参数 |
-| **多缓冲范围** | `limit_auto_multi_buffer_of_local_buffer` | `None`、`"no-limit"`、`"no-l0c"` | 配置 local buffer 自动 multi-buffer 的 scope。 | `triton.Config` 或 Autotune 参数 |
-| **Workspace** | `set_workspace_multibuffer` | `None`、`2`、`4` | 配置 workspace multi-buffer 档位。 | `triton.Config` 或 Autotune 参数 |
-| **CV 融合 tiling** | `tile_mix_vector_loop` | `None`、`2`、`4`、`8` | 配置 Vector loop 的切分份数。 | `triton.Config` 或 Autotune 参数 |
-| **CV 融合 tiling** | `tile_mix_cube_loop` | `None`、`2`、`4`、`8` | 配置 Cube loop 的切分份数。 | `triton.Config` 或 Autotune 参数 |
-| **CV 融合/同步** | `disable_auto_inject_block_sync` | `None`、`True`、`False` | 启用或禁用自动 block sync 注入。 | `triton.Config` 或 launch meta-parameter |
-| **运行流** | `stream` | `None` 或 NPU stream 标识 | 指定 NPU stream。 | launch meta-parameter |
-| **编译 Pass** | `enable_linearize` | 版本相关 | 启用或禁用 linearization pass。 | `triton.Config` 或 launch meta-parameter |
-| **CV 融合/layout** | `enable_nd2nz_on_vector` | 默认 `False` | 启用或禁用 Vector 路径上的 ND 到 NZ 布局转换。 | `triton.Config` 或 launch meta-parameter |
-| **大 grid 优化** | `auto_blockify_size` | 默认 `1` | 启用或禁用 AutoBlockify pass。未设置 `TRITON_ALL_BLOCKS_PARALLEL` 时忽略。 | launch meta-parameter 或 `triton.Config` |
+| Category | Compilation Option | Default/Valid Values | Description | Configuration Notes |
+|----------|--------------------|----------------------|-------------|--------------------|
+| **General Pipeline** | `multibuffer` | `True` (default), `False` | Enables or disables ping-pong/double buffer pipeline. Enabled by default. | `triton.Config` or launch meta-parameter |
+| **CV Fusion** | `enable_auto_bind_sub_block` | `None`, `True`, `False` | Enables or disables automatic sub-block binding. | `triton.Config` or launch meta-parameter |
+| **CV Fusion** | `enable_hivm_auto_cv_balance` | `None`, `True`, `False` | Enables or disables automatic CV balance. | `triton.Config` or Autotune parameter |
+| **CV Fusion/Synchronization** | `sync_solver` | `None`, `True`, `False` | Enables or disables the HIVM synchronization solver. | `triton.Config` or launch meta-parameter |
+| **Synchronization** | `unit_flag` | `None`, `True`, `False` | Cube transfer-related synchronization optimization item. | `triton.Config` or Autotune parameter |
+| **Synchronization** | `inject_barrier_all` | `None`, `True`, `False` | Enables or disables automatic barrier synchronization injection. | `triton.Config` or launch meta-parameter |
+| **Synchronization** | `inject_block_all` | `None`, `True`, `False` | Enables or disables automatic block synchronization injection. | `triton.Config` or launch meta-parameter |
+| **Multi-buffer Scope** | `limit_auto_multi_buffer_only_for_local_buffer` | `None`, `True`, `False` | Limits automatic multi-buffering to only apply to local buffers. | `triton.Config` or Autotune parameter |
+| **Multi-buffer Scope** | `limit_auto_multi_buffer_of_local_buffer` | `None`, `"no-limit"`, `"no-l0c"` | Configures the scope of automatic multi-buffering for local buffers. | `triton.Config` or Autotune parameter |
+| **Workspace** | `set_workspace_multibuffer` | `None`, `2`, `4` | Configures the workspace multi-buffer level. | `triton.Config` or Autotune parameter |
+| **CV Fusion Tiling** | `tile_mix_vector_loop` | `None`, `2`, `4`, `8` | Configures the number of partitions for the Vector loop. | `triton.Config` or Autotune parameter |
+| **CV Fusion Tiling** | `tile_mix_cube_loop` | `None`, `2`, `4`, `8` | Configures the number of partitions for the Cube loop. | `triton.Config` or Autotune parameter |
+| **CV Fusion/Synchronization** | `disable_auto_inject_block_sync` | `None`, `True`, `False` | Enables or disables automatic block sync injection. | `triton.Config` or launch meta-parameter |
+| **Execution Stream** | `stream` | `None` or NPU stream identifier | Specifies the NPU stream. | launch meta-parameter |
+| **Compilation Pass** | `enable_linearize` | Version-dependent | Enables or disables the linearization pass. | `triton.Config` or launch meta-parameter |
+| **CV Fusion/Layout** | `enable_nd2nz_on_vector` | Default `False` | Enables or disables ND to NZ layout conversion on the Vector path. | `triton.Config` or launch meta-parameter |
+| **Large Grid Optimization** | `auto_blockify_size` | Default `1` | Enables or disables the AutoBlockify pass. Ignored when `TRITON_ALL_BLOCKS_PARALLEL` is not set. | launch meta-parameter or `triton.Config` |
