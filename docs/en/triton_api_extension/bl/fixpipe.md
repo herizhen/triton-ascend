@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-A5 adds a data path from L0C to UB. To implement this path, a temporary solution explicitly calls this path at the frontend.
+The A5 adds a data path from L0C to UB. To implement this path, a temporary solution explicitly calls this path at the frontend.
 
 ## 2. Interface Description
 
@@ -23,12 +23,12 @@ A5 adds a data path from L0C to UB. To implement this path, a temporary solution
   <tr>
     <td>src</td>
     <td>tl.tensor</td>
-    <td>Source tensor, must be located in L0C memory region</td>
+    <td>Source tensor, must be located in the L0C memory region</td>
   </tr>
   <tr>
     <td>dst</td>
     <td>bl.buffer</td>
-    <td>Destination buffer, must be located in UB memory region</td>
+    <td>Destination buffer, must be located in the UB memory region</td>
   </tr>
   <tr>
     <td>dma_mode</td>
@@ -38,7 +38,7 @@ A5 adds a data path from L0C to UB. To implement this path, a temporary solution
   <tr>
     <td>dual_dst_mode</td>
     <td>al.FixpipeDualDstMode</td>
-    <td>Dual destination mode control, only enabled in NZ2ND/normal mode</td>
+    <td>Dual destination mode control, only available in NZ2ND/normal mode</td>
   </tr>
   <tr>
     <td>pre_quant_mode</td>
@@ -59,7 +59,7 @@ A5 adds a data path from L0C to UB. To implement this path, a temporary solution
 
 ### 2.2 Return Value
 
-No return value, directly use the input parameter dst
+No return value, directly use the input parameter `dst`
 
 ## 3. Constraints
 

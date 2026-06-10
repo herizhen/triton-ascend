@@ -8,18 +8,18 @@
 triton.language.range(arg1, arg2=None, step=None, num_stages=None, loop_unroll_factor=None, disallow_acc_multi_buffer=False, flatten=False, warp_specialize=False, disable_licm=False, _semantic=None)
 ```
 
-## 2. Specifications
+## 2. Specification
 
 ### 2.1 Parameter Description
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `arg1` | `int` / `constexpr` | Required | Start value (when used as a single parameter, it serves as the end value, starting from 0) |
+| `arg1` | `int` / `constexpr` | Required | Start value (when single parameter, acts as end value, starting from 0) |
 | `arg2` | `int` / `constexpr` | - | End value (exclusive) |
 | `step` | `int` / `constexpr` | `1` | An integer, the step increment per iteration |
 | `num_stages` | `int` | - | Number of pipeline stages (number of iterations executed concurrently) |
 | `loop_unroll_factor` | `int` | - | Loop unroll factor (<2 means no unrolling) |
-| `disallow_acc_multi_buffer` | `bool` | `False` | Disable multi-buffering optimization for dot operation accumulators |
+| `disallow_acc_multi_buffer` | `bool` | `False` | Disable multi-buffer optimization for dot operation accumulators |
 | `flatten` | `bool` | `False` | Automatically flatten nested loops into a single loop |
 | `warp_specialize` | `bool` | `False` | Enable warp specialization (Blackwell GPU only) |
 | `disable_licm` | `bool` | `False` | Disable loop-invariant code motion optimization |
@@ -36,12 +36,12 @@ A3:
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Relative community capability missing and unimplementable
 
 Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 The functionalities related to `disallow_acc_multi_buffer`, `flatten`, `warp_specialize`, and `disable_licm` are not yet complete.
 
-### 2.4 Usage Examples
+### 2.4 Usage
 
 ```python
 import triton.language as tl

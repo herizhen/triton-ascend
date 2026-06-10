@@ -52,14 +52,14 @@ import triton.language as tl
 
 @triton.jit
 def basic_static_print_example(x_ptr, BLOCK_SIZE: tl.constexpr):
-    # Print constant value at compile time
+    # Print constant values at compile time
     tl.static_print("BLOCK_SIZE =", BLOCK_SIZE)
     tl.static_print(BLOCK_SIZE)
     # Supports fstring printing
     tl.static_print(f"BLOCK_SIZE={BLOCK_SIZE}")
 ```
 
-If printing a **non-constant** result, it will print a `data type[data shape (empty for scalar)]` value. For example, if the data type pointed to by `x_ptr` in the code below is `int32`, it will print `val:int32[constexpr[4]]`
+If printing **non-constant** results, it will print a `data type[data shape (empty for scalar)]` value. For example, if the data type pointed to by `x_ptr` in the code below is `int32`, it will print `val:int32[constexpr[4]]`:
 
 ```python
 import triton.language as tl

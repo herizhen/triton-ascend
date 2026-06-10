@@ -45,9 +45,9 @@ None
 
 - The address space of `src` must be UB, and the address space of `dst` must be L1
 
-- The types and shapes of `src` and `dst` must be identical
+- `src` and `dst` must have the same data type and shape
 
-## 4. Example
+## 4. Example Usage
 
 ```python
 import os

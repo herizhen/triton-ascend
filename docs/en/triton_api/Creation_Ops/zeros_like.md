@@ -12,11 +12,11 @@ triton.language.zeros_like(input)
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type      | Description                    |
-| ------------ | --------- | ------------------------------ |
-| `input`      | `Tensor`  | Input tensor                   |
+| Parameter Name | Type      | Description                          |
+| -------------- | --------- | ------------------------------------ |
+| `input`        | `Tensor`  | Input tensor                         |
 
-Return value:
+Return Value:
 `tensor`: Returns a tensor of zeros with the same shape and type as the given tensor.
 
 ### 2.2 Supported Specifications
@@ -30,11 +30,11 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
+Conclusion: There is no difference in Shape between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Community capability gap that cannot be implemented
 > None
 
 ### 2.4 Usage Example

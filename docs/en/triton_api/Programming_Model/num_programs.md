@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Returns the number of program instances launched along the given axis.
+Description: Returns the number of program instances launched along a given axis.
 Function prototype:
 
 ```python

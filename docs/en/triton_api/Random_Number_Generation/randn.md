@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Given 1 seed scalar and 1 offset block, returns 1 float32 random block following **N**(**0**,**1**) (standard normal distribution).
+Description: Given 1 seed scalar and 1 offset block, returns 1 random block of float32 type that follows the standard normal distribution **N**(**0**,**1**).
 Prototype:
 
 ```python
@@ -13,18 +13,18 @@ triton.language.randn(
 )
 ```
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
 | Parameter Name | Type               | Description                                                    |
 | -------------- | ------------------ | -------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`  | Seed used for random number generation                         |
-| `offset`       | `int` or `tensor`  | Offset used for random number generation                       |
-| `n_rounds`     | `constexpr`, default 10 | Number of iterations for the Philox algorithm              |
+| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                         |
+| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                       |
+| `n_rounds`     | `constexpr`, default value is 10 | Number of iterations for the Philox algorithm |
 
 Return Value:
-1 float32 random block with the same shape as `offset`, whose values follow the standard normal distribution `N(0, 1)`
+1 random block of float32 type, with the same shape as offset, whose values follow the standard normal distribution `N(0, 1)`
 
 ### 2.2 Supported Specifications
 
@@ -40,13 +40,13 @@ Input seed type:
 
 No special requirements
 
-### 2.3 Special Limitations
+### 2.3 Special Constraints
 
 > Missing community capability and cannot be implemented
 
-### 2.4 Usage Example
+### 2.4 Usage
 
-The following example demonstrates calling `randn`:
+The following example demonstrates the call to randn:
 
 ```python
 import math
@@ -59,7 +59,7 @@ def kernel_randn(x_ptr, n_rounds: tl.constexpr, N: tl.constexpr, XBLOCK: tl.cons
     block_offset = tl.program_id(0) * XBLOCK
     offsets = block_offset + tl.arange(0, XBLOCK)  # Block-level offset tensor
     mask = offsets < N
-    rand_vals = tl.randn(5, 10 + offsets, n_rounds)  # Generate a block of random numbers at once
+    rand_vals = tl.randn(5, 10 + offsets, n_rounds)  # Generate a whole block of random numbers at once
     tl.store(x_ptr + offsets, rand_vals, mask=mask)
 
 shape = (1024,)

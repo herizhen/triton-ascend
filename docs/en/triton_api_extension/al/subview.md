@@ -36,21 +36,21 @@ Return value: bl.buffer
 
 ## 4. Constraints
 
-- The input parameters size, offset, and stride must be greater than 0 (offset can be 0) and cannot be negative.
+- The input parameters `size`, `offset`, and `stride` must be greater than 0 (`offset` can be 0); negative values are not allowed.
 
-- The size of each dimension must not exceed the size of the original buffer.
+- Each dimension of `size` must not exceed the corresponding dimension of the source buffer.
 
-- The size of each dimension of the subview must not exceed the size of the original buffer.
+- Each dimension of the subview must not exceed the corresponding dimension of the source buffer.
 
-- The stride access must not exceed the size of src; all stride elements must be 1.
+- The access pattern defined by `stride` must not exceed the size of `src`; all elements of `stride` must be 1.
 
-- The parameter settings must specify the value for each dimension, and the parameter dimensions must be consistent with the input buffer dimensions.
+- The parameter settings must specify values for each dimension, and the number of parameter dimensions must match the dimensions of the input buffer.
 
-- The offset must be 32-byte aligned.
+- `offset` must be 32-byte aligned.
 
-- The offset of the first point in the second row of the last dimension of the subview must be 32-byte aligned.
+- In the subview, the offset of the first element in the second row of the last dimension must be 32-byte aligned.
 
-Explanation supplement: When using sizes and strides, the input type is `List[tl.constexpr]` (be careful not to mistakenly pass a tensor, otherwise an error will occur - type mismatch). offsets additionally supports tensor input (constexpr can also be passed).
+Explanation: `sizes` and `strides` are passed as type `List[tl.constexpr`] (be careful not to pass tensors, otherwise a type mismatch error will occur). `offsets` additionally supports tensor input (constexpr can also be passed).
 
 ## 5. Usage Example
 

@@ -12,7 +12,7 @@ Used as a built-in operator of `tensor`, e.g., `x != y`.
 
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
-| `input` | `tensor` | Tensor data, left operand, representing the primary data for comparison |
+| `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
 | `other` | `tensor` | Tensor data, right operand, compared element-wise with `input` |
 | `_builder` | - | Reserved parameter, external calls not supported |
 
@@ -37,7 +37,7 @@ Conclusion: Compared to GPU, Triton-Ascend lacks support for uint8/uint16/uint32
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
-Conclusion: There is no difference in shape support between GPU and Ascend platforms.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 

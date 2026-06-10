@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: `triton.language.zeros` returns a tensor filled with scalar value 0 of the given shape and dtype.
+Description: `triton.language.zeros` returns a tensor filled with the scalar value 0 with the given shape and dtype.
 
 ```python
 triton.language.zeros(shape, dtype)
@@ -12,19 +12,19 @@ triton.language.zeros(shape, dtype)
 
 ### 2.1 Parameter Description
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
-| `shape` | `tuple of ints` | Shape of the new array, e.g., (8, 16) or (8, ) |
-| `dtype` | `tl.dtype` | Data type of the new array, e.g., tl.float16 |
+| Parameter Name | Type                  | Description                                   |
+| ------------- | ----------------- | ---------------------------- |
+| `shape`           | `tuple of ints`               | Shape of the new array, e.g., (8, 16) or (8, ) |
+| `dtype`            | `tl.dtype`               |  Data type of the new array, e.g., tl.float16 |
 
-Return value:
-`tensor`: Returns a tensor filled with scalar value 0 of the given shape and dtype.
+Return Value:
+`tensor`: Returns a tensor filled with the scalar value 0 with the given shape and dtype.
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
-| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | × |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × |
@@ -33,9 +33,9 @@ Return value:
 
 Conclusion: There is no difference in Shape between GPU and Ascend platforms.
 
-### 2.3 Special Limitations
+### 2.3 Special Restrictions
 
-> Community capability missing and cannot be implemented
+> Missing community capabilities that cannot be implemented
 > None
 
 ### 2.4 Usage Example

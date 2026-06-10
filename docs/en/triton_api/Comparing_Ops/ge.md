@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Compares elements of two tensors, equivalent to `>=`.
+Description: Used to compare elements of two tensors, equivalent to `>=`.
 Function prototype:
 
 ```python
@@ -23,7 +23,7 @@ Used as a built-in operator of `tensor`, e.g., `x>=y`.
 | :---: | :---: | :---: |
 | `input` | `tensor` | Tensor data, left operand, representing the primary data for comparison |
 | `other`   | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | - | Reserved parameter, external invocation not supported |
+| `_builder` | - | Reserved parameter, not yet supported for external calls |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -42,7 +42,7 @@ Conclusion: Compared to GPU, Triton-Ascend lacks support for uint8/uint16/uint32
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | ---------------------- |
+| -------- | -------------------------- |
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 

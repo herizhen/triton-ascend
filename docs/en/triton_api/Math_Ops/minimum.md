@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise minimum of x and y.
+Description: Computes the element-wise minimum of `x` and `y`.
 
 ```python
 triton.language.minimum(x, y, propagate_nan: ~triton.language.core.constexpr = <PROPAGATE_NAN.NONE: 0>, _semantic=None)¶
@@ -20,7 +20,7 @@ triton.language.minimum(x, y, propagate_nan: ~triton.language.core.constexpr = <
 | `_semantic`    | -                  | Reserved parameter, external calls not supported               |
 
 Return value:
-`x`: A tensor with the same shape as the input x
+`x`: A tensor with the same shape as the input `x`
 
 ### 2.2 OP Specifications
 
@@ -31,26 +31,26 @@ Return value:
 | GPU           | √    | √     | √     | ×     | ×      | ×      | ×      | √     | √    | √    | √    | √    | √    |
 | Ascend A2/A3  | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
 
-Conclusion: Ascend lacks fp64 support compared to GPU.
+Conclusion: Compared to GPU, Ascend lacks fp64 support.
 
 #### 2.2.2 Shape Support
 
 |               | Supported Dimension Range |
 | ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+| GPU           | Only supports 1~5D tensors|
+| Ascend A2/A3  | Only supports 1~5D tensors|
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Community capability gaps that cannot be implemented
+> Relative community capability gaps that cannot be implemented
 
 None.
 
 ### 2.4 Usage Example
 
-The following example demonstrates the element-wise minimum of input tensors `x` and `y`:
+The following example demonstrates computing the element-wise minimum of input tensors `x` and `y`:
 
 ```python
 @triton.jit

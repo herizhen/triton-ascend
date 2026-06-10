@@ -14,13 +14,13 @@ The `sub_vec_id` programming interface returns the sub ID of N Vector cores, all
   </tr>
 </table>
 
-- Return value: Returns a Sub Vector ID in the range [0, N). Operator developers can use this ID to determine the data slice processed by each of the N parallel Vector cores.
+- Return Value: Returns a Sub Vector ID in the range [0, N). Operator developers can use this ID to determine the data slice processed by each of the N parallel Vector cores.
 
-- Parameters: None
+- Input Parameters: None
 
 ## 3. Constraints
 
-This is only valid in scenarios where AIC and AIV cores are used together. It cannot be used in pure Cube-type operators or pure Vector-type operators; otherwise, a compilation error will be triggered.
+This is only effective in scenarios where AIC and AIV cores are used together. It must not be used in pure Cube-type operators or pure Vector-type operators; otherwise, a compilation error will be triggered.
 
 ## 4. Example
 

@@ -12,7 +12,7 @@ triton.language.core.__lshift__(
 ) -> tl.tensor
 ```
 
-Used as a built-in operator for `tensor`, such as `x<<y`.
+Used as a built-in operator for `tensor`, e.g., `x<<y`.
 
 ## 2. OP Specification
 
@@ -21,8 +21,8 @@ Used as a built-in operator for `tensor`, such as `x<<y`.
 | Parameter | Type | Description |
 | :---: | :---: | --- |
 | `input` | `tensor` | Tensor data, left operand, representing the main data to be shifted |
-| `other`   | `tensor or scalar` | Tensor data, right operand, the value for shifting |
-| `_builder` | - | Reserved parameter, external invocation not supported |
+| `other`   | `tensor or scalar` | Tensor data, right operand, the shift amount |
+| `_builder` | - | Reserved parameter, external calls not supported |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -45,16 +45,16 @@ Conclusion: Ascend lacks uint support compared to GPU.
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
-Conclusion: There is no difference between GPU and Ascend platforms in terms of shape.
+Conclusion: No differences in Shape support between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Missing capabilities compared to the community, not implementable
 
 1. Ascend lacks uint type support compared to GPU.
 2. The right operand `other` only supports scalars, not tensors (i.e., `x << 2` is valid, `x << y` (where `y` is a tensor) is not supported).
 
-### 2.4 Usage
+### 2.4 Usage Example
 
 The following example demonstrates performing a left shift operation on 3D tensors `x0` and `x1`:
 

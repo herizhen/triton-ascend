@@ -1,8 +1,8 @@
 # triton.language.reshape
 
-## 1 Function Description
+## 1 Description
 
-Reinterprets a tensor into a new shape.
+Reinterprets a tensor with a new shape.
 
 **Syntax:**
 
@@ -11,7 +11,7 @@ Reinterprets a tensor into a new shape.
 
 **Functionality:**
 
-- Reinterprets a tensor into a new shape
+- Reinterprets a tensor with a new shape
 
 ## 2 Parameter Specifications
 
@@ -21,19 +21,19 @@ Reinterprets a tensor into a new shape.
 |-----------|------|----------|-------------|
 | input | tensor | Yes | Input tensor |
 | shape | List[int] | Yes | Target shape |
-| can_reorder | bool | No | Whether to allow reordering elements, default False |
+| can_reorder | bool | No | Whether to allow reordering of elements, default False |
 
 **Return Value:**
 
 - **Type:** tensor
-- **Shape:** Same as the target shape specified by the shape parameter
+- **Shape:** Same as the target shape specified by the `shape` parameter
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Determined by the can_reorder parameter
+- **Memory Layout:** Determined by the `can_reorder` parameter
 
 **Constraints:**
 
 - The total number of elements in the input and output tensors must be equal
-- All tensors must not have any shape dimension with a size less than 1
+- No tensor is allowed to have a shape dimension size less than 1
 
 ### 2.2 DataType Support Table
 
@@ -46,7 +46,7 @@ Reinterprets a tensor into a new shape.
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Limitations
+### 2.4 Special Constraints
 
 * The `can_reorder` parameter only supports `False`
 

@@ -47,7 +47,7 @@ Inserts a dimension of size 1 at the specified axis position, without changing t
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Limitations
+### 2.4 Special Constraints
 
 None
 

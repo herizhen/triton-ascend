@@ -8,30 +8,30 @@ Description: Performs bitwise inversion on each value of the tensor.
 # Using the operator
 ~x
 
-# Or directly calling the dunder method
+# Or by directly calling the dunder method
 x.__invert__()
 ```
 
-## 2. Specification
+## 2. Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type     | Description                                                |
-| -------------- | -------- | ---------------------------------------------------------- |
-| `x`            | `tensor` | Tensor data                                                |
-| `_semantic`    | -        | Reserved parameter, not supported for external calls currently |
+| Parameter Name | Type     | Description                                        |
+| -------------- | -------- | -------------------------------------------------- |
+| `x`            | `tensor` | Tensor data                                        |
+| `_semantic`    | -        | Reserved parameter, not supported for external calls |
 
-Return Value:
-`out`: The shape of the output tensor is the same as the shape of the input `x`.
+Return value:
+`out`: The shape of the output tensor is the same as the shape of the input `x`
 
-### 2.2 OP Specification
+### 2.2 OP Specifications
 
 #### 2.2.1 DataType Support
 
-|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU           | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | √    |
-| Ascend A2/A3  | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
+|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU          | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3 | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
 
 Conclusion: Ascend lacks support for `uint` types compared to GPU.
 

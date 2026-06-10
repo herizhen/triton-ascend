@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise exact square root of x (rounded according to IEEE standard).
+Description: Computes the element-wise exact square root of `x` (rounded according to the IEEE standard).
 
 ```python
 triton.language.sqrt_rn(x, _semantic=None)
@@ -15,10 +15,10 @@ triton.language.sqrt_rn(x, _semantic=None)
 | Parameter      | Type              | Description                                                    |
 | -------------- | ----------------- | -------------------------------------------------------------- |
 | `x`            | `tensor`          | Tensor data                                                    |
-| `_semantic`    | -                 | Reserved parameter, external calls not supported               |
+| `_semantic`    | -                 | Reserved parameter, not supported for external calls           |
 
 Return value:
-`x`: Output tensor with the same shape as the input tensor x
+`x`: Output tensor with the same shape as the input tensor `x`
 
 ### 2.2 OP Specifications
 
@@ -43,7 +43,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Community capability gap that cannot be implemented
+> Relative community capability missing and cannot be implemented
 
 None.
 

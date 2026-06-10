@@ -18,19 +18,19 @@ def kernel(x_ptr, x_size, **META):
     BLOCK_SIZE = META['BLOCK_SIZE']
 ```
 
-- Note: When all configurations are evaluated, the kernel will run multiple times. This means any values updated by the kernel will be updated multiple times. To avoid this undesirable behavior, use the `reset_to_zero` parameter, which resets the values of the provided tensors to zero before running any configuration.
+- Note: When all configs are evaluated, the kernel will run multiple times. This means any values updated by the kernel will be updated multiple times. To avoid this undesirable behavior, use the `reset_to_zero` parameter, which resets the provided tensor values to zero before running any config.
 - Note: If the environment variable `TRITON_PRINT_AUTOTUNING` is set to `"1"`, Triton will print a message to stdout after each auto-tuned kernel, including the time spent on auto-tuning and the best configuration.
 
 **Parameters:**
 
 - `configs (list[triton.Config])` - A list of `triton.Config` objects.
-- `key (list[str])` - A list of parameter names whose value changes will trigger evaluation of all configurations.
-- `prune_configs_by (dict)` - A dictionary of functions for pruning configurations. Contains the following fields:
-  - `'perf_model'`: A performance model used to predict the runtime of different configurations, returning the runtime
-  - `'top_k'`: The number of configurations to benchmark
-  - `'early_config_prune'` (optional): A function for early pruning of configurations (e.g., `num_stages`). It takes `configs: List[Config]` as input and returns the pruned configurations
-- `reset_to_zero (list[str])` - A list of parameter names that will be reset to zero before any configuration evaluation.
-- `restore_value (list[str])` - A list of parameter names whose values will be restored after evaluating any configuration.
+- `key (list[str])` - A list of parameter names whose value changes will trigger evaluation of all configs.
+- `prune_configs_by (dict)` - A dictionary of functions for pruning configs. Contains the following fields:
+  - `'perf_model'`: A performance model used to predict the runtime of different configs, returning the runtime
+  - `'top_k'`: The number of configs to benchmark
+  - `'early_config_prune'` (optional): A function for early pruning of configs (e.g., `num_stages`). It takes `configs: List[Config]` as input and returns pruned configs
+- `reset_to_zero (list[str])` - A list of parameter names that will be reset to zero before any config evaluation.
+- `restore_value (list[str])` - A list of parameter names whose values will be restored after evaluating any config.
 - `pre_hook (lambda args, reset_only)` - A function that will be called before invoking the kernel. This parameter overrides the default `pre_hook` of `reset_to_zero` and `restore_value`.
   - `args`: The list of arguments passed to the kernel
   - `reset_only`: A boolean indicating whether the `pre_hook` is only used to reset values without a corresponding `post_hook`

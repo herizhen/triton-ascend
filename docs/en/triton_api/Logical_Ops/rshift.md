@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Performs a right bitwise shift on a tensor according to the given value.
+Description: Performs a right bitwise shift on a tensor by a given value.
 
 ```python
 triton.language.core.__rshift__(
@@ -22,7 +22,7 @@ Used as a built-in operator for `tensor`, e.g., `x >> y`.
 | :---: | :---: | --- |
 | `input` | `tensor` | Tensor data, left operand, representing the main data to be shifted |
 | `other`   | `tensor or scalar` | Tensor data, right operand, the value by which to shift |
-| `_builder` | - | Reserved parameter, external invocation not supported |
+| `_builder` | - | Reserved parameter, not supported for external calls |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -42,21 +42,21 @@ Conclusion: Ascend lacks support for uint types compared to GPU.
 
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU    | Unlimited |
-| Ascend A2/A3 | Unlimited |
+| GPU    | No restrictions |
+| Ascend A2/A3 | No restrictions |
 
-Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
+Conclusion: There is no difference between GPU and Ascend platforms in terms of shape support.
 
 ### 2.3 Special Limitations
 
 > Capabilities missing relative to the community and cannot be implemented
 
 1. Ascend lacks support for uint types compared to GPU.
-2. The right operand `other` only supports scalars, not tensors (i.e., `x >> 2` is valid, `x >> y` (where `y` is a tensor) is not supported).
+2. The right operand `other` only supports scalars, not tensors (i.e., `x >> 2` is valid, but `x >> y` (where `y` is a tensor) is not currently supported).
 
 ### 2.4 Usage Example
 
-The following example performs a right shift operation on 3D tensors `x0` and `x1`:
+The following example demonstrates performing a right shift operation on 3D tensors `x0` and `x1`:
 
 ```python
 @triton.jit

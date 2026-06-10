@@ -2,16 +2,16 @@
 
 ## 1. OP Overview
 
-Description: Floor division, returns the division result rounded toward zero, arithmetic operator '//', no `tl.floordiv` method.
+Description: Floor division, returns the division result rounded toward zero. Arithmetic operation '//', no `tl.floordiv` method available.
 
 ## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter | Type                | Description                                                             |
-| --------- | ------------------- | ----------------------------------------------------------------------- |
-| `self`    | `tensor or Number`  | First input, dividend                                                   |
-| `other`   | `tensor or Number`  | Second input, divisor                                                   |
+| Parameter    | Type                | Description                                                      |
+| ------------ | ------------------- | ---------------------------------------------------------------- |
+| `self`       | `tensor or Number`  | First input, dividend                                            |
+| `other`      | `tensor or Number`  | Second input, divisor                                            |
 
 ### 2.2 Supported Specifications
 
@@ -33,7 +33,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Usage Example
 
-The following example demonstrates performing floor division on input tensors `in_ptr0, in_ptr1`:
+The following example demonstrates performing floor division on input tensors `in_ptr0` and `in_ptr1`:
 
 ```python
 @triton.jit

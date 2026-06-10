@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Introduction: `triton.language.full` returns a tensor filled with a scalar value of a given shape and data type.
+Description: `triton.language.full` returns a tensor filled with a scalar value of a given shape and data type
 
 ```python
 triton.language.full(shape, value, dtype, _semantic=None)¶
@@ -12,28 +12,28 @@ triton.language.full(shape, value, dtype, _semantic=None)¶
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type                  | Description                                   |
+| Parameter Name | Type | Description |
 | ------------- | ----------------- | ---------------------------- |
-| `shape`           | `tuple of ints`               | Shape of the new array, e.g., (8, 16) or (8, ) |
-| `value`            | `scalar`               | Scalar value used to fill the array |
-| `dtype`            | `tl.dtype`               | Data type of the new array, e.g., tl.float16  |
-| `_semantic`            | `Optional[str]`               | Reserved parameter, external calls not supported temporarily|
+| `shape` | `tuple of ints` | Shape of the new array, e.g., (8, 16) or (8, ) |
+| `value` | `scalar` | Scalar value used to fill the array |
+| `dtype` | `tl.dtype` | Data type of the new array, e.g., tl.float16 |
+| `_semantic` | `Optional[str]` | Reserved parameter, external calls not supported |
 
-Return value:
+Return Value:
 `tensor`: The tensor after filling
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
-|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 #### 2.2.2 Shape Support
 
-Conclusion: There is no difference in Shape between GPU and Ascend platforms.
+Conclusion: There is no difference between GPU and Ascend platforms regarding Shape.
 
 ### 2.3 Special Limitations
 

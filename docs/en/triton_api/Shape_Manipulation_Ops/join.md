@@ -46,7 +46,7 @@ Joins two input tensors of the same shape along a new innermost dimension. The o
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Restrictions
+### 2.4 Special Constraints
 
 None
 
@@ -74,7 +74,7 @@ def join_example(out_ptr):
     )
     tl.store(out_ptr + offs, z)
 
-## Call example
+## Call Example
 out = torch.empty((2, 2, 3), dtype=torch.float32, device="npu")
 join_example[(1,)](out)
 print(out.shape)  # Output: torch.Size([2, 2, 3])

@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Flattens the input tensor into a one-dimensional tensor, preserving the order of elements in memory. The output tensor has the same total number of elements as the input tensor.
+Flattens the input tensor into a one-dimensional tensor, preserving the order of elements in memory. The total number of elements in the output tensor is the same as that of the input tensor.
 
 **Syntax:**
 
@@ -13,9 +13,9 @@ Flattens the input tensor into a one-dimensional tensor, preserving the order of
 
 - Flattens the input tensor into a one-dimensional tensor
 - Preserves the order of elements in memory
-- The output tensor has the same total number of elements as the input tensor
+- The total number of elements in the output tensor is the same as that of the input tensor
 
-## 2 Parameter Specifications
+## 2 Parameter Specification
 
 ### 2.1 Parameter Description
 
@@ -36,8 +36,8 @@ Flattens the input tensor into a one-dimensional tensor, preserving the order of
 
 ### 2.2 DataType Support Table
 
-| Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
+| Support Status | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|----------------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -57,7 +57,7 @@ def flatten_kernel(x_ptr, output_ptr, M, N, BLOCK_SIZE: tl.constexpr):
     # Load 2D data
     x = tl.load(x_ptr + offsets, mask=mask)
 
-    # Flatten to 1D
+    # Flatten to one dimension
     x_flat = x.ravel()
 
     # Store flattened result

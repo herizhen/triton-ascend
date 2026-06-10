@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Returns the index of the minimum value along the specified axis
+Description: Returns the indices of the minimum values along a specified axis.
 
 ```python
 triton.language.argmin(input, axis, tie_break_left=True, keep_dims=False)
@@ -17,7 +17,7 @@ triton.language.argmin(input, axis, tie_break_left=True, keep_dims=False)
 | `input` | `tensor` | Tensor data, left operand |
 | `axis`   | `int` | Specifies the dimension along which to reduce |
 | `keep_dims` | `bool` | Whether to keep the reduced dimension |
-| `tie_break_left` | `bool` | If multiple elements have the same minimum value, returns the index of the leftmost minimum value |
+| `tie_break_left` | `bool` | If multiple elements have the same minimum value, returns the index of the leftmost minimum |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -35,20 +35,20 @@ Return value:
 
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU    | No restrictions |
-| Ascend | No restrictions |
+| GPU    | No restriction |
+| Ascend | No restriction |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Capabilities missing compared to the community and cannot be implemented
 
 Ascend A3 lacks support for uint16, uint32, uint64, and fp64 compared to GPU.
 
 ### 2.4 Usage
 
-For more examples, refer to the triton-ascend code repository, ascend/examples/generalization_cases/test_argmin.py
+For more examples, refer to the triton-ascend code repository: ascend/examples/generalization_cases/test_argmin.py
 
 ```python
 @triton.jit

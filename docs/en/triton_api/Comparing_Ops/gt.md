@@ -20,9 +20,9 @@ Used as a built-in operator of `tensor`, e.g., `x > y`.
 
 | Parameter | Type | Description |
 | :---: | :---: | --- |
-| `input` | `tensor` | Tensor data, left operand, represents the primary data for comparison |
-| `other`   | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | - | Reserved parameter, currently not supported for external calls |
+| `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
+| `other` | `tensor` | Tensor data, right operand, compared element-wise with `input` |
+| `_builder` | - | Reserved parameter, external calls not supported |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -45,7 +45,7 @@ Conclusion: Compared to GPU, Ascend lacks support for uint16/uint32/uint64 and f
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 

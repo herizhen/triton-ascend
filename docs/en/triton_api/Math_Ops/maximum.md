@@ -9,7 +9,7 @@ Function prototype (Triton 3.4.0):
 triton.language.maximum(x, y, propagate_nan: ~triton.language.core.constexpr = <PROPAGATE_NAN.NONE: 0>, _semantic=None)¶
 ```
 
-## 2. Specifications
+## 2. Specification
 
 ### 2.1 Parameter Description
 
@@ -23,29 +23,29 @@ triton.language.maximum(x, y, propagate_nan: ~triton.language.core.constexpr = <
 Return value:
 `x`: The output tensor has the same shape as the input tensor `x`
 
-### 2.2 OP Specifications
+### 2.2 OP Specification
 
 #### 2.2.1 DataType Support
 
-|                | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| -------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU            | √    | √     | √     | ×     | ×      | ×      | ×      | √     | √    | √    | √    | √    | √    |
-| Ascend A2/A3   | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | √    | √     | √     | ×     | ×      | ×      | ×      | √     | √    | √    | √    | √    | √    |
+| Ascend A2/A3| √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
 
 Conclusion: Compared to GPU, Ascend lacks fp64 support.
 
 #### 2.2.2 Shape Support
 
-|                | Supported Dimension Range |
-| -------------- | ------------------------- |
-| GPU            | Only supports 1~5D tensors |
-| Ascend A2/A3   | Only supports 1~5D tensors |
+|        | Supported Dimension Range |
+| ------ | ------------------------- |
+| GPU    | Only supports 1~5D tensors|
+| Ascend A2/A3 | Only supports 1~5D tensors|
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Capabilities missing relative to the community and cannot be implemented
+> Relative community capability missing and cannot be implemented
 
 None.
 

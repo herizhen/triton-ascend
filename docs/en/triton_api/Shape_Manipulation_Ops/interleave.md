@@ -28,18 +28,18 @@ Interleaves two input tensors of the same shape along the last dimension. The la
 
 - **Type:** tensor
 - **Shape:** Last dimension of the input shape multiplied by 2
-- **Data Type:** Same as input tensors
+- **Data Type:** Same as the input tensors
 - **Memory Layout:** Alternating elements of x and y
 
 **Constraints:**
 
 - Both input tensors must have the same shape and data type
-- The shape of the output tensor is the input shape with the last dimension multiplied by 2
+- The shape of the output tensor is the last dimension of the input shape multiplied by 2
 
 ### 2.2 DataType Support Table
 
 | Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -63,12 +63,12 @@ def interleave_example():
     x = tl.zeros([2, 3], dtype=tl.float32)
     y = tl.ones([2, 3], dtype=tl.float32)
 
-    # Interleave to get a 2x6 tensor
+    # Interleave, resulting in 2x6
     z = tl.interleave(x, y)
 
     return z
 
-## Call example
+## Example call
 result = interleave_example()
 print(result.shape)  # Output: (2, 6)
 ```

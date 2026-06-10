@@ -2,16 +2,16 @@
 
 ## 1. OP Overview
 
-Description: Arithmetic operation '*', no `tl.mul` calling method
+Description: Arithmetic operation '*', no `tl.mul` call method
 
 ## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter | Type              | Description                                                    |
-| --------- | ----------------- | -------------------------------------------------------------- |
-| `x`       | `tensor or Number`| First input parameter                                          |
-| `y`       | `tensor or Number`| Second input parameter                                         |
+| Parameter | Type | Description |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `x` | `tensor or Number` | First input parameter |
+| `y` | `tensor or Number` | Second input parameter |
 
 Return value:
 `tl.tensor`: Multiplication result
@@ -27,10 +27,10 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-|        | Supported Dimension Range |
-| ------ | ------------------------- |
-| GPU    | No restrictions           |
-| Ascend A2/A3 | No restrictions    |
+| | Supported Dimension Range |
+| ------ | --------------- |
+| GPU | No restrictions |
+| Ascend A2/A3 | No restrictions |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 

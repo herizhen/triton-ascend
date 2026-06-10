@@ -12,10 +12,10 @@ triton.language.floor(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type      | Description                                                    |
-| -------------- | --------- | -------------------------------------------------------------- |
-| `x`            | `tensor`  | Tensor data                                                    |
-| `_semantic`    | -         | Reserved parameter, not supported for external calls currently |
+| Parameter    | Type     | Description                                                    |
+| ------------ | -------- | -------------------------------------------------------------- |
+| `x`          | `tensor` | Tensor data                                                    |
+| `_semantic`  | -        | Reserved parameter, not supported for external calls currently |
 
 Return value:
 `x`: The output tensor has the same shape as the input tensor `x`.
@@ -36,14 +36,14 @@ torch_npu supports u8.
 
 |              | Supported Dimension Range |
 | ------------ | ------------------------- |
-| GPU          | Supports only 1~5D tensors |
-| Ascend A2/A3 | Supports only 1~5D tensors |
+| GPU          | Only supports 1~5D tensors |
+| Ascend A2/A3 | Only supports 1~5D tensors |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Community capability gaps that cannot be implemented
 
 None.
 

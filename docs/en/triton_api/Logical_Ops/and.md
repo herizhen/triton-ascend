@@ -16,11 +16,11 @@ x.__and__(y)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type     | Description                                      |
-| -------------- | -------- | ------------------------------------------------ |
-| `x`            | `tensor` | Tensor data                                      |
-| `y`            | `tensor` | Tensor data                                      |
-| `_semantic`    | -        | Reserved parameter, external invocation not supported |
+| Parameter Name | Type      | Description                                      |
+| -------------- | --------- | ------------------------------------------------ |
+| `x`            | `tensor`  | Tensor data                                      |
+| `y`            | `tensor`  | Tensor data                                      |
+| `_semantic`    | -         | Reserved parameter, external invocation not supported |
 
 Return value:
 `out`: A tensor with the same shape as `x` and `y`
@@ -29,10 +29,10 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU          | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
-| Ascend A2/A3 | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
+|            | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ---------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU        | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3 | √  | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
 
 Conclusion: Compared to GPU, Ascend lacks support for uint types.
 
@@ -47,7 +47,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative community capability deficiency and cannot be implemented
+> Capabilities missing relative to the community and cannot be implemented
 
 Compared to GPU, Ascend lacks support for uint types.
 

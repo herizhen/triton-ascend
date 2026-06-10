@@ -12,12 +12,12 @@ triton.language.softmax(x, dim=None, keep_dims=False, ieee_rounding=False)
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type                | Description                                                        |
-| ------------ | ------------------- | ------------------------------------------------------------------ |
-| `x`          | `tensor`            | Tensor data                                                        |
-| `dim`        | `int`               | Specifies the dimension along which to compute the softmax         |
-| `keep_dims`  | `bool`              | Controls whether to retain the original dimension shape after computation |
-| `ieee_rounding` | `bool`           | Controls whether floating-point operations follow IEEE 754 rounding rules |
+| Parameter    | Type       | Description                                                      |
+| ------------ | ---------- | ---------------------------------------------------------------- |
+| `x`          | `tensor`   | Input tensor                                                     |
+| `dim`        | `int`      | Specifies the dimension along which to compute the softmax       |
+| `keep_dims`  | `bool`     | Controls whether to retain the original dimension shape after computation |
+| `ieee_rounding` | `bool`  | Controls whether floating-point operations follow IEEE 754 rounding rules |
 
 Return value:
 `x`: A tensor with the same shape as x
@@ -43,13 +43,13 @@ torch_npu does not support uint8.
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
-### 2.3 Special Limitation Notes
+### 2.3 Special Limitations
 
-> Capabilities missing relative to the community that cannot be implemented
+> Community capabilities that are missing and cannot be implemented
 
 None.
 
-### 2.4 Usage Example
+### 2.4 Usage
 
 The following example demonstrates computing the element-wise softmax of the input tensor `x`:
 

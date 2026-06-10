@@ -20,7 +20,7 @@ triton.language.advance(
 | Parameter    | Type                | Description                                                      |
 | ------------ | ------------------- | ---------------------------------------------------------------- |
 | `base`       | `triton.PointerType`| The pointer to be updated, result of `tl.make_block_ptr`         |
-| `offsets`    | `tuple(int \| constexpr)` | List of base offset values for each tensor dimension. `len(offsets)` must equal `len(base.offsets)` |
+| `offsets`    | `tuple(int \| constexpr)` | List of base address offsets for each tensor dimension, `len(offsets)` must equal `len(base.offsets)` |
 | `_semantic`  | -                   | Reserved parameter, not supported for external use               |
 
 Return value: `pointer_type<blocked<shape, element_type>>`: Pointer to a tensor
@@ -47,11 +47,11 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Capabilities missing compared to the community and cannot be implemented
+> Capabilities missing compared to the community that cannot be implemented
 
 - Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
-- Ascend only allows expressing transpose semantics by adjusting the order of the `order` parameter; transpose semantics cannot be achieved by adjusting the order of the `stride` parameter.
-- Currently, `tl.make_tensor_ptr` may cause compilation issues when used with complex loop and branch statements.
+- Ascend only allows expressing transpose semantics by adjusting the order of the `order` parameter; it cannot achieve transpose semantics by adjusting the order of the `stride` parameter.
+- Currently, `tl.make_tensor_ptr` may cause compilation issues when used with complex loops and branch statements.
 
 ### 2.4 Usage Example
 

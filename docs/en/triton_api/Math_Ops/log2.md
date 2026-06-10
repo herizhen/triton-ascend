@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise logarithm (base 2) of x.
+Description: Computes the element-wise base-2 logarithm of x.
 
 ```python
 triton.language.log2(x, _semantic=None)
@@ -12,13 +12,13 @@ triton.language.log2(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type       | Description                                                    |
+| Parameter Name | Type       | Description                                                    |
 | -------------- | ---------- | -------------------------------------------------------------- |
 | `x`            | `tensor`   | Tensor data                                                    |
-| `_semantic`    | -          | Reserved parameter, not supported for external calls           |
+| `_semantic`    | -          | Reserved parameter, external calls not supported               |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor x.
+`x`: Output tensor with the same shape as the input tensor x
 
 ### 2.2 OP Specifications
 
@@ -43,13 +43,13 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Community capability gap that cannot be implemented.
+> Community capability gaps that cannot be implemented
 
 None.
 
 ### 2.4 Usage Example
 
-The following example demonstrates element-wise logarithm (base 2) computation on the input tensor `x`:
+The following example demonstrates element-wise base-2 logarithm computation on the input tensor `x`:
 
 ```python
 @triton.jit

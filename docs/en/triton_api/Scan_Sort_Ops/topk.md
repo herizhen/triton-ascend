@@ -40,13 +40,13 @@ torch_npu supports uint8.
 | GPU    | Only supports 1~5 dimensional tensors |
 | Ascend A2/A3 | Only supports 1~5 dimensional tensors |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5 dimensional tensors.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5 dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Capabilities missing relative to the community and cannot be implemented
 
-Due to Bisheng compiler limitations, int32, uint8, int64, float64, and bool cannot be implemented.
+Due to limitations of the Bishang compiler, int32, uint8, int64, float64, and bool cannot be implemented.
 
 Currently, `topk` only returns the maximum values; switching to return minimum values via parameters is not supported.
 `dim` only supports the last dimension.

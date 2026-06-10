@@ -25,7 +25,7 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
     <td>tensor</td>
     <td>tl.tensor</td>
     <td>Yes</td>
-    <td>Input tensor to be converted into a buffer</td>
+    <td>Input tensor to be converted to a buffer</td>
   </tr>
   <tr>
     <td>space</td>
@@ -37,7 +37,7 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
     <td>bind_buffer</td>
     <td>bl.buffer</td>
     <td>No</td>
-    <td>Optional, binds the tensor directly to the specified target buffer</td>
+    <td>Optional, directly binds the tensor to the specified target buffer</td>
   </tr>
   <tr>
     <td>_builder</td>
@@ -55,7 +55,7 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
 
 ## 5. Constraints
 
-- Interface constraint rules are consistent with `bl.allocate_local_buffer`
+- The interface constraint rules are consistent with `bl.allocate_local_buffer`
 
 - The address space parameter must strictly match the memory regions supported by Ascend hardware (UB/L1/L0A/L0B/L0C)
 
@@ -69,19 +69,19 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
   </tr>
 </table>
 
-### Advanced Usage (Compilation + IR Print)
+### Advanced Usage (Compilation + IR Printing)
 
 <table>
   <tr>
-    <td>Python<br># Compile and print Triton IR (recommended for debugging)<br>def test_to_buffer_print_ir():<br>    src = ASTSource(<br>        fn=to_buffer_kernel,<br>        constants={},<br>        signature={},<br>    )<br>    # Enable IR printing<br>    compile_options = {&quot;dump_ir&quot;: True, &quot;optimization_level&quot;: 0}<br>    compiled_kernel = triton.compile(src=src, target=target, options=compile_options)<br>    print(&quot;\n📄 Kernel IR print completed&quot;)<br><br>if __name__ == &quot;__main__&quot;:<br>    test_to_buffer_print_ir()</td>
+    <td>Python<br># Compile and print Triton IR (recommended for debugging)<br>def test_to_buffer_print_ir():<br>    src = ASTSource(<br>        fn=to_buffer_kernel,<br>        constants={},<br>        signature={},<br>    )<br>    # Enable IR printing<br>    compile_options = {&quot;dump_ir&quot;: True, &quot;optimization_level&quot;: 0}<br>    compiled_kernel = triton.compile(src=src, target=target, options=compile_options)<br>    print(&quot;\n📄 Kernel IR printing completed&quot;)<br><br>if __name__ == &quot;__main__&quot;:<br>    test_to_buffer_print_ir()</td>
   </tr>
 </table>
 
 ## 7. Core Description
 
-- This interface is the core conversion entry point between tensors and hardware buffers
+- This interface is the core conversion entry point between tensors ↔ hardware buffers
 
-- Supports manual specification of all Ascend hardware address spaces (UB/L1/L0)
+- Supports manual specification of the full range of Ascend hardware address spaces (UB/L1/L0)
 
 - Supports binding to existing buffers for fine-grained memory management
 

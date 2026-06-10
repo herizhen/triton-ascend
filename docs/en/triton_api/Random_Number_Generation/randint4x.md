@@ -18,11 +18,11 @@ triton.language.randint4x(
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type               | Description                                                      |
-| ------------ | ------------------ | ---------------------------------------------------------------- |
-| `seed`       | `int` or `tensor`  | Seed used to generate random numbers                             |
-| `offset`     | `int` or `tensor`  | Offset used to generate random numbers                           |
-| `n_rounds`   | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm              |
+| Parameter    | Type                | Description                                                             |
+| ------------ | ------------------- | ----------------------------------------------------------------------- |
+| `seed`       | `int` or `tensor`   | Seed used for generating random numbers                                 |
+| `offset`     | `int` or `tensor`   | Offset used for generating random numbers                               |
+| `n_rounds`   | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm                     |
 
 Return value:
 4 random blocks of type int32, each with the same shape as offset
@@ -41,9 +41,9 @@ Input seed type:
 
 No special requirements
 
-### 2.3 Special Limitations
+### 2.3 Special Constraints
 
-> Relative community capability missing and unimplementable
+> Missing capability relative to the community, cannot be implemented
 
 ### 2.4 Usage Examples
 

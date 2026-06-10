@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Inserts a tensor (sub-tensor) into another tensor at a specified position, i.e., inserting one tensor into another according to the operation's specified offset, size, and stride parameters.
+Description: Inserts a tensor (sub-tensor) into another tensor at a specified position, i.e., inserting one tensor into another according to the offset, size, and stride parameters specified by the operation.
 Prototype:
 
 ```python
@@ -17,19 +17,19 @@ triton.language.insert_slice(
 ) -> tensor
 ```
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type               | Description                                                      |
-| ------------ | ------------------ | ---------------------------------------------------------------- |
-| `ful`        | `tensor`           | The target tensor that receives the insertion                    |
-| `sub`        | `tensor`           | The sub-tensor to be inserted, whose shape must match the shape specified by the `sizes` parameter |
-| `offsets`    | `tuple of ints`    | Specifies the starting offsets (per dimension) for insertion into the `ful` tensor |
-| `sizes`      | `tuple of ints`    | Specifies the size of the insertion region (per dimension)       |
-| `strides`    | `tuple of ints`    | Specifies the stride of the insertion region (per dimension)     |
-| `_builder`   | -                  | Reserved parameter, not supported for external calls             |
-| `_generator` | -                  | Reserved parameter, not supported for external calls             |
+| Parameter    | Type             | Description                                                      |
+| ------------ | ---------------- | ---------------------------------------------------------------- |
+| `ful`        | `tensor`         | The target tensor that receives the insertion                    |
+| `sub`        | `tensor`         | The sub-tensor to be inserted, whose shape must match the shape specified by the `sizes` parameter |
+| `offsets`    | `tuple of ints`  | Specifies the starting offsets (per dimension) for insertion into the `ful` tensor |
+| `sizes`      | `tuple of ints`  | Specifies the size of the insertion region (per dimension)       |
+| `strides`    | `tuple of ints`  | Specifies the stride of the insertion region (per dimension)     |
+| `_builder`   | -                | Reserved parameter, currently not supported for external calls   |
+| `_generator` | -                | Reserved parameter, currently not supported for external calls   |
 
 Return value:
 `tensor`: A new tensor after inserting the sub-tensor
@@ -44,10 +44,10 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-Supports tensors of arbitrary shapes, with the following requirements:
+Supports tensors of arbitrary shapes, provided that:
 
 1. The number of dimensions of `ful` and `sub` must be the same
-2. The lengths of `offsets`, `sizes`, and `strides` must equal the number of tensor dimensions
+2. The lengths of `offsets`, `sizes`, and `strides` must match the number of tensor dimensions
 3. The insertion region must not exceed the boundaries of the `ful` tensor
 
 ### 2.3 Special Constraints
@@ -56,7 +56,7 @@ No special constraints
 
 ### 2.4 Usage Example
 
-The following example demonstrates inserting a slice computation result back into the original tensor:
+The following example demonstrates inserting the result of a slice computation back into the original tensor:
 
 ```python
 @triton.jit
@@ -78,6 +78,6 @@ def triton_kernel(x_ptr, y_ptr, output_ptr, n_elements, BLOCK_SIZE: tl.constexpr
     tl.store(output_ptr + offsets, output, mask=mask)
 ```
 
-## 3. Semantic Gap
+## 3. Semantic GAP
 
 No semantic differences

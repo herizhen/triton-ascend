@@ -11,7 +11,7 @@ triton.language.abs(x, _semantic=None)
 
 Can be called as a member function of a tensor, e.g., `x.abs()`, which is equivalent to `abs(x)`.
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
@@ -39,9 +39,9 @@ Return value:
 | GPU    | No restrictions |
 | Ascend | No restrictions |
 
-Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape support.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 Special Restrictions
+### 2.3 Special Restriction Notes
 
 Triton-Ascend does not support fp64 compared to GPU.
 

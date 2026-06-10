@@ -1,6 +1,6 @@
 # Mathematical Operations
 
-| API | Description |
+| API | Brief Description |
 |--|--|
 | [add](./add.md) | Arithmetic addition ‘+’ |
 | [sub](./sub.md) | Arithmetic subtraction ‘-’ |

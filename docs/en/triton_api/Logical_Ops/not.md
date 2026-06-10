@@ -5,7 +5,7 @@
 Description: Performs element-wise logical NOT on a tensor (0 becomes 1, non-zero becomes 0). Corresponds to Python's `not` keyword — Triton handles this through an AST visitor, rewriting `not X` as `X.__not__()`. This differs from bitwise inversion `~X` (see [invert](./invert.md)): the former is logical NOT, while the latter is bitwise inversion.
 
 ```python
-# Via the not keyword (handled by Triton AST interception)
+# Via the not keyword (intercepted by Triton AST)
 not x
 
 # Or by directly calling the dunder method
@@ -16,37 +16,37 @@ x.__not__()
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type     | Description                                                    |
-| -------------- | -------- | -------------------------------------------------------------- |
-| `x`            | `tensor` | Tensor data                                                    |
-| `_semantic`    | -        | Reserved parameter, external invocation not supported yet      |
+| Parameter Name | Type      | Description                                    |
+| -------------- | --------- | ---------------------------------------------- |
+| `x`            | `tensor`  | Tensor data                                    |
+| `_semantic`    | -         | Reserved parameter, not supported for external calls |
 
-Return Value:
-`out`: The output tensor has the same shape as the input tensor `x`.
+Return value:
+`out`: Output tensor has the same shape as input tensor `x`
 
 ### 2.2 OP Specification
 
 #### 2.2.1 DataType Support
 
-|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU           | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | ×    | ×    | ×    | √    |
-| Ascend A2/A3  | √    | √     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
+|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU          | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3 | √    | √     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
 
 Conclusion: Compared to GPU, Ascend additionally supports non-bool types.
 
 #### 2.2.2 Shape Support
 
-|               | Supported Dimension Range |
-| ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+|              | Supported Dimension Range |
+| ------------ | ------------------------- |
+| GPU          | Only supports 1~5D tensors |
+| Ascend A2/A3 | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented.
+> Missing capabilities relative to the community that cannot be implemented
 
 None at present.
 

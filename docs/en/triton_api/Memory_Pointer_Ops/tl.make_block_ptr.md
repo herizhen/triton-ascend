@@ -17,19 +17,19 @@ triton.language.make_block_ptr(
 )
 ```
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type                | Description                                                      |
-| ------------ | ------------------- | ---------------------------------------------------------------- |
-| `base`       | `triton.PointerType`| Base pointer to the tensor                                       |
-| `shape`      | `tuple(int \| constexpr)` | Shape of the tensor in GM                                        |
-| `strides`    | `tuple(int \| constexpr)` | List of strides for each dimension of the tensor                 |
-| `offsets`    | `tuple(int \| constexpr)` | List of base offsets for each dimension of the tensor            |
-| `block_shape`| `tuple(constexpr)`  | Shape of the block loaded/stored from global memory in a single operation |
-| `order`      | `tuple(constexpr)`  | Order of the block loaded/stored from global memory in a single operation |
-| `_semantic`  | -                   | Reserved parameter, not supported for external calls             |
+| Parameter Name | Type                | Description                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `base`        | `triton.PointerType`          | Base pointer of the tensor                                                      |
+| `shape`       | `tuple(int \| constexpr)`    | Shape of the tensor in global memory                                                        |
+| `strides`     | `tuple(int \| constexpr)`    | List of strides for each dimension of the tensor |
+| `offsets`     | `tuple(int \| constexpr)`    | List of base offsets for each dimension of the tensor |
+| `block_shape` | `tuple(constexpr)` | Shape of the block loaded/stored from/to global memory in a single operation                                              |
+| `order` | `tuple(constexpr)` | Order of dimensions for loading/storing blocks from/to global memory                                              |
+| `_semantic`   | -                 | Reserved parameter, not supported for external calls                                                |
 
 Return value: `pointer_type<blocked<shape, element_type>>`: Pointer to the tensor
 
@@ -37,27 +37,27 @@ Return value: `pointer_type<blocked<shape, element_type>>`: Pointer to the tenso
 
 #### 2.2.1 DataType Support
 
-|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU          | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | ×    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | ×    |
 | Ascend A2/A3 | √    | √     | √     | ×     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | ×    |
 
 Conclusion: Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
 
 #### 2.2.2 Shape Support
 
-|              | Supported Dimension Range |
-| ------------ | ------------------------- |
-| GPU          | Only supports 1~5D tensors |
-| Ascend A2/A3 | Only supports 1~5D tensors |
+|        | Supported Dimension Range          |
+| ------ | --------------- |
+| GPU    | Only supports 1~5 dimensional tensors |
+| Ascend A2/A3 | Only supports 1~5 dimensional tensors |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5 dimensional tensors.
 
 #### 2.2.3 Community Constraints
 
-Arithmetic operations on the result of `tl.make_block_ptr` are not allowed. To change offsets, you can:
+The result of `tl.make_block_ptr` does not allow arithmetic operations. To change the offset, you can:
 
-1. Re-call `make_block_ptr` and modify the `offset` parameter:
+1. Re-call make_block_ptr and modify the `offset` parameter:
 
    ```python
    for block_idx in range(pid, NUM_BLOCKS, 20):
@@ -77,7 +77,7 @@ Arithmetic operations on the result of `tl.make_block_ptr` are not allowed. To c
        )
    ```
 
-2. Call `tl.advance` to adjust offsets:
+2. Call `tl.advance` to adjust the offset:
 
    ```python
    block_ptr_in=tl.make_block_ptr(
@@ -93,15 +93,15 @@ Arithmetic operations on the result of `tl.make_block_ptr` are not allowed. To c
 
 ### 2.3 Special Limitations
 
-> Relative to community capabilities that are missing and cannot be implemented
+> Missing community capabilities that cannot be implemented
 
 - Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
 
 - Ascend only allows expressing transpose semantics by adjusting the order of the `order` parameter, not by adjusting the order of the `stride` parameter.
 
-| Difference Point                           | Description                                                  | Solution                                  |
-| ------------------------------------------ | ------------------------------------------------------------ | ----------------------------------------- |
-| Generalization issues with branch/loop statements | Currently, `tl.make_block_ptr` may cause compilation issues when used with complex loops and branch statements | Iteratively resolve through extensive generalization testing |
+- | Difference Point                                 | Description                                                         | Solution                       |
+  | -------------------------------------- | ------------------------------------------------------------ | ------------------------------ |
+  | Generalization issues when used with branch and loop statements | Currently, `tl.make_block_ptr`, when used with complex loop and branch statements, may cause compilation issues | Expose issues through extensive generalization testing, resolve iteratively |
 
 ### 2.4 Usage Example
 

@@ -2,10 +2,10 @@
 
 ## 1. Function Overview
 
-Description: Computes the XOR of two elements.
+Description: Computes the bitwise XOR of two elements.
 
 ```python
-# Via operator
+# Using the operator
 x ^ y
 
 # Or by directly calling the dunder method
@@ -16,11 +16,11 @@ x.__xor__(y)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                    |
-| -------------- | ------------------ | -------------------------------------------------------------- |
-| `x`            | `tensor`           | Tensor data                                                    |
-| `y`            | `tensor`           | Tensor data                                                    |
-| `_semantic`    | -                  | Reserved parameter, external calls not supported for now       |
+| Parameter Name | Type      | Description                                      |
+| -------------- | --------- | ------------------------------------------------ |
+| `x`            | `tensor`  | Tensor data                                      |
+| `y`            | `tensor`  | Tensor data                                      |
+| `_semantic`    | -         | Reserved parameter, external calls not supported |
 
 Return value:
 `out`: A tensor with the same shape as `x` and `y`
