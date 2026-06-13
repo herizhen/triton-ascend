@@ -15,7 +15,7 @@ triton.language.xor_sum(input, axis=None, keep_dims=False)
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `input` | `Tensor` | Input tensor |
-| `axis` | `int` or `None` | The dimension along which to perform the XOR sum operation. If None, the XOR operation is performed over all dimensions |
+| `axis` | `int` or `None` | The dimension along which to perform the XOR sum operation. If None, the XOR operation is performed across all dimensions |
 | `keep_dims` | `bool` | If True, the reduced dimensions are kept with length 1 |
 
 Return value:
@@ -25,8 +25,8 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-|---|-------|------|--------|-------|--------|-------|--------|-------|------|------|------|-----------|
+|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+|---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ |
 
@@ -36,12 +36,12 @@ Conclusion: There is no difference in Shape support between GPU and Ascend platf
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
-> `keep_dims=True` requires testing more specifications to determine full support. Currently tested with 3D dim=2, `keep_dims=True` is supported.
+> Missing community capability that cannot be implemented
+> `keep_dims=True` requires testing with more specifications to determine full support. Currently tested with 3D dim=2, `keep_dims=True` is supported.
 
 ### 2.4 Usage Example
 
-The following example demonstrates performing the xor_sum operation on a 2D tensor:
+The following example demonstrates performing an XOR sum operation on a 2D tensor:
 
 ```python
 @triton.jit

@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Reads a single element from the input tensor based on the given index.
+Description: Reads a single element from an input tensor based on the given indices.
 Prototype:
 
 ```python
@@ -20,15 +20,15 @@ Can be called as a member function of a tensor, e.g., `x.get_element(...)`, whic
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type                | Description                                                      |
-| -------------- | ------------------- | ---------------------------------------------------------------- |
-| `src`          | `tensor`            | The source tensor to be accessed                                 |
-| `indice`       | `tuple of ints` or `tuple of tensors` | The index used to specify the element position                   |
-| `_builder`     | -                   | Reserved parameter, external invocation not supported            |
-| `_generator`   | -                   | Reserved parameter, external invocation not supported            |
+| Parameter Name | Type                | Description                                                    |
+| -------------- | ------------------- | -------------------------------------------------------------- |
+| `src`          | `tensor`            | The source tensor to be accessed                               |
+| `indice`       | `tuple of ints` or `tuple of tensors` | Indices specifying the element position                        |
+| `_builder`     | -                   | Reserved parameter, external invocation not supported          |
+| `_generator`   | -                   | Reserved parameter, external invocation not supported          |
 
 Return value:
-`scalar`: A scalar value of the same type as the elements of the `src` tensor
+`scalar`: A scalar value with the same element type as the `src` tensor
 
 ### 2.2 Supported Specifications
 

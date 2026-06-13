@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: `triton.language.reduce` applies `combine_fn` along the specified `axis` to perform reduction on the input tensor, returning the resulting tensor after reduction.
+Description: `triton.language.reduce` applies `combine_fn` along the specified `axis` to reduce the input tensor, returning the resulting tensor after reduction.
 
 ```python
 triton.language.reduce(input, axis, combine_fn, keep_dims=False, _semantic=None, _generator=None)
@@ -15,11 +15,11 @@ triton.language.reduce(input, axis, combine_fn, keep_dims=False, _semantic=None,
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `input` | `Tensor` or `tuple of Tensor` | Input tensor, can be a single tensor or a tuple of tensors |
-| `axis` | `int` or `None` | The dimension along which to perform the reduce operation. If None, reduces all dimensions |
-| `combine_fn` | `Callable` | Function for combining two scalar tensor groups (must be decorated with @triton.jit) |
+| `axis` | `int` or `None` | The dimension along which to perform the reduce operation. If None, all dimensions are reduced |
+| `combine_fn` | `Callable` | Function to combine two groups of scalar tensors (must be decorated with `@triton.jit`) |
 | `keep_dims` | `bool` | If True, keeps the reduced dimension with length 1 |
-| `_semantic` | `Optional[str]` | Reserved parameter, external calls not supported |
-| `_generator` | `Optional[Generator]` | Reserved parameter, external calls not supported |
+| `_semantic` | `Optional[str]` | Reserved parameter, not supported for external calls |
+| `_generator` | `Optional[Generator]` | Reserved parameter, not supported for external calls |
 
 **Note**: This function can also be called as a member function of a tensor, e.g., `x.reduce(...)` instead of `reduce(x, ...)`
 
@@ -42,11 +42,11 @@ Conclusion: There is no difference in Shape support between GPU and Ascend platf
 ### 2.3 Special Limitations
 
 > Relative community capability missing and cannot be implemented
-> `keep_dims=True` requires more testing specifications to determine full support. Currently tested with 3D dim=2, `keep_dims=True` is supported.
+> `keep_dims=True` requires more testing scenarios to determine full support. Currently tested for 3D dim=2, `keep_dims=True` is supported.
 
 ### 2.4 Usage Example
 
-The following example implements reduce computation on a 2D shape tensor, where the `combine_fn` uses simple addition:
+The following example demonstrates reduce computation on a 2D tensor, with `combine_fn` using simple addition:
 
 ```python
 @triton.jit

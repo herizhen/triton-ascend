@@ -5,10 +5,10 @@
 Description: Negates the values of a tensor.
 
 ```python
-# Via operator
+# Using the operator
 -x
 
-# Or by directly calling the dunder method
+# Or directly calling the dunder method
 x.__neg__()
 ```
 
@@ -16,13 +16,13 @@ x.__neg__()
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type     | Description                                                    |
-| -------------- | -------- | -------------------------------------------------------------- |
-| `x`            | `tensor` | Tensor data                                                    |
-| `_semantic`    | -        | Reserved parameter, external invocation not supported currently |
+| Parameter Name | Type       | Description                                                    |
+| -------------- | ---------- | -------------------------------------------------------------- |
+| `x`            | `tensor`   | Tensor data                                                    |
+| `_semantic`    | -          | Reserved parameter, external calls not supported currently     |
 
-Return value:
-`out`: The output tensor has the same shape as the input tensor `x`.
+Return Value:
+`out`: The output tensor has the same shape as the input tensor `x`
 
 ### 2.2 OP Specifications
 
@@ -46,7 +46,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Capabilities missing compared to the community, implementation not possible
+> Capabilities missing compared to the community and cannot be implemented
 
 Compared to GPU, Ascend lacks support for uint, fp64, and bool types.
 

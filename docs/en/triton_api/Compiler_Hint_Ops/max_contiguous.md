@@ -2,13 +2,13 @@
 
 ## 1. Function Overview
 
-`max_contiguous` is used to declare the contiguity pattern in the input tensor to the compiler, informing the compiler that the first `value` elements of the input tensor are contiguous.
+`max_contiguous` is used to declare the contiguity pattern of the input tensor to the compiler, informing the compiler that the first `value` elements of the input tensor are contiguous.
 
 ```python
 triton.language.max_contiguous(input, values, _builder=None, _semantic=None)
 ```
 
-## 2. Specifications
+## 2. Specification
 
 ### 2.1 Parameter Description
 
@@ -21,7 +21,7 @@ triton.language.max_contiguous(input, values, _builder=None, _semantic=None)
 **`values` describes the contiguity characteristics of each dimension, so the dimensionality of `values` must match that of `input`.
 Note the dimension reduction case when the last dimension of `shape` is `1`.**
 
-For example: a 2D `input` corresponds to a general `values` parameter of `[1,1]`.
+For example: a two-dimensional `input` corresponds to a general `values` input of `[1,1]`.
 
 ### 2.2 Type Support
 

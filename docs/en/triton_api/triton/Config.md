@@ -8,11 +8,11 @@ An object representing a kernel configuration that autotuning may attempt.
 
 **Variables:**
 
-- **kwargs** – A dictionary of meta-parameters to be passed to the kernel as keyword arguments.
+- **kwargs** – A dictionary of meta-parameters to be passed as keyword arguments to the kernel.
 
-- **num_warps** – The number of warps used by the kernel when compiling for GPU. For example, if num_warps=8, each kernel instance will be automatically parallelized to execute collaboratively using 8 * 32 = 256 threads.
+- **num_warps** – The number of warps used by the kernel when compiled for the GPU. For example, if num_warps=8, each kernel instance will be automatically parallelized to execute cooperatively using 8 * 32 = 256 threads.
 
-- **num_stages** – The number of stages the compiler should use when software-pipelining loops. Useful for matrix multiplication workloads on SM80+ GPUs.
+- **num_stages** – The number of stages the compiler should use when software-pipelining loops. Particularly useful for matrix multiplication workloads on SM80+ GPUs.
 
 - **num_ctas** – The number of blocks in a block cluster. Only applicable for SM90+.
 

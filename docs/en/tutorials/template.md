@@ -4,15 +4,15 @@
   <a href="Model-Deployment-Tutorial-Template.md"><b>English</b></a> | <a href="Model-Deployment-Tutorial-Template.zh.md"><b>中文</b></a>
 </p>
 
-This template is based on deployment tutorials for models such as DeepSeek-V3.2 and Qwen-VL-Dense, aiming to provide a reference for technical documentation writing. Users can follow the template guidelines to systematically complete the construction of related technical documents.
+This template is based on deployment tutorials for models such as DeepSeek-V3.2 and Qwen-VL-Dense, aiming to provide a reference for technical documentation writing. Users can follow the template guidelines to systematically complete the construction of relevant technical documents.
 
 ## 1 Introduction
 
 **Documentation Writing Requirements:**
 
 - Describe the model's basic architecture, core features, and main application scenarios in one sentence.
-- Clearly state what the document intends to do and the goal to be achieved in one sentence.
-- Specify the vLLM-Ascend version and model version support used in the document.
+- Clearly state what the document is intended to do and the goal to be achieved in one sentence.
+- Specify the vLLM-Ascend version used in the document and the supported model versions.
 
 **Example 1: Model Introduction**
 
@@ -20,11 +20,11 @@ DeepSeek-V3.2 is a sparse attention model. Its main architecture is similar to D
 
 **Example 2: Document Purpose**
 
-This document will demonstrate the main verification steps of the model, including supported features, feature configuration, environment preparation, single-node and multi-node deployment, accuracy, and performance evaluation.
+This document will demonstrate the main verification steps for the model, including supported features, feature configuration, environment preparation, single-node and multi-node deployment, accuracy, and performance evaluation.
 
 **Example 3: Version Information**
 
-This document is verified and written based on **vLLM-Ascend v0.13.0**. The current model (XXX) is fully supported in this version, and **v0.13.0 and later versions** can run stably. To use the latest features (such as PD separation, MTP, etc.), it is recommended to use v0.13.0 or above.
+This document is verified and written based on **vLLM-Ascend v0.13.0**. The current model (XXX) is fully supported in this version, and **v0.13.0 and later versions** can run stably. To use the latest features (such as PD separation, MTP, etc.), it is recommended to use v0.13.0 or later.
 
 ## 2 Supported Features
 
@@ -33,11 +33,11 @@ Introduce the features supported by the model, including supported hardware, qua
 **Documentation Writing Requirements:**
 
 - Use a table format to present the support status of models and features.
-- Or provide cross-references that can be navigated (recommended).
+- Or provide cross-references that can be navigated to (recommended).
 
 **Example 1: Feature Support List**
 
-| Model Name | Support Status | Notes | BF16 | Supported Hardware | W8A8 | Chunked Prefill | Automatic Prefix Caching | LoRA | Speculative Decoding | Async Scheduling | Tensor Parallel | Pipeline Parallel | Expert Parallel | Data Parallel | Prefill-Decode Separation | Segmented ACL Graph Execution | Full Graph ACL Graph Execution | Max Model Length | MLP Weight Prefetch | Documentation |
+| Model Name | Support Status | Notes | BF16 | Supported Hardware | W8A8 | Chunked Prefill | Automatic Prefix Caching | LoRA | Speculative Decoding | Async Scheduling | Tensor Parallel | Pipeline Parallel | Expert Parallel | Data Parallel | Prefill-Decode Separation | Segmented ACL Graph Execution | Full ACL Graph Execution | Max Model Length | MLP Weight Prefetch | Documentation |
 | ------ | ---------- | ------ | ------ | ---------- | ------ | ------------ | -------------- | ------ | ---------- | ---------- | ---------- | ------------ | ---------- | ---------- | ------------------- |----------- | ----------- | ------------- | ------------- | ---------- |
 | DeepSeek V3/3.1 | ✅ | | ✅ | Atlas 800I A2:<br>Minimum card requirement is xx | ✅ | ✅ | ✅ | | ✅ | | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 240k | | [DeepSeek-V3.1](../../tutorials/models/DeepSeek-V3.1.md) |
 | DeepSeek V3.2 | ✅ | | ✅ | Atlas 800I A2:<br>Minimum card requirement is xx | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 160k | ✅ | [DeepSeek-V3.2](../../tutorials/models/DeepSeek-V3.2.md)|
@@ -75,7 +75,7 @@ If deploying a multi-node environment, please follow the [Verify Multi-Node Comm
 **Documentation Writing Requirements:**
 
 - Provide specific installation steps and commands (parameters need to explain their meaning, value range, units, etc.).
-- Version number writing convention: Prefer using placeholders (values configured uniformly); if using a fixed value that differs from the document's verification version, add a comment "Please replace with the actual version".
+- Version number writing convention: Prioritize using placeholders (values configured uniformly); if using a fixed value that differs from the document's verified version, add a comment "Please replace according to the actual version".
 - Provide verification commands and expected status: Guide users to check the installation result by executing commands (e.g., docker ps), and describe the success status code or output characteristics.
 
 ### 4.1 Docker Image Installation
@@ -92,10 +92,10 @@ If deploying a multi-node environment, please follow the [Verify Multi-Node Comm
 
 **Documentation Writing Requirements:**
 
-- Describe the architecture characteristics and applicable scenarios of single-node deployment.
+- Describe the architectural characteristics and applicable scenarios of single-node deployment.
 - Provide startup command templates and key parameter descriptions.
 - Provide service verification methods (e.g., curl command) and expected results, describing success characteristics (e.g., 200 OK).
-- Provide common issue guidance below the startup command. If already described in the public FAQ, a direct link can be provided.
+- Provide common issue guidance below the startup command; if already described in the public FAQ, a direct link can be provided.
 
 **Example:**
 
@@ -107,7 +107,7 @@ Startup Command:
 # Omitted
 ```
 
-Common Issue Tip: If encountering xxx issues, please refer to the [Public FAQ](https://docs.vllm.ai/projects/ascend/en/latest/faqs.html) for troubleshooting.
+Common Issue Tip: If encountering xxx issue, please refer to the [Public FAQ](https://docs.vllm.ai/projects/ascend/en/latest/faqs.html) for troubleshooting.
 
 Service Verification:
 
@@ -124,7 +124,7 @@ Expected Result: Omitted (write according to actual output).
 - Explain the principle and applicable scenarios of the PD separation architecture.
 - Provide the startup process, key configurations, and **deployment verification instructions**.
 - Specify performance metrics.
-- Provide common issue guidance below the startup command. If already described in the public FAQ, a direct link can be provided.
+- Provide common issue guidance below the startup command; if already described in the public FAQ, a direct link can be provided.
 
 **Example:** Omitted
 
@@ -133,7 +133,7 @@ Expected Result: Omitted (write according to actual output).
 **Documentation Writing Requirements:**
 
 - If the model has non-standard deployment forms (e.g., offline batch processing for embedding models, low-latency online services for reranker models), the corresponding deployment solution must be clearly reflected in the document.
-- Can be extended by referring to sections 5.1 and 5.2 of this chapter.
+- Can be extended by referring to Sections 5.1 and 5.2 of this chapter.
 
 ## 6 Functional Verification
 
@@ -184,7 +184,7 @@ lm_eval \
 
 ## 8 Performance
 
-Omitted, requirements are the same as for Accuracy Evaluation.
+Omitted, requirements are the same as for accuracy evaluation.
 
 ## 9 Performance Tuning
 
@@ -202,7 +202,7 @@ Provide recommended configurations for the model in three typical scenarios (lon
 
 | Scenario | Deployment Form | *Total Cards | Weight Version | Scenario Key Points |
 |------|------|---------|----------|----------|
-| High Throughput<br>(32K Push 1K) | 1P1D Deployment | 16 (A3) | glm5.1w4a8 | In short sequence high throughput scenarios, try adjusting xxx parameters |
+| High Throughput<br>(32K Push 1K) | 1P1D Deployment | 16 (A3) | glm5.1w4a8 | In short-sequence high-throughput scenarios, try adjusting the xxx parameter |
 | Long Sequence |  |  |  |  |
 | Low Latency |  |  |  |  |
 
@@ -227,12 +227,11 @@ Provide recommended configurations for the model in three typical scenarios (lon
 
 **Documentation Writing Requirements:**
 
-If no special tuning is involved, directly provide the feature combination table and links to public performance tuning documentation for reference.
+If no special tuning is involved, you can directly provide a feature combination table and a link to the public performance tuning documentation for reference.
 
 **Example:**
 
 Please refer to the [Public Performance Tuning Documentation](../../developer_guide/performance_and_debug/optimization_and_tuning.md) for tuning methods.
-
 Please refer to the [Feature Guide](../../user_guide/support_matrix/feature_matrix.md) for detailed feature descriptions.
 
 #### 9.2.2 Model-Specific Optimizations (Optional)
@@ -249,23 +248,23 @@ The following optimizations are enabled by default and require no additional con
 
 | Optimization Technique | Technical Principle | Performance Benefit |
 | --------- | --------- | --------- |
-| Rope Optimization | The cos_sin_cache and index operations for positional encoding are only executed in the first layer; subsequent layers directly reuse them | Reduces repetitive computation during the decoding phase, accelerating inference |
-| AddRMSNormQuant Fusion | Merges element-wise multi-scale normalization and quantization operations into a single operator | Optimizes memory access patterns, improving computational efficiency |
-| Zero-like Elimination | Removes unnecessary zero tensor operations in the Attention forward pass | Reduces memory footprint, improves matrix operation efficiency |
-| FullGraph Optimization | Captures and replays the entire decoding graph in one go via `compilation_config={"cudagraph_mode":"FULL_DECODE_ONLY"}` | Significantly reduces scheduling latency, stabilizes multi-device performance |
+| Rope Optimization | The cos_sin_cache and index operations of positional encoding are only executed in the first layer; subsequent layers directly reuse them. | Reduces redundant computation during the decode phase, accelerating inference. |
+| AddRMSNormQuant Fusion | Merges element-wise multi-scale normalization and quantization operations into a single operator. | Optimizes memory access patterns, improving computational efficiency. |
+| Zero-like Elimination | Removes unnecessary zero tensor operations in the Attention forward pass. | Reduces memory footprint, improving matrix operation efficiency. |
+| FullGraph Optimization | Captures and replays the entire decode graph in one go via `compilation_config={"cudagraph_mode":"FULL_DECODE_ONLY"}`. | Significantly reduces scheduling latency, stabilizing multi-device performance. |
 
 #### Optimizations Requiring Explicit Enablement
 
 | Optimization Technique | Applicable Scenario | Enablement Method | Technical Principle | Notes |
 | --------- | --------- | --------- | --------- | --------- |
-| FlashComm_v1 | High concurrency, Tensor Parallel (TP) scenarios | `export VLLM_ASCEND_ENABLE_FLASHCOMM1=1` | Decomposes traditional Allreduce into Reduce-Scatter and All-Gather, reducing the RMSNorm computation dimension | Threshold protection: Only takes effect when the actual token count exceeds the threshold, avoiding performance regression in low-concurrency scenarios|
-| Matmul-ReduceScatter Fusion | Large-scale distributed environments | Automatically enabled after enabling FlashComm_v1 | Merges matrix multiplication and Reduce-Scatter operations for pipeline parallel processing | Same as FlashComm_v1, has threshold protection |
-| Weight Prefetch | MLP-intensive scenarios (Dense models)| `export VLLM_ASCEND_ENABLE_PREFETCH_MLP=1` | Utilizes vector computation time to preload MLP weights into L2 Cache | Requires adjustment of the prefetch buffer size |
-| Async Scheduling | Large-scale models, high-concurrency scenarios | `--async-scheduling` | Non-blocking task scheduling, improving concurrent processing capability | Used in conjunction with FullGraph optimization |
+| FlashComm_v1 | High concurrency, Tensor Parallel (TP) scenarios | `export VLLM_ASCEND_ENABLE_FLASHCOMM1=1` | Decomposes traditional Allreduce into Reduce-Scatter and All-Gather, reducing the RMSNorm computation dimension. | Threshold protection: Only takes effect when the actual token count exceeds the threshold, avoiding performance regression in low-concurrency scenarios.|
+| Matmul-ReduceScatter Fusion | Large-scale distributed environments | Automatically enabled when FlashComm_v1 is enabled | Fuses matrix multiplication with Reduce-Scatter operations for pipeline parallel processing. | Same as FlashComm_v1, has threshold protection. |
+| Weight Prefetch | MLP-intensive scenarios (Dense models) | `export VLLM_ASCEND_ENABLE_PREFETCH_MLP=1` | Leverages vector computation time to preload MLP weights into L2 Cache. | Requires adjustment of the prefetch buffer size. |
+| Async Scheduling | Large-scale models, high-concurrency scenarios | `--async-scheduling` | Non-blocking task scheduling to improve concurrent processing capability. | Used in conjunction with FullGraph optimization. |
 
 ## 10 FAQ
 
 **Documentation Writing Requirements:**
 
 - Add a note at the beginning of the chapter: For common environment, installation, and general parameter issues, please refer to the [Public FAQ](https://docs.vllm.ai/projects/ascend/en/latest/faqs.html); this chapter only includes specific difficult issues for this model.
-- For **specific difficult issues of this model**, provide the following elements: Problem phenomenon description, cause analysis, and solution measures.
+- For **specific difficult issues for this model**, provide the following elements: Problem phenomenon description, cause analysis, and solution measures.

@@ -7,14 +7,14 @@ In this section, we demonstrate a kernel implementation for matrix multiplicatio
 The following Triton kernel implements a batched matrix multiplication with bias:
 The computation formula is:
 $$ \text{output}[b, i, j] = \sum_k \text{x}[b, i, k] \cdot \text{y}[k, j] + \text{z}[b, i, j] $$
-Where:
+where:
 
 - `x` has shape `(A, B)`
 - `y` has shape `(B, C)`
 - `z` (bias) has shape `(A, C)`
 - The output `output` has shape `(A, C)`
 
-This kernel assumes a single block handles the entire output matrix computation, suitable for small-scale matrices (A, B, C are small and can be fully covered by the current program block).
+This kernel assumes a single block is responsible for computing the entire output matrix, suitable for small-scale matrices (A, B, C are small and can be fully covered by the current program block).
 
 ```python
 import pytest
@@ -61,9 +61,9 @@ def triton_dot_2_Bias(
     tl.store(output_ptr + oidx, ret)
 ```
 
-## Utility Functions
+## Utility Methods
 
-The following helper functions support testing and validation of the Triton kernel, including a PyTorch reference implementation, data type mapping, random tensor generation, and result verification.
+The following helper functions support testing and validation of the Triton kernel, including PyTorch reference implementation, data type mapping, random tensor generation, and result verification.
 
 ```Python
 def torch_dot_Bias(x0, x1, bias):
@@ -72,7 +72,7 @@ def torch_dot_Bias(x0, x1, bias):
     return res
 
 def get_torch_typename(dtype):
-    """Maps a string data type to the corresponding torch.dtype."""
+    """Maps a string-form data type to the corresponding torch.dtype."""
     if dtype == 'float32':
         tyname = torch.float32
     elif dtype == 'int32':
@@ -94,7 +94,7 @@ def get_torch_typename(dtype):
     return tyname
 
 def generate_tensor(shape, dtype):
-    """Generates a random tensor with the specified shape and data type, adapting value ranges for different numeric types."""
+     """Generates a random tensor with the specified shape and data type, adapting value ranges for different numeric types."""
     if dtype == 'float32' or dtype == 'float16' or dtype == 'bfloat16':
         return torch.randn(size=shape, dtype=eval('torch.' + dtype))
     elif dtype == 'int32' or dtype == 'int64' or dtype == 'int16':
@@ -126,7 +126,7 @@ def validate_cmp(dtype, y_cal, y_ref):
 
 ## Parameterized Tests
 
-Use `pytest` to perform parameterized functional validation of the `triton_dot_2_Bias` kernel, covering different matrix dimensions and data type combinations.
+Use `pytest` for parameterized functional validation of the `triton_dot_2_Bias` kernel, covering different matrix dimensions and data type combinations.
 
 ```python
 # Test case configuration: (A, B, C) represents matrix x: (A,B), y: (B,C), bias/output: (A,C)
@@ -147,7 +147,7 @@ def test_dot_2_Bias(sigtype, A, B, C):
     x0 = generate_tensor(shape=(A, B), dtype=sigtype).npu()
     x1 = generate_tensor(shape=(B, C), dtype=sigtype).npu()
 
-    # Bias is generated with float32 (to avoid precision issues with integer bias)
+    # Bias is generated using float32 uniformly (to avoid precision issues with integer bias)
     if 'int' in sigtype:
         bias = generate_tensor(shape=(A, C), dtype='int32').npu()
         # Integer inputs need to be converted to float32 for computation, then back to target type

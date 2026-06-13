@@ -11,7 +11,7 @@ Compute Kernel:
 ```Python
 def test_add(x0, x1):
     """
-    Test whether the vector addition implemented by Triton produces consistent results with PyTorch, verifying accuracy comparison.
+    Test whether the vector addition implemented by Triton matches the PyTorch result in accuracy comparison.
 
     Steps:
     1. Compute the reference result using PyTorch (torch_ref)
@@ -46,7 +46,7 @@ def test_add(x0, x1):
     # 3. Triton wrapper function: calls the kernel and returns the result
     def triton_func(x0, x1):
         y0 = torch.empty_like(x0)  # Create an output tensor with the same shape and dtype as input
-        # Launch kernel: grid = [1, 1, 1] indicates using only one block
+        # Launch the kernel: grid = [1, 1, 1] means using only one block
         # Note: XS must be passed as an argument because it is of type tl.constexpr
         triton_kernel_add[1, 1, 1](y0, x0, x1, XS=x0.numel())
         return y0
@@ -64,7 +64,7 @@ def test_add(x0, x1):
 
 ```
 
-Create an accuracy comparison function that adapts to each dtype, using the corresponding accuracy comparison method.
+Create an accuracy comparison function that adapts to each dtype and uses the corresponding accuracy comparison method.
 
 ```Python
 
@@ -81,11 +81,11 @@ def accuracy_comparison(y_cal, y_ref):
     assert y_cal.dtype == y_ref.dtype, f"dtype mismatch: {y_cal.dtype} vs {y_ref.dtype}"
     tensor_dtype = y_cal.dtype
 
-    # Move tensors to NPU (assuming tests are performed on NPU)
+    # Move tensors to NPU (assuming the test is performed on NPU)
     y_cal = y_cal.npu()
     y_ref = y_ref.npu()
 
-    # Select different comparison methods based on data type
+    # Choose different comparison methods based on data type
     if tensor_dtype == torch.float16:
         # float16 has lower precision, allow slightly larger errors
         torch.testing.assert_close(y_ref, y_cal, rtol=1e-3, atol=1e-3, equal_nan=True)

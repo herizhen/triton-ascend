@@ -22,17 +22,17 @@ Can be called as a member function of a tensor, e.g., `x.atomic_cas(...)`, which
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type                | Description                                                                                                                           |
-| -------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `pointer`      | `triton.PointerDType` | Memory location to operate on. If *pointer == cmp, updates *pointer to `val`. The computed result is written back to this memory location. |
-| `cmp`          | `pointer.dtype.element_ty` | Value to compare with the target memory.                                                                                             |
-| `val`          | `pointer.dtype.element_ty` | Target value for the update.                                                                                                        |
-| `sem`          | `str`, optional     | Specifies the memory semantics of the operation.<br>Community official configuration accepts "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel":<br>- acquire: After acquiring a lock, can see previous release operations (equivalent to a "read" operation that blocks until the "latest" data is available, i.e., data released by other threads).<br>- release: All operations before releasing the lock are visible to threads that subsequently acquire the lock (equivalent to a "write" operation that "synchronizes" all previous writes). |
-| `scope`        | `str`, optional     | Thread scope for observing the synchronization effect of the atomic operation.<br>Accepted values are "gpu" (default), "cta" (cooperative thread array, thread block), or "sys" (representing "SYSTEM").<br>We only support "gpu". |
-| `_semantic`    | -                   | Reserved parameter; external calls are not supported.                                                                                 |
+| Parameter    | Type                | Description                                                                                                                           |
+| ------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `pointer`    | `triton.PointerDType` | Memory location to operate on. If *pointer == cmp, updates *pointer to `val`. The computed result is written back to this memory location. |
+| `cmp`        | `pointer.dtype.element_ty` | Value to compare with the target memory.                                                                                              |
+| `val`        | `pointer.dtype.element_ty` | Target value for the update.                                                                                                          |
+| `sem`        | `str`, optional     | Specifies the memory semantics of the operation.<br>Community official configuration accepts "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel":<br>- acquire: After acquiring a lock, previous release operations are visible (equivalent to a "read" operation that blocks until the "latest" data, i.e., data released by other threads, is available).<br>- release: All operations before releasing the lock are visible to threads that subsequently acquire the lock (equivalent to a "write" operation that "synchronizes" all previous write operations). |
+| `scope`      | `str`, optional     | Thread scope for observing the synchronization effect of the atomic operation.<br>Accepted values are "gpu" (default), "cta" (cooperative thread array, thread block), or "sys" (representing "SYSTEM").<br>We only support "gpu". |
+| `_semantic`  | -                   | Reserved parameter; external calls are not supported.                                                                                 |
 
 Return value:
-`pointer`: tensor, the old value before the operation was performed.
+`pointer`: tensor, the old value before the operation.
 
 ### 2.2 Supported Specifications
 
@@ -53,11 +53,11 @@ No special requirements.
 
 > Capabilities missing compared to the community and cannot be implemented.
 
-| Difference Point | Description                                                                                                                           |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| Data Type        | Compared to GPU, Ascend lacks support for fp64 (hardware limitation).                                                                 |
-| `sem`            | Community official configuration accepts "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel". |
-| `scope`          | Accepted values are "gpu", "cta", or "sys".<br>We only support "gpu".                                                                |
+| Difference | Description                                                                                                                           |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Data types | Compared to GPU, Ascend lacks support for fp64 (hardware limitation).                                                                 |
+| `sem`      | Community official configuration accepts "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel". |
+| `scope`    | Accepted values are "gpu", "cta", or "sys".<br>We only support "gpu".                                                                 |
 
 ### 2.4 Usage Example
 

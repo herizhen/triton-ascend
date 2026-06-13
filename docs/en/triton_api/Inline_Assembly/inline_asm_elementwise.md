@@ -16,7 +16,7 @@ triton.language.inline_asm_elementwise(asm, constraints, args, dtype, is_pure, p
 |-----------|------|---------|-------------|
 | `asm` | `str` | Required | Assembly code to execute, must match the target platform's assembly format |
 | `constraints` | `str` | Required | LLVM-format assembly constraints |
-| `args` | `tensor` | Required | Input tensor, whose values are passed to the assembly block |
+| `args` | `tensor` | Required | Input tensor whose values are passed to the assembly block |
 | `dtype` | `dtype` / `Sequence[dtype]` | Required | Element type of the returned tensor (can be a single type or a tuple of types) |
 | `is_pure` | `bool` | Required | If True, the compiler assumes the assembly block has no side effects |
 | `pack` | `int` | Required | Number of elements processed per inline assembly call |
@@ -31,7 +31,7 @@ A3:
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | ×| × | ✓ |×|   ✓  | × | × | ×  |
 
-Compared to GPU, Ascend lacks support for input tensor types: uint8, uint16, uint32, uint64, fp16, fp64, bf16, and bool.
+Compared to GPU, Ascend lacks support for input tensor types uint8, uint16, uint32, uint64, fp16, fp64, bf16, and bool.
 
 ### 2.3 Usage
 
@@ -69,4 +69,4 @@ def triton_asm_add(x_ptr,
 
 1. Inline assembly registers only support `int64(s64)` and `float32(f32)`.
 2. Constraint restrictions only support `l`.
-3. Currently only supports one-dimensional input tensors; computing higher-dimensional tensors requires flattening.
+3. Currently, only one-dimensional tensors are supported for input; computing higher-dimensional tensors requires flattening.

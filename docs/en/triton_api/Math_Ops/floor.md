@@ -8,7 +8,7 @@ Description: This function computes the element-wise floor of `x`.
 triton.language.floor(x, _semantic=None)
 ```
 
-## 2. Specifications
+## 2. Specification
 
 ### 2.1 Parameter Description
 
@@ -18,9 +18,9 @@ triton.language.floor(x, _semantic=None)
 | `_semantic`  | -        | Reserved parameter, not supported for external calls currently |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor `x`.
+`x`: The output tensor has the same shape as the input tensor `x`
 
-### 2.2 OP Specifications
+### 2.2 OP Specification
 
 #### 2.2.1 DataType Support
 
@@ -29,7 +29,7 @@ Return value:
 | GPU          | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | √    | √    | ×    | ×    |
 | Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Compared to GPU, Ascend lacks support for fp64 but adds support for fp16 and bf16.
+Conclusion: Compared to GPU, Ascend lacks fp64 support but adds fp16 and bf16 support.
 torch_npu supports u8.
 
 #### 2.2.2 Shape Support
@@ -43,7 +43,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Community capability gaps that cannot be implemented
+> Relative community capability gaps that cannot be implemented
 
 None.
 

@@ -12,7 +12,7 @@ Converts a buffer allocated on Ascend to a tl.tensor and returns it.
   </tr>
 </table>
 
-### Input Parameters
+### Input Parameters Description
 
 <table>
   <tr>

@@ -35,20 +35,20 @@ Return value:
 
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU    | No restriction |
-| Ascend | No restriction |
+| GPU    | No restrictions |
+| Ascend | No restrictions |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
+Conclusion: There is no difference between GPU and Ascend platforms in terms of shape support.
 
 ### 2.3 Special Limitations
 
-> Capabilities missing compared to the community and cannot be implemented
+> Missing capabilities compared to the community, cannot be implemented
 
 Ascend A3 lacks support for uint16, uint32, uint64, and fp64 compared to GPU.
 
-### 2.4 Usage
+### 2.4 Usage Examples
 
-For more examples, refer to the triton-ascend code repository: ascend/examples/generalization_cases/test_argmin.py
+For more examples, refer to the triton-ascend repository: ascend/examples/generalization_cases/test_argmin.py
 
 ```python
 @triton.jit

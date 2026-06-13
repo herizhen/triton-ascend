@@ -1,10 +1,10 @@
-# al.copy_from_ub_to_l1 API Documentation
+# al.copy_from_ub_to_l1 Interface Documentation
 
 ## 1. Hardware Background
 
-The Ascend hardware A5 supports direct data copy from UB to L1, avoiding the two-step copy from UB to GM and then from GM to L1, thereby improving data copy efficiency. Therefore, the `copy_from_ub_to_l1` interface is provided to implement data copy from UB to L1.
+The Ascend hardware A5 supports direct data copying from UB to L1, avoiding the two-step copy process of UB to GM and then GM to L1, thereby improving data copy efficiency. Therefore, the `copy_from_ub_to_l1` interface is provided to implement data copying from UB to L1.
 
-## 2. API Description
+## 2. Interface Description
 
 <table>
   <tr>
@@ -45,9 +45,9 @@ None
 
 - The address space of `src` must be UB, and the address space of `dst` must be L1
 
-- `src` and `dst` must have the same data type and shape
+- The types and shapes of `src` and `dst` must be identical
 
-## 4. Example Usage
+## 4. Usage Example
 
 ```python
 import os

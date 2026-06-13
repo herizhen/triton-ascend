@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-Ascend processors contain multiple types of compute units (e.g., Cube Unit for matrix operations and Vector Unit for vector/scalar operations). al.scope allows kernel developers to explicitly tell the Triton compiler which hardware unit a specific code region should target, enabling finer-grained performance tuning and resource utilization.
+Ascend processors contain multiple types of compute units (e.g., Cube Unit for matrix operations and Vector Unit for vector/scalar operations). al.scope allows kernel developers to explicitly tell the Triton compiler which hardware unit a specific code region should target, enabling more fine-grained performance tuning and resource utilization.
 
 ## 2. Interface Description
 
@@ -12,7 +12,7 @@ Ascend processors contain multiple types of compute units (e.g., Cube Unit for m
   </tr>
 </table>
 
-al.scope is a context manager in the triton.language.extra.ascend module, specifically designed to specify the execution mode of Ascend hardware for code blocks within Triton kernels.
+al.scope is a context manager in the `triton.language.extra.ascend` module, specifically designed to specify the execution mode of Ascend hardware for code blocks within Triton kernels.
 
 ### Parameters
 
@@ -39,7 +39,7 @@ al.scope is a context manager in the triton.language.extra.ascend module, specif
   <tr>
     <td>Value</td>
     <td>Target Core</td>
-    <td>Usage/Optimization Direction</td>
+    <td>Use Case / Optimization Direction</td>
   </tr>
   <tr>
     <td>&quot;vector&quot;</td>
@@ -48,7 +48,7 @@ al.scope is a context manager in the triton.language.extra.ascend module, specif
   </tr>
   <tr>
     <td>&quot;cube&quot;</td>
-    <td>Cube Unit (Matrix Core)</td>
+    <td>Cube Unit</td>
     <td>Suitable for matrix computations, especially matrix multiplication (GEMM) and convolution operations. This is typically associated with operations like tl.dot.</td>
   </tr>
   <tr>
@@ -65,7 +65,7 @@ al.scope is a context manager in the triton.language.extra.ascend module, specif
 
 ## 3. Constraints
 
-Each kernel has 1 scope for cube and vector, inside them they run in parallel and there are other syncing operations that declare the sync between both scopes.
+Each kernel has 1 scope for cube and vector, inside them they run in parallel and there are other syncing operations that declare the synchronization between both scopes.
 
 - Parallel Execution: Operations within cube and vector scopes execute in parallel.
 - Single Scope per Type: Each kernel supports one cube scope and one vector scope (?).

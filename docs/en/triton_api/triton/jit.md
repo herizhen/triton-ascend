@@ -7,9 +7,9 @@ triton.jit(*, version=None, repr: Callable | None = None, launch_metadata: Calla
 
 A decorator for JIT-compiling functions using the Triton compiler.
 
-- Note: When calling a JIT-compiled function, if the argument has a `.data_ptr()` method and a `.dtype` attribute, it will be implicitly converted to a pointer.
+- Note: When calling a JIT-compiled function, if an argument has a `.data_ptr()` method and a `.dtype` attribute, it will be implicitly converted to a pointer.
 
-- Note: This function will be compiled and run on the GPU. It can only access the following:
+- Note: This function will be compiled and run on the GPU. It can only access:
     - Python primitives,
     - Built-in functions within the Triton package,
     - Parameters of this function,

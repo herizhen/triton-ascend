@@ -19,7 +19,7 @@ triton.language.div_rn(x, y, _semantic=None)
 | `_semantic`    | -          | Reserved parameter, not supported for external calls currently |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor `x`.
+`x`: The output tensor has the same shape as the input tensor `x`
 
 ### 2.2 OP Specifications
 
@@ -40,11 +40,11 @@ torch supports uint8.
 | GPU    | Only supports 1~5D tensors |
 | Ascend | Only supports 1~5D tensors |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Relative community capability missing and cannot be implemented
+> Community capability gap that cannot be implemented
 
 None.
 

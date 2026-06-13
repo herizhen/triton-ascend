@@ -15,7 +15,7 @@ Flattens the input tensor into a one-dimensional tensor, preserving the order of
 - Preserves the order of elements in memory
 - The total number of elements in the output tensor is the same as that of the input tensor
 
-## 2 Parameter Specification
+## 2 Parameter Specifications
 
 ### 2.1 Parameter Description
 

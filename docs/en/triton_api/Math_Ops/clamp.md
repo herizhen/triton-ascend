@@ -2,28 +2,28 @@
 
 ## 1. Function Overview
 
-Description: Clamps tensor `x` to the range [min, max].
+Description: Clamps the tensor `x` to the range [min, max].
 
 ```python
 triton.language.clamp(x, min, max, propagate_nan: constexpr = PropagateNan.NONE, _semantic=None)
 ```
 
-## 2. Specifications
+## 2. Specification
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                        |
-| -------------- | ------------------ | ------------------------------------------------------------------ |
-| `x`            | `tensor`           | Input tensor data                                                  |
-| `min`          | `tensor`           | Lower bound (can be a tensor or scalar, broadcast to `x`'s shape)  |
-| `max`          | `tensor`           | Upper bound (can be a tensor or scalar, broadcast to `x`'s shape)  |
-| `propagate_nan`| `triton.language.core.constexpr` | Whether to propagate NaN from min or max                           |
-| `_semantic`    | -                  | Reserved parameter, not supported for external calls               |
+| Parameter Name | Type               | Description                                                      |
+| -------------- | ------------------ | ---------------------------------------------------------------- |
+| `x`            | `tensor`           | Input tensor data                                                |
+| `min`          | `tensor`           | Lower bound (can be a tensor or scalar, broadcast to `x`'s shape)|
+| `max`          | `tensor`           | Upper bound (can be a tensor or scalar, broadcast to `x`'s shape)|
+| `propagate_nan`| `triton.language.core.constexpr` | Whether to propagate NaN from min or max                         |
+| `_semantic`    | -                  | Reserved parameter, not supported for external calls             |
 
 Return value:
 `x`: Output tensor with the same shape as the input tensor `x`
 
-### 2.2 OP Specifications
+### 2.2 OP Specification
 
 #### 2.2.1 DataType Support
 
@@ -36,16 +36,16 @@ Return value:
 
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
-| GPU    | Only supports 1~5D tensors |
-| Ascend | Only supports 1~5D tensors |
+| GPU    | Only supports 1~5D tensors|
+| Ascend | Only supports 1~5D tensors|
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Relative community capability missing and cannot be implemented
 
-Ascend lacks fp64 support compared to GPU.
+Compared to GPU, Ascend lacks fp64 support.
 
 ### 2.4 Usage Example
 

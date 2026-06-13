@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Given 1 seed scalar and 1 offset block, returns 1 random block of float32 type that follows the standard normal distribution **N**(**0**,**1**).
+Description: Given 1 seed scalar and 1 offset block, returns 1 random block of float32 type following the standard normal distribution **N**(**0**,**1**).
 Prototype:
 
 ```python
@@ -17,14 +17,14 @@ triton.language.randn(
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                    |
-| -------------- | ------------------ | -------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                         |
-| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                       |
-| `n_rounds`     | `constexpr`, default value is 10 | Number of iterations for the Philox algorithm |
+| Parameter Name | Type                | Description                                                             |
+| -------------- | ------------------- | ----------------------------------------------------------------------- |
+| `seed`         | `int` or `tensor`   | Seed used for generating random numbers                                 |
+| `offset`       | `int` or `tensor`   | Offset used for generating random numbers                               |
+| `n_rounds`     | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm                     |
 
 Return Value:
-1 random block of float32 type, with the same shape as offset, whose values follow the standard normal distribution `N(0, 1)`
+1 random block of float32 type, with the same shape as `offset`, whose values follow the standard normal distribution `N(0, 1)`
 
 ### 2.2 Supported Specifications
 
@@ -42,11 +42,11 @@ No special requirements
 
 ### 2.3 Special Constraints
 
-> Missing community capability and cannot be implemented
+> Relative community capability missing and cannot be implemented
 
-### 2.4 Usage
+### 2.4 Usage Example
 
-The following example demonstrates the call to randn:
+The following example demonstrates the invocation of `randn`:
 
 ```python
 import math
@@ -59,7 +59,7 @@ def kernel_randn(x_ptr, n_rounds: tl.constexpr, N: tl.constexpr, XBLOCK: tl.cons
     block_offset = tl.program_id(0) * XBLOCK
     offsets = block_offset + tl.arange(0, XBLOCK)  # Block-level offset tensor
     mask = offsets < N
-    rand_vals = tl.randn(5, 10 + offsets, n_rounds)  # Generate a whole block of random numbers at once
+    rand_vals = tl.randn(5, 10 + offsets, n_rounds)  # Generate a full block of random numbers at once
     tl.store(x_ptr + offsets, rand_vals, mask=mask)
 
 shape = (1024,)

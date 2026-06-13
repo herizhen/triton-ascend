@@ -41,7 +41,7 @@ Return value:
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 Special Restriction Notes
+### 2.3 Special Restrictions
 
 Triton-Ascend does not support fp64 compared to GPU.
 

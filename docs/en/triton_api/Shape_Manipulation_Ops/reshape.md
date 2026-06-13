@@ -1,8 +1,8 @@
 # triton.language.reshape
 
-## 1 Description
+## 1 Function Description
 
-Reinterprets a tensor with a new shape.
+Reinterprets a tensor into a new shape.
 
 **Syntax:**
 
@@ -11,7 +11,7 @@ Reinterprets a tensor with a new shape.
 
 **Functionality:**
 
-- Reinterprets a tensor with a new shape
+- Reinterprets a tensor into a new shape
 
 ## 2 Parameter Specifications
 
@@ -26,19 +26,19 @@ Reinterprets a tensor with a new shape.
 **Return Value:**
 
 - **Type:** tensor
-- **Shape:** Same as the target shape specified by the `shape` parameter
+- **Shape:** Same as the target shape specified by the shape parameter
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Determined by the `can_reorder` parameter
+- **Memory Layout:** Determined by the can_reorder parameter
 
 **Constraints:**
 
 - The total number of elements in the input and output tensors must be equal
-- No tensor is allowed to have a shape dimension size less than 1
+- All tensors must not have a shape dimension size less than 1
 
 ### 2.2 DataType Support Table
 
-| Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
+| Support Status | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|----------------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -48,7 +48,7 @@ Supports any number of dimensions and any shape size.
 
 ### 2.4 Special Constraints
 
-* The `can_reorder` parameter only supports `False`
+* The can_reorder parameter only supports False
 
 ### 2.5 Usage Example
 
@@ -69,7 +69,7 @@ def reshape_example(out_ptr):
     offs = tl.arange(0, 6)[:, None] * 4 + tl.arange(0, 4)[None, :]
     tl.store(out_ptr + offs, y)
 
-## Example invocation
+## Call example
 out = torch.empty((6, 4), dtype=torch.float32, device="npu")
 reshape_example[(1,)](out)
 print(out.shape)  # Output: torch.Size([6, 4])

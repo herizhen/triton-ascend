@@ -2,13 +2,13 @@
 
 ## 1. Function Overview
 
-An explicit inter-core synchronization instruction used to coordinate execution order and data consistency between different cores in the Cube-Vector architecture.
+Explicit inter-core synchronization instruction used to coordinate execution order and data consistency between different cores in the Cube-Vector architecture.
 
 ## 2. `sync_block_set` Operation
 
 ### 2.1 Function Overview
 
-After the producer core completes its task, it sends a synchronization signal to the consumer.
+The producer core sends a synchronization signal to the consumer after completing its task.
 
 ```python
 triton.language.sync_block_set(sender, receiver, event_id, _builder=None)
@@ -60,7 +60,7 @@ triton.language.sync_block_wait(sender, receiver, event_id, _builder=None)
 
 ### 4.1 Function Overview
 
-Global barrier synchronization, synchronizing all specified types of cores to the same point.
+Global barrier synchronization, synchronizing all cores of the specified type to the same point.
 
 ```python
 triton.language.sync_block_all(mode, event_id, _builder=None)

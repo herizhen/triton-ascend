@@ -43,7 +43,7 @@ Conclusion: There is no difference in Shape support between GPU and Ascend platf
 > Missing community capabilities that cannot be implemented
 > `keep_dims=True` requires testing with more specifications to determine full support. Currently tested with 3D dim=2, `keep_dims=True` is supported.
 
-> The `dtype` parameter is not yet supported in the current version. In community Triton 3.5.0, the `dtype` parameter controls the accumulation data type for the sum operation: when not specified, integer types with bit width less than 32 are automatically promoted to `int32`/`uint32` to avoid overflow; when explicitly specified, the input is first converted to the specified type before performing the sum. The current Triton-Ascend is based on community Triton 3.2.0, and this type promotion logic is not yet supported. Full support will be provided when upgrading to version 3.5.0 in the future.
+> The `dtype` parameter is not supported in the current version. In community Triton 3.5.0, the `dtype` parameter controls the accumulation data type for the sum operation: when not specified, integer types with bit width less than 32 are automatically promoted to `int32`/`uint32` to avoid overflow; when explicitly specified, the input is first converted to the specified type before performing the sum. The current Triton-Ascend is based on community Triton 3.2.0, and this type promotion logic is not yet supported. Full support will be provided when upgrading to version 3.5.0 in the future.
 
 ### 2.4 Usage Example
 

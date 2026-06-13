@@ -15,11 +15,11 @@ triton.language.dot(input, other, acc=None, input_precision=None, allow_tf32=Non
 
 | Parameter Name | Type                | Description                                                             |
 | ------------- | ----------------- | -------------------------------------------------------------- |
-| `input`        | `int8 fp16 bf16 fp32`     | First input, 2D or 3D tensor. Value range limited to -5 to 5 to avoid overflow.     |                                                       |
-| `other`       | `int8 fp16 bf16 fp32`     | Second input, 2D or 3D tensor. Value range limited to -5 to 5 to avoid overflow.    |                                                   |
-| `acc`           | `int32  float32`    | Accumulator tensor. If not None, the result is added to this tensor. Supported `acc_dtype`: {:code:`float16`, :code:`float32`, :code:`int32`} |
-| `input_precision`   | -                 | Available options for NVIDIA. Determines whether to enable Tensor Cores acceleration by selecting the precision mode.    |
-| `max_num_imprecise_acc`     | `int`    | Number of imprecise accumulations (currently not supported on Ascend). |
+| `input`        | `int8 fp16 bf16 fp32`     |     First input, 2D or 3D tensor. To avoid overflow, the value range is limited to -5 to 5.     |                                                       |
+| `other`       | `int8 fp16 bf16 fp32`     |     Second input, 2D or 3D tensor. To avoid overflow, the value range is limited to -5 to 5.    |                                                   |
+| `acc`           | `int32  float32`    | Accumulator tensor. If not None, the result is added to this tensor. Supported `acc_dtype` includes {:code:`float16`, :code:`float32`, :code:`int32`} |
+| `input_precision`   | -                 |  Available options for NVIDIA. Determines whether Tensor Cores acceleration is enabled by selecting the precision mode.    |
+| `max_num_imprecise_acc`     | `int`    | Number of low-precision accumulations (currently not supported on Ascend). |
 | `out_dtype`     | `fp32  int32`    | Output result type.|
 
 Return Value:
@@ -29,10 +29,10 @@ Return Value:
 
 #### 2.2.1 DataType Support
 
-| Input Type     | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+|   Input Type    | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
 | GPU    | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | √    |
-| Ascend A2/A3 | √    | √     | √     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | √    |
+| Ascend A2/A3 | √    | √     | √     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ✓    |
 
 Conclusion: Compared to GPU, Ascend lacks support for `uint8`, `uint16`, `uint32`, `uint64`, and `fp64` (hardware limitation).
 
@@ -40,16 +40,16 @@ Conclusion: Compared to GPU, Ascend lacks support for `uint8`, `uint16`, `uint32
 
 |        | Supported Dimension Range          |
 | ------ | --------------- |
-| GPU    | No restrictions |
-| Ascend A2/A3 | No restrictions  |
+| GPU    | Unlimited |
+| Ascend A2/A3 |Unlimited  |
 
-Conclusion: There is no difference in shape support between GPU and Ascend platforms.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
 - Compared to GPU, Ascend lacks support for `uint8`, `uint16`, `uint32`, `uint64`, and `fp64` (hardware limitation).
 
-- `acc` does not support `fp16`; the hardware defaults to `fp32` for precision.
+- `acc` does not support `fp16`. For precision, the hardware defaults to `fp32`.
 
 - `max_num_imprecise_acc` is currently not supported.
 
@@ -57,7 +57,7 @@ Conclusion: There is no difference in shape support between GPU and Ascend platf
 
 ### 2.4 Usage Example
 
-The following example performs matrix multiplication on input tensors `x_ptr, y_ptr`. Refer to `ascend/examples/generalization_cases/test_matmul.py`:
+The following example implements matrix multiplication on input tensors `x_ptr, y_ptr`. Refer to `ascend/examples/generalization_cases/test_matmul.py`:
 
 ```@triton.jit
 def matmul_kernel(

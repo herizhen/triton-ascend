@@ -16,7 +16,7 @@ triton.language.cumprod(input, axis=0, reverse=False)
 |-----------|------|-------------|
 | `input` | `Tensor` | Input tensor |
 | `axis` | `int` | The dimension along which to perform the cumulative product operation, default is 0 |
-| `reverse` | `bool` | If True, performs the cumulative product operation in the reverse direction |
+| `reverse` | `bool` | If True, performs the cumulative product operation in reverse direction |
 
 The `cumprod` function computes the cumulative product (prefix product) along the specified axis. For example, for input `[a, b, c, d]`, the cumulative product result is `[a, a*b, a*b*c, a*b*c*d]`.
 
@@ -35,13 +35,13 @@ Unlike `cumsum`, `cumprod` does not have a `dtype` parameter, so attention must 
 
 #### 2.2.2 Shape Support
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape.
 
 ### 2.3 Special Constraints
 
 ### 2.4 Usage
 
-The following example demonstrates performing a cumprod operation on a 2D-shaped tensor:
+The following example demonstrates performing a cumprod operation on a 2D tensor:
 
 ```python
 @triton.jit

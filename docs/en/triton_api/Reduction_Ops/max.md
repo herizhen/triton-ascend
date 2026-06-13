@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Returns the maximum value along a specified dimension.
+Description: Returns the maximum value along a specified axis.
 
 ```python
 triton.language.max(input, axis=None, return_indices=False, return_indices_tie_break_left=True, keep_dims=False)
@@ -16,13 +16,13 @@ triton.language.max(input, axis=None, return_indices=False, return_indices_tie_b
 | :---: | :---: | --- |
 | `input` | `tensor` | Input tensor data |
 | `axis`   | `int` | Specifies the dimension along which to reduce; when axis=None, reduces over all axes |
-| `keep_dims` | `bool` | Whether to keep the reduced dimension(s) |
+| `keep_dims` | `bool` | Whether to keep the reduced dimensions |
 | `return_indices` | `bool` | If true, returns the index corresponding to the maximum value in addition to the maximum value itself |
-| `return_indices_tie_break_left` | `bool` | If multiple elements have the same maximum value, returns the left-most index for values that aren’t NaN |
+| `return_indices_tie_break_left` | `bool` | If multiple elements have the same maximum value, returns the left-most index for non-NaN values |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
-When return_indices = true, the returned index type is fp32.
+When return_indices=true, the returned index type is fp32.
 
 Parameter combination support:
 
@@ -59,11 +59,11 @@ Parameter combination support:
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
 | GPU    | No limit |
-| Ascend A2/A3| No limit (default max 8 dimensions) |
+| Ascend A2/A3| No limit (default up to 8 dimensions) |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 Usage
+### 2.3 Usage Example
 
 For more examples, refer to the triton-ascend repository: ascend/examples/generalization_cases/test_max.py
 
@@ -75,6 +75,6 @@ def triton_max_1d(in_ptr0, out_ptr1, xnumel, XBLOCK : tl.constexpr):
     tl.store(out_ptr1, tmp4, None)
 ```
 
-### 2.4 Special Restrictions
+### 2.4 Special Limitations
 
-Compared to GPU, Ascend A3 does not support uint16, uint32, uint64, or fp64.
+Compared to GPU, Ascend A3 does not support uint16, uint32, uint64, fp64.

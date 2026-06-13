@@ -2,16 +2,16 @@
 
 ## 1. OP Overview
 
-Description: Floor division, returns the division result rounded toward zero. Arithmetic operation '//', no `tl.floordiv` method available.
+Description: Floor division, returns the division result rounded toward zero, arithmetic operator '//', no `tl.floordiv` method.
 
 ## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type                | Description                                                      |
-| ------------ | ------------------- | ---------------------------------------------------------------- |
-| `self`       | `tensor or Number`  | First input, dividend                                            |
-| `other`      | `tensor or Number`  | Second input, divisor                                            |
+| Parameter | Type                | Description                                                             |
+| --------- | ------------------- | ----------------------------------------------------------------------- |
+| `self`    | `tensor or Number`  | First input, dividend                                                   |
+| `other`   | `tensor or Number`  | Second input, divisor                                                   |
 
 ### 2.2 Supported Specifications
 

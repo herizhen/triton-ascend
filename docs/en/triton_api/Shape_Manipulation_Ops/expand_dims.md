@@ -39,7 +39,7 @@ Inserts a dimension of size 1 at the specified axis position, without changing t
 ### 2.2 DataType Support Table
 
 | Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:----:|:----:|:------:|:---:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -47,7 +47,7 @@ Inserts a dimension of size 1 at the specified axis position, without changing t
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Constraints
+### 2.4 Special Limitations
 
 None
 
@@ -63,7 +63,7 @@ def expand_dims_example(out_ptr):
     # Create a 2x3 tensor
     x = tl.zeros([2, 3], dtype=tl.float32)
 
-    # Insert a dimension at axis=1, resulting in 2x1x3
+    # Insert dimension at axis=1, resulting in 2x1x3
     y = tl.expand_dims(x, axis=1)
 
     # Write the result back to the external tensor
@@ -74,7 +74,7 @@ def expand_dims_example(out_ptr):
     )
     tl.store(out_ptr + offs, y)
 
-## Call example
+## Example call
 out = torch.empty((2, 1, 3), dtype=torch.float32, device="npu")
 expand_dims_example[(1,)](out)
 print(out.shape)  # Output: torch.Size([2, 1, 3])

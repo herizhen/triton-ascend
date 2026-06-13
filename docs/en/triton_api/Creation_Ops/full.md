@@ -2,13 +2,13 @@
 
 ## 1. OP Overview
 
-Description: `triton.language.full` returns a tensor filled with a scalar value of a given shape and data type
+Description: `triton.language.full` returns a tensor filled with a scalar value of a given shape and data type.
 
 ```python
 triton.language.full(shape, value, dtype, _semantic=None)¶
 ```
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
@@ -17,9 +17,9 @@ triton.language.full(shape, value, dtype, _semantic=None)¶
 | `shape` | `tuple of ints` | Shape of the new array, e.g., (8, 16) or (8, ) |
 | `value` | `scalar` | Scalar value used to fill the array |
 | `dtype` | `tl.dtype` | Data type of the new array, e.g., tl.float16 |
-| `_semantic` | `Optional[str]` | Reserved parameter, external calls not supported |
+| `_semantic` | `Optional[str]` | Reserved parameter, external calls not supported for now |
 
-Return Value:
+Return value:
 `tensor`: The tensor after filling
 
 ### 2.2 Supported Specifications

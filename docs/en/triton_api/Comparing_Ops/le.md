@@ -21,9 +21,9 @@ Used as a built-in operator of `tensor`, e.g., `x<=y`.
 
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
-| `input` | `tensor` | Tensor data, left operand, representing the primary data for comparison |
+| `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
 | `other`   | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | - | Reserved parameter, external calls not supported |
+| `_builder` | - | Reserved parameter, external calls not supported for now |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -32,12 +32,12 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 | Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | √ | √ | × | √ | √ |
 
-Conclusion: Compared to GPU, Triton-Ascend does not support uint8/uint16/uint32/uint64 and fp64.
+Conclusion: Compared to GPU, Triton-Ascend currently does not support uint8/uint16/uint32/uint64, and fp64.
 
 #### 2.2.2 Shape Support
 
@@ -50,7 +50,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative community capability gaps that cannot be implemented
+> Capabilities missing compared to the community and cannot be implemented
 
 Compared to GPU, Triton-Ascend lacks support for fp64, and support for uint8/uint16/uint32/uint64 types is under development.
 

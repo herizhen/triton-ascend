@@ -19,7 +19,7 @@ def _layer_norm_fwd_fused(
     B,  # Bias pointer
     Mean,  # Mean pointer
     Rstd,  # 1/std pointer
-    stride,  # How many elements to add when moving the pointer by one row
+    stride,  # Number of elements to add when moving the pointer by one row
     N,  # Number of columns in X
     eps,  # Epsilon to avoid division by zero
     BLOCK_SIZE: tl.constexpr,
@@ -79,7 +79,7 @@ def layer_norm(x, weight, bias, eps=1e-5):
     BLOCK_SIZE = 1024
 
     # Enqueue kernel
-    kernel = _layer_norm_fwd_fused[(M, )](  # M represents number of blocks, launch grid=(M,)
+    kernel = _layer_norm_fwd_fused[(M, )](  # M represents the number of blocks, launch grid=(M,)
         x_arg, y, weight, bias, mean, rstd,  # Input, output, and intermediate variables
         x_arg.stride(0), N, eps,
         BLOCK_SIZE=BLOCK_SIZE)
@@ -105,7 +105,7 @@ def _layer_norm(M, N, dtype, eps=1e-5, device='npu'):
     print(f"y_ref: {y_ref}")
     print(f"Layer Normalization {M},{N} {dtype} PASSED!")
 
-# Execute test
+# Execute tests
 if __name__ == '__main__':
     _layer_norm(128, 128, torch.float16)
     _layer_norm(128, 128, torch.bfloat16)
@@ -170,4 +170,4 @@ Layer Normalization 128,128 torch.float32 PASSED!
 
 "Layer Normalization 128,128 torch.float16 PASSED!", \
 "Layer Normalization 128,128 torch.bfloat16 PASSED!", \
-"Layer Normalization 128,128 torch.float32 PASSED!" indicate that the output results for float16, bfloat16, and float32 data types on Triton and PyTorch are exactly the same.
+"Layer Normalization 128,128 torch.float32 PASSED!" indicate that the output results of float16, bfloat16, and float32 data types on Triton and PyTorch are completely consistent.

@@ -14,7 +14,7 @@ Used as a built-in operator of `tensor`, e.g., `x != y`.
 | :---: | :---: | :---: |
 | `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
 | `other` | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | - | Reserved parameter, external calls not supported |
+| `_builder` | - | Reserved parameter, currently not supported for external calls |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -33,7 +33,7 @@ Conclusion: Compared to GPU, Triton-Ascend lacks support for uint8/uint16/uint32
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | -------------------------- |
+| -------- | --------------------------- |
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
@@ -47,7 +47,7 @@ Compared to GPU, Triton-Ascend lacks support for fp64. Support for uint8/uint16/
 
 ### 2.4 Usage
 
-The following example demonstrates the `!=` operation on tensors `x0` and `x1`:
+The following example demonstrates performing the `!=` operation on tensors `x0` and `x1`:
 
 ```python
 @triton.jit

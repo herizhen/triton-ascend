@@ -35,7 +35,7 @@ No relevant settings.
 
 ### 2.3 Special Constraints
 
-None.
+None
 
 ### 2.4 Usage
 

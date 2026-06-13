@@ -2,9 +2,9 @@
 
 ## 1. OP Overview
 
-Introduction: Division, arithmetic operator '/', no `tl.div` method.
+Description: Division, arithmetic operator '/', no tl.div method.
 
-The underlying implementation is the same as the `fdiv` operator, except that `fdiv` explicitly restricts input parameters to `float` type. '/' has no such restriction; it converts non-floating-point types to floating-point before computation.
+The underlying implementation is the same as the fdiv operator, except that fdiv explicitly requires the input to be of float type. '/' has no such restriction; it converts non-floating-point types to floating-point before performing the calculation.
 
 ## 2. OP Specification
 
@@ -44,13 +44,13 @@ Return type: Always returns floating-point type
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 Special Restrictions
+### 2.3 Special Limitations
 
-Ascend A3 lacks support for `uint8`, `uint16`, `uint32`, `uint64`, and `fp64` compared to GPU.
+Compared to GPU, Ascend A3 lacks support for uint8, uint16, uint32, uint64, and fp64.
 
 ### 2.4 Usage Example
 
-The following example demonstrates division computation on input tensors `in_ptr0, in_ptr1`:
+The following example demonstrates performing division on input tensors `in_ptr0, in_ptr1`:
 
 ```python
 @triton.jit

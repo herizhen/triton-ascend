@@ -20,7 +20,7 @@ x.__or__(y)
 | -------------- | -------- | -------------------------------------------------------------- |
 | `x`            | `tensor` | Tensor data                                                    |
 | `y`            | `tensor` | Tensor data                                                    |
-| `_semantic`    | -        | Reserved parameter, external invocation not supported currently |
+| `_semantic`    | -        | Reserved parameter, external invocation not supported for now  |
 
 Return value:
 `out`: A tensor with the same shape as `x` and `y`
@@ -38,16 +38,16 @@ Conclusion: Compared to GPU, Ascend lacks support for uint types.
 
 #### 2.2.2 Shape Support
 
-|               | Supported Dimension Range |
-| ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+|              | Supported Dimension Range |
+| ------------ | ------------------------- |
+| GPU          | Only supports 1~5D tensors |
+| Ascend A2/A3 | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Relative community capability deficiency and cannot be implemented
+> Relative community capability deficiency that cannot be implemented
 
 Compared to GPU, Ascend lacks support for uint types.
 

@@ -12,19 +12,19 @@ triton.language.arange(start, end, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type        | Description                                      |
-| -------------- | ----------- | ------------------------------------------------ |
+| Parameter Name | Type        | Description                                                        |
+| -------------- | ----------- | ------------------------------------------------------------------ |
 | `start`        | `scalar`    | Starting value for creating the contiguous integer sequence, must be a compile-time constant (tl.constexpr) |
-| `end`          | `scalar`    | Ending value for creating the contiguous integer sequence |
+| `end`          | `scalar`    | Ending value for creating the contiguous integer sequence          |
 
-Return value:
-`tensor`: A tensor containing the contiguous integer sequence
+Return Value:
+`tensor`: Tensor of the contiguous integer sequence
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
-Conclusion: The parameters `start` and `end` of `arange` must be constants, hence they have no type. The supported value range is up to int32, and hardware instructions also only support up to int32.
+Conclusion: The parameters `start` and `end` of `arange` must be constants, hence they have no type. The supported type corresponds to the value range, up to `int32`. Hardware instructions also only support up to `int32`.
 
 |                | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 | -------------- | ----- | ---- | ------ | ----- | ------ | ----- | ------ | ----- | ---- | ---- | ---- | --------- |
@@ -36,15 +36,15 @@ Conclusion: The parameters `start` and `end` of `arange` must be constants, henc
 0 =< (end - start) < 1048576
 end >= 0, start >= 0
 
-Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
+Conclusion: In terms of Shape, there is no difference between the GPU and Ascend platforms.
 
-### 2.3 Special Limitations
+### 2.3 Special Constraints
 
-> Features missing relative to the community that cannot be implemented
+> Missing functionality relative to the community that cannot be implemented
 
 1. The function generates a contiguous integer sequence [start, end). CUDA requires that range=(end-start) must be a power of 2. Triton-ascend does not have this requirement.
-2. Both NV and Triton-ascend limit the maximum value of end to TRITON_MAX_TENSOR_NUMEL = 1048576.
-3. The inputs to `arange` must be constant values, supporting uint and int types with values less than 1048576 (the maximum value TRITON_MAX_TENSOR_NUMEL). int64 is not supported.
+2. Both NV and Triton-ascend limit the maximum value of `end` to `TRITON_MAX_TENSOR_NUMEL = 1048576`.
+3. The inputs to `arange` must be constant literals, supporting values of `uint` and `int` types less than 1048576 (maximum value `TRITON_MAX_TENSOR_NUMEL`). `int64` is not supported.
 4. The `start` and `end` of `arange` must be greater than or equal to 0.
 
 ### 2.4 Usage Example

@@ -1,27 +1,27 @@
 # GPU Triton Operator Migration
 
-Overview: This article describes the general approach and common issues when migrating GPU Triton operators to Ascend NPU. During migration, it is recommended to first replace the Python-side device and runtime interfaces, then check grid partitioning, memory access alignment, single-core computation, UB space, and coreDim limitations. Finally, complete code modification and correctness verification with specific examples.
+Overview: This article introduces the general processing approach and common issues when migrating GPU Triton operators to Ascend NPU. During migration, it is recommended to first complete the Python-side device and runtime interface replacement, then check grid partitioning, memory access alignment, single-core computation, UB space, and coreDim limitations, and finally combine specific examples to complete code modification and correctness verification.
 
 ## General Migration Process
 
 ### Migrating Python-side Device and Runtime Interfaces
 
-Before modifying specific Triton kernels, first complete the Python-side device migration:
+Before modifying the specific Triton kernel, first complete the Python-side device migration:
 
 1. Add `import torch_npu` in the Python file.
 2. Find device specifications such as `device="cuda"`, `device='cuda'`, `.cuda()`, and `.to("cuda")`, and change them to `device="npu"`, `device='npu'`, `.npu()`, or `.to("npu")`.
-3. Find GPU-specific interfaces like `torch.cuda.*`, CUDA stream, CUDA event, CUDA synchronize, and replace them with NPU counterparts or remove unnecessary synchronization logic.
+3. Find GPU-specific interfaces such as `torch.cuda.*`, CUDA stream, CUDA event, and CUDA synchronize, and replace them with corresponding NPU interfaces or remove unnecessary synchronization logic.
 4. Remove logic that only serves GPU device discovery, such as device assertions related to `triton.runtime.driver.active.get_active_torch_device()`.
 5. Keep the main logic of the Triton kernel unchanged, and first use NPU tensors to complete compilation and correctness verification.
 
 ### Adjusting Grid Partitioning
 
-Common practice on GPU designs the grid with a large number of logical programs, which are scheduled by hardware and runtime to execute on SMs. When migrating to NPU, priority should be given to the number of physical AI Cores and operator type:
+Common practice on GPUs is to design the grid as a large number of logical programs, which are scheduled to SMs by hardware and runtime. When migrating to NPU, priority should be given to the number of physical AI Cores and the operator type:
 
-- Grid should preferably be 1D; 2D NPU adaptation will also merge into 1D, e.g., `(20,)` has the same effect as `(4, 5)`.
-- The number of concurrent tasks for vector-only operators is usually organized by the number of Vector Cores; operators containing `tl.dot` are usually organized by the number of AI Cores.
+- Grid should preferably use 1D; 2D NPU adaptation will also merge into 1D, e.g., `(20,)` has the same effect as `(4, 5)`.
+- The number of concurrent tasks for Vector-only operators is usually organized by the number of Vector Cores; operators containing `tl.dot` are usually organized by the number of AI Cores.
 - When the logical grid is much larger than the number of physical cores, evaluate whether to change to processing multiple tiles in a loop within each program, or use `TRITON_ALL_BLOCKS_PARALLEL` when there is no sequential dependency between logical cores.
-- coreDim cannot exceed `UINT16_MAX` (65535); operators with large shapes need to control grid size by adjusting BLOCK_SIZE or partitioning method.
+- coreDim cannot exceed `UINT16_MAX` (65535). Operators with large shapes need to control the grid size by combining BLOCK_SIZE or partitioning methods.
 
 | Dimension | Core Structure | Operator Type |
 |-----------|----------------|---------------|
@@ -33,21 +33,21 @@ Common practice on GPU designs the grid with a large number of logical programs,
 After completing device replacement, continue to check the data movement method within a single program:
 
 - Vector operator scenarios require 32-byte memory access alignment; cube-vector fusion operator scenarios require 512-byte alignment.
-- Keep tail mask to ensure boundary elements do not access out of bounds.
+- Retain tail mask to ensure boundary elements do not access out of bounds.
 - Check the on-chip memory usage of one tile to avoid triggering UB space overflow.
 - Remove or replace GPU-specific synchronization APIs, such as CUDA thread, stream, event, or kernel synchronize related interfaces.
 
 ### Checking Single-Core Data Computation
 
-NPU and GPU differ in compute units and supported data types. After migration, first ensure correctness, then adjust based on performance issues:
+NPU and GPU differ in computation units and supported data types. After migration, first ensure correctness, then adjust based on performance issues:
 
 - For intermediate values such as integer indices, offsets, and lengths, first confirm whether the current data type is efficiently supported by the NPU path.
-- For operators containing `tl.dot`, confirm whether M/N/K tiles, accumulation dtype, and output dtype meet NPU backend requirements.
+- For operators containing `tl.dot`, confirm whether the M/N/K tiles, accumulation dtype, and output dtype meet the NPU backend requirements.
 - For long sequences, long hidden sizes, or large K-dimension loops, prioritize controlling the size of each load and computation through tiling.
 
 ## Migration Examples
 
-### Example 1: Complete Vector Addition Migration
+### Example 1: Complete Migration of Vector Addition
 
 ```diff
 import torch
@@ -55,7 +55,7 @@ import torch
 import triton
 import triton.language as tl
 
-- DEVICE = triton.runtime.driver.active.get_active_torch_device()  # [Deleted] GPU device auto-detection, not needed for NPU
+- DEVICE = triton.runtime.driver.active.get_active_torch_device()  # [Deleted] GPU device auto-acquisition, not needed for NPU
 
 @triton.jit
 def add_kernel(x_ptr, # Pointer to first input vector.
@@ -131,7 +131,7 @@ def test_npu_1d(shape, dtype):
 
 ## Common Issues Overview
 
-After completing the basic migration steps, new issues may arise. These can be categorized into two types:
+After completing the basic migration steps, new issues may arise, which can be categorized into two types:
 1. coreDim Limitation Issue
 Triggered when the grid dimension exceeds NPU hardware limits.
 Typical error message: coreDim=xxxx can't be greater than UINT16_MAX
@@ -139,16 +139,16 @@ Typical error message: coreDim=xxxx can't be greater than UINT16_MAX
 Memory usage exceeds NPU cache capacity.
 Typical error message: ub overflow, requires xxxx bits while 1572684 bits available!
 
-### Resolving coreDim Exceeding Limit
+### Resolving coreDim Exceeding Limit Issue
 
 Problem Analysis:
-The NPU coreDim parameter cannot exceed UINT16_MAX (65535). When processing large-scale data, simple grid partitioning may cause this limit to be exceeded.
+The coreDim parameter of NPU cannot exceed UINT16_MAX (65535). When processing large-scale data, simple grid partitioning may break this limit.
 
 Case: zeros_like Function Optimization
-Data size: N = 1073741824, original BLOCK_SIZE = 2048, calculated coreDim = 524288 > 65535 (exceeded)
+Data size: N = 1073741824, original BLOCK_SIZE = 2048, calculated coreDim = 524288 > 65535 (exceeds limit)
 
 Solution 1:
-The Ascend compiler has a corresponding solution for the coreDim exceeding issue. Simply set the environment variable 'TRITON_ALL_BLOCKS_PARALLEL' to 1. The setup command is as follows:
+The Ascend compiler has a corresponding solution for the coreDim exceeding limit issue. Simply set the environment variable 'TRITON_ALL_BLOCKS_PARALLEL' to 1. The setting command is as follows:
 export TRITON_ALL_BLOCKS_PARALLEL=1
 Solution 2:
 Reduce the number of required cores by increasing BLOCK_SIZE to ensure coreDim does not exceed the limit.
@@ -231,7 +231,7 @@ def zeros_like(x, *, dtype=None, layout=None, device=None, pin_memory=None, memo
 ### Dynamically Calculating Suitable BLOCK_SIZE to Avoid coreDim Exceeding Limit
 
 ```diff
-optimal_block_size = 32768  # Optimized value based on calculation
+optimal_block_size = 32768  # Optimal value calculated
 
 grid_fn = lambda meta: (triton.cdiv(N, optimal_block_size),)
 
@@ -239,13 +239,13 @@ zeros_kernel[grid_fn](out, N, BLOCK_SIZE=optimal_block_size)
 return out
 ```
 
-### Handling Compound Issues: coreDim + UB Overflow
+### Handling Composite Issues: coreDim + UB Overflow
 
 Problem Analysis:
-In some cases, resolving the coreDim issue may trigger a new UB overflow issue. This typically occurs when increasing BLOCK_SIZE causes the amount of data a single thread block needs to process to exceed the NPU's UB cache capacity.
+In some cases, resolving the coreDim issue may trigger a new UB overflow issue. This usually occurs when increasing BLOCK_SIZE causes the amount of data a single thread block needs to process to exceed the NPU's UB cache capacity.
 
 Case:
-Data size: N = 1073741824, original BLOCK_SIZE = 4096, calculated coreDim = 262144 > 65535 (exceeded), adjusted to BLOCK_SIZE = 32768, coreDim = 32768 (compliant), but UB overflow occurs
+Data size: N = 1073741824, original BLOCK_SIZE = 4096, calculated coreDim = 262144 > 65535 (exceeds limit), adjusted to BLOCK_SIZE = 32768, coreDim = 32768 (compliant), but UB overflow occurs
 
 Solution:
 Introduce the BLOCK_SIZE_SUB parameter to further subdivide large blocks, controlling memory usage while maintaining a reasonable coreDim.
@@ -277,7 +277,7 @@ def masked_fill(inp, mask, value):
     if N == 0:
         return out
 
-    grid = lambda meta: (triton.cdiv(N, 4096),)  # Causes coreDim exceeding limit
+    grid = lambda meta: (triton.cdiv(N, 4096),)  # Causes coreDim to exceed limit
     masked_fill_kernel[grid](inp, mask.to(torch.int), value, out, N, 4096)
     return out
 ```
@@ -307,9 +307,9 @@ def masked_fill_kernel(inp, expand_mask, value, out, N,
         # Load and process data in batches
         input_vals = tl.load(inp + offsets, mask=mask, other=0)
         fill_mask_vals = tl.load(expand_mask + offsets, mask=mask, other=0).to(tl.int1)
-        # First write original data
+        # First write the original data
         tl.store(out + offsets, input_vals, mask=mask)
-        # Then overwrite target values at positions needing fill
+        # Then overwrite the target value at positions that need filling
         value_to_write = tl.full([BLOCK_SIZE_SUB], value, dtype=input_vals.dtype)
         final_vals = tl.where(fill_mask_vals, value_to_write, input_vals)
         tl.store(out + offsets, final_vals, mask=mask)
@@ -336,6 +336,4 @@ def masked_fill(inp, expand_mask, value):
 
 ### Why Does UBSIZE Exceed Memory Error Occur
 
-Unreasonable partitioning leads to excessive non-aligned memory access or computation. For example, moving 2D data of (64, 32) with stride (12832, 128). For aligned data access, the corresponding stride would be (32, 1). For non-aligned access content, add an axis of size 1 to the innermost axis, becoming (64, 32, 4). Since hardware requires 32-byte alignment for UB memory in vector operator scenarios, assuming type=float16, the corresponding stride should be (12832, 128, 1).
-
-### Discrete Memory Access Code Line-by-Line Comparison to Observe Scalar Ine
+Unreasonable partitioning leads to excessive non-aligned memory access or computation. For example, for 2D data movement of (64, 32), the corresponding stride is (12832, 128). If it is aligned data access, the corresponding stride should be (32, 1). For non-aligned access content, add an axis of size 1 to the innermost axis, changing it to (64, 32, 4). Since the hardware requires 32-byte alignment for UB memory in vector operator scenarios, assuming type=float16, the corresponding stride should be (12832

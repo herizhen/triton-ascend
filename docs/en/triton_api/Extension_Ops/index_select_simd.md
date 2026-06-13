@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Performs parallel gather of multiple indices on non-tail dimensions and copies data zero-copy from global memory (GM) directly to the correct positions in the unified buffer (UB) in tile units. This operation is equivalent to a high-performance implementation of `torch.index_select`, suitable for embedding layer lookups, sparse index access, and similar scenarios.
+Performs parallel gather of multiple indices on non-tail dimensions, and zero-copies data directly from global memory (GM) to the correct positions in the unified buffer (UB) in tile units. This operation is equivalent to a high-performance implementation of `torch.index_select`, suitable for scenarios such as embedding layer lookups and sparse index access.
 
 **Syntax:**
 
@@ -11,13 +11,13 @@ Performs parallel gather of multiple indices on non-tail dimensions and copies d
 **Functionality:**
 
 - Reads data in batches from the source tensor along the specified dimension according to the index array
-- Supports specifying offsets and sizes for the read region, enabling flexible slicing
-- Zero-copy efficient implementation, directly moving data from GM to UB
-- Preserves element types and encoding unchanged
+- Supports specifying the offset and size of the read region for flexible slicing
+- Efficient zero-copy implementation, directly moving data from GM to UB
+- Preserves element type and encoding unchanged
 
 **Typical Use Cases:**
 
-- Embedding lookup: Batch reading word vectors from a large vocabulary based on token IDs
+- Embedding lookup: Batch reading word vectors based on token IDs from a large vocabulary
 - Sparse tensor operations: Accessing specific rows of a dense tensor based on sparse indices
 - Dynamic routing and attention mechanisms: Selecting specific features based on dynamically computed indices
 
@@ -29,22 +29,22 @@ Performs parallel gather of multiple indices on non-tail dimensions and copies d
 |-----------|------|----------|-------------|
 | src | tensor/pointer | Yes | Source tensor pointer, data located in global memory (GM) |
 | dim | int | Yes | Dimension along which to perform index_select, range [0, len(src_shape)-2], **does not support the tail axis** (last dimension) |
-| index | tensor | Yes | 1D index array, located in UB, specifying the index positions to read |
+| index | tensor | Yes | 1D index array, located in UB, specifies the index positions to read |
 | src_shape | Tuple[int] | Yes | Full shape of the source tensor |
 | src_offset | Tuple[int] | Yes | Starting position for reading; can be set to -1 for the dim dimension (determined by index) |
-| read_shape | Tuple[int] | Yes | Size of data to read; must be -1 for the dim dimension (determined by index length) |
+| read_shape | Tuple[int] | Yes | Size of data to read; must be -1 for the dim dimension (determined by the length of index) |
 
 **Return Value:**
 
 - **Type:** tensor (located in UB)
-- **Shape:** Same as read_shape, where the size of the dim dimension equals the length of index
+- **Shape:** Consistent with read_shape, where the size of the dim dimension equals the length of index
 - **Data Type:** Same as the source tensor
 - **Memory Location:** Unified Buffer (UB)
 
 **Constraints:**
 
 - `read_shape[dim]` must be -1
-- `src_offset[dim]` can be set to -1 (will be ignored as this dimension is determined by index)
+- `src_offset[dim]` can be set to -1 (ignored, as this dimension is determined by index)
 - `len(src_shape) == len(src_offset) == len(read_shape)`
 - `index` must be a 1D tensor
 - `dim` cannot be the tail axis (last dimension), i.e., `dim < len(src_shape) - 1`
@@ -69,20 +69,20 @@ Performs parallel gather of multiple indices on non-tail dimensions and copies d
 Supports any number of dimensions (1D to high-dimensional tensors), subject to the following conditions:
 
 - `index` must be a 1D tensor
-- Dimension sizes of the source tensor are limited by actual hardware memory constraints
+- The size of each dimension of the source tensor is subject to actual hardware memory limits
 - The size of `read_shape` in non-dim dimensions must consider UB space limitations
 
 **Common Shape Combinations:**
 
-- 2D tensor: Suitable for embedding layer lookups, sparse matrix row selection
-- 3D tensor: Suitable for batch embedding lookups, sequence feature extraction
+- 2D tensor: Suitable for embedding layer lookups and sparse matrix row selection
+- 3D tensor: Suitable for batch embedding lookups and sequence feature extraction
 - High-dimensional tensor: Suitable for complex multi-dimensional indexing operations
 
 ### 2.4 Special Constraints
 
 1. **dim constraint:** index_select is not supported on the tail axis (last dimension); `dim` must satisfy `dim < len(src_shape) - 1`
 2. **Data type constraint:** uint16/uint32/uint64/float8/float64 data types are currently not supported
-3. **Index out of bounds:** Out-of-bounds indices in `index` are not checked; users must ensure index validity
+3. **Index out of bounds:** Out-of-bounds indices in `index` are not checked; the user must ensure index validity
 
 ### 2.5 Usage
 
@@ -123,7 +123,7 @@ def embedding_kernel(
 
 **Relationship with torch.index_select:**
 
-- `index_select_simd` is equivalent to `torch.index_select(src, dim, index)` combined with slicing
+- `index_select_simd` is equivalent to `torch.index_select(src, dim, index)` combined with a slicing operation
 - However, `index_select_simd` is implemented at the hardware level, offering better performance than the PyTorch implementation (approximately 0.6~1.5x AscendC performance)
 
 **Difference from Regular Load:**
@@ -146,7 +146,7 @@ data = libdevice.index_select_simd(
     src_offset=(-1, 0),
     read_shape=(-1, size)
 )
-## Retrieve all data at once
+## Get all data at once
 ```
 
 ## 3 Differences from GPU
