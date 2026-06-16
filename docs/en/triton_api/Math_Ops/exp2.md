@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise base-2 exponential of x.
+Description: Computes the element-wise base-2 exponential of `x`.
 
 ```python
 triton.language.exp2(x, _semantic=None)
@@ -12,7 +12,7 @@ triton.language.exp2(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type       | Description                                                    |
+| Parameter Name | Type       | Description                                                    |
 | -------------- | ---------- | -------------------------------------------------------------- |
 | `x`            | `tensor`   | Input tensor                                                   |
 | `_semantic`    | -          | Reserved parameter, not supported for external calls currently |
@@ -30,7 +30,7 @@ Return value:
 | Ascend A2/A3   | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
 Conclusion: Compared to GPU, Ascend lacks fp64 support but adds support for fp16 and bf16.
-torch_npu supports u8.
+torch_npu supports uint8.
 
 #### 2.2.2 Shape Support
 

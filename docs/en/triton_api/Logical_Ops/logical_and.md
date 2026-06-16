@@ -10,13 +10,13 @@ x.logical_and(y)
 
 Called as a member function of `tensor`, e.g., `x0.logical_and(x1)`.
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
-| `input` | `tensor` | Tensor data, left operand, representing the primary data for comparison |
+| `input` | `tensor` | Tensor data, left operand, represents the primary data for comparison |
 | `other`   | `tensor` | Tensor data, right operand, performs element-wise logical AND with `input` |
 | `_builder` | - | Reserved parameter, external invocation not supported |
 
@@ -45,7 +45,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Not supported compared to community capabilities
+> Not yet supported compared to community capabilities
 
 None.
 

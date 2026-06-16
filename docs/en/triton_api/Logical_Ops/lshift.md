@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Performs a left bitwise shift on a tensor according to the given value.
+Description: Performs a left bitwise shift on a tensor based on the given value.
 
 ```python
 triton.language.core.__lshift__(
@@ -20,7 +20,7 @@ Used as a built-in operator for `tensor`, e.g., `x<<y`.
 
 | Parameter | Type | Description |
 | :---: | :---: | --- |
-| `input` | `tensor` | Tensor data, left operand, representing the main data to be shifted |
+| `input` | `tensor` | Tensor data, left operand, representing the primary data to be shifted |
 | `other`   | `tensor or scalar` | Tensor data, right operand, the value by which to shift |
 | `_builder` | - | Reserved parameter, external invocation not supported |
 
@@ -49,7 +49,7 @@ Conclusion: There is no difference in Shape support between GPU and Ascend platf
 
 ### 2.3 Special Limitations
 
-> Capabilities missing relative to the community and cannot be implemented
+> Capabilities missing relative to the community and not implementable
 
 1. Ascend lacks uint type support compared to GPU.
 2. The right operand `other` only supports scalars, not tensors (i.e., `x << 2` is valid, `x << y` (where `y` is a tensor) is not supported).

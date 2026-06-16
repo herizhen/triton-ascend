@@ -17,21 +17,21 @@ triton.language.multibuffer(
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                        |
-| -------------- | ------------------ | ------------------------------------------------------------------ |
-| `src`          | `tensor`           | The source tensor to be multi-buffered                             |
-| `size`         | `int` or `constexpr` | The number of buffer copies to create                              |
-| `_builder`     | -                  | Reserved parameter, external calls not supported                   |
+| Parameter      | Type                | Description                                                      |
+| -------------- | ------------------- | ---------------------------------------------------------------- |
+| `src`          | `tensor`            | The source tensor to be multi-buffered                           |
+| `size`         | `int` or `constexpr`| Number of buffer copies to create                                |
+| `_builder`     | -                   | Reserved parameter, external calls not supported                 |
 
-Return Value:
+Return value:
 `None`: This operation is a compilation hint and does not return a value at runtime; it only affects the compiler's optimization behavior.
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
-|            | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | bf16 | bool |
-| ---------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
 | Ascend A2/A3 | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    |
 
 #### 2.2.2 Shape Support
@@ -40,13 +40,13 @@ Supports tensors of arbitrary shapes.
 
 ### 2.3 Special Constraints
 
-| Constraint Parameter | Description                                                                 |
-| -------------------- | --------------------------------------------------------------------------- |
-| `size`               | The current implementation only supports `size` as `2`.                     |
+| Constraint Parameter | Description                                                                  |
+| -------------------- | ---------------------------------------------------------------------------- |
+| `size`               | The current implementation only supports `size` of `2`.                      |
 
 ### 2.4 Usage Example
 
-The following example demonstrates how to set multi-buffering for tensor `tmp0` in a kernel, combined with other compilation hints:
+The following example demonstrates how to set multi-buffering for the tensor `tmp0` in a kernel, combined with other compilation hints:
 
 ```python
 @triton.jit

@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: `triton.language.cumsum` computes the cumulative sum of the input tensor along the specified axis, returning the cumulative summation result.
+Description: `triton.language.cumsum` computes the cumulative sum of the input tensor along a specified axis and returns the cumulative summation result.
 
 ```python
 triton.language.cumsum(input, axis=0, reverse=False)
@@ -23,22 +23,22 @@ The `cumsum` function computes the cumulative sum (prefix sum) along the specifi
 When `reverse=True`, it computes the reverse cumulative sum: `[a+b+c+d, b+c+d, c+d, d]`.
 
 Return value:
-`tensor`: Computes the cumulative sum of the input tensor along the specified axis, returning the cumulative summation result.
+`tensor`: Computes the cumulative sum of the input tensor along the specified axis and returns the cumulative summation result.
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
 | | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-|---|-------|------|--------|-------|--------|-------|--------|-------|------|------|------|-----------|
+|---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 #### 2.2.2 Shape Support
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
 
-### 2.3 Special Limitations
+### 2.3 Special Constraints
 
 ### 2.4 Usage
 

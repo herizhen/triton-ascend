@@ -42,7 +42,7 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
   <tr>
     <td>_builder</td>
     <td>-</td>
-    <td>Internal parameter</td>
+    <td>Internal</td>
     <td>Automatically passed by the compiler; users do not need to use it</td>
   </tr>
 </table>
@@ -51,11 +51,11 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
 
 - Returns a `bl.buffer` object corresponding to the input tensor
 
-- If the `bind_buffer` parameter is provided, returns the bound buffer itself directly
+- If the `bind_buffer` parameter is provided, directly returns the bound buffer itself
 
 ## 5. Constraints
 
-- Interface constraint rules are consistent with `bl.allocate_local_buffer`
+- Interface constraints are consistent with `bl.allocate_local_buffer`
 
 - The address space parameter must strictly match the memory regions supported by Ascend hardware (UB/L1/L0A/L0B/L0C)
 
@@ -69,7 +69,7 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
   </tr>
 </table>
 
-### Advanced Usage (Compilation + IR Printing)
+### Advanced Usage (Compilation + IR Print)
 
 <table>
   <tr>
@@ -83,6 +83,6 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
 
 - Supports manually specifying the full range of Ascend hardware address spaces (UB/L1/L0)
 
-- Supports binding to an existing buffer for fine-grained memory management
+- Supports binding to existing buffers for fine-grained memory management
 
 - Can only be used within kernel functions decorated with `@triton.jit`

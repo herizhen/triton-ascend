@@ -1,6 +1,6 @@
 # Scan/Sort Operations
 
-| api | Brief Description |
+| API | Brief Description |
 | --- | --- |
 | [associative_scan](./associative_scan.md) | Applies combine_fn to each element of the input tensor and a carried value along the specified axis, updating the carried value |
 | [cumprod](./cumprod.md) | Returns the cumulative product of all elements in the input tensor along the specified axis |

@@ -2,13 +2,13 @@
 
 ## 1. OP Overview
 
-Description: `triton.language.full` returns a tensor filled with a scalar value of a given shape and data type.
+Introduction: `triton.language.full` returns a tensor filled with a scalar value of a given shape and data type.
 
 ```python
 triton.language.full(shape, value, dtype, _semantic=None)¶
 ```
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
@@ -33,7 +33,7 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-Conclusion: There is no difference between GPU and Ascend platforms regarding Shape.
+Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape.
 
 ### 2.3 Special Limitations
 
@@ -42,18 +42,18 @@ Conclusion: There is no difference between GPU and Ascend platforms regarding Sh
 
 ### 2.4 Usage Example
 
-The following example demonstrates returning a tensor of shape (XB, YB, ZB) filled with the value 100:
+The following example implements returning a tensor of shape (XB, YB, ZB) filled with the value 100:
 
 ```python
 @triton.jit
-def fn_f32(output_ptr,XB : tl.constexpr,YB : tl.constexpr,ZB : tl.constexpr):
-    xidx=tl.arange(0,XB)
-    yidx=tl.arange(0,YB)
-    zidx=tl.arange(0,ZB)
+def fn_f32(output_ptr, XB: tl.constexpr, YB: tl.constexpr, ZB: tl.constexpr):
+    xidx = tl.arange(0, XB)
+    yidx = tl.arange(0, YB)
+    zidx = tl.arange(0, ZB)
 
-    ret = tl.full((XB,YB,ZB),value = 100,dtype = tl.float32)
+    ret = tl.full((XB, YB, ZB), value=100, dtype=tl.float32)
 
-    oidx=xidx[:,None,None]*YB*ZB+yidx[None,:,None]*ZB+zidx[None,None,:]
+    oidx = xidx[:, None, None] * YB * ZB + yidx[None, :, None] * ZB + zidx[None, None, :]
 
-    tl.store(output_ptr+oidx,ret)
+    tl.store(output_ptr + oidx, ret)
 ```

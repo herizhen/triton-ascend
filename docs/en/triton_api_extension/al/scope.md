@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-Ascend processors contain multiple types of compute units (e.g., Cube Unit for matrix operations and Vector Unit for vector/scalar operations). al.scope allows kernel developers to explicitly tell the Triton compiler which hardware unit a specific code region should target, enabling more fine-grained performance tuning and resource utilization.
+Ascend processors contain multiple types of compute units (e.g., Cube Unit for matrix operations and Vector Unit for vector/scalar operations). al.scope allows kernel developers to explicitly tell the Triton compiler which hardware unit a specific code region should target, enabling finer-grained performance tuning and resource utilization.
 
 ## 2. Interface Description
 
@@ -12,7 +12,7 @@ Ascend processors contain multiple types of compute units (e.g., Cube Unit for m
   </tr>
 </table>
 
-al.scope is a context manager in the `triton.language.extra.ascend` module, specifically designed to specify the execution mode of Ascend hardware for code blocks within Triton kernels.
+al.scope is a context manager in the triton.language.extra.ascend module, specifically designed to specify the execution mode of Ascend hardware for code blocks within Triton kernels.
 
 ### Parameters
 
@@ -22,7 +22,7 @@ al.scope is a context manager in the `triton.language.extra.ascend` module, spec
     <td>Type</td>
     <td>Required</td>
     <td>Description</td>
-    <td>Example Values</td>
+    <td>Valid Values (Examples)</td>
   </tr>
   <tr>
     <td>core_mode</td>
@@ -39,7 +39,7 @@ al.scope is a context manager in the `triton.language.extra.ascend` module, spec
   <tr>
     <td>Value</td>
     <td>Target Core</td>
-    <td>Use Case / Optimization Direction</td>
+    <td>Usage/Optimization Direction</td>
   </tr>
   <tr>
     <td>&quot;vector&quot;</td>
@@ -65,10 +65,12 @@ al.scope is a context manager in the `triton.language.extra.ascend` module, spec
 
 ## 3. Constraints
 
-Each kernel has 1 scope for cube and vector, inside them they run in parallel and there are other syncing operations that declare the synchronization between both scopes.
+Each kernel has 1 scope for cube and vector, inside them they run in parallel and there are other syncing operations that declare the sync between both scopes.
 
 - Parallel Execution: Operations within cube and vector scopes execute in parallel.
+
 - Single Scope per Type: Each kernel supports one cube scope and one vector scope (?).
+
 - Explicit Synchronization: Required for data dependencies between scopes using sync operations.
 
 ## 4. Usage Examples
@@ -79,7 +81,7 @@ Each kernel has 1 scope for cube and vector, inside them they run in parallel an
   </tr>
 </table>
 
-## 5. Compilation Output
+## 5. Compilation Output Results
 
 <table>
   <tr>

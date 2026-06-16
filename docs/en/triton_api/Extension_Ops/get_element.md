@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Reads a single element from an input tensor based on the given indices.
+Description: Reads a single element from the input tensor based on the given index.
 Prototype:
 
 ```python
@@ -14,33 +14,33 @@ triton.language.get_element(
 ) -> scalar
 ```
 
-Can be called as a member function of a tensor, e.g., `x.get_element(...)`, which is equivalent to `get_element(x, ...)`.
+It can be called as a member function of a tensor, e.g., `x.get_element(...)`, which is equivalent to `get_element(x, ...)`.
 
 ## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type                | Description                                                    |
-| -------------- | ------------------- | -------------------------------------------------------------- |
-| `src`          | `tensor`            | The source tensor to be accessed                               |
-| `indice`       | `tuple of ints` or `tuple of tensors` | Indices specifying the element position                        |
-| `_builder`     | -                   | Reserved parameter, external invocation not supported          |
-| `_generator`   | -                   | Reserved parameter, external invocation not supported          |
+| Parameter Name | Type | Description |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `src` | `tensor` | The source tensor to be accessed |
+| `indice` | `tuple of ints` or `tuple of tensors` | The index used to specify the element position |
+| `_builder` | - | Reserved parameter, external calls not supported for now |
+| `_generator` | - | Reserved parameter, external calls not supported for now |
 
 Return value:
-`scalar`: A scalar value with the same element type as the `src` tensor
+`scalar`: A scalar value of the same type as the elements of the `src` tensor
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
-|            | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | bf16 | bool |
-| ---------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
-| Ascend A2/A3 | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | ×    |
+| | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
+| Ascend A2/A3 | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | × |
 
 #### 2.2.2 Shape Support
 
-Supports tensors of arbitrary shapes, with the following requirement:
+Supports tensors of arbitrary shape, with the requirement that:
 The length of `indice` must be equal to the number of dimensions of the `src` tensor.
 
 ### 2.3 Special Constraints

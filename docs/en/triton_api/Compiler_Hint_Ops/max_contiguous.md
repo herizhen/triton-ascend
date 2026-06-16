@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-`max_contiguous` is used to declare the contiguity pattern of the input tensor to the compiler, informing the compiler that the first `value` elements of the input tensor are contiguous.
+`max_contiguous` is used to declare the contiguity pattern of an input tensor to the compiler, informing the compiler that the first `value` elements of the input tensor are contiguous.
 
 ```python
 triton.language.max_contiguous(input, values, _builder=None, _semantic=None)
@@ -15,13 +15,13 @@ triton.language.max_contiguous(input, values, _builder=None, _semantic=None)
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `input` | `Tensor` | Required | Input tensor whose memory access has a specific contiguity pattern |
-| `values` | `constexpr[int]` or `list[constexpr[int]]` | Required | Compile-time constant integer (or sequence of integers) describing the contiguity pattern |
+| `values` | `constexpr[int]` or `list[constexpr[int]]` | Required | Compile-time constant integer (or integer sequence) describing the contiguity pattern |
 | `_semantic` | - | - | Reserved parameter, not supported for external calls |
 
 **`values` describes the contiguity characteristics of each dimension, so the dimensionality of `values` must match that of `input`.
 Note the dimension reduction case when the last dimension of `shape` is `1`.**
 
-For example: a two-dimensional `input` corresponds to a general `values` input of `[1,1]`.
+For example: a 2D `input` corresponds to a general `values` parameter of `[1,1]`.
 
 ### 2.2 Type Support
 
@@ -34,7 +34,7 @@ A3:
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Missing community capability and not implementable
 
 Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 
@@ -45,7 +45,7 @@ Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU
 def triton_max_contiguous(A, B, BLOCK_SIZE : tl.constexpr):
     offsets = tl.arange(0, BLOCK_SIZE)
     val = tl.load(A + offsets)
-    # Declare that the first BLOCK_SIZE elements in offsets are contiguous
+    # Declare that the first BLOCK_SIZE elements in offset are contiguous
     input_data = tl.max_contiguous(val, [BLOCK_SIZE])
 
     # The compiler can generate more efficient memory access instructions

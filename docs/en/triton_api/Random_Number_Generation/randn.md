@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Given 1 seed scalar and 1 offset block, returns 1 random block of float32 type following the standard normal distribution **N**(**0**,**1**).
+Description: Given 1 seed scalar and 1 offset block, returns 1 random block of float32 type that follows the standard normal distribution **N**(**0**,**1**).
 Prototype:
 
 ```python
@@ -13,15 +13,15 @@ triton.language.randn(
 )
 ```
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type                | Description                                                             |
-| -------------- | ------------------- | ----------------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`   | Seed used for generating random numbers                                 |
-| `offset`       | `int` or `tensor`   | Offset used for generating random numbers                               |
-| `n_rounds`     | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm                     |
+| Parameter Name | Type               | Description                                                    |
+| -------------- | ------------------ | -------------------------------------------------------------- |
+| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                        |
+| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                      |
+| `n_rounds`     | `constexpr`, default 10 | Number of iterations for the Philox algorithm                  |
 
 Return Value:
 1 random block of float32 type, with the same shape as `offset`, whose values follow the standard normal distribution `N(0, 1)`
@@ -30,7 +30,7 @@ Return Value:
 
 #### 2.2.1 DataType Support
 
-Input seed type:
+Supported types for input seed:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
@@ -42,11 +42,11 @@ No special requirements
 
 ### 2.3 Special Constraints
 
-> Relative community capability missing and cannot be implemented
+> Missing community capability and cannot be implemented
 
 ### 2.4 Usage Example
 
-The following example demonstrates the invocation of `randn`:
+The following example demonstrates the usage of `randn`:
 
 ```python
 import math

@@ -8,19 +8,19 @@ Description: This function computes the element-wise floor of `x`.
 triton.language.floor(x, _semantic=None)
 ```
 
-## 2. Specification
+## 2. Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type     | Description                                                    |
-| ------------ | -------- | -------------------------------------------------------------- |
-| `x`          | `tensor` | Tensor data                                                    |
-| `_semantic`  | -        | Reserved parameter, not supported for external calls currently |
+| Parameter      | Type       | Description                                                    |
+| -------------- | ---------- | -------------------------------------------------------------- |
+| `x`            | `tensor`   | Tensor data                                                    |
+| `_semantic`    | -          | Reserved parameter, not supported for external calls           |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor `x`
+`x`: The output tensor has the same shape as the input tensor `x`.
 
-### 2.2 OP Specification
+### 2.2 OP Specifications
 
 #### 2.2.1 DataType Support
 
@@ -29,7 +29,7 @@ Return value:
 | GPU          | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | √    | √    | ×    | ×    |
 | Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Compared to GPU, Ascend lacks fp64 support but adds fp16 and bf16 support.
+Conclusion: Compared to GPU, Ascend lacks support for fp64 but adds support for fp16 and bf16.
 torch_npu supports u8.
 
 #### 2.2.2 Shape Support
@@ -39,11 +39,11 @@ torch_npu supports u8.
 | GPU          | Only supports 1~5D tensors |
 | Ascend A2/A3 | Only supports 1~5D tensors |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Relative community capability gaps that cannot be implemented
+> Community capability gaps that cannot be implemented
 
 None.
 

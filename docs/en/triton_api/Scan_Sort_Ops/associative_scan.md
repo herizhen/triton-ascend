@@ -22,9 +22,9 @@ triton.language.associative_scan(input, axis, combine_fn, reverse=False, _semant
 | `_generator` | `Optional[Generator]` | Reserved parameter, currently not supported for external calls |
 
 Return value:
-`tensor`: The tensor after applying the associative scan operation along the specified axis, using the `combine_fn` function to combine elements and update the carry value.
+`tensor`: The tensor after applying the associative scan operation to the input tensor along the specified axis, using the `combine_fn` function to combine elements and update the carry value.
 
-### 2.2 Supported Specifications
+### 2.2 Support Specification
 
 #### 2.2.1 DataType Support
 
@@ -39,8 +39,8 @@ Conclusion: There is no difference in Shape support between GPU and Ascend platf
 
 ### 2.3 Special Limitations
 
-> Relative community capability missing and cannot be implemented
-> `reverse=True` applies the associative scan in the reverse direction along the axis. This functionality requires `tl.load` to align data loading, meaning no mask is used to filter out excess data indices, as shown in the example code below:
+> Missing functionality compared to the community, currently unimplementable
+> `reverse=True` indicates whether to apply the associative scan in the reverse direction along the axis. This feature requires `tl.load` to align data loading, meaning no mask is used to filter out excess data indices, as shown in the example code below:
 
 ```python
     tl.static_assert(
@@ -55,9 +55,9 @@ Conclusion: There is no difference in Shape support between GPU and Ascend platf
     x = tl.load(in_ptr0 + idx)
 ```
 
-### 2.4 Usage Example
+### 2.4 Usage
 
-The following example demonstrates performing an `associative_scan` operation on a 2D shape tensor:
+The following example demonstrates performing an `associative_scan` operation on a 2D tensor:
 
 ```python
 

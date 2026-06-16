@@ -2,21 +2,21 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise exponential of `x`.
+Description: Computes the element-wise exponential of x.
 
-## 2. Specifications
+## 2. Specification
 
 ### 2.1 Parameter Description
 
 | Parameter Name | Type       | Description                                                    |
 | -------------- | ---------- | -------------------------------------------------------------- |
 | `x`            | `tensor`   | Tensor data                                                    |
-| `_semantic`    | -          | Reserved parameter, not supported for external calls currently |
+| `_semantic`    | -          | Reserved parameter, currently not supported for external calls |
 
-Return Value:
-`x`: Output tensor with the same shape as the input tensor `x`
+Return value:
+`x`: The output tensor has the same shape as the input tensor `x`.
 
-### 2.2 OP Specifications
+### 2.2 OP Specification
 
 #### 2.2.1 DataType Support
 
@@ -39,7 +39,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Relative community capability gaps that cannot be implemented
 
 None.
 

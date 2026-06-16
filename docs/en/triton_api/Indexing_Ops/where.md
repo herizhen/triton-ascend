@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Returns the value of tensor `x` or `y` based on the condition. When the condition is true, the value of `x` is returned; otherwise, the value of `y` is returned.
+Description: Returns the value of tensor `x` or `y` based on the condition. When the condition is true, returns the value of `x`; otherwise, returns the value of `y`.
 
 ```python
 triton.language.where(condition, x, y, _semantic=None)
@@ -12,45 +12,45 @@ triton.language.where(condition, x, y, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                        |
-| -------------- | ------------------ | ------------------------------------------------------------------ |
-| `condition`    | `tensor(bool)`     | Tensor data                                                        |
-| `x`            | `tensor`           | Tensor data                                                        |
-| `y`            | `tensor`           | Tensor data                                                        |
-| `_semantic`    | -                  | Reserved parameter, external calls not supported currently         |
+| Parameter    | Type               | Description                                                      |
+| ------------ | ------------------ | ---------------------------------------------------------------- |
+| `condition`  | `tensor(bool)`     | Tensor data                                                      |
+| `x`          | `tensor`           | Tensor data                                                      |
+| `y`          | `tensor`           | Tensor data                                                      |
+| `_semantic`  | -                  | Reserved parameter, currently not supported for external calls   |
 
-Return Value:
+Return value:
 `out`: The shape of the output tensor is the same as the shape of the input `x`.
 
 ### 2.2 OP Specifications
 
 #### 2.2.1 DataType Support
 
-|                | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| -------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU            | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | √    |
-| Ascend A2/A3   | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | √    |
+| Ascend A2/A3 | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
 
-Conclusion: Compared to GPU, Ascend lacks support for uint and fp64 types.
+Conclusion: Compared to GPU, Ascend lacks support for `uint` and `fp64` types.
 
 #### 2.2.2 Shape Support
 
-|                | Supported Dimension Range |
-| -------------- | ------------------------- |
-| GPU            | Supports only 1~5D tensors |
-| Ascend A2/A3   | Supports only 1~5D tensors |
+|        | Supported Dimension Range |
+| ------ | ------------------------- |
+| GPU    | Only supports 1~5D tensors |
+| Ascend A2/A3 | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Relative community capability missing and cannot be implemented
 
-Compared to GPU, Ascend lacks support for uint and fp64 types.
+Compared to GPU, Ascend lacks support for `uint` and `fp64` types.
 
 ### 2.4 Usage Example
 
-The following example performs element-wise selection based on the condition `X < Y`: when the condition is true, it takes the element from `X`; otherwise, it takes the constant `1`.
+The following example selects element-wise based on the condition `X < Y`: when the condition is true, it takes the element from `X`; otherwise, it takes the constant `1`.
 
 ```python
 @triton.jit

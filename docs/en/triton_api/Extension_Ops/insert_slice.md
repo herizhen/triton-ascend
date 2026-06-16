@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Inserts a tensor (sub-tensor) into another tensor at a specified position, i.e., inserts one tensor into another according to the offset, size, and stride parameters specified by the operation.
+Description: Inserts a tensor (sub-tensor) into a specified position of another tensor, i.e., inserting one tensor into another according to the specified offset, size, and stride parameters.
 Prototype:
 
 ```python
@@ -23,16 +23,16 @@ triton.language.insert_slice(
 
 | Parameter    | Type             | Description                                                      |
 | ------------ | ---------------- | ---------------------------------------------------------------- |
-| `ful`        | `tensor`         | Target tensor to receive the insertion                           |
-| `sub`        | `tensor`         | Sub-tensor to be inserted, whose shape must match the shape specified by the `sizes` parameter |
-| `offsets`    | `tuple of ints`  | Starting offsets (per dimension) for insertion into the `ful` tensor |
-| `sizes`      | `tuple of ints`  | Size of the insertion region (per dimension)                     |
-| `strides`    | `tuple of ints`  | Stride of the insertion region (per dimension)                   |
-| `_builder`   | -                | Reserved parameter, not supported for external calls             |
-| `_generator` | -                | Reserved parameter, not supported for external calls             |
+| `ful`        | `tensor`         | The target tensor to receive the insertion                       |
+| `sub`        | `tensor`         | The sub-tensor to be inserted, whose shape must match the shape specified by the `sizes` parameter |
+| `offsets`    | `tuple of ints`  | Specifies the starting offsets (per dimension) for insertion into the `ful` tensor |
+| `sizes`      | `tuple of ints`  | Specifies the size of the insertion region (per dimension)       |
+| `strides`    | `tuple of ints`  | Specifies the stride of the insertion region (per dimension)     |
+| `_builder`   | -                | Reserved parameter, currently not supported for external calls   |
+| `_generator` | -                | Reserved parameter, currently not supported for external calls   |
 
 Return value:
-`tensor`: New tensor after inserting the sub-tensor
+`tensor`: A new tensor after inserting the sub-tensor
 
 ### 2.2 Supported Specifications
 
@@ -78,6 +78,6 @@ def triton_kernel(x_ptr, y_ptr, output_ptr, n_elements, BLOCK_SIZE: tl.constexpr
     tl.store(output_ptr + offsets, output, mask=mask)
 ```
 
-## 3. Semantic Gap
+## 3. Semantic GAP
 
 No semantic differences

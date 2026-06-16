@@ -23,7 +23,7 @@ Used as a built-in operator of `tensor`, e.g., `x<y`.
 | :---: | :---: | :---: |
 | `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
 | `other`   | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | - | Reserved parameter, external calls not supported for now |
+| `_builder` | - | Reserved parameter, external invocation not supported for now |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`

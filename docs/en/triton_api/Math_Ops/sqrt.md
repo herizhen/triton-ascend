@@ -12,10 +12,10 @@ triton.language.sqrt(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type       | Description                                                    |
-| -------------- | ---------- | -------------------------------------------------------------- |
-| `x`            | `tensor`   | Tensor data                                                    |
-| `_semantic`    | -          | Reserved parameter, not supported for external calls           |
+| Parameter      | Type     | Description                                                    |
+| -------------- | -------- | -------------------------------------------------------------- |
+| `x`            | `tensor` | Tensor data                                                    |
+| `_semantic`    | -        | Reserved parameter, not supported for external calls           |
 
 Return value:
 `x`: The output tensor has the same shape as the input tensor `x`.
@@ -43,7 +43,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Relative community capability missing and cannot be implemented
 
 None.
 

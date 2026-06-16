@@ -2,8 +2,8 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise maximum of x and y.
-Function prototype (Triton 3.4.0 version):
+Description: Computes the element-wise maximum of `x` and `y`.
+Function prototype (Triton 3.4.0):
 
 ```python
 triton.language.maximum(x, y, propagate_nan: ~triton.language.core.constexpr = <PROPAGATE_NAN.NONE: 0>, _semantic=None)¶
@@ -45,7 +45,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative community capability missing and cannot be implemented
+> Capabilities missing compared to the community and cannot be implemented
 
 None.
 

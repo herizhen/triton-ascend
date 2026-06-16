@@ -17,12 +17,12 @@ triton.language.store_tensor_descriptor(
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type                              | Description                                                         |
-| ------------ | --------------------------------- | ------------------------------------------------------------------- |
+| Parameter    | Type                              | Description                                                                 |
+| ------------ | --------------------------------- | --------------------------------------------------------------------------- |
 | `desc`       | `tensor_descriptor_base`          | Tensor descriptor object created by `make_tensor_descriptor`, defining the memory layout (shape, strides, block size, etc.). |
-| `offsets`    | `Sequence[constexpr \| tensor]`   | Sequence of starting offsets for data storage, specifying the data location to be stored by the current thread block. |
-| `value`      | `tensor`                          | The tensor data block to be written.                                |
-| `_semantic`  | -                                 | Reserved parameter, not supported for external calls.               |
+| `offsets`    | `Sequence[constexpr \| tensor]`   | Sequence of starting offsets for data storage, specifying the location for the current thread block to store data. |
+| `value`      | `tensor`                          | The tensor data block to be written.                                        |
+| `_semantic`  | -                                 | Reserved parameter, not supported for external calls.                       |
 
 Return value: `tensor` - The actual data block written.
 
@@ -42,13 +42,13 @@ Return value: `tensor` - The actual data block written.
 | GPU    | Only supports 1~5D tensors |
 | Ascend | Only supports 1~5D tensors |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Relative community capability deficiency and unimplementable.
+> Relative community capability deficiency that cannot be implemented.
 
-Conclusion: Ascend lacks support for uint16, uint32, and uint64 compared to GPU (hardware limitation).
+Conclusion: Compared to GPU, Ascend lacks support for uint16, uint32, and uint64 (hardware limitation).
 
 ### 2.4 Usage
 
@@ -66,7 +66,7 @@ desc.store(offsets, value)
 triton.language.store_tensor_descriptor(desc, offsets, value)
 ```
 
-The following example implements in-place absolute value computation on the input tensor `x`:
+The following example implements an in-place absolute value calculation on the input tensor `x`:
 
 ```python
 @triton.jit
@@ -78,7 +78,7 @@ def inplace_abs(in_out_ptr, M, N, M_BLOCK: tl.constexpr, N_BLOCK: tl.constexpr):
         strides=[N, 1],
         block_shape=[M_BLOCK, N_BLOCK],
     )
- # Calculate offsets for the current thread
+ # Calculate the offset for the current thread
     moffset = tl.program_id(0) * M_BLOCK
     noffset = tl.program_id(1) * N_BLOCK
  # Load data, compute absolute value, store result

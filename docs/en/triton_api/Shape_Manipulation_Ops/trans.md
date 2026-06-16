@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Transposes the dimensions of a tensor according to the `dims` parameter, without altering the tensor's data—only the order of dimensions is changed. This is a specially optimized transpose operation.
+Transposes the dimensions of a tensor according to the `dims` parameter, without altering the tensor's data, only changing the order of dimensions. A specially optimized transpose operation.
 
 **Syntax:**
 
@@ -22,14 +22,14 @@ Transposes the dimensions of a tensor according to the `dims` parameter, without
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | input | tensor | Yes | Input tensor |
-| dims | List[int] | Yes | Order of dimensions after transpose |
+| dims | List[int] | Yes | Dimension order after transposition |
 
 **Return Value:**
 
 - **Type:** tensor
 - **Shape:** Dimensions rearranged according to the `dims` parameter
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Transpose achieved by modifying stride information, no data copy
+- **Memory Layout:** Transposition achieved by modifying stride information, no data copy
 
 **Constraints:**
 
@@ -46,9 +46,9 @@ Transposes the dimensions of a tensor according to the `dims` parameter, without
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Restrictions
+### 2.4 Special Limitation Notes
 
-* Transpose for dimensions higher than 8 is not supported
+* Does not support transposition for tensors with more than 8 dimensions
 
 ### 2.5 Usage Example
 
@@ -66,7 +66,7 @@ def trans_example():
 
     return y
 
-## Call example
+## Example call
 result = trans_example()
 print(result.shape)  # Output: (4, 2, 3)
 ```

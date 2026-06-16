@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-The Ascend hardware A5 supports defining new views using only offsets, sizes, and strides, without copying the underlying data.
+The Ascend hardware A5 supports defining new views solely through offsets, sizes, and strides, without copying the underlying data.
 
 ## 2. Interface Description
 
@@ -38,21 +38,21 @@ Return value: bl.buffer
 
 - The input parameters size, offset, and stride must be greater than 0 (offset can be 0), and cannot be negative.
 
-- The size of each dimension must not exceed the size of the original buffer.
+- Each dimension of size must not exceed the corresponding dimension of the original buffer.
 
-- The size of each dimension of the subview must not exceed the size of the original buffer.
+- Each dimension of the subview must not exceed the corresponding dimension of the original buffer.
 
-- The stride access must not exceed the size of src, and all stride elements must be 1.
+- The access pattern defined by strides must not exceed the size of src; all elements of strides must be 1.
 
-- The parameter settings must specify the value for each dimension, and the parameter dimensions must be consistent with the input buffer dimensions.
+- The parameter settings must specify a value for each dimension, and the number of parameter dimensions must match the dimension of the input buffer.
 
 - The offset must be 32-byte aligned.
 
-- The offset of the first point in the second row of the last dimension of the subview must be 32-byte aligned.
+- In the subview, the offset of the first element in the second row of the last dimension must be 32-byte aligned.
 
-Explanation: When using sizes and strides, they are passed as type: List[tl.constexpr] (note: do not mistakenly pass a tensor, otherwise an error will occur - type mismatch). offsets additionally supports tensor input (constexpr can also be passed).
+Explanation: When using sizes and strides, pass them as type `List[tl.constexpr]` (be careful not to pass a tensor, otherwise a type mismatch error will occur). The offsets parameter additionally supports tensor input (constexpr can also be passed).
 
-## 5. Example
+## 5. Usage Example
 
 <table>
   <tr>

@@ -8,19 +8,19 @@ Description: Negates the values of a tensor.
 triton.language.neg(x)
 ```
 
-## 2. Specifications
+## 2. Specification
 
 ### 2.1 Parameter Description
 
 | Parameter Name | Type     | Description                                                    |
 | -------------- | -------- | -------------------------------------------------------------- |
 | `x`            | `tensor` | Tensor data                                                    |
-| `_semantic`    | -        | Reserved parameter, not supported for external calls           |
+| `_semantic`    | -        | Reserved parameter, not supported for external calls currently |
 
 Return value:
-`out`: The output tensor has the same shape as the input tensor `x`.
+`out`: The output tensor has the same shape as the input tensor `x`
 
-### 2.2 OP Specifications
+### 2.2 OP Specification
 
 #### 2.2.1 DataType Support
 
@@ -29,7 +29,7 @@ Return value:
 | GPU          | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | √    |
 | Ascend A2/A3 | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Ascend lacks support for uint, fp64, and bool types compared to GPU.
+Conclusion: Compared to GPU, Ascend lacks support for `uint`, `fp64`, and `bool` types.
 
 #### 2.2.2 Shape Support
 
@@ -42,9 +42,9 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative to community capabilities, missing and unimplemented
+> Capabilities missing relative to the community that cannot be implemented
 
-Ascend lacks support for uint, fp64, and bool types compared to GPU.
+Compared to GPU, Ascend lacks support for `uint`, `fp64`, and `bool` types.
 
 ### 2.4 Usage Example
 

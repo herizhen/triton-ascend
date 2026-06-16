@@ -44,7 +44,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Capabilities missing relative to the community and cannot be implemented
+> Relative community capability gap that cannot be implemented
 
 Due to limitations of the Bisheng compiler, int32, uint8, int64, float64, and bool cannot be implemented.
 

@@ -4,7 +4,7 @@
 triton.autotune(configs, key, prune_configs_by=None, reset_to_zero=None, restore_value=None, pre_hook=None, post_hook=None, warmup=25, rep=100, use_cuda_graph=False)
 ```
 
-A decorator for auto-tuning triton.jit functions.
+Decorator for auto-tuning triton.jit functions.
 
 ```python
 @triton.autotune(configs=[
@@ -18,7 +18,7 @@ def kernel(x_ptr, x_size, **META):
     BLOCK_SIZE = META['BLOCK_SIZE']
 ```
 
-- Note: When all configurations are evaluated, the kernel will run multiple times. That is, any values updated by the kernel will be updated multiple times. To avoid this undesirable behavior, use the `reset_to_zero` parameter, which resets the values of the provided tensors to zero before running any configuration.
+- Note: When all configurations are evaluated, the kernel will run multiple times. This means any values updated by the kernel will be updated multiple times. To avoid this undesired behavior, use the `reset_to_zero` parameter, which resets the provided tensor values to zero before running any configuration.
 - Note: If the environment variable `TRITON_PRINT_AUTOTUNING` is set to `"1"`, Triton will print a message to stdout after each auto-tuned kernel, including the time spent on auto-tuning and the best configuration.
 
 **Parameters:**
@@ -31,10 +31,10 @@ def kernel(x_ptr, x_size, **META):
   - `'early_config_prune'` (optional): A function for early pruning of configurations (e.g., `num_stages`). It takes `configs: List[Config]` as input and returns pruned configurations
 - `reset_to_zero (list[str])` - A list of parameter names that will be reset to zero before any configuration is evaluated.
 - `restore_value (list[str])` - A list of parameter names whose values will be restored after evaluating any configuration.
-- `pre_hook (lambda args, reset_only)` - A function that will be called before invoking the kernel. This parameter overrides the default `pre_hook` of `reset_to_zero` and `restore_value`.
+- `pre_hook (lambda args, reset_only)` - A function that will be called before invoking the kernel. This parameter overrides the default `pre_hook` for `reset_to_zero` and `restore_value`.
   - `args`: The list of arguments passed to the kernel
   - `reset_only`: A boolean indicating whether the `pre_hook` is only used to reset values without a corresponding `post_hook`
-- `post_hook (lambda args, exception)` - A function that will be called after invoking the kernel. This parameter overrides the default `post_hook` of `restore_value`.
+- `post_hook (lambda args, exception)` - A function that will be called after invoking the kernel. This parameter overrides the default `post_hook` for `restore_value`.
   - `args`: The list of arguments passed to the kernel
   - `exception`: The exception raised by the kernel in case of a compilation or runtime error
 - `warmup (int)` - The warmup time (in milliseconds) passed to the benchmark, default is 25.

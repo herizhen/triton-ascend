@@ -15,10 +15,10 @@ triton.language.clamp(x, min, max, propagate_nan: constexpr = PropagateNan.NONE,
 | Parameter Name | Type               | Description                                                      |
 | -------------- | ------------------ | ---------------------------------------------------------------- |
 | `x`            | `tensor`           | Input tensor data                                                |
-| `min`          | `tensor`           | Lower bound (can be a tensor or scalar, broadcast to `x`'s shape)|
-| `max`          | `tensor`           | Upper bound (can be a tensor or scalar, broadcast to `x`'s shape)|
+| `min`          | `tensor`           | Lower bound (can be a tensor or scalar, broadcast to `x`'s shape) |
+| `max`          | `tensor`           | Upper bound (can be a tensor or scalar, broadcast to `x`'s shape) |
 | `propagate_nan`| `triton.language.core.constexpr` | Whether to propagate NaN from min or max                         |
-| `_semantic`    | -                  | Reserved parameter, not supported for external calls             |
+| `_semantic`    | -                  | Reserved parameter, external calls not supported                 |
 
 Return value:
 `x`: Output tensor with the same shape as the input tensor `x`
@@ -36,16 +36,16 @@ Return value:
 
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
-| GPU    | Only supports 1~5D tensors|
-| Ascend | Only supports 1~5D tensors|
+| GPU    | Only supports 1~5D tensors |
+| Ascend | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Relative community capability missing and cannot be implemented
+> Missing capabilities compared to the community that cannot be implemented
 
-Compared to GPU, Ascend lacks fp64 support.
+Ascend lacks fp64 support compared to GPU.
 
 ### 2.4 Usage Example
 

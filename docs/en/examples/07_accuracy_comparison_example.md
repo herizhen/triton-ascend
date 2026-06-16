@@ -11,12 +11,12 @@ Compute Kernel:
 ```Python
 def test_add(x0, x1):
     """
-    Test whether the vector addition implemented by Triton matches the PyTorch result in accuracy comparison.
+    Test whether the vector addition implemented by Triton produces consistent results with PyTorch in terms of accuracy.
 
     Steps:
     1. Compute the reference result using PyTorch (torch_ref)
     2. Write a kernel using Triton and compute the result (triton_cal)
-    3. Call accuracy_comparison for accuracy comparison
+    3. Call accuracy_comparison to perform accuracy comparison
     """
 
     # 1. Use PyTorch as the reference implementation (golden truth)
@@ -46,7 +46,7 @@ def test_add(x0, x1):
     # 3. Triton wrapper function: calls the kernel and returns the result
     def triton_func(x0, x1):
         y0 = torch.empty_like(x0)  # Create an output tensor with the same shape and dtype as input
-        # Launch the kernel: grid = [1, 1, 1] means using only one block
+        # Launch the kernel: grid = [1, 1, 1] indicates using only one block
         # Note: XS must be passed as an argument because it is of type tl.constexpr
         triton_kernel_add[1, 1, 1](y0, x0, x1, XS=x0.numel())
         return y0
@@ -73,9 +73,9 @@ def accuracy_comparison(y_cal, y_ref):
     Accuracy comparison function: selects the appropriate comparison strategy based on data type.
 
     Handling strategies for different data types:
-    - Floating-point types (float16/32, bfloat16): use torch.testing.assert_close with relative/absolute error tolerances
-    - Integer types (int8/16/32/64): require exact equality (torch.equal)
-    - Boolean type (bool): strictly compare on CPU (to avoid device differences)
+    - Floating-point types (float16/32, bfloat16): Use torch.testing.assert_close with relative/absolute error tolerances
+    - Integer types (int8/16/32/64): Require exact equality (torch.equal)
+    - Boolean type (bool): Strict comparison on CPU (to avoid device discrepancies)
     """
     # Check if the output data types are consistent
     assert y_cal.dtype == y_ref.dtype, f"dtype mismatch: {y_cal.dtype} vs {y_ref.dtype}"

@@ -2,24 +2,24 @@
 
 ## Merging Grid Blocks
 
-### I. Principles for Automatic Grid Block Merging Optimization
+### I. Principles for Automatically Merging Grid Blocks
 
-In some scenarios, Triton operators are migrated from GPU to NPU. Due to architectural differences, Triton operators developed for GPU may have a large number of grid blocks. When executing on NPU, they cannot all be scheduled at once, and multiple rounds of dispatch lead to excessive dispatch latency, affecting operator performance. During the optimization of Triton operators for NPU, the number of grid blocks should be checked first. When the number of blocks is large, use the `TRITON_ALL_BLOCKS_PARALLEL` environment variable to improve operator execution performance.
+In some scenarios, Triton operators are migrated from GPU to NPU. Due to architectural differences, Triton operators developed for GPU may have a large number of grid blocks. When executing on NPU, they cannot all be scheduled at once, leading to excessive dispatch latency from multiple rounds of submission, which impacts operator performance. During the optimization of Triton operators for NPU, it is necessary to first check the number of grid blocks. When the number of blocks is large, use the `TRITON_ALL_BLOCKS_PARALLEL` environment variable to improve operator execution performance.
 
 ## Instruction Parallelism Optimization
 
-### I. Core Principles for Instruction Parallelism Optimization
+### I. Core Principles of Instruction Parallelism Optimization
 
-When Triton operators execute on NPU, to improve performance, the NPU provides underlying parallel mechanisms such as multi-buffer and instruction parallelism, which parallelize "data load / data compute / data store" to enhance performance. However, in some scenarios, multi-buffer cannot be enabled, affecting parallelism and reducing operator execution performance. During performance optimization, if such issues exist, refer to the following points for troubleshooting and optimize according to the code examples:
-1. Data dependency exists between data movement and computation, causing synchronization. The MTE movement can only be triggered after Vector computation is complete, resulting in low parallelism.
-2. Within the operator, there are no multiple data loads, or a single execution completes without Tiling. In this scenario, multi-buffer cannot be enabled.
-3. Multi-buffer requires additional UB space. If UB space is insufficient during computation, multi-buffer cannot be enabled.
+When Triton operators execute on NPU, the NPU provides underlying parallel mechanisms such as multi-buffer and instruction parallelism to improve performance by parallelizing "data load / data compute / data store". However, in certain scenarios, multi-buffer cannot be enabled, affecting parallelism and leading to reduced operator execution performance. During performance optimization, if such issues exist, refer to the following points for troubleshooting and optimize according to the code examples:
+1. Data movement and computation have data dependencies, causing synchronization. The MTE transfer can only be triggered after Vector operations are complete, resulting in low parallelism.
+2. Within the operator, there are no multiple data loads or no Tiling after a single execution, making it impossible to enable multi-buffer.
+3. Multi-buffer requires additional UB space usage. If UB space is insufficient during computation, multi-buffer cannot be enabled.
 
 ### II. Code Examples
 
 - Example 1: Reduce Synchronization to Improve Parallelism
 
-    During operator tuning, increasing instruction parallelism is an important method. In the `tl.load` statement below, when `N > M`, the loaded data can only fill part of the tensor memory space pointed to by `data`. For the remaining unfilled part, if the user does not specify an `other` value, GPU defaults to filling with 0. To reduce adaptation work for user migration, NPU maintains behavior consistent with GPU. NPU first uses the Vector core to set the entire memory space pointed to by `data` to the specified value (if the user does not specify `other`, it is also set to 0), and then uses the MTE2 instruction to move data to the partial memory space pointed to by `data`. This creates a dependency between MTE2 and Vector, preventing efficient parallelism and affecting performance:
+    During operator tuning, increasing instruction parallelism is an important method. In the `tl.load` statement below, when `N > M`, the loaded data can only fill part of the tensor memory space pointed to by `data`. For the unfilled portion, if the user does not specify an `other` value, GPU defaults to filling with 0. To reduce adaptation work for user migration, NPU maintains behavior consistent with GPU. NPU first uses Vector cores to set the entire memory space pointed to by `data` to the specified value (if the user does not specify `other`, it is also set to 0), then uses MTE2 instructions to move data to the partial memory space pointed to by `data`. This creates a dependency between MTE2 and Vector, preventing efficient parallelism and impacting performance:
 
     ```diff
     @triton.jit
@@ -32,10 +32,10 @@ When Triton operators execute on NPU, to improve performance, the NPU provides u
         N :tl.constexpr = BLOCK_SIZE
         idx = tl.arange(0, N)
         mask = idx < M
-        data = tl.load(input + idx, mask = mask) # or specify other=-1, etc.
+        data = tl.load(input + idx, mask = mask) # Or specify other=-1, etc.
     ```
 
-    To improve performance, when the loaded data can only partially fill the target memory space, and the unfilled part does not affect subsequent computation results, add `care_padding=False` to the `load` statement to remove the default padding, increase parallelism, and improve performance. The optimized version of the above operator is as follows:
+    To improve performance, when the loaded data only partially fills the pointed memory space and the unfilled portion does not affect subsequent computation results, add `care_padding=False` in the `load` statement to remove the default value filling, increasing parallelism and improving performance. The optimized version of the above operator is as follows:
 
     ```diff
     @triton.jit
@@ -47,13 +47,13 @@ When Triton operators execute on NPU, to improve performance, the NPU provides u
     ):
         idx = tl.arange(0, N)
         mask = idx < M
-    -   data = tl.load(input + idx, mask = mask) # or specify other=-1, etc.
-    +   data = tl.load(input + idx, mask = mask, care_padding=False) # or specify other=-1, etc.
+    -   data = tl.load(input + idx, mask = mask) # Or specify other=-1, etc.
+    +   data = tl.load(input + idx, mask = mask, care_padding=False) # Or specify other=-1, etc.
     ```
 
-- Example 2: Use `for` Loops within Triton Operators to Add Tiling and Improve Parallelism
+- Example 2: Use a for Loop in Triton Operators to Add Tiling and Improve Parallelism
 
-    In Triton operator programming, mask operations are commonly used in syntaxes like `load`, `store`, and `where`. During performance optimization, special attention should be paid to the performance degradation caused by such operations. When the logic within a Triton operator executes sequentially in a single pass (start -> data load -> compute -> data store -> end), instructions cannot be parallelized, resulting in low execution efficiency. By using `for` loops to add Tiling within the operator, the single processing volume can be reduced, and multiple processing passes can parallelize "data load / compute / data store", reducing serial wait time and improving overall performance. Additionally, using `for` loops to add Tiling can also reduce the UB space consumed per processing pass.
+    In Triton operator programming, `mask` operations are often used in syntax like `load`/`store`/`where`. During performance optimization, special attention should be paid to performance degradation caused by such operations. When the logic within a Triton operator is a single sequential execution (start -> data load -> compute -> data store -> end), instructions cannot be parallelized, resulting in low execution efficiency. By using a `for` loop to add Tiling, the single processing volume is reduced, and multiple processing allows "data load / compute / data store" to be parallelized, reducing serial wait time and improving overall performance. Additionally, using a `for` loop to add Tiling also reduces the UB space consumed per single processing.
     Note: Adding data Tiling also requires considering whether the mathematics after changing the data block size remains equivalent.
 
     ```diff
@@ -128,9 +128,9 @@ When Triton operators execute on NPU, to improve performance, the NPU provides u
 
 ## Data Type Optimization
 
-### I. Core Principles for Data Type Optimization
+### I. Core Principles of Data Type Optimization
 
-Some operation types of the A2/A3 vector computation unit do not support certain data types. In such scenarios, the corresponding vector operations degrade to scalar operations, affecting performance. When it is determined that the overall operator precision is not affected, it is recommended to use supported data types to improve performance.
+Some operation types of the A2/A3 vector computation units do not support certain data types. In such scenarios, the corresponding vector operations degrade to scalar operations, impacting performance. When it is confirmed that the overall operator precision is not affected, it is recommended to use supported data types to improve performance.
 The main operations involved are as follows:
 
 | **OP Name** | **Unsupported Data Types** |
@@ -164,8 +164,8 @@ The main operations involved are as follows:
 
 - Vector Cmp Triton Operator Example Code
 
-    In the following Triton operator, the `Cmp` operation is used for mask operations. `Cmp` does not support `int64`/`int32` data types, causing the `cols < N` operation to be expanded into scalar operations, reducing performance. If precision is not affected, it is recommended to use the `fp32` data type.
-    In Triton operator programming, mask operations are commonly used in syntaxes like `load`, `store`, and `where`. During performance optimization, special attention should be paid to the performance degradation caused by such operations.
+    In the following Triton operator, when performing `mask` operations, a `Cmp` operation is used. `Cmp` does not support `int64`/`int32` data types, causing the `cols < N` operation to be expanded into scalar operations, reducing performance. If precision is not affected, it is recommended to use the `fp32` data type.
+    In Triton operator programming, `mask` operations are often used in syntax like `load`/`store`/`where`. During performance optimization, special attention should be paid to performance degradation caused by such operations.
 
     ``` diff
     @triton.jit

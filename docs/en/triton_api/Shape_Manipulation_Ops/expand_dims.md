@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Inserts a dimension of size 1 at the specified axis position, without changing the tensor's data, only increasing the number of dimensions. Supports negative indexing, counting from right to left.
+Inserts a dimension of size 1 at the specified axis position, without changing the tensor data, only increasing the number of dimensions. Supports negative indexing, counting from right to left.
 
 **Syntax:**
 
@@ -12,7 +12,7 @@ Inserts a dimension of size 1 at the specified axis position, without changing t
 **Functionality:**
 
 - Inserts a dimension of size 1 at the specified axis position
-- Does not change the tensor's data, only increases the number of dimensions
+- Does not change the tensor data, only increases the number of dimensions
 - Supports negative indexing, counting from right to left
 
 ## 2 Parameter Specifications
@@ -33,7 +33,7 @@ Inserts a dimension of size 1 at the specified axis position, without changing t
 
 **Constraints:**
 
-- axis must be in the range [-rank-1, rank], where rank is the number of dimensions of the input tensor
+- axis must be within the range [-rank-1, rank], where rank is the number of dimensions of the input tensor
 - The inserted dimension size is fixed to 1
 
 ### 2.2 DataType Support Table
@@ -47,7 +47,7 @@ Inserts a dimension of size 1 at the specified axis position, without changing t
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Limitations
+### 2.4 Special Constraints
 
 None
 
@@ -63,7 +63,7 @@ def expand_dims_example(out_ptr):
     # Create a 2x3 tensor
     x = tl.zeros([2, 3], dtype=tl.float32)
 
-    # Insert dimension at axis=1, resulting in 2x1x3
+    # Insert a dimension at axis=1, resulting in 2x1x3
     y = tl.expand_dims(x, axis=1)
 
     # Write the result back to the external tensor

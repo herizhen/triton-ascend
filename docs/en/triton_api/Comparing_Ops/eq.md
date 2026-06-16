@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Compares elements of two tensors element-wise, equivalent to `==`. Used as a built-in operator of `tensor`, e.g., `x==y`.
+Description: Used to compare elements of two tensors, equivalent to `==`. It is used as a built-in operator of `tensor`, such as `x==y`.
 
 ## 2. OP Specification
 
@@ -26,26 +26,26 @@ Return value:
 | GPU          | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 | Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | √ | √ | × | √ | √ |
 
-Conclusion: Triton-Ascend lacks support for uint8/uint16/uint32/uint64 and fp64 compared to GPU.
+Conclusion: Compared to GPU, Triton-Ascend lacks support for uint8/uint16/uint32/uint64 and fp64.
 
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
 | -------- | -------------------------- |
-| GPU    | No restrictions |
-| Ascend | No restrictions |
+| GPU    | No limit |
+| Ascend | No limit |
 
-Conclusion: There is no difference between GPU and Ascend platforms in terms of shape.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Relative to community capabilities, these are missing and cannot be implemented
 
-Triton-Ascend lacks support for fp64 compared to GPU, and support for uint8/uint16/uint32/uint64 types is under development.
+Compared to GPU, Triton-Ascend lacks support for fp64, and support for uint8/uint16/uint32/uint64 types is under development.
 
 ### 2.4 Usage
 
-The following example demonstrates performing the `==` operation on tensors `x0` and `x1`:
+The following example implements the `==` operation on tensors `x0` and `x1`:
 
 ```python
 @triton.jit

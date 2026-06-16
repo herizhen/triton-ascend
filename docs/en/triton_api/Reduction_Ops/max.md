@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Returns the maximum value along a specified axis.
+Description: Returns the maximum value along the specified axis.
 
 ```python
 triton.language.max(input, axis=None, return_indices=False, return_indices_tie_break_left=True, keep_dims=False)
@@ -15,14 +15,14 @@ triton.language.max(input, axis=None, return_indices=False, return_indices_tie_b
 | Parameter | Type | Description |
 | :---: | :---: | --- |
 | `input` | `tensor` | Input tensor data |
-| `axis`   | `int` | Specifies the dimension along which to reduce; when axis=None, reduces over all axes |
+| `axis`   | `int` | Specifies the axis along which to reduce; when axis=None, reduces along all axes |
 | `keep_dims` | `bool` | Whether to keep the reduced dimensions |
 | `return_indices` | `bool` | If true, returns the index corresponding to the maximum value in addition to the maximum value itself |
-| `return_indices_tie_break_left` | `bool` | If multiple elements have the same maximum value, returns the left-most index for non-NaN values |
+| `return_indices_tie_break_left` | `bool` | If multiple elements have the same maximum value, returns the left-most index for values that aren't NaN |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
-When return_indices=true, the returned index type is fp32.
+When `return_indices = true`, the returned index type is fp32.
 
 Parameter combination support:
 
@@ -59,13 +59,13 @@ Parameter combination support:
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
 | GPU    | No limit |
-| Ascend A2/A3| No limit (default up to 8 dimensions) |
+| Ascend A2/A3| No limit (default max 8 dimensions) |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 Usage Example
+### 2.3 Usage
 
-For more examples, refer to the triton-ascend repository: ascend/examples/generalization_cases/test_max.py
+For more examples, refer to the triton-ascend repository, ascend/examples/generalization_cases/test_max.py
 
 ```@triton.jit
 def triton_max_1d(in_ptr0, out_ptr1, xnumel, XBLOCK : tl.constexpr):

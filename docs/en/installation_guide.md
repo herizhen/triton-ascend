@@ -1,22 +1,22 @@
 # Installation Guide
 
 Choose the appropriate installation method based on your needs and jump to the corresponding steps:
-- **Quick setup with Docker image**: Use the ready-to-use image published by Triton-Ascend to quickly build a development environment. Follow the instructions in [OVERVIEW.zh.md](../../docker/OVERVIEW.zh.md) directly.
-- **Install via pip**: Choose this option to directly try the TA pip package. First, proceed to the next step <a href="#env-prepare">Environment Preparation</a> to complete the prerequisites, then perform the pip installation.
-- **Install from source**: Choose this option if you are a TA developer. First, proceed to the next step <a href="#env-prepare">Environment Preparation</a> to complete the prerequisites, then choose either <a href="#auto-code-base">Quick Installation</a> or <a href="#hand-code-base">Manual Installation</a>.
-- **Install via Dockerfile**: No environment preparation needed; you can jump directly to <a href="#docker-build">Install via Dockerfile</a>.
+- **Quick Setup with Docker Image**: Use the ready-to-use image published by Triton-Ascend to quickly build a development environment. Follow the instructions in [OVERVIEW.zh.md](../../docker/OVERVIEW.zh.md);
+- **Install via pip**: Choose this option to directly try the TA pip package. First, proceed to the next step <a href="#env-prepare">Environment Preparation</a> to complete the prerequisite configuration, then perform the pip installation;
+- **Install from Source**: Choose this option if you are a TA developer. First, proceed to the next step <a href="#env-prepare">Environment Preparation</a> to complete the prerequisite configuration, then choose either <a href="#auto-code-base">Quick Installation</a> or <a href="#hand-code-base">Manual Installation</a>;
+- **Install via Dockerfile**: No environment preparation required; you can jump directly to <a href="#docker-build">Install via Dockerfile</a>.
 
 ## Quick Installation with Docker Image
 
 ### Confirm Device Model
 
-| Chip Series | Product Example                 | Corresponding Tag              |
-|-------------|---------------------------------|--------------------------------|
-| Ascend 910b | Atlas 800T A2, Atlas 900 A2 PoD | 3.2.1-910b-ubuntu22.04-py3.11  |
-| Ascend A3   | Atlas 800T A3                   | 3.2.1-a3-ubuntu22.04-py3.11    |
-| Ascend 950  | 950PR Series                    | 3.2.1-950-ubuntu22.04-py3.11   |
+| Chip Series | Product Example                  | Corresponding Tag               |
+|-------------|----------------------------------|---------------------------------|
+| Ascend 910b | Atlas 800T A2, Atlas 900 A2 PoD  | 3.2.1-910b-ubuntu22.04-py3.11   |
+| Ascend A3   | Atlas 800T A3                    | 3.2.1-a3-ubuntu22.04-py3.11     |
+| Ascend 950  | 950PR Series                     | 3.2.1-950-ubuntu22.04-py3.11    |
 
-Note: For more images, see [OVERVIEW.zh.md](../../docker/OVERVIEW.zh.md).
+Note: See [OVERVIEW.zh.md](../../docker/OVERVIEW.zh.md) for more images.
 
 ### Pull the Image
 
@@ -27,7 +27,7 @@ docker pull quay.io/ascend/{image_tag}
 ### Create a Container
 
 ```bash
-# Assuming your NPU device model is A3, installed on /dev/davinci1, and your NPU driver is installed at /usr/local/Ascend:
+# Assuming your NPU device model is A3, the device is installed at /dev/davinci1, and your NPU driver is installed at /usr/local/Ascend:
 container_name=triton-ascend_container
 image_tag=quay.io/ascend/triton:3.2.1-a3-ubuntu22.04-py3.11
 docker run -u 0 -dit --shm-size=512g --name=${container_name} --net=host --privileged \
@@ -69,7 +69,7 @@ If you see output similar to the following, the environment is set up correctly.
     The maximum difference between torch and triton is 0.0
 ```
 
-## Three Other Installation Methods
+## Other Three Setup Methods
 
 <a id="env-prepare"></a>
 
@@ -77,21 +77,21 @@ If you see output similar to the following, the environment is set up correctly.
 
 #### Python Version Requirements
 
-| Triton-Ascend Version | Supported Python Versions | Notes              |
-|-----------------------|---------------------------|--------------------|
+| Triton-Ascend Version | Supported Python Versions | Notes            |
+|-----------------------|---------------------------|------------------|
 | 3.2.1                 | py3.9 - py3.13            | py3.9 does not support aarch64 |
-| 3.2.0                 | py3.9 - py3.11            |                    |
-| 3.2.0rc4              | py3.9 - py3.11            |                    |
+| 3.2.0                 | py3.9 - py3.11            |                  |
+| 3.2.0rc4              | py3.9 - py3.11            |                  |
 
 #### Install CANN
 
 The heterogeneous computing architecture CANN (Compute Architecture for Neural Networks) is a heterogeneous computing architecture launched by Ascend for AI scenarios. It supports multiple AI frameworks upward, including MindSpore, PyTorch, TensorFlow, etc., and serves AI processors and programming downward, playing a key role in improving the computing efficiency of Ascend AI processors.
 
-You can visit the Ascend community official website and follow the [Community Software Installation Guide](https://www.hiascend.com/cann/download) to complete the installation and configuration of CANN. Developers can find the corresponding installation commands by selecting the CANN version, product series, CPU architecture, operating system, and installation method.
+You can visit the Ascend community official website and follow the [community software installation guide](https://www.hiascend.com/cann/download) to complete the installation and configuration of CANN. Developers can find the corresponding installation command by selecting the CANN version, product series, CPU architecture, operating system, and installation method.
 
 During installation, for the CANN version "**{version}**", please select one of the following versions. It is recommended to download and install version 8.5.0:
 
-- Note: If the user does not specify an installation path, the software will be installed to the default path. The default installation paths are as follows. For root user: `/usr/local/Ascend`, for non-root user: `${HOME}/Ascend`, where `${HOME}` is the current user's home directory.
+- Note: If the user does not specify an installation path, the software will be installed to the default path. The default installation paths are as follows. Root user: `/usr/local/Ascend`, non-root user: `${HOME}/Ascend`, where `${HOME}` is the current user's home directory.
 The above environment variable configuration only takes effect in the current window. Users can write the ```source ${HOME}/Ascend/ascend-toolkit/set_env.sh``` command into the environment variable configuration file (e.g., .bashrc file) as needed.
 
 **CANN Versions:**
@@ -114,13 +114,13 @@ The above environment variable configuration only takes effect in the current wi
 
 #### Install torch_npu
 
-The currently compatible torch_npu version is 2.7.1.post4.
+The corresponding torch_npu version is 2.7.1.post4.
 
 ```bash
 pip install torch_npu==2.7.1.post4
 ```
 
-Note: If you encounter the error `ERROR: No matching distribution found for torch==2.7.1+cpu`, you can try manually installing torch first, then install torch_npu.
+Note: If you encounter the error `ERROR: No matching distribution found for torch==2.7.1+cpu`, try manually installing torch first, then install torch_npu.
 
 ```bash
 pip install torch==2.7.1+cpu --index-url https://download.pytorch.org/whl/cpu
@@ -139,7 +139,7 @@ pip install triton-ascend==3.2.1 --extra-index-url=https://triton-ascend.osinfra
 ```
 
 - Note: For triton-ascend 3.2.0 and below, Triton-Ascend and Triton cannot coexist. You need to uninstall the community Triton first, then install Triton-Ascend.<br>
-For triton-ascend 3.2.1 and above, Triton-Ascend mitigates the installation override issue by declaring Triton as an installation dependency.
+For triton-ascend 3.2.1 and above, Triton-Ascend mitigates the installation overwrite issue by declaring Triton as an installation dependency.
 When installing Triton-Ascend, the community Triton is installed first, then Triton-Ascend overwrites the same-named directory, thus preventing other packages that depend on Triton from reinstalling Triton and overwriting Triton-Ascend later.
 The reason x86 and arm use different versions of the community Triton installation package is that the community only started providing arm version packages from version 3.5 onwards: x86 depends on triton==3.2.0, arm depends on triton==3.5.0.
 
@@ -157,11 +157,11 @@ pip install triton-ascend==3.2.0
 
 ### Install Triton-Ascend from Source
 
-If you need to develop or make custom modifications to Triton-Ascend, you should use the source code compilation and installation method. This approach allows you to adjust the source code according to project requirements and compile and install a customized version of Triton-Ascend.
+If you need to develop or customize Triton-Ascend, you should use the source code compilation and installation method. This approach allows you to modify the source code according to project requirements and compile and install a customized version of Triton-Ascend.
 
-Before building, you need to complete the <a href="#code-require">dependency installation</a> for the relevant build components.
+Before building, you need to complete the <a href="#code-require">dependency installation</a> for the required build components.
 
-We recommend using the <a href="#auto-code-base">Quick Installation</a> method to install Triton-Ascend from source. If you have special requirements, such as the target machine not being able to connect to the internet, you can perform a <a href="#hand-code-base">Manual Installation</a>.
+We recommend using the <a href="#auto-code-base">Quick Installation</a> method to install Triton-Ascend from source; if you have special requirements, such as the target machine not having network access, you can perform a <a href="#hand-code-base">Manual Installation</a>.
 
 #### System Recommendations
 
@@ -178,7 +178,7 @@ We recommend using the <a href="#auto-code-base">Quick Installation</a> method t
 
 ##### Install System Library Dependencies
 
-Install zlib1g-dev/lld/clang. Optionally, install the ccache package to speed up the build.
+Install zlib1g-dev/lld/clang, optionally install the ccache package to speed up the build.
 
 - Recommended version clang >= 15
 - Recommended version lld >= 15
@@ -190,7 +190,7 @@ sudo apt install zlib1g-dev clang-15 lld-15
 sudo apt install ccache # optional
 ```
 
-Triton-Ascend's build strongly depends on zlib1g-dev. If you use a yum source, please refer to the following command to install:
+Building Triton-Ascend has a strong dependency on zlib1g-dev. If you are using a yum repository, please refer to the following command to install:
 
 ```bash
 sudo yum install -y zlib-devel
@@ -220,9 +220,9 @@ pip install -e python
 
 <a id="hand-code-base"></a>
 
-#### Manual Installation - Build Based on LLVM
+#### Manual Installation - Building with LLVM
 
-Triton uses LLVM 22 to generate code for GPU and CPU. Similarly, Ascend's Bisheng Compiler also relies on LLVM to generate NPU code, so you need to compile the LLVM source code to use it. Please pay attention to the specific version of LLVM that is depended upon. LLVM build supports two build methods. **Choose one of the following two methods; no need to execute both.**
+Triton uses LLVM 22 to generate code for GPU and CPU. Similarly, Ascend's Bisheng Compiler also relies on LLVM to generate NPU code, so you need to compile the LLVM source code to use it. Please pay attention to the specific LLVM version dependency. LLVM build supports two build methods. **Choose one of the following two methods**; no need to execute both.
 
 ##### Code Preparation: `git checkout` to Checkout the Specified LLVM Version
 
@@ -252,7 +252,7 @@ Triton uses LLVM 22 to generate code for GPU and CPU. Similarly, Ascend's Bishen
 - Step 3: Execute the following commands to build and install LLVM:
 
   ```bash
-  cd {PATH_TO}/llvm_project # The path where you pulled the LLVM code; adjust as needed
+  cd {PATH_TO}/llvm_project # Path to the directory where LLVM code was pulled; adjust as needed
   mkdir build
   cd build
   cmake ../llvm \
@@ -283,7 +283,7 @@ git clone https://github.com/triton-lang/triton-ascend.git && cd triton-ascend
 
 ##### Build Triton-Ascend
 
-- Step 1: Ensure that the LLVM installation target path ${LLVM_INSTALL_PREFIX} from the [Build Based on LLVM] section is set.
+- Step 1: Ensure that the target installation path ${LLVM_INSTALL_PREFIX} from the [Building with LLVM] section is set.
 - Step 2: Ensure that clang>=15, lld>=15, and ccache are installed.
 
    ```bash
@@ -297,7 +297,7 @@ git clone https://github.com/triton-lang/triton-ascend.git && cd triton-ascend
    ```
 
 Note 1: The recommended GCC version is in the "System Recommendations" section above. If GCC < 9.4.0, you may encounter the error "ld.lld: error: unable to find library -lstdc++fs", indicating that the linker cannot find the stdc++fs library.
-This library is used to support filesystem features in GCC versions prior to 9. In this case, you need to manually uncomment the relevant code snippet in the CMake file:
+This library supports filesystem features before GCC 9. In this case, you need to manually uncomment the relevant code snippet in the CMake file:
 
 triton-ascend/CMakeLists.txt
 
@@ -315,11 +315,11 @@ triton-ascend/CMakeLists.txt
 
 We provide a Dockerfile to help you install the Docker environment image. The build process uses the `quay.io/ascend/cann` pre-built image as the base image, skipping the CANN installation step and significantly speeding up the build.
 
-You need to specify the `CANN_BASE_IMAGE` parameter via `--build-arg` to select the appropriate CANN base image for your machine. Available CANN base image tags can be found at [quay.io/ascend/cann](https://quay.io/repository/ascend/cann?tab=tags).
+You need to specify the `CANN_BASE_IMAGE` parameter via `--build-arg` to select the CANN base image suitable for your machine. Available CANN base image tags can be found at [quay.io/ascend/cann](https://quay.io/repository/ascend/cann?tab=tags).
 
 | CANN Version | Chip Type | Python Version | Image Tag |
 |---|---|---|---|
 | 8.5.0 | `A2` | 3.10 | `8.5.0-910b-ubuntu22.04-py3.10` |
 | 8.5.0 | `A3` | 3.10 | `8.5.0-a3-ubuntu22.04-py3.10` |
 | 8.5.0 | `A2` | 3.11 | `8.5.0-910b-ubuntu22.04-py3.11` |
-| 8.5.
+| 8.5.0 | `A3` | 3.11 | `8.5.0-a

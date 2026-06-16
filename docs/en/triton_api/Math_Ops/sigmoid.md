@@ -12,12 +12,12 @@ triton.language.sigmoid(x)
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type       | Description                          |
-| -------------- | ---------- | ------------------------------------ |
-| `x`            | `tensor`   | Tensor data                          |
+| Parameter | Type     | Description          |
+| --------- | -------- | -------------------- |
+| `x`       | `tensor` | Tensor data          |
 
 Return value:
-`x`: The shape of the output tensor is the same as the input tensor `x`.
+`x`: The output tensor has the same shape as the input tensor `x`.
 
 ### 2.2 OP Specifications
 
@@ -38,17 +38,17 @@ torch_npu supports uint8.
 | GPU    | Only supports 1~5D tensors |
 | Ascend A2/A3 | Only supports 1~5D tensors |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Relative community capability missing and cannot be implemented
+> Missing capabilities relative to the community that cannot be implemented
 
 None.
 
 ### 2.4 Usage Example
 
-The following example demonstrates applying the element-wise sigmoid function to the input tensor `x`:
+The following example demonstrates applying the element-wise sigmoid to the input tensor `x`:
 
 ```python
 @triton.jit

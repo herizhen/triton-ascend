@@ -26,32 +26,32 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|                 | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| --------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU             | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | √    | √    | ×    |
-| Ascend A2/A3    | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | √    | √    | ×    |
+| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Ascend lacks fp64 support compared to GPU.
-Torch supports uint8.
+Conclusion: Compared to GPU, Ascend lacks fp64 support.
+torch supports uint8.
 
 #### 2.2.2 Shape Support
 
-|                 | Supported Dimension Range |
-| --------------- | ------------------------- |
-| GPU             | Only supports 1~5D tensors|
-| Ascend A2/A3    | Only supports 1~5D tensors|
+|        | Supported Dimension Range |
+| ------ | ------------------------- |
+| GPU    | Only supports 1~5D tensors |
+| Ascend A2/A3 | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
-### 2.3 Special Constraints Description
+### 2.3 Special Limitations
 
-> Missing relative to community capabilities and cannot be implemented
+> Missing community capabilities that cannot be implemented
 
 None.
 
 ### 2.4 Usage Example
 
-The following example implements the element-wise fused multiply-add operation on input tensors `x`, `y`, and `z`:
+The following example demonstrates performing an element-wise fused multiply-add operation on input tensors `x`, `y`, and `z`:
 
 ```python
 @triton.jit

@@ -18,10 +18,10 @@ triton.language.multiple_of(input, values, _semantic=None)
 | `values` | `constexpr[int]` or `list[constexpr[int]]` | Required | Declares that the input values are multiples of these numbers (a single integer or a sequence of integers per dimension) |
 | `_semantic` | - | - | Reserved parameter, not supported for external calls |
 
-**`values` describes the divisibility characteristics of the first value in each dimension, so the dimensionality of `values` must match that of `input`.
-Note the dimension reduction that occurs when the last dimension of `shape` is `1`.**
+**`values` describes the divisibility characteristics of the first value in each dimension, so the dimension of `values` must match the dimension of `input`.
+Note the dimension reduction when the last dimension of `shape` is `1`.**
 
-For example: A two-dimensional `input` corresponds to a general `values` input of `[1,1]`.
+For example: A 2D `input` corresponds to a general `values` parameter of `[1,1]`.
 
 ### 2.2 Type Support
 
@@ -30,11 +30,11 @@ A3:
 | | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 |------|-------|-------|-------|-------|--------|--------|--------|-------|------|------|------|------|------|
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | × | × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
+| Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | ×| × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
 
 ### 2.3 Special Limitations
 
-> Relative community capability is missing and cannot be implemented
+> Missing community capabilities that cannot be implemented
 
 Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 

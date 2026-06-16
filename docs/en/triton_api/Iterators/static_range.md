@@ -17,7 +17,7 @@ triton.language.static_range(arg1, arg2=None, step=None, _semantic=None)
 | `arg1` | `constexpr` | Required | Start value (when used as a single parameter, it serves as the end value, starting from 0) |
 | `arg2` | `constexpr` | - | End value (exclusive) |
 | `step` | `constexpr` | `1` | Step increment per iteration |
-| `_semantic` | - | - | Reserved parameter, not supported for external calls |
+| `_semantic` | - | - | Reserved parameter, external calls not supported |
 
 ### 2.2 Type Support
 

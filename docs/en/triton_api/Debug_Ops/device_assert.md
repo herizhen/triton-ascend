@@ -1,6 +1,6 @@
 # triton.language.device_assert
 
-**Using `device_assert` requires setting the environment variable `TRITON_DEBUG` to a non-zero value for it to take effect.**
+**Using `device_assert` requires setting the environment variable `TRITON_DEBUG` to a non-zero value to take effect.**
 
 ## 1. Function Overview
 
@@ -18,7 +18,7 @@ triton.language.device_assert(cond, msg='', _semantic=None)
 |-----------|------|---------|-------------|
 | `cond` | `bool` | Required | The condition expression to assert at runtime |
 | `msg` | `str` | `''` | Error message displayed when assertion fails |
-| `_semantic` | - | - | Reserved parameter, not supported for external calls currently |
+| `_semantic` | - | - | Reserved parameter, not supported for external calls |
 
 ### 2.2 Type Support
 

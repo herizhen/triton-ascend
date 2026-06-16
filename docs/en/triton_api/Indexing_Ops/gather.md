@@ -19,12 +19,12 @@ triton.language.gather(
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                    |
-| -------------- | ------------------ | -------------------------------------------------------------- |
-| `src`          | `tensor`           | The tensor on which the gather operation is performed          |
-| `index`        | `tensor`           | The indices to gather                                          |
-| `axis`         | `int`              | The dimension along which to perform the gather operation      |
-| `_semantic`    | -                  | Reserved parameter, external calls are not supported           |
+| Parameter Name | Type       | Description                                              |
+| -------------- | ---------- | -------------------------------------------------------- |
+| `src`          | `tensor`   | The tensor on which the gather operation is performed    |
+| `index`        | `tensor`   | The indices for gathering                                |
+| `axis`         | `int`      | The dimension along which to perform the gather operation|
+| `_semantic`    | -          | Reserved parameter, external calls not supported         |
 
 Return value: `tensor`: The result after the gather operation
 
@@ -32,27 +32,27 @@ Return value: `tensor`: The result after the gather operation
 
 #### 2.2.1 DataType Support
 
-|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU           | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | √    | √    | ×    |
-| Ascend A2/A3  | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
+|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU          | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | √    | √    | ×    |
+| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Compared to GPU, Ascend lacks support for fp64 (hardware limitation).
+Conclusion: Ascend lacks fp64 support compared to GPU (hardware limitation).
 
 #### 2.2.2 Shape Support
 
-|               | Supported Dimension Range |
-| ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+|              | Supported Dimension Range |
+| ------------ | ------------------------- |
+| GPU          | Only supports 1~5D tensors|
+| Ascend A2/A3 | Only supports 1~5D tensors|
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Relative to community capabilities that are missing and cannot be implemented
+> Capabilities missing compared to the community and cannot be implemented
 
-- Compared to GPU, Ascend lacks support for fp64 (hardware limitation).
+- Ascend lacks fp64 support compared to GPU (hardware limitation).
 
 ### 2.4 Usage
 

@@ -15,9 +15,9 @@ triton.language.reduce(input, axis, combine_fn, keep_dims=False, _semantic=None,
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `input` | `Tensor` or `tuple of Tensor` | Input tensor, can be a single tensor or a tuple of tensors |
-| `axis` | `int` or `None` | The dimension along which to perform the reduce operation. If None, all dimensions are reduced |
+| `axis` | `int` or `None` | The dimension along which to perform the reduce operation. If None, reduce all dimensions |
 | `combine_fn` | `Callable` | Function to combine two groups of scalar tensors (must be decorated with `@triton.jit`) |
-| `keep_dims` | `bool` | If True, keeps the reduced dimension with length 1 |
+| `keep_dims` | `bool` | If True, keep the reduced dimensions as length 1 |
 | `_semantic` | `Optional[str]` | Reserved parameter, not supported for external calls |
 | `_generator` | `Optional[Generator]` | Reserved parameter, not supported for external calls |
 
@@ -37,16 +37,16 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
 > Relative community capability missing and cannot be implemented
-> `keep_dims=True` requires more testing scenarios to determine full support. Currently tested for 3D dim=2, `keep_dims=True` is supported.
+> `keep_dims=True` requires testing more specifications to determine full support. Currently tested with 3D dim=2, `keep_dims=True` is supported.
 
 ### 2.4 Usage Example
 
-The following example demonstrates reduce computation on a 2D tensor, with `combine_fn` using simple addition:
+The following example implements reduce computation on a 2D tensor, using simple addition as the `combine_fn`:
 
 ```python
 @triton.jit

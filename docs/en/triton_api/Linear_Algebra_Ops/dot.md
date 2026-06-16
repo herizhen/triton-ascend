@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Performs matrix multiplication on two tensors. The tensors must be 2D or 3D with consistent dimensions. For 3D blocks, `tl.dot` performs batch matrix multiplication, where the first dimension of each block represents the batch dimension.
+Description: Performs matrix multiplication on two tensors. Tensors must be 2D or 3D with consistent dimensions. For 3D blocks, `tl.dot` performs batch matrix multiplication, where the first dimension of each block represents the batch dimension.
 Prototype:
 
 ```python
@@ -15,10 +15,10 @@ triton.language.dot(input, other, acc=None, input_precision=None, allow_tf32=Non
 
 | Parameter Name | Type                | Description                                                             |
 | ------------- | ----------------- | -------------------------------------------------------------- |
-| `input`        | `int8 fp16 bf16 fp32`     |     First input, 2D or 3D tensor. To avoid overflow, the value range is limited to -5 to 5.     |                                                       |
-| `other`       | `int8 fp16 bf16 fp32`     |     Second input, 2D or 3D tensor. To avoid overflow, the value range is limited to -5 to 5.    |                                                   |
-| `acc`           | `int32  float32`    | Accumulator tensor. If not None, the result is added to this tensor. Supported `acc_dtype` includes {:code:`float16`, :code:`float32`, :code:`int32`} |
-| `input_precision`   | -                 |  Available options for NVIDIA. Determines whether Tensor Cores acceleration is enabled by selecting the precision mode.    |
+| `input`        | `int8 fp16 bf16 fp32`     | First input, 2D or 3D tensor. Value range limited to -5 to 5 to avoid overflow.     |                                                       |
+| `other`       | `int8 fp16 bf16 fp32`     | Second input, 2D or 3D tensor. Value range limited to -5 to 5 to avoid overflow.    |                                                   |
+| `acc`           | `int32  float32`    | Tensor storing accumulation results. If not None, the result is added to this tensor. Supported `acc_dtype`: {:code:`float16`, :code:`float32`, :code:`int32`} |
+| `input_precision`   | -                 | Available options for NVIDIA. Determines whether to enable Tensor Cores acceleration by selecting a precision mode.    |
 | `max_num_imprecise_acc`     | `int`    | Number of low-precision accumulations (currently not supported on Ascend). |
 | `out_dtype`     | `fp32  int32`    | Output result type.|
 
@@ -40,16 +40,16 @@ Conclusion: Compared to GPU, Ascend lacks support for `uint8`, `uint16`, `uint32
 
 |        | Supported Dimension Range          |
 | ------ | --------------- |
-| GPU    | Unlimited |
-| Ascend A2/A3 |Unlimited  |
+| GPU    | No restrictions |
+| Ascend A2/A3 | No restrictions  |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
+Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
 - Compared to GPU, Ascend lacks support for `uint8`, `uint16`, `uint32`, `uint64`, and `fp64` (hardware limitation).
 
-- `acc` does not support `fp16`. For precision, the hardware defaults to `fp32`.
+- `acc` does not support `fp16`; the hardware defaults to `fp32` for precision.
 
 - `max_num_imprecise_acc` is currently not supported.
 
@@ -57,7 +57,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.4 Usage Example
 
-The following example implements matrix multiplication on input tensors `x_ptr, y_ptr`. Refer to `ascend/examples/generalization_cases/test_matmul.py`:
+The following example performs matrix multiplication on input tensors `x_ptr, y_ptr`. Refer to `ascend/examples/generalization_cases/test_matmul.py`:
 
 ```@triton.jit
 def matmul_kernel(

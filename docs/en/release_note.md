@@ -1,6 +1,6 @@
 # Triton-Ascend Version Release
 
-The Triton-Ascend version provides a stable codebase snapshot, packaged into binary distributions that can be easily installed via PyPI. Additionally, version releases allow the development team to formally announce to the community the availability of new features, completed improvements, and changes that may affect users (e.g., breaking changes).
+The Triton-Ascend version provides a stable codebase snapshot, packaged as binary wheels that can be easily installed via PyPI. Additionally, version releases allow the development team to formally announce to the community the availability of new features, completed improvements, and changes that may impact users (e.g., breaking changes).
 
 ## Release Compatibility Matrix
 
@@ -38,12 +38,12 @@ Triton-Ascend 3.2.0 is the first Triton version to officially support Huawei Asc
 
 3. **Developer Tools**
    - Comprehensive debug output support
-   - Intermediate compilation artifact dumping
+   - Compilation intermediate product dump
 
 #### Known Limitations
 
 1. **Data Types**: Support for some data types is still under development
-2. **Operator Coverage**: The supported operator set is continuously being expanded
+2. **Operator Coverage**: The supported operator set is being continuously expanded
 
 #### Migration Guide
 

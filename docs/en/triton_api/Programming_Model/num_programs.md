@@ -24,7 +24,7 @@ A `tl.tensor` containing the number of program instances launched.
 
 #### 2.2.1 DataType Support
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | × | × | √ | × | × | × | × | × | × | × | × | × | × |
 | Ascend A2/A3 | × | × | √ | × | × | × | × | × | × | × | × | × | × |
@@ -35,7 +35,7 @@ No relevant settings.
 
 ### 2.3 Special Constraints
 
-None
+None.
 
 ### 2.4 Usage
 

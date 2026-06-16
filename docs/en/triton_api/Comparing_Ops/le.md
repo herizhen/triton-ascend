@@ -23,7 +23,7 @@ Used as a built-in operator of `tensor`, e.g., `x<=y`.
 | :---: | :---: | :---: |
 | `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
 | `other`   | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | - | Reserved parameter, external calls not supported for now |
+| `_builder` | - | Reserved parameter, external calls not supported |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -32,17 +32,17 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 | Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | √ | √ | × | √ | √ |
 
-Conclusion: Compared to GPU, Triton-Ascend currently does not support uint8/uint16/uint32/uint64, and fp64.
+Conclusion: Compared to GPU, Triton-Ascend does not support uint8/uint16/uint32/uint64, fp64.
 
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | -------------------------- |
+| -------- | ---------------------- |
 | GPU    | No restrictions |
 | Ascend A2/A3| No restrictions |
 
