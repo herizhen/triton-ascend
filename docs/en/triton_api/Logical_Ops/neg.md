@@ -16,13 +16,13 @@ x.__neg__()
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type       | Description                                                    |
-| -------------- | ---------- | -------------------------------------------------------------- |
-| `x`            | `tensor`   | Tensor data                                                    |
-| `_semantic`    | -          | Reserved parameter, external invocation not supported          |
+| Parameter Name | Type     | Description                                                  |
+| -------------- | -------- | ------------------------------------------------------------ |
+| `x`            | `tensor` | Tensor data                                                  |
+| `_semantic`    | -        | Reserved parameter, external calls not supported yet          |
 
-Return Value:
-`out`: The output tensor has the same shape as the input tensor `x`.
+Return value:
+`out`: The output tensor has the same shape as the input tensor `x`
 
 ### 2.2 OP Specifications
 
@@ -44,9 +44,9 @@ Conclusion: Compared to GPU, Ascend lacks support for uint, fp64, and bool types
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
-### 2.3 Special Limitation Notes
+### 2.3 Special Limitations
 
-> Relative community capability missing and cannot be implemented
+> Capabilities missing compared to the community and cannot be implemented
 
 Compared to GPU, Ascend lacks support for uint, fp64, and bool types.
 

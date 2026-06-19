@@ -17,12 +17,12 @@ triton.language.range(arg1, arg2=None, step=None, num_stages=None, loop_unroll_f
 | `arg1` | `int` / `constexpr` | Required | Start value (when single parameter, acts as end value, starting from 0) |
 | `arg2` | `int` / `constexpr` | - | End value (exclusive) |
 | `step` | `int` / `constexpr` | `1` | An integer, the step increment per iteration |
-| `num_stages` | `int` | - | Number of pipeline stages (number of concurrently executed iterations) |
+| `num_stages` | `int` | - | Number of pipeline stages (number of iterations executed concurrently) |
 | `loop_unroll_factor` | `int` | - | Loop unroll factor (<2 means no unrolling) |
-| `disallow_acc_multi_buffer` | `bool` | `False` | Disable multi-buffer optimization for dot operation accumulators |
-| `flatten` | `bool` | `False` | Automatically flatten nested loops into a single loop |
-| `warp_specialize` | `bool` | `False` | Enable warp specialization (Blackwell GPU only) |
-| `disable_licm` | `bool` | `False` | Disable loop-invariant code motion optimization |
+| `disallow_acc_multi_buffer` | `bool` | `False` | Disables multi-buffer optimization for dot operation accumulators |
+| `flatten` | `bool` | `False` | Automatically flattens nested loops into a single loop |
+| `warp_specialize` | `bool` | `False` | Enables warp specialization (Blackwell GPU only) |
+| `disable_licm` | `bool` | `False` | Disables loop-invariant code motion optimization |
 | `_semantic` | - | - | Reserved parameter, external calls not supported yet |
 
 ### 2.2 Type Support

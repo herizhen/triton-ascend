@@ -15,7 +15,7 @@ triton.language.topk(x, k, dim: constexpr | None = None)
 | Parameter | Type | Description |
 | --------- | ---- | ----------- |
 | `x` | `tensor` | Input tensor |
-| `k` | `int` | Number of top elements to return, must be a power of 2 |
+| `k` | `int` | Number of top elements to return; must be a power of 2 |
 | `dim` | `constexpr int` or `None` | Dimension along which to find the top k elements; this parameter must be determined at compile time; if `None`, the last dimension is used; currently only the last dimension is supported |
 
 Return value:
@@ -44,9 +44,9 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative community capability gap that cannot be implemented
+> Relative community capability gaps that cannot be implemented
 
-Due to limitations of the Bisheng compiler, int32, uint8, int64, float64, and bool cannot be implemented.
+Due to Bisheng compiler limitations, int32, uint8, int64, float64, and bool cannot be implemented.
 
 Currently, `topk` only returns the maximum values; switching to return minimum values via parameters is not supported.
 `dim` only supports the last dimension.
@@ -54,7 +54,7 @@ Currently, `topk` only returns the maximum values; switching to return minimum v
 
 ### 2.4 Usage Example
 
-The following example demonstrates taking the top `k` largest elements along the last dimension of the input tensor `x`:
+The following example demonstrates taking the top `k` largest elements from the input tensor `x` along the last dimension:
 
 ```python
 @triton.jit

@@ -12,9 +12,9 @@ triton.language.zeros_like(input)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type      | Description                          |
-| -------------- | --------- | ------------------------------------ |
-| `input`        | `Tensor`  | Input tensor                         |
+| Parameter Name | Type      | Description                        |
+| -------------- | --------- | ---------------------------------- |
+| `input`        | `Tensor`  | Input tensor                       |
 
 Return Value:
 `tensor`: Returns a tensor of zeros with the same shape and type as the given tensor.
@@ -23,10 +23,10 @@ Return Value:
 
 #### 2.2.1 DataType Support
 
-|            | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-| ---------- | ----- | ---- | ------ | ----- | ------ | ----- | ------ | ----- | ---- | ---- | ---- | --------- |
-| Ascend A2/A3 | ✓   | ✓    | ×      | ✓     | ×      | ✓     | ×      | ✓     | ✓    | ✓    | ✓    | ×         |
-| GPU Support | ✓   | ✓    | ✓      | ✓     | ✓      | ✓     | ✓      | ✓     | ✓    | ✓    | ✓    | ×         |
+|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+|---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
+| Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | × |
+| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × |
 
 #### 2.2.2 Shape Support
 
@@ -34,7 +34,7 @@ Conclusion: There is no difference in Shape support between GPU and Ascend platf
 
 ### 2.3 Special Limitations
 
-> Community capability gaps that cannot be implemented
+> Missing capabilities relative to the community that cannot be implemented
 > None
 
 ### 2.4 Usage Example

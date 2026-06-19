@@ -18,7 +18,7 @@ triton.language.clamp(x, min, max, propagate_nan: constexpr = PropagateNan.NONE,
 | `min`          | `tensor`           | Lower bound (can be a tensor or scalar, broadcast to `x`'s shape) |
 | `max`          | `tensor`           | Upper bound (can be a tensor or scalar, broadcast to `x`'s shape) |
 | `propagate_nan`| `triton.language.core.constexpr` | Whether to propagate NaN from min or max                         |
-| `_semantic`    | -                  | Reserved parameter, external calls not supported                 |
+| `_semantic`    | -                  | Reserved parameter, not supported for external calls             |
 
 Return value:
 `x`: Output tensor with the same shape as the input tensor `x`
@@ -43,7 +43,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Missing capabilities compared to the community that cannot be implemented
+> Missing capability relative to the community and cannot be implemented
 
 Ascend lacks fp64 support compared to GPU.
 

@@ -42,13 +42,13 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Relative community capability missing and unimplementable
 
 None.
 
 ### 2.4 Usage Example
 
-The following example demonstrates applying the element-wise sigmoid to the input tensor `x`:
+The following example demonstrates applying the element-wise sigmoid function to the input tensor `x`:
 
 ```python
 @triton.jit

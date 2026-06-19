@@ -12,12 +12,12 @@ triton.language.fma(x, y, z, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                    |
-| -------------- | ------------------ | -------------------------------------------------------------- |
-| `x`            | `tensor`           | Tensor data                                                    |
-| `y`            | `tensor`           | Tensor data                                                    |
-| `z`            | `tensor`           | Tensor data                                                    |
-| `_semantic`    | -                  | Reserved parameter, external calls not supported temporarily   |
+| Parameter     | Type              | Description                                                    |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `x`           | `tensor`          | Tensor data                                                    |
+| `y`           | `tensor`          | Tensor data                                                    |
+| `z`           | `tensor`          | Tensor data                                                    |
+| `_semantic`   | -                 | Reserved parameter, external calls not supported for now       |
 
 Return value:
 `z`: A tensor with the same shape as `z`
@@ -32,20 +32,20 @@ Return value:
 | Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
 Conclusion: Compared to GPU, Ascend lacks fp64 support.
-torch supports uint8.
+Torch supports uint8.
 
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
 | GPU    | Only supports 1~5D tensors |
-| Ascend A2/A3 | Only supports 1~5D tensors |
+| Ascend A2/A3| Only supports 1~5D tensors |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Missing relative to community capabilities and cannot be implemented
 
 None.
 

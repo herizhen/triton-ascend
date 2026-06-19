@@ -8,10 +8,10 @@ Description: Modulo operation, arithmetic operator '%'
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type                | Description                                                             |
-| -------------- | ------------------- | ----------------------------------------------------------------------- |
-| `self`         | `tensor or Number`  | First input parameter, dividend                                         |
-| `other`        | `tensor or Number`  | Second input parameter, divisor                                         |
+| Parameter    | Type                | Description                                                  |
+| ------------ | ------------------- | ------------------------------------------------------------ |
+| `self`       | `tensor or Number`  | First input, dividend                                        |
+| `other`      | `tensor or Number`  | Second input, divisor                                        |
 
 Return value:
 `tl.tensor`: Result of the modulo operation
@@ -30,13 +30,13 @@ Return value:
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
 | GPU    | No restrictions           |
-| Ascend A2/A3 | No restrictions           |
+| Ascend A2/A3 | No restrictions    |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Usage Example
 
-The following example demonstrates performing modulo calculation on input tensors `in_ptr0, in_ptr1`:
+The following example demonstrates performing a modulo calculation on input tensors `in_ptr0, in_ptr1`:
 
 ```python
 @triton.jit

@@ -18,7 +18,7 @@ Can be called as a member function of a tensor, e.g., `x.abs()`, which is equiva
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
 | `x` | `tensor` | Tensor data |
-| `_semantic` | - | Reserved parameter, not supported for external calls |
+| `_semantic`   | - | Reserved parameter, currently not supported for external calls |
 
 Return value:
 `out`: A tensor with the same shape as `x`
@@ -39,7 +39,7 @@ Return value:
 | GPU    | No restrictions |
 | Ascend | No restrictions |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
+Conclusion: There is no difference between GPU and Ascend platforms in terms of shape support.
 
 ### 2.3 Special Limitations
 
@@ -47,7 +47,7 @@ Triton-Ascend does not support fp64 compared to GPU.
 
 ### 2.4 Usage Example
 
-The following example demonstrates performing the absolute value operation on the input tensor `x`:
+The following example demonstrates performing absolute value computation on the input tensor `x`:
 
 ```python
 @triton.jit

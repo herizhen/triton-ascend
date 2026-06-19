@@ -8,17 +8,17 @@ An object representing a kernel configuration that autotuning may try.
 
 **Variables:**
 
-- **kwargs** – A dictionary of 1 metaparameter, to be passed as keyword arguments to the kernel.
+- kwargs – A dictionary of 1 meta-argument, to be passed as keyword arguments to the kernel.
 
-- **num_warps** – The number of warps used by the kernel when compiled for a GPU. For example, if num_warps=8, each kernel instance will be automatically parallelized to execute cooperatively using 8 * 32 = 256 threads.
+- num_warps – The number of warps to use when the kernel is compiled for GPU. For example, if num_warps=8, each kernel instance will be automatically parallelized to use 8 * 32 = 256 threads executing cooperatively.
 
-- **num_stages** – The number of stages the compiler should use when software-pipelining loops. Useful for matrix multiplication workloads on SM80+ GPUs.
+- num_stages – The number of stages the compiler should use when software-pipelining loops. Useful for matrix multiplication workloads on SM80+ GPUs.
 
-- **num_ctas** – The number of blocks in a block cluster. Only supported on SM90+.
+- num_ctas - The number of blocks in a block cluster. Only supported on SM90+.
 
-- **maxnreg** – The maximum number of registers a single thread can use. Corresponds to the `.maxnreg` directive in PTX. Not supported on all platforms.
+- maxnreg - The maximum number of registers a single thread can use. Corresponds to the .maxnreg directive in ptx. Not supported on all platforms.
 
-- **pre_hook** – A function that will be called before the kernel is invoked. The function's argument is `args`.
+- pre_hook – A function that will be called before the kernel is invoked. The function's argument is args.
 
 ```python
 __init__(self, kwargs, num_warps=4, num_stages=2, num_ctas=1, maxnreg=None, pre_hook=None)

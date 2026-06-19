@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise error function of `x`.
+Description: Computes the element-wise error function of x.
 
 ## 2. Specifications
 
@@ -11,10 +11,10 @@ Description: Computes the element-wise error function of `x`.
 | Parameter Name | Type       | Description                                                    |
 | -------------- | ---------- | -------------------------------------------------------------- |
 | `x`            | `tensor`   | Tensor data                                                    |
-| `_semantic`    | -          | Reserved parameter, not supported for external calls currently |
+| `_semantic`    | -          | Reserved parameter, not supported for external calls           |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor `x`
+`x`: The output tensor has the same shape as the input tensor `x`.
 
 ### 2.2 OP Specifications
 
@@ -42,7 +42,7 @@ Ascend lacks fp64 support compared to GPU but adds support for fp16 and bf16.
 
 ### 2.4 Usage Example
 
-The following example demonstrates element-wise error computation on the input tensor `x`:
+The following example demonstrates computing the element-wise error function for the input tensor `x`:
 
 ```python
 @triton.jit

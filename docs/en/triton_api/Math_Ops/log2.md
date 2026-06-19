@@ -49,7 +49,7 @@ None.
 
 ### 2.4 Usage Example
 
-The following example demonstrates computing the element-wise base-2 logarithm of the input tensor `x`:
+The following example demonstrates element-wise base-2 logarithm computation on the input tensor `x`:
 
 ```python
 @triton.jit

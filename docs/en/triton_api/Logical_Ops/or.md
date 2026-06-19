@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the bitwise OR operation of two elements.
+Description: Computes the bitwise OR of two elements.
 
 ```python
 # Via operator
@@ -16,11 +16,11 @@ x.__or__(y)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type     | Description                                                    |
-| -------------- | -------- | -------------------------------------------------------------- |
-| `x`            | `tensor` | Tensor data                                                    |
-| `y`            | `tensor` | Tensor data                                                    |
-| `_semantic`    | -        | Reserved parameter, external invocation not supported for now   |
+| Parameter Name | Type               | Description                                                    |
+| -------------- | ------------------ | -------------------------------------------------------------- |
+| `x`            | `tensor`           | Tensor data                                                    |
+| `y`            | `tensor`           | Tensor data                                                    |
+| `_semantic`    | -                  | Reserved parameter, external invocation not supported          |
 
 Return value:
 `out`: A tensor with the same shape as `x` and `y`
@@ -29,19 +29,19 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU          | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
-| Ascend A2/A3 | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
+|                | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| -------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU            | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3   | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
 
 Conclusion: Compared to GPU, Ascend lacks support for uint types.
 
 #### 2.2.2 Shape Support
 
-|              | Supported Dimension Range |
-| ------------ | ------------------------- |
-| GPU          | Only supports 1~5D tensors |
-| Ascend A2/A3 | Only supports 1~5D tensors |
+|                | Supported Dimension Range |
+| -------------- | ------------------------- |
+| GPU            | Only supports 1~5D tensors |
+| Ascend A2/A3   | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
@@ -53,7 +53,7 @@ Compared to GPU, Ascend lacks support for uint types.
 
 ### 2.4 Usage Example
 
-The following example computes the element-wise OR operation of two input tensors:
+The following example computes the element-wise OR of two input tensors:
 
 ```python
 @triton.jit

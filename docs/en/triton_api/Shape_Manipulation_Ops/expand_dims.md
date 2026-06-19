@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Inserts a dimension of size 1 at the specified axis position, without changing the tensor data, only increasing the number of dimensions. Supports negative indexing, counting from right to left.
+Inserts a dimension of size 1 at the specified axis position, without changing the tensor's data, only increasing the number of dimensions. Supports negative indexing, counting from right to left.
 
 **Syntax:**
 
@@ -12,7 +12,7 @@ Inserts a dimension of size 1 at the specified axis position, without changing t
 **Functionality:**
 
 - Inserts a dimension of size 1 at the specified axis position
-- Does not change the tensor data, only increases the number of dimensions
+- Does not change the tensor's data, only increases the number of dimensions
 - Supports negative indexing, counting from right to left
 
 ## 2 Parameter Specifications
@@ -33,13 +33,13 @@ Inserts a dimension of size 1 at the specified axis position, without changing t
 
 **Constraints:**
 
-- axis must be within the range [-rank-1, rank], where rank is the number of dimensions of the input tensor
+- axis must be in the range [-rank-1, rank], where rank is the number of dimensions of the input tensor
 - The inserted dimension size is fixed to 1
 
 ### 2.2 DataType Support Table
 
-| Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:----:|:----:|:------:|:---:|
+| Supported | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|-----------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -74,7 +74,7 @@ def expand_dims_example(out_ptr):
     )
     tl.store(out_ptr + offs, y)
 
-## Example call
+## Call example
 out = torch.empty((2, 1, 3), dtype=torch.float32, device="npu")
 expand_dims_example[(1,)](out)
 print(out.shape)  # Output: torch.Size([2, 1, 3])

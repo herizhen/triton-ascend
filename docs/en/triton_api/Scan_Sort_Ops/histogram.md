@@ -23,15 +23,15 @@ Can be called as a member function of a tensor, e.g., `x.histogram(...)`, which 
 
 | Parameter Name | Type               | Description                                                        |
 | -------------- | ------------------ | ------------------------------------------------------------------ |
-| `input`        | `tensor`           | Input data, containing all numerical points whose distribution is to be counted |
+| `input`        | `tensor`           | Input data containing all numerical points for distribution statistics |
 | `num_bins`     | `int`              | Defines how many equal-width intervals the entire data range is divided into |
 | `mask`         | `int1` or `tensor<int1>`, optional | Specifies the data range to prevent out-of-bounds access |
 | `_semantic`    | -                  | Reserved parameter, external calls not supported yet               |
 | `_generator`   | -                  | Reserved parameter, external calls not supported yet               |
 
 Return value:
-A histogram represented as a tensor.
-Note: The current triton 3.2 version does not support `mask`; support will be added in a future version. The `input` range is limited to [0, num_bins-1]; full range support will be added in a future version.
+Histogram represented as a tensor
+Note: The current triton 3.2 version does not support `mask` yet; support will be added in future versions. The input range is limited to `[0, num_bins-1]`; full range support will be added in future versions.
 
 ### 2.2 Supported Specifications
 
@@ -44,11 +44,11 @@ Note: The current triton 3.2 version does not support `mask`; support will be ad
 
 #### 2.2.2 Shape Support
 
-Currently only supports 1D.
+Currently only supports 1D
 
 ### 2.3 Special Limitations
 
-> Feature missing compared to the community and cannot be implemented
+> Missing capabilities compared to the community, and cannot be implemented
 
 ### 2.4 Usage Example
 
@@ -70,4 +70,4 @@ histogram_kernel[(1, )](x, z, M=M, N=N)
 
 ## 3. Semantic GAP
 
-> Feature missing compared to the community but can be developed and supported
+> Missing capabilities compared to the community, but can be developed and supported

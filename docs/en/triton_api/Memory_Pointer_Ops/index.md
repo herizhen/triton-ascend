@@ -2,8 +2,8 @@
 
 |api|Brief Description|
 |--|--|
-|[load](./tl.load.md) |Returns a tensor whose values are loaded from the memory location defined by the pointer|
-|[store](./tl.store.md) |Stores a data tensor to the memory location defined by the pointer|
+|[load](./tl.load.md) |Returns a tensor whose values are loaded from the memory location defined by a pointer|
+|[store](./tl.store.md) |Stores a data tensor to the memory location defined by a pointer|
 |[make_block_ptr](./tl.make_block_ptr.md) |Returns a pointer to a block within the parent tensor|
 |[advance](./tl.advance.md) |Advances a block pointer|
 |[load_tensor_descriptor](./load_tensor_descriptor.md) | Loads a data block from a tensor descriptor |

@@ -6,7 +6,7 @@ Through this process, you will learn:
 - The basic programming pattern of Triton.
 - The `triton.jit` decorator used to define Triton kernels.
 
-Compute Kernel:
+Computation kernel:
 
 ```bash
 import torch
@@ -24,9 +24,9 @@ def add_kernel(x_ptr,  # Pointer to the first input vector.
                BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.
                # Note: `constexpr` marks the variable as a constant.
                ):
-    # Different data is processed by different "programs", so we need to assign:
+    # Different data is processed by different "processes", so allocation is needed:
     pid = tl.program_id(axis=0)  # Using a 1D launch grid, so axis is 0.
-    # This program will process inputs offset relative to the initial data.
+    # This program will process inputs relative to the initial data offset.
     # For example, if there is a vector of length 256 with a block size of 64, the programs will access elements [0:64, 64:128, 128:192, 192:256] respectively.
     # Note that offsets are a list of pointers:
     block_start = pid * BLOCK_SIZE
@@ -57,10 +57,10 @@ def add(x: torch.Tensor, y: torch.Tensor):
     grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']), )
     # NOTE:
     #  - Each torch.tensor object is implicitly converted to a pointer to its first element.
-    #  - `triton.jit` functions can be indexed by the launch grid to obtain a callable NPU kernel.
+    #  - The `triton.jit` function can be indexed by the launch grid to obtain a callable NPU kernel.
     #  - Don't forget to pass meta-parameters as keywords.
     add_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)
-    # Return the handle to z.
+    # Return the handle for z.
     return output
 ```
 

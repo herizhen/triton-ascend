@@ -1,6 +1,6 @@
 # Fused Attention
 
-This section implements a **Triton**-based **Flash Attention v2 style fused attention forward kernel**, targeting the Ascend NPU platform. This implementation supports:
+This section implements a **Flash Attention v2 style fused attention forward kernel** based on **Triton**, suitable for the Ascend NPU platform. This implementation supports:
 
 - **Causal and non-causal attention**
 - **Tiled computation for long sequences**
@@ -9,7 +9,7 @@ This section implements a **Triton**-based **Flash Attention v2 style fused atte
 The overall structure consists of two core Triton kernels:
 
 1. `_attn_fwd_inner`: Performs attention computation for a single query block with key/value blocks (processes causal mask in stages)
-2. `_attn_fwd`: Schedules all query blocks, managing block pointers, accumulators, and normalization
+2. `_attn_fwd`: Schedules all query blocks and manages block pointers, accumulators, and normalization
 
 It is wrapped as a callable `attention` function via PyTorch `autograd.Function`, and validated for precision alignment with `torch_npu.npu_fusion_attention`.
 
@@ -305,4 +305,4 @@ attention = _attention.apply
     (2, 2, 128, 256, False, torch.float16, 64, 128),
     (4, 32, 64, 64, False, torch.float16, 32, 64),
     (4, 32, 1024, 64, False, torch.bfloat16, 64, 128),
-    (4,
+    (4

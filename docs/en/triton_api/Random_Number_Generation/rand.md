@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Given 1 seed scalar and 1 offset block, returns a random block of float32 type in **U**(**0**,**1**).
+Description: Given 1 seed scalar and 1 offset block, returns 1 random block of float32 type in **U**(**0**,**1**).
 Prototype:
 
 ```python
@@ -19,12 +19,12 @@ triton.language.rand(
 
 | Parameter Name | Type               | Description                                                    |
 | -------------- | ------------------ | -------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`  | Seed for generating random numbers                             |
-| `offset`       | `int` or `tensor`  | Offset for generating random numbers                           |
-| `n_rounds`     | `constexpr`, default value is 10 | Number of iterations for the Philox algorithm |
+| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                        |
+| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                      |
+| `n_rounds`     | `constexpr`, default 10 | Number of iterations for the Philox algorithm                  |
 
 Return Value:
-A random block of float32 type with the same shape as the offset, with values uniformly distributed in the interval `[0.0, 1.0)`
+1 random block of float32 type, with the same shape as the offset, uniformly distributed in the `[0.0, 1.0)` interval
 
 ### 2.2 Supported Specifications
 
@@ -34,7 +34,7 @@ Input seed type:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| Ascend A2/A3 | √    | √     | √     | √     | √    | √     | √     |√     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3 | √    | √     | √     | √     | √      | √     | √      | √     | ×    | ×    | ×    | ×    | √    |
 
 #### 2.2.2 Shape Support
 
@@ -42,7 +42,7 @@ No special requirements
 
 ### 2.3 Special Limitations
 
-> Not supported compared to community capabilities
+> Temporarily not supported compared to community capabilities
 
 ### 2.4 Usage Example
 

@@ -33,12 +33,12 @@ Reinterprets a tensor into a new shape.
 **Constraints:**
 
 - The total number of elements in the input and output tensors must be equal
-- All tensors must not have any dimension size less than 1
+- No tensor is allowed to have a dimension size less than 1
 
 ### 2.2 DataType Support Table
 
 | Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:----:|:----:|:------:|:---:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -46,7 +46,7 @@ Reinterprets a tensor into a new shape.
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Constraint Notes
+### 2.4 Special Constraints
 
 * The can_reorder parameter only supports False
 
@@ -69,7 +69,7 @@ def reshape_example(out_ptr):
     offs = tl.arange(0, 6)[:, None] * 4 + tl.arange(0, 4)[None, :]
     tl.store(out_ptr + offs, y)
 
-## Example call
+## Call example
 out = torch.empty((6, 4), dtype=torch.float32, device="npu")
 reshape_example[(1,)](out)
 print(out.shape)  # Output: torch.Size([6, 4])

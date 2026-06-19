@@ -12,13 +12,13 @@ triton.language.sin(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type      | Description                                                    |
-| ------------ | --------- | -------------------------------------------------------------- |
-| `x`          | `tensor`  | Tensor data                                                    |
-| `_semantic`  | -         | Reserved parameter, not supported for external calls           |
+| Parameter    | Type     | Description                                                    |
+| ------------ | -------- | -------------------------------------------------------------- |
+| `x`          | `tensor` | Tensor data                                                    |
+| `_semantic`  | -        | Reserved parameter, not supported for external calls           |
 
 Return value:
-`x`: The output tensor has the same shape as the input `x`.
+`x`: Output tensor with the same shape as the input `x`
 
 ### 2.2 OP Specifications
 
@@ -43,7 +43,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative community capability missing and cannot be implemented
+> Relative community capability gaps that cannot be implemented
 
 None.
 

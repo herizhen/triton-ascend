@@ -1,18 +1,18 @@
 # Differences Between Ascend and GPU Development
 
-## Multi-Core Task Parallelism Strategy
+## Multi-core Task Parallelism Strategy
 
-NPU uses a physical core binding mode in Triton multi-core parallelism, which fundamentally differs from GPU's logical dimension parallelism with automatic hardware physical mapping.
+NPU uses a physical core binding mode in Triton multi-core parallelism, which fundamentally differs from GPU's logical dimension parallelism + automatic hardware physical mapping mode.
 
 - Core Comparison
 
     |Dimension |GPU (NVIDIA) |Ascend |
     |-----------|--------------|-----------|
-    |Grid Essence| Logical task dimension (decoupled from physical cores)| Physical core group mapping (bound to AI Core topology)|
-    |Core Count / Dimension Limit| No hard limit on grid dimensions/size| Grid size ≤ total AI Core count, 2D must match topology|
+    |grid Essence| Logical task dimension (decoupled from physical cores)| Physical core group mapping (bound to AI Core topology)|
+    |Core Count / Dimension Limit| No hard limit on grid dimension/size| grid size ≤ total AI Core count, 2D must match topology|
 
-GPU: Can bind multiple dimensional axes (3D grid=[n,m,l] equals n×m×l parallel threads), each thread corresponds to one kernel execution, executed only once.\
-NPU: Vector cores and Cube cores belong to multiple physical cores, with different core counts across hardware generations. Each core executes only one Block and supports repeated scheduling of that Block.
+GPU: Can bind multiple dimension axes (3D grid=[n,m,l] equals n×m×l parallel threads), each thread corresponds to one kernel execution, executed only once.\
+NPU: Vector cores and Cube cores belong to multiple physical cores, with different core counts across hardware generations. Each core executes one Block only once, and supports repeated scheduling of that Block.
 
 ### Fully Utilizing Core Count
 
@@ -23,41 +23,41 @@ When calling Triton kernel functions, control the number of cores used by settin
 triton_gelu[n, 1, 1](...)  # First parameter indicates the number of cores used, n means using n cores
 ```
 
-By tuning the core count, you can fully schedule and utilize all computing resources, thereby maximizing parallelism and throughput. Note: In the current version, the core count must be ≤ 65535.
+By tuning the core count, you can fully schedule and utilize all compute resources, maximizing parallelism and throughput. Note: In the current version, the core count must be ≤ 65535.
 
-## Single-Core Data Movement Strategy
+## Single-core Data Movement Strategy
 
 ### Data Tiling
 
-When writing Triton kernel functions, a proper data tiling strategy is crucial for performance optimization. By adjusting different tiling granularity parameters, you can balance computational load and memory access efficiency across different dimensions.
+When writing Triton kernel functions, a proper data tiling strategy is crucial for performance optimization. By adjusting different tiling granularity parameters, you can balance compute load and memory access efficiency across different dimensions.
 
 Common tiling parameters include:
 
 ```text
 ncore: Number of cores used (cross-core tiling)
-xblock: Inter-core data block size (cross-core tiling)
+xblock: Inter-core data block size (inter-core tiling)
 xblock_sub: Intra-core tiling granularity (fine-grained intra-core partitioning)
 ```
 
 Developers can manually select the optimal tiling configuration based on the actual scenario, ensuring each computation fully utilizes on-chip memory and avoids performance bottlenecks caused by frequent global memory access.
 
-Using the GELU operator as an example, adjusting tiling parameters can effectively adapt to on-chip cache capacity limitations, thereby improving execution efficiency.
+Using the GELU operator as an example, adjusting tiling parameters can effectively adapt to on-chip cache capacity limits, thereby improving execution efficiency.
 
-Note: The Atlas 800T/I A2 product has an on-chip memory capacity of 192KB, so this limitation must be considered when designing the tiling strategy to ensure that the data volume per computation round does not exceed the on-chip memory capacity.
+Note: The on-chip memory capacity of the Atlas 800T/I A2 product is 192KB. Therefore, this limit must be considered when designing the tiling strategy to ensure that the data volume per computation round does not exceed the on-chip memory capacity.
 
 #### GELU Operator Example
 
-GELU operator development example, using 3 methods to compute results.
+GELU operator development example, computing results using 3 methods.
 
-standard_unary: Standard Torch computation.
+standard_unary is standard Torch computation.
 
-triton_easy_kernel: Simple Triton implementation.
+triton_easy_kernel is a simple Triton implementation.
 
-triton_better_kernel: More efficient Triton implementation.
+triton_better_kernel is a more efficient Triton implementation.
 
 #### Standard Torch Implementation
 
-Input tensor x0, compute the GELU operator via Torch, return the result value.
+Input tensor x0, compute the GELU operator using Torch, return the result.
 
 ```Python
 def standard_unary(x0):
@@ -81,13 +81,13 @@ def triton_easy_kernel(in_ptr0, out_ptr0, NUMEL: tl.constexpr):
 
 Notes
 
-1. Memory Limitation: In the above implementation, all input data is loaded into memory at once for computation. If the input tensor is too large, it may exceed the on-chip memory capacity of a single kernel, causing memory overflow errors. Therefore, this simple implementation is more suitable for small-scale tensor computations or for understanding the basic syntax and calling methods of Triton kernels.
+1. Memory Limitation: In the above implementation, all input data is loaded into memory at once for computation. If the input tensor is too large, it may exceed the on-chip memory capacity of a single kernel, causing memory overflow errors. Therefore, this simple implementation is more suitable for small-scale tensor computation or for understanding the basic syntax and calling method of Triton kernels.
 
 2. Applicable Scenarios: Although this method helps quickly understand and get started with Triton programming, for large-scale datasets or high-performance applications, it is recommended to adopt more complex data tiling strategies (such as Tiling) to fully utilize hardware resources and avoid memory overflow issues. Through this approach, developers can quickly get started with Triton programming while learning how to define, call, and optimize Triton kernel functions.
 
 #### More Efficient Triton Implementation
 
-When writing high-performance operators using Triton on Ascend NPU, to fully utilize hardware resources, avoid memory overflow, and improve execution efficiency, a data tiling strategy is typically required. Below is an optimized Triton kernel implementation example suitable for large-scale tensor computations.
+When writing high-performance operators using Triton on Ascend NPU, to fully utilize hardware resources, avoid memory overflow, and improve execution efficiency, a data tiling strategy is typically required. Below is an optimized Triton kernel implementation example suitable for large-scale tensor computation.
 
 ```Python
 # Define triton_kernel function
@@ -111,10 +111,10 @@ triton_better_kernel[ncore, 1, 1](x0, out1, x0.numel(), xblock, xblock_sub)
 Key Code Explanation
 
 ```Python
-# Calculate the starting offset address of the data block processed by the current core, achieving cross-core tiling. Each core is only responsible for a data range of XBLOCK size.
+# Calculate the starting offset address of the data block processed by the current core, implementing inter-core tiling. Each core is only responsible for a data range of XBLOCK size.
 xoffset = tl.program_id(0) * XBLOCK
 
-# Further subdivide the data block within a single core, processing XBLOCK_SUB-sized data each time, achieving intra-core tiling.
+# Further subdivide the data block within a single core, processing XBLOCK_SUB size data each time, implementing intra-core tiling.
 for xoffset_sub in range(0, XBLOCK, XBLOCK_SUB):
 
 # Construct the data index array for the current iteration, used to access input and output tensors.
@@ -131,7 +131,7 @@ tl.load() and tl.store()
 
 ### AscendNPU IR Optimization
 
-Compilation options adapted for AscendNPU IR optimization based on Ascend hardware and software characteristics are shown in the table below.
+Compilation options adapted for Ascend NPU IR optimization are listed in the table below.
 **Usage**: Pass the compilation option values during the autotune configuration phase.
 Taking enabling the `multibuffer` option as an example, pass `'multibuffer': True` in the autotune configuration phase, i.e., `triton.Config`. See [autotune example](../examples/06_autotune_example.md) for details:
 
@@ -143,15 +143,15 @@ Taking enabling the `multibuffer` option as an example, pass `'multibuffer': Tru
 
 | Option | Capability | Enabled |
 | ----------------- | ------------ | ----------------- |
-| multibuffer | Enables pipelined parallel data movement | Default true; true, false. Configurable in autotune |
-| unit_flag | An optimization item for Cube data output | Default None; true, false. Configurable in autotune |
-| limit_auto_multi_buffer_only_for_local_buffer | An optimization item for CV operators, an optimization item for Cube data output | Default None; true, false. Configurable in autotune |
-| limit_auto_multi_buffer_of_local_buffer | Specifies the specific scope for enabling double buffer in Cube operators | Default None; ["no-limit", "no-l0c"], configurable in autotune |
+| multibuffer | Enable pipelined parallel data movement | Default true; true, false. Configurable in autotune |
+| unit_flag | An optimization item for Cube output | Default None; true, false. Configurable in autotune |
+| limit_auto_multi_buffer_only_for_local_buffer | An optimization item for CV operators, an optimization item for Cube output | Default None; true, false. Configurable in autotune |
+| limit_auto_multi_buffer_of_local_buffer | Specific scope for enabling double buffer in Cube operators | Default None; ["no-limit", "no-l0c"], configurable in autotune |
 | set_workspace_multibuffer | Only takes effect when limit_auto_multi_buffer_only_for_local_buffer=false | Default None; e.g., [2,4], configurable in autotune |
 | enable_hivm_auto_cv_balance | set_workspace_multibuffer only takes effect when limit_auto_multi_buffer_only_for_local_buffer=false | Default None; true, false. Configurable in autotune |
-| tile_mix_vector_loop | An optimization item for CV operators, specifies how many parts the current vector can be split into | Default None; e.g., [2,4,8], configurable in autotune |
-| tile_mix_cube_loop | An optimization item for CV operators, specifies how many parts the current cube can be split into | Default None; e.g., [2,4,8], configurable in autotune |
-| auto_blockify_size | TRITON_ALL_BLOCKS_PARALLEL optimization item, specifies the size of the expanded first dimension from the left | Default 1; e.g., [2,4,8], configurable in autotune |
+| tile_mix_vector_loop | An optimization item for CV operators, how many parts the current vector can be split into | Default None; e.g., [2,4,8], configurable in autotune |
+| tile_mix_cube_loop | An optimization item for CV operators, how many parts the current cube can be split into | Default None; e.g., [2,4,8], configurable in autotune |
+| auto_blockify_size | TRITON_ALL_BLOCKS_PARALLEL optimization item, used to specify the size of the expanded first dimension from the left. | Default 1; e.g., [2,4,8], configurable in autotune |
 
 - Note: Optimization compilation options are in the ascend/backend/compiler.py code.
 - Note: CV operators refer to operators that use both AI Core and Vector Core during computation.

@@ -15,18 +15,18 @@ triton.language.max(input, axis=None, return_indices=False, return_indices_tie_b
 | Parameter | Type | Description |
 | :---: | :---: | --- |
 | `input` | `tensor` | Input tensor data |
-| `axis`   | `int` | Specifies the axis along which to reduce; when axis=None, reduces along all axes |
+| `axis`   | `int` | Specifies the dimension along which to reduce; when axis=None, reduces over all axes |
 | `keep_dims` | `bool` | Whether to keep the reduced dimensions |
-| `return_indices` | `bool` | If true, returns the index corresponding to the maximum value in addition to the maximum value itself |
-| `return_indices_tie_break_left` | `bool` | If multiple elements have the same maximum value, returns the left-most index for values that aren't NaN |
+| `return_indices` | `bool` | If true, returns the index corresponding to the maximum value in addition to the maximum value |
+| `return_indices_tie_break_left` | `bool` | If multiple elements have the same maximum value, returns the left-most index for values that aren’t NaN |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
-When `return_indices = true`, the returned index type is fp32.
+When return_indices=true, the returned index type is fp32.
 
 Parameter combination support:
 
-| axis | keep_dims | return_indices | return_indices_tie_break_left | Specification |
+| axis | keep_dims | return_indices | return_indices_tie_break_left  | Specification |
 | ------ | ------------ | ----------------- | ----------------------------------- | ---|
 |    1 |    TRUE    |      TRUE      |               TRUE                | Supported |
 |    1 |    TRUE    |      TRUE      |               FALSE                | Supported |
@@ -36,12 +36,12 @@ Parameter combination support:
 |    1 |   FALSE   |      TRUE      |               FALSE                | Supported |
 |    1 |   FALSE   |      FALSE      |               TRUE                | Supported |
 |    1 |   FALSE   |      FALSE      |               FALSE              | Supported |
-| None |    TRUE    |      TRUE      |               TRUE               | Not Supported |
-| None |    TRUE    |      TRUE      |               FALSE              | Not Supported |
-| None |    TRUE    |      FALSE      |               TRUE              | Supported |
+| None |    TRUE    |      TRUE      |               TRUE               | Not supported |
+| None |    TRUE    |      TRUE      |               FALSE              | Not supported |
+|  None |    TRUE    |      FALSE      |               TRUE              | Supported |
 | None |    TRUE    |      FALSE      |               FALSE              | Supported |
-| None |   FALSE   |      TRUE      |               TRUE                | Not Supported |
-| None |   FALSE   |      TRUE      |               FALSE               | Not Supported |
+| None |   FALSE   |      TRUE      |               TRUE                | Not supported |
+| None |   FALSE   |      TRUE      |               FALSE               | Not supported |
 | None |   FALSE   |      FALSE      |               TRUE              | Supported |
 | None |   FALSE   |      FALSE      |               FALSE             | Supported |
 
@@ -59,9 +59,9 @@ Parameter combination support:
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
 | GPU    | No limit |
-| Ascend A2/A3| No limit (default max 8 dimensions) |
+| Ascend A2/A3| No limit (default up to 8 dimensions) |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Usage
 
@@ -77,4 +77,4 @@ def triton_max_1d(in_ptr0, out_ptr1, xnumel, XBLOCK : tl.constexpr):
 
 ### 2.4 Special Limitations
 
-Compared to GPU, Ascend A3 does not support uint16, uint32, uint64, fp64.
+Ascend A3 does not support uint16, uint32, uint64, or fp64 compared to GPU.

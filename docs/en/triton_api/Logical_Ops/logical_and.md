@@ -10,14 +10,14 @@ x.logical_and(y)
 
 Called as a member function of `tensor`, e.g., `x0.logical_and(x1)`.
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
-| `input` | `tensor` | Tensor data, left operand, represents the primary data for comparison |
-| `other`   | `tensor` | Tensor data, right operand, performs element-wise logical AND with `input` |
+| `input` | `tensor` | Tensor data, left operand, representing the primary data for comparison |
+| `other` | `tensor` | Tensor data, right operand, performs element-wise logical AND with `input` |
 | `_builder` | - | Reserved parameter, external invocation not supported |
 
 Return value:
@@ -27,7 +27,7 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | × | × | × | × | × | × | × | × | × | × | × | × | √ |
 | Ascend A2/A3 | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | × | √ | √ |
@@ -37,7 +37,7 @@ Conclusion: In terms of DataType, Ascend additionally supports integer and float
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | ---------------------- |
+| -------- | -------------------------- |
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
@@ -45,7 +45,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Not yet supported compared to community capabilities
+> Not supported compared to community capabilities
 
 None.
 

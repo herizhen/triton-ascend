@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Performs element-wise logical NOT on a tensor (0 becomes 1, non-zero becomes 0). Corresponds to Python's `not` keyword — Triton handles this specially through an AST visitor, rewriting `not X` as `X.__not__()`. This differs from bitwise inversion `~X` (see [invert](./invert.md)): the former is logical NOT, while the latter is bitwise flip.
+Description: Performs element-wise logical NOT on a tensor (0 becomes 1, non-zero becomes 0). Corresponds to Python's `not` keyword — Triton handles this through an AST visitor, rewriting `not X` as `X.__not__()`. This differs from bitwise inversion `~X` (see [invert](./invert.md)): the former is logical NOT, while the latter is bitwise flip.
 
 ```python
 # Via the not keyword (Triton AST interception)
@@ -16,13 +16,13 @@ x.__not__()
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                        |
-| -------------- | ------------------ | ------------------------------------------------------------------ |
-| `x`            | `tensor`           | Tensor data                                                        |
-| `_semantic`    | -                  | Reserved parameter, external invocation not supported yet           |
+| Parameter Name | Type       | Description                                                    |
+| -------------- | ---------- | -------------------------------------------------------------- |
+| `x`            | `tensor`   | Tensor data                                                    |
+| `_semantic`    | -          | Reserved parameter, external invocation not supported yet      |
 
-Return Value:
-`out`: Output tensor has the same shape as input tensor `x`
+Return value:
+`out`: The output tensor has the same shape as the input tensor `x`.
 
 ### 2.2 OP Specification
 
@@ -46,13 +46,13 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Community capability gap that cannot be implemented
+> Capabilities missing relative to the community and cannot be implemented.
 
 None at present.
 
 ### 2.4 Usage Example
 
-The following example performs element-wise bitwise inversion on input tensor `x`:
+The following example performs element-wise bitwise inversion on the input tensor `x`:
 
 ```python
 @triton.jit

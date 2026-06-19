@@ -18,7 +18,7 @@ triton.language.program_id(axis)
 | `axis` | `int` | Axis of the 3D launch grid. Must be 0, 1, or 2 |
 
 Return value:
-A `tl.tensor` composed of the axis values
+A `tl.tensor` consisting of the axis value
 
 ### 2.2 Supported Specifications
 
@@ -31,7 +31,7 @@ A `tl.tensor` composed of the axis values
 
 #### 2.2.2 Shape Support
 
-No relevant settings
+Not applicable
 
 ### 2.3 Special Constraints
 

@@ -48,7 +48,7 @@ Ascend A3 lacks support for uint16, uint32, uint64, and fp64 compared to GPU
 
 ### 2.4 Usage Examples
 
-Refer to the triton-ascend code repository for more examples: ascend/examples/generalization_cases/test_argmax.py
+For more examples, refer to the triton-ascend code repository, ascend/examples/generalization_cases/test_argmax.py
 
 ```@triton.jit
 def triton_argmax_1d(in_ptr0, out_ptr1, xnumel, XBLOCK: tl.constexpr):

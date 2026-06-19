@@ -14,7 +14,7 @@ where:
 - `z` (bias) has shape `(A, C)`
 - The output `output` has shape `(A, C)`
 
-This kernel assumes a single block is responsible for computing the entire output matrix, making it suitable for small-scale matrices (where A, B, C are small and can be fully covered by the current program block).
+This kernel assumes that a single block is responsible for computing the entire output matrix, making it suitable for small-scale matrices (where A, B, C are small and can be fully covered by the current program block).
 
 ```python
 import pytest
@@ -72,7 +72,7 @@ def torch_dot_Bias(x0, x1, bias):
     return res
 
 def get_torch_typename(dtype):
-    """Maps a string data type to the corresponding torch.dtype."""
+    """Maps a string-form data type to the corresponding torch.dtype."""
     if dtype == 'float32':
         tyname = torch.float32
     elif dtype == 'int32':
@@ -107,7 +107,7 @@ def generate_tensor(shape, dtype):
         raise ValueError('Invalid parameter \"dtype\" is found : {}'.format(dtype))
 
 def validate_cmp(dtype, y_cal, y_ref):
-    """Compares Triton computation results with PyTorch reference results on NPU, using tolerance or strict equality based on data type."""
+    """Compares Triton computation results with PyTorch reference results on NPU, setting tolerances or strict equality based on data type."""
     y_cal=y_cal.npu()
     y_ref=y_ref.npu()
     if dtype == 'float16':
@@ -147,10 +147,10 @@ def test_dot_2_Bias(sigtype, A, B, C):
     x0 = generate_tensor(shape=(A, B), dtype=sigtype).npu()
     x1 = generate_tensor(shape=(B, C), dtype=sigtype).npu()
 
-    # Bias is generated using float32 uniformly (to avoid precision issues with integer bias)
+    # Bias term generated uniformly with float32 (to avoid precision issues with integer bias)
     if 'int' in sigtype:
         bias = generate_tensor(shape=(A, C), dtype='int32').npu()
-        # Integer inputs need to be converted to float32 for computation, then converted back to target type
+        # Integer inputs need to be converted to float32 for computation, then back to target type
         ans = torch_dot_Bias(x0.to(torch.float32), x1.to(torch.float32), bias.to(torch.float32)).to(dtype)
     else:
         bias = generate_tensor(shape=(A, C), dtype='float32').npu()
@@ -178,4 +178,4 @@ if __name__ == "__main__":
 Test matmul with dtype=float16, shape=(16,16,16) PASSED!
 ```
 
-The output log above indicates that the results from Triton and PyTorch are exactly consistent.
+The output log above indicates that the results from Triton and PyTorch are completely consistent.

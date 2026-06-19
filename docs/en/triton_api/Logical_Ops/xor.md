@@ -5,7 +5,7 @@
 Description: Computes the XOR of two elements.
 
 ```python
-# Using the operator
+# Via operator
 x ^ y
 
 # Or by directly calling the dunder method
@@ -22,7 +22,7 @@ x.__xor__(y)
 | `y`            | `tensor`   | Tensor data                                                    |
 | `_semantic`    | -          | Reserved parameter, external calls not supported for now       |
 
-Return Value:
+Return value:
 `out`: A tensor with the same shape as `x` and `y`
 
 ### 2.2 OP Specifications

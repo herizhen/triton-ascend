@@ -2,7 +2,7 @@
 
 ## 1. Installation and Environment Configuration
 
-**Q: How to properly install Triton-Ascend? Does it support direct pip installation?**
+**Q: How to correctly install Triton-Ascend? Does it support direct pip installation?**
 
 A: You can install it directly using pip.
 
@@ -14,8 +14,8 @@ pip install triton-ascend
 
 A: For triton-ascend 3.2.0 and below, no. You need to uninstall the community Triton first, then install Triton-Ascend.<br>
 For triton-ascend 3.2.1 and above, Triton-Ascend mitigates the installation override issue by declaring Triton as an installation dependency.
-When installing Triton-Ascend, the community Triton is installed first, and then Triton-Ascend overwrites the same-named directory, thus preventing subsequent installations of other packages that depend on Triton from overwriting Triton-Ascend.
-The reason x86 and arm use different versions of the community Triton installation package is that the community only provides arm version packages starting from version 3.5: x86 depends on triton==3.2.0, arm depends on triton==3.5.0.
+When installing Triton-Ascend, the community Triton is installed first, and then Triton-Ascend overwrites the directory with the same name, thus preventing subsequent installations of other packages that depend on Triton from overwriting Triton-Ascend.
+The reason x86 and arm use different versions of the community Triton installation package is that the community only started providing arm version packages from version 3.5 onwards: x86 depends on triton==3.2.0, arm depends on triton==3.5.0.
 
 - Note: If, after installing triton-ascend, you install a third-party package that depends on triton, or triton itself, it will overwrite the installed Triton-Ascend directory.
 In this case, you need to uninstall both the community Triton and Triton-Ascend, then reinstall Triton-Ascend.
@@ -32,7 +32,7 @@ A: No, Triton-Ascend can only be used in an Ascend NPU hardware environment.
 
 ## 2. Accuracy and Numerical Consistency Issues
 
-**Q: The NPU execution result is inconsistent with the PyTorch/CPU/GPU reference result. How to debug?**
+**Q: The NPU execution results are inconsistent with PyTorch/CPU/GPU reference results. How to troubleshoot?**
 
 A: For examples, please refer to [07_accuracy_comparison_example.md](../zh/examples/07_accuracy_comparison_example.md)
 For debugging methods, please refer to [Interpreter Mode Debugging Method](./debug_guide/debugging.md#4-Interpreter-Mode)
@@ -45,7 +45,7 @@ A: Please refer to [Compilation Error Debugging Method](./debug_guide/debugging.
 
 ## 4. Debugging and Logging
 
-**Q: How to enable verbose log output? Where is TRITON_DEBUG=1 output?**
+**Q: How to enable detailed log output? Where is TRITON_DEBUG=1 output?**
 
 A: You can use TRITON_DEBUG=1 to obtain detailed debug dump files. Please refer to [Debug Dump Files](./debug_guide/debugging.md#32-Debug-Dump-Files)
 
@@ -57,11 +57,11 @@ A: You can use tl.device_print to print tensors in the kernel. Please refer to [
 
 **Q: How to build and test Triton-Ascend locally?**
 
-A: For local build and test methods, please refer to [Installing Triton-Ascend from Source](./installation_guide.md#Installing-Triton-Ascend-from-Source)
+A: For local build and test methods, please refer to [Install Triton-Ascend from Source](./installation_guide.md#Install-Triton-Ascend-from-Source)
 
 **Q: Which CI checks must a PR pass?**
 
-A: The CI checks for a PR include: Code security and specification checks, open-source snippet checks, malicious code checks, compilation and build, and developer tests.
+A: The CI checks for a PR include: Code security and specification checks, Open-source snippet checks, Malicious code checks, Compilation and build, Developer tests
 
 ## 6. Performance Tuning
 

@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Joins two input tensors of the same shape along a new innermost dimension. The output tensor has one more dimension than the input tensors, with a size of 2, while keeping other dimensions unchanged.
+Joins two input tensors of the same shape along a new minimum dimension. The output tensor has one more dimension than the input tensors, with a size of 2, while keeping other dimensions unchanged.
 
 **Syntax:**
 
@@ -11,7 +11,7 @@ Joins two input tensors of the same shape along a new innermost dimension. The o
 
 **Functionality:**
 
-- Joins two input tensors of the same shape along a new innermost dimension
+- Joins two input tensors of the same shape along a new minimum dimension
 - The output tensor has one more dimension than the input tensors, with a size of 2
 - Keeps other dimensions unchanged
 

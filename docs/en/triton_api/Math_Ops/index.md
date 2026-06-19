@@ -1,6 +1,6 @@
 # Mathematical Operations
 
-| API | Brief Description |
+| API | Description |
 |--|--|
 | [add](./add.md) | Arithmetic addition ‘+’ |
 | [sub](./sub.md) | Arithmetic subtraction ‘-’ |
@@ -10,7 +10,7 @@
 | [neg](./neg.md) | Negates the values of the tensor. |
 | [cdiv](./cdiv.md) | Computes the ceiling division of x by div |
 | [ceil](./ceil.md) | Computes the element-wise ceiling value of x |
-| [clamp](./clamp.md) | Clamps the values of the input tensor x within the range [min, max] |
+| [clamp](./clamp.md) | Clamps the values of the input tensor x to the range [min, max] |
 | [cos](./cos.md) | Computes the element-wise cosine of x |
 | [div_rn](./div_rn.md) | Computes the element-wise exact division of x and y (rounded to the nearest value according to IEEE standard) |
 | [erf](./erf.md) | Computes the element-wise error function of x |

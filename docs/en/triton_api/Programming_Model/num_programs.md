@@ -37,9 +37,9 @@ No relevant settings.
 
 None.
 
-### 2.4 Usage
+### 2.4 Usage Example
 
-For examples, refer to [test_3Dgrid.py](../../../../third_party/ascend/unittest/pytest_ut/test_3Dgrid.py)
+Refer to [test_3Dgrid.py](../../../../third_party/ascend/unittest/pytest_ut/test_3Dgrid.py) for examples.
 
 ```python
 @triton.jit

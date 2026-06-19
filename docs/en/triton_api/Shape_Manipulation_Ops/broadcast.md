@@ -32,7 +32,7 @@ Broadcasts two tensors to a common compatible shape, enabling element-wise opera
 ### 2.2 DataType Support Table
 
 | Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -60,7 +60,7 @@ def broadcast_kernel(
     # Create a vector (1-dimensional tensor)
     vector = tl.arange(0, BLOCK_SIZE) * 1.0  # Shape: (BLOCK_SIZE,)
 
-    # Use broadcast to expand the scalar to the same shape as the vector
+    # Use broadcast to broadcast the scalar to the same shape as the vector
     # scalar: () -> (BLOCK_SIZE,)
     broadcasted_scalar = tl.broadcast(scalar, vector)
 

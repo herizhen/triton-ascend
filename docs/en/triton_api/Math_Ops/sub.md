@@ -4,14 +4,14 @@
 
 Description: Subtraction, arithmetic operation '-', no tl.sub method
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter | Type                | Description                                                     |
-| --------- | ------------------- | --------------------------------------------------------------- |
-| `x`       | `tensor or Number`  | First input parameter                                           |
-| `y`       | `tensor or Number`  | Second input parameter                                          |
+| Parameter | Type                | Description                                                             |
+| --------- | ------------------- | ----------------------------------------------------------------------- |
+| `x`       | `tensor or Number`  | First input parameter                                                   |
+| `y`       | `tensor or Number`  | Second input parameter                                                  |
 
 Return value:
 `tl.tensor`: Subtraction result
@@ -29,8 +29,8 @@ Return value:
 
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
-| GPU    | No restrictions           |
-| Ascend | No restrictions           |
+| GPU    | No restriction            |
+| Ascend | No restriction            |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 

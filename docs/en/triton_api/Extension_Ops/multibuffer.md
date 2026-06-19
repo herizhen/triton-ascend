@@ -13,17 +13,17 @@ triton.language.multibuffer(
 ) -> None
 ```
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type                | Description                                                      |
-| -------------- | ------------------- | ---------------------------------------------------------------- |
-| `src`          | `tensor`            | The source tensor to be multi-buffered                           |
-| `size`         | `int` or `constexpr`| Number of buffer copies to create                                |
-| `_builder`     | -                   | Reserved parameter, external calls not supported                 |
+| Parameter Name | Type               | Description                                                        |
+| -------------- | ------------------ | ------------------------------------------------------------------ |
+| `src`          | `tensor`           | The source tensor to be multi-buffered                             |
+| `size`         | `int` or `constexpr` | The number of buffer copies to create                              |
+| `_builder`     | -                  | Reserved parameter, not supported for external calls               |
 
-Return value:
+Return Value:
 `None`: This operation is a compilation hint and does not return a value at runtime; it only affects the compiler's optimization behavior.
 
 ### 2.2 Supported Specifications
@@ -38,11 +38,11 @@ Return value:
 
 Supports tensors of arbitrary shapes.
 
-### 2.3 Special Constraints
+### 2.3 Special Limitations
 
-| Constraint Parameter | Description                                                                  |
-| -------------------- | ---------------------------------------------------------------------------- |
-| `size`               | The current implementation only supports `size` of `2`.                      |
+| Limitation Parameter | Description                                                                      |
+| -------------------- | -------------------------------------------------------------------------------- |
+| `size`               | The current implementation only supports `size` equal to `2`.                    |
 
 ### 2.4 Usage Example
 
