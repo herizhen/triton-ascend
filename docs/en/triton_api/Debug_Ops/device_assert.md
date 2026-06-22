@@ -4,7 +4,7 @@
 
 ## 1. Function Overview
 
-`device_assert` is used to perform assertion checks on the device side during GPU runtime, outputting an error message if the condition is not met.
+`device_assert` is used to perform assertion checks from the device side during GPU runtime, outputting an error message if the condition is not met.
 
 ```python
 triton.language.device_assert(cond, msg='', _semantic=None)
@@ -18,7 +18,7 @@ triton.language.device_assert(cond, msg='', _semantic=None)
 |-----------|------|---------|-------------|
 | `cond` | `bool` | Required | The condition expression to assert at runtime |
 | `msg` | `str` | `''` | Error message displayed when assertion fails |
-| `_semantic` | - | - | Reserved parameter, not supported for external calls |
+| `_semantic` | - | - | Reserved parameter, external calls not supported |
 
 ### 2.2 Type Support
 

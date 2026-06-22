@@ -1,6 +1,6 @@
 # 1. Hardware Background
 
-When different cores operate on the same global memory and there may be data dependencies such as read-after-write, write-after-read, and write-after-write, this function is called to insert synchronization statements to avoid data read/write errors that may occur due to such data dependencies.
+When different cores operate on the same global memory and there may be data dependencies such as read-after-write, write-after-read, and write-after-write, this function is called to insert synchronization statements to avoid potential data read/write errors caused by these data dependencies.
 
 # 2. Interface Description
 
@@ -23,13 +23,13 @@ When different cores operate on the same global memory and there may be data dep
     <td>mode</td>
     <td>str</td>
     <td>Yes</td>
-    <td>Synchronization mode. Optional strings: all_cube/all_vector/all/all_sub_vector. &lt;br&gt;all_cube: Synchronize all cube cores &lt;br&gt;all_vector: Synchronize all vector cores &lt;br&gt;all: Synchronize all cube cores and vector cores &lt;br&gt;all_sub_vector: Synchronize between Vector sub-blocks</td>
+    <td>Synchronization mode. Optional strings: all_cube/all_vector/all/all_sub_vector. &lt;br&gt;all_cube: Synchronize all cube cores&lt;br&gt;all_vector: Synchronize all vector cores&lt;br&gt;all: Synchronize all cube and vector cores&lt;br&gt;all_sub_vector: Synchronize between Vector sub-blocks</td>
   </tr>
   <tr>
     <td>event_id</td>
     <td>int</td>
     <td>Yes</td>
-    <td>Marker ID. Range is [0,15]</td>
+    <td>Marker ID. Range: [0,15]</td>
   </tr>
 </table>
 
@@ -39,9 +39,9 @@ None
 
 # 3. Constraints
 
-- Optional strings for mode: all_cube/all_vector/all/all_sub_vector
+- The mode optional strings are: all_cube/all_vector/all/all_sub_vector
 
-- event_id range is [0,15]
+- The event_id range is [0,15]
 
 # 4. Example
 

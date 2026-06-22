@@ -1,10 +1,10 @@
-# Triton-Ascend Release
+# Triton-Ascend Version Release
 
-The Triton-Ascend release provides a stable code base snapshot, packaged as binary packages that can be easily installed via PyPI. Additionally, the release marks the development team's formal announcement to the community regarding the availability of new features, completed improvements, and changes that may affect users (e.g., breaking changes).
+The Triton-Ascend version provides a stable codebase snapshot, packaged into binary distributions that can be easily installed via PyPI. Additionally, version releases allow the development team to officially announce to the community the availability of new features, completed improvements, and changes that may impact users (e.g., breaking changes).
 
 ## Release Compatibility Matrix
 
-Below is the release compatibility matrix for Triton-Ascend versions:
+The following is the release compatibility matrix for Triton-Ascend versions:
 
 | Triton-Ascend Version | Python Version | Manylinux Version | Hardware Platform | Hardware Product |
 | --- | --- | --- | --- | --- |
@@ -12,19 +12,19 @@ Below is the release compatibility matrix for Triton-Ascend versions:
 
 ## Release Schedule
 
-Below is the release schedule for Triton-Ascend. Note: Patch versions are optional.
+The following is the release schedule for Triton-Ascend. Note: Patch versions are optional.
 
 | Major Version | Release Branch Cut Date | Release Date | Patch Release Date |
 | --- | --- | --- | --- |
 | 3.2.0 | December 08, 2025 | January 2026 | --- |
 
-## Release Highlights
+## Version Highlights
 
 ### Triton-Ascend 3.2.0
 
 **First Release: Ascend NPU Support**
 
-Triton-Ascend 3.2.0 is the first Triton version to officially support Huawei Ascend NPU. This release is based on the Triton 3.2.0 community version and is specifically adapted for the Ascend NPU hardware architecture.
+Triton-Ascend 3.2.0 is the first Triton version to officially support Huawei Ascend NPUs. This version is based on the Triton 3.2.0 community release and is specifically adapted for the Ascend NPU hardware architecture.
 
 #### Key Features
 

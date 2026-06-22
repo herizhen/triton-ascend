@@ -8,7 +8,7 @@
 | [div](./div.md) | Arithmetic division ‘/’ |
 | [abs](./abs.md) | Computes the element-wise absolute value of x |
 | [neg](./neg.md) | Negates the values of the tensor. |
-| [cdiv](./cdiv.md) | Computes the ceiling division of x by div |
+| [cdiv](./cdiv.md) | Computes the ceiling division of x divided by div |
 | [ceil](./ceil.md) | Computes the element-wise ceiling value of x |
 | [clamp](./clamp.md) | Clamps the values of the input tensor x to the range [min, max] |
 | [cos](./cos.md) | Computes the element-wise cosine of x |

@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Joins two input tensors of the same shape along a new minimum dimension. The output tensor has one more dimension than the input tensors, with a size of 2, while keeping other dimensions unchanged.
+Joins two input tensors of the same shape along a new innermost dimension. The output tensor has one more dimension than the input tensors, with a size of 2, while keeping other dimensions unchanged.
 
 **Syntax:**
 
@@ -11,7 +11,7 @@ Joins two input tensors of the same shape along a new minimum dimension. The out
 
 **Functionality:**
 
-- Joins two input tensors of the same shape along a new minimum dimension
+- Joins two input tensors of the same shape along a new innermost dimension
 - The output tensor has one more dimension than the input tensors, with a size of 2
 - Keeps other dimensions unchanged
 
@@ -46,7 +46,7 @@ Joins two input tensors of the same shape along a new minimum dimension. The out
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Limitations
+### 2.4 Special Constraints
 
 None
 
@@ -74,7 +74,7 @@ def join_example(out_ptr):
     )
     tl.store(out_ptr + offs, z)
 
-## Example call
+## Call example
 out = torch.empty((2, 2, 3), dtype=torch.float32, device="npu")
 join_example[(1,)](out)
 print(out.shape)  # Output: torch.Size([2, 2, 3])

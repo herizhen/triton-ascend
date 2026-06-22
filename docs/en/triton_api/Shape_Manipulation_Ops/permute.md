@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Reorders the dimensions of a tensor according to the `dims` parameter. The tensor data remains unchanged; only the dimension order is altered. Supports arbitrary dimension reordering.
+Reorders the dimensions of a tensor according to the `dims` parameter. This operation does not change the tensor's data, only the order of its dimensions. Supports arbitrary dimension reordering.
 
 **Syntax:**
 
@@ -11,25 +11,25 @@ Reorders the dimensions of a tensor according to the `dims` parameter. The tenso
 
 **Functionality:**
 
-- Reorders the dimensions of a tensor according to the `dims` parameter
-- Does not modify the tensor data, only the dimension order
+- Reorders tensor dimensions according to the `dims` parameter
+- Does not change the tensor's data, only the dimension order
 - Supports arbitrary dimension reordering
 
 ## 2 Parameter Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter | Type   | Required | Description            |
-|-----------|--------|----------|------------------------|
-| input     | tensor | Yes      | Input tensor           |
-| dims      | List[int] | Yes    | New dimension order    |
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| input | tensor | Yes | Input tensor |
+| dims | List[int] | Yes | New dimension order |
 
 **Return Value:**
 
 - **Type:** tensor
 - **Shape:** Dimensions reordered according to the `dims` parameter
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Transposition achieved by modifying stride information; no data copy
+- **Memory Layout:** Transposition achieved by modifying stride information, no data copy
 
 **Constraints:**
 
@@ -38,9 +38,9 @@ Reorders the dimensions of a tensor according to the `dims` parameter. The tenso
 ### 2.2 DataType Support Table
 
 | Support Status | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|----------------|:----:|:-----:|:-----:|:-----:|:-----:|:------:|:------:|:------:|:-------:|:-------:|:--------:|:--------:|:--------:|:-------:|:----:|
-| Ascend A2/A3   | ✓    | ✓     | ✓     | ✓     | ✓     | ×      | ×      | ×      | ✓       | ✓       | ✓        | ×        | ×        | ×       | ✓    |
-| GPU Support    | ✓    | ✓     | ✓     | ✓     | ✓     | ✓      | ✓      | ✓      | ✓       | ✓       | ✓        | ✓        | ✓        | ✓       | ✓    |
+|----------------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
+| Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
+| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 ### 2.3 Shape Support Table
 
@@ -73,7 +73,7 @@ def permute_example(out_ptr):
     )
     tl.store(out_ptr + offs, y)
 
-## Example invocation
+## Example call
 out = torch.empty((4, 2, 3), dtype=torch.float32, device="npu")
 permute_example[(1,)](out)
 print(out.shape)  # Output: torch.Size([4, 2, 3])

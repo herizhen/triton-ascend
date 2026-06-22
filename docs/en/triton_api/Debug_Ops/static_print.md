@@ -8,17 +8,17 @@
 triton.language.static_print(*values, sep: str = ' ', end: str = '\n', file=None, flush=False, _semantic=None)
 ```
 
-## 2. Specification
+## 2. Specifications
 
 ### 2.1 Parameter Description
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `values`  | `tensor`/`scalar` | Required | Values to print, supports multiple arguments |
-| `sep`     | `str` | `' '` | Separator between values |
-| `end`     | `str` | `'\n'` | Suffix at the end of printing |
-| `file`    | - | - | File object to write to |
-| `flush`   | `bool` | `False` | Whether to flush the output buffer |
+| `values` | `tensor`/`scalar` | Required | Values to print, supports multiple arguments |
+| `sep` | `str` | `' '` | Separator between values |
+| `end` | `str` | `'\n'` | Suffix at the end of printing |
+| `file` | - | - | File object to write to |
+| `flush` | `bool` | `False` | Whether to flush the output buffer |
 | `_semantic` | - | - | Reserved parameter, external calls not supported |
 
 ### 2.2.1 Data Type Support
@@ -32,9 +32,9 @@ A3:
 
 ### 2.2.2 Shape Support
 
-|        | Supported Dimension Range |
-| ------ | ------------------------- |
-| GPU    | Only supports 1~5D tensors |
+| | Supported Dimension Range |
+| ------ | --------------- |
+| GPU | Only supports 1~5D tensors |
 | Ascend | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
@@ -43,7 +43,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 > Capabilities missing compared to the community and cannot be implemented
 
-Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
+Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 
 ### 2.4 Usage
 

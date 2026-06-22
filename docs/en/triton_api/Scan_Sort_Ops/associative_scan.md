@@ -13,10 +13,10 @@ triton.language.associative_scan(input, axis, combine_fn, reverse=False, _semant
 ### 2.1 Parameter Description
 
 | Parameter | Type | Description |
-|--------|------|------|
+|-----------|------|-------------|
 | `input` | `Tensor` or `tuple of Tensor` | Input tensor, can be a single tensor or a tuple of tensors |
 | `axis` | `int` | The dimension along which to perform the associative scan operation |
-| `combine_fn` | `Callable` | Function used to combine two groups of scalar tensors (must be decorated with `@triton.jit`) |
+| `combine_fn` | `Callable` | Function for combining two scalar tensor groups (must be decorated with `@triton.jit`) |
 | `reverse` | `bool` | Whether to apply the associative scan in the reverse direction along the axis |
 | `_semantic` | `Optional[str]` | Reserved parameter, not yet supported for external calls |
 | `_generator` | `Optional[Generator]` | Reserved parameter, not yet supported for external calls |
@@ -29,17 +29,17 @@ Return value:
 #### 2.2.1 DataType Support
 
 || uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-|---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
+|---|-------|------|--------|-------|--------|-------|--------|-------|------|------|------|-----------|
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 #### 2.2.2 Shape Support
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape.
 
 ### 2.3 Special Limitations
 
-> Missing functionality relative to the community and not implementable
+> Missing functionality relative to the community and unimplementable
 > Whether `reverse=True` applies the associative scan in the reverse direction along the axis. This feature requires alignment when loading data with `tl.load`, i.e., not using a mask to filter out excess data indices, as shown in the example code below:
 
 ```python
@@ -57,7 +57,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.4 Usage
 
-The following example implements the `associative_scan` operation on a 2D tensor:
+The following example demonstrates performing an `associative_scan` operation on a 2D tensor:
 
 ```python
 

@@ -4,11 +4,11 @@
 
 Description: Computes the element-wise exponential of `x`.
 
-## 2. Specifications
+## 2. Specification
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type       | Description                                                    |
+| Parameter Name | Type       | Description                                                    |
 | -------------- | ---------- | -------------------------------------------------------------- |
 | `x`            | `tensor`   | Tensor data                                                    |
 | `_semantic`    | -          | Reserved parameter, not supported for external calls currently |
@@ -16,36 +16,36 @@ Description: Computes the element-wise exponential of `x`.
 Return value:
 `x`: The output tensor has the same shape as the input tensor `x`.
 
-### 2.2 OP Specifications
+### 2.2 OP Specification
 
 #### 2.2.1 DataType Support
 
-|                | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| -------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU            | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | √    | √    | ×    | ×    |
-| Ascend A2/A3   | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
+|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU           | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | √    | √    | ×    | ×    |
+| Ascend A2/A3  | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Compared to GPU, Ascend lacks support for fp64 but adds support for fp16 and bf16.
+Conclusion: Compared to GPU, Ascend lacks fp64 support but adds support for fp16 and bf16.
 torch_npu does not support u8.
 
 #### 2.2.2 Shape Support
 
-|                | Supported Dimension Range |
-| -------------- | ------------------------- |
-| GPU            | Only supports 1~5D tensors |
-| Ascend A2/A3   | Only supports 1~5D tensors |
+|              | Supported Dimension Range |
+| ------------ | ------------------------- |
+| GPU          | Only supports 1~5D tensors |
+| Ascend A2/A3 | Only supports 1~5D tensors |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Relative community capability gaps that cannot be implemented
+> Relative community capability missing and cannot be implemented
 
 None.
 
 ### 2.4 Usage Example
 
-The following example demonstrates performing element-wise exponential computation on the input tensor `x`:
+The following example demonstrates computing the element-wise exponential of the input tensor `x`:
 
 ```python
 @triton.jit

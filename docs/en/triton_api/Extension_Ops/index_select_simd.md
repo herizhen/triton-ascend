@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Performs parallel gather of multiple indices on non-tail dimensions and zero-copies data directly from global memory (GM) to the correct positions in the unified buffer (UB) in tile units. This operation is equivalent to a high-performance implementation of `torch.index_select`, suitable for scenarios such as embedding layer lookups and sparse index access.
+Performs parallel gather of multiple indices on non-tail dimensions, and zero-copies data directly from global memory (GM) to the correct positions in the unified buffer (UB) in tile units. This operation is equivalent to a high-performance implementation of `torch.index_select`, suitable for scenarios such as embedding layer lookups and sparse index access.
 
 **Syntax:**
 
@@ -10,14 +10,14 @@ Performs parallel gather of multiple indices on non-tail dimensions and zero-cop
 
 **Functionality:**
 
-- Batch reads data from the source tensor along the specified dimension according to the index array
-- Supports specifying offsets and sizes for the read region, enabling flexible slicing
+- Reads data in batches from the source tensor along the specified dimension according to the index array
+- Supports specifying the offset and size of the read region for flexible slicing
 - Efficient zero-copy implementation, directly moving data from GM to UB
-- Preserves element types and encoding unchanged
+- Preserves element type and encoding unchanged
 
-**Typical Application Scenarios:**
+**Typical Use Cases:**
 
-- Embedding lookup: Batch reading word vectors from a large vocabulary based on token IDs
+- Embedding lookup: Batch reading word vectors based on token IDs from a large vocabulary
 - Sparse tensor operations: Accessing specific rows of a dense tensor based on sparse indices
 - Dynamic routing and attention mechanisms: Selecting specific features based on dynamically computed indices
 
@@ -32,7 +32,7 @@ Performs parallel gather of multiple indices on non-tail dimensions and zero-cop
 | index | tensor | Yes | 1D index array, located in UB, specifying the index positions to read |
 | src_shape | Tuple[int] | Yes | Full shape of the source tensor |
 | src_offset | Tuple[int] | Yes | Starting position for reading; can be set to -1 for the dim dimension (this dimension is determined by index) |
-| read_shape | Tuple[int] | Yes | Size of the data to read; must be set to -1 for the dim dimension (this dimension is determined by the length of index) |
+| read_shape | Tuple[int] | Yes | Size of the data to read; must be -1 for the dim dimension (this dimension is determined by the length of index) |
 
 **Return Value:**
 
@@ -50,7 +50,7 @@ Performs parallel gather of multiple indices on non-tail dimensions and zero-cop
 - `dim` cannot be the tail axis (last dimension), i.e., `dim < len(src_shape) - 1`
 - For non-dim dimensions: `0 <= src_offset[i] < src_shape[i]`
 - For non-dim dimensions: `src_offset[i] + read_shape[i] <= src_shape[i]` (automatically truncated if out of bounds)
-- Index values in `index` must be within the range `[0, src_shape[dim])`
+- Index values in the index array must be within `[0, src_shape[dim])`
 
 ### 2.2 DataType Support Table
 
@@ -61,16 +61,16 @@ Performs parallel gather of multiple indices on non-tail dimensions and zero-cop
 
 **Notes:**
 
-- The data type of `index` must be int32 or int64
+- The data type of index must be int32 or int64
 - This operation is not supported on GPU platforms (Ascend-specific intrinsic)
 
 ### 2.3 Shape Support Table
 
 Supports any number of dimensions (1D to high-dimensional tensors), subject to the following conditions:
 
-- `index` must be a 1D tensor
-- The size of each dimension of the source tensor is limited by actual hardware memory constraints
-- The size of `read_shape` in non-dim dimensions must consider UB space limitations
+- index must be a 1D tensor
+- The size of each dimension of the source tensor is subject to actual hardware memory limits
+- The size of read_shape in non-dim dimensions must consider UB space constraints
 
 **Common Shape Combinations:**
 
@@ -78,11 +78,11 @@ Supports any number of dimensions (1D to high-dimensional tensors), subject to t
 - 3D tensor: Suitable for batch embedding lookups, sequence feature extraction
 - High-dimensional tensors: Suitable for complex multi-dimensional indexing operations
 
-### 2.4 Special Constraints
+### 2.4 Special Constraint Notes
 
-1. **dim Constraint:** index_select is not supported on the tail axis (last dimension); `dim` must satisfy `dim < len(src_shape) - 1`
-2. **Data Type Constraint:** uint16/uint32/uint64/float8/float64 data types are currently not supported
-3. **Index Out of Bounds:** Out-of-bounds indices in `index` are not checked; users must ensure the validity of indices
+1. **dim constraint:** index_select is not supported on the tail axis (last dimension); dim must satisfy `dim < len(src_shape) - 1`
+2. **Data type constraint:** uint16/uint32/uint64/float8/float64 data types are currently not supported
+3. **Index out of bounds:** Out-of-bounds indices in the index array are not checked; users must ensure index validity
 
 ### 2.5 Usage
 
@@ -124,9 +124,9 @@ def embedding_kernel(
 **Relationship with torch.index_select:**
 
 - `index_select_simd` is equivalent to `torch.index_select(src, dim, index)` combined with a slicing operation
-- However, `index_select_simd` is implemented at the hardware level and offers better performance than the PyTorch implementation (approximately 0.6~1.5x the performance of AscendC)
+- However, index_select_simd is implemented at the hardware level, offering better performance than the PyTorch implementation (approximately 0.6~1.5x AscendC performance)
 
-**Difference from Regular Load:**
+**Differences from Regular Load:**
 
 ```python
 ## Regular load method (inefficient)
@@ -146,12 +146,12 @@ data = libdevice.index_select_simd(
     src_offset=(-1, 0),
     read_shape=(-1, size)
 )
-## Get all data at once
+## Retrieve all data at once
 ```
 
 ## 3 Differences from GPU
 
-New OP added, no differences.
+Newly added OP, no differences
 
 ## 4 Test Case Description
 

@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Inserts a tensor (sub-tensor) into another tensor at specified positions, i.e., inserting one tensor into another according to the specified offsets, sizes, and strides parameters.
+Description: Inserts a tensor (sub-tensor) into a specified position of another tensor, i.e., inserts one tensor into another according to the specified offset, size, and stride parameters.
 Prototype:
 
 ```python
@@ -21,15 +21,15 @@ triton.language.insert_slice(
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type             | Description                                                         |
-| ------------ | ---------------- | ------------------------------------------------------------------- |
-| `ful`        | `tensor`         | The target tensor that receives the insertion                       |
+| Parameter    | Type             | Description                                                      |
+| ------------ | ---------------- | ---------------------------------------------------------------- |
+| `ful`        | `tensor`         | The target tensor to receive the insertion                       |
 | `sub`        | `tensor`         | The sub-tensor to be inserted, whose shape must match the `sizes` parameter |
-| `offsets`    | `tuple of ints`  | Specifies the starting offsets (per dimension) for insertion into the `ful` tensor |
-| `sizes`      | `tuple of ints`  | Specifies the size of the insertion region (per dimension)          |
-| `strides`    | `tuple of ints`  | Specifies the strides of the insertion region (per dimension)       |
-| `_builder`   | -                | Reserved parameter, currently not supported for external calls      |
-| `_generator` | -                | Reserved parameter, currently not supported for external calls      |
+| `offsets`    | `tuple of ints`  | Specifies the starting offset for insertion in the `ful` tensor (per dimension) |
+| `sizes`      | `tuple of ints`  | Specifies the size of the insertion region (per dimension)       |
+| `strides`    | `tuple of ints`  | Specifies the stride of the insertion region (per dimension)     |
+| `_builder`   | -                | Reserved parameter, currently not supported for external calls   |
+| `_generator` | -                | Reserved parameter, currently not supported for external calls   |
 
 Return value:
 `tensor`: A new tensor after inserting the sub-tensor
@@ -47,7 +47,7 @@ Return value:
 Supports tensors of arbitrary shapes, with the following requirements:
 
 1. The number of dimensions of `ful` and `sub` must be the same
-2. The lengths of `offsets`, `sizes`, and `strides` must match the number of tensor dimensions
+2. The length of `offsets`, `sizes`, and `strides` must equal the number of tensor dimensions
 3. The insertion region must not exceed the boundaries of the `ful` tensor
 
 ### 2.3 Special Constraints
@@ -73,11 +73,11 @@ def triton_kernel(x_ptr, y_ptr, output_ptr, n_elements, BLOCK_SIZE: tl.constexpr
     output_sub = x_sub + y_sub
     # Load original output tensor
     output = tl.load(output_ptr + offsets, mask=mask)
-    # Insert computation result back into the original tensor
+    # Insert the computation result back into the original tensor
     output = tl.insert_slice(output, output_sub, [block_start+SLICE_OFFSET], [SLICE_SIZE], [1])
     tl.store(output_ptr + offsets, output, mask=mask)
 ```
 
-## 3. Semantic GAP
+## 3. Semantic Gap
 
 No semantic differences

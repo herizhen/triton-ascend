@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Interleaves two input tensors of the same shape along the last dimension. The last dimension of the output tensor is twice the size of the input tensors, while other dimensions remain unchanged.
+Interleaves two input tensors of the same shape along the last dimension. The output tensor's last dimension size is twice that of the input tensors, while other dimensions remain unchanged.
 
 **Syntax:**
 
@@ -12,7 +12,7 @@ Interleaves two input tensors of the same shape along the last dimension. The la
 **Functionality:**
 
 - Interleaves two input tensors of the same shape along the last dimension
-- The last dimension of the output tensor is twice the size of the input tensors
+- The output tensor's last dimension size is twice that of the input tensors
 - Other dimensions remain unchanged
 
 ## 2 Parameter Specifications
@@ -22,24 +22,24 @@ Interleaves two input tensors of the same shape along the last dimension. The la
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | x | tensor | Yes | First input tensor |
-| y | tensor | Yes | Second input tensor, must have the same shape as x |
+| y | tensor | Yes | Second input tensor, shape must match x |
 
 **Return Value:**
 
 - **Type:** tensor
-- **Shape:** Last dimension of the input shape multiplied by 2
+- **Shape:** Last dimension of input shape multiplied by 2
 - **Data Type:** Same as input tensors
 - **Memory Layout:** Alternating elements of x and y
 
 **Constraints:**
 
 - Both input tensors must have the same shape and data type
-- The shape of the output tensor is the input shape with the last dimension multiplied by 2
+- The output tensor's shape is the input shape with the last dimension multiplied by 2
 
 ### 2.2 DataType Support Table
 
-| Supported | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|-----------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
+| Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 

@@ -19,8 +19,8 @@ Flattens the input tensor into a one-dimensional tensor, preserving the order of
 
 ### 2.1 Parameter Description
 
-| Parameter | Type   | Required | Description |
-|-----------|--------|----------|-------------|
+| Parameter | Type   | Required | Description  |
+|-----------|--------|----------|--------------|
 | input     | tensor | Yes      | Input tensor |
 
 **Return Value:**
@@ -45,7 +45,7 @@ Flattens the input tensor into a one-dimensional tensor, preserving the order of
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Limitations
+### 2.4 Special Constraints
 
 None
 
@@ -60,6 +60,6 @@ def flatten_kernel(x_ptr, output_ptr, M, N, BLOCK_SIZE: tl.constexpr):
     # Flatten to one dimension
     x_flat = x.ravel()
 
-    # Store the flattened result
+    # Store flattened result
     tl.store(output_ptr + offsets, x_flat, mask=mask)
 ```

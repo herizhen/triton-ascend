@@ -10,21 +10,21 @@ triton.language.parallel(arg1, arg2=None, step=None, num_stages=None,
                          _semantic=None)
 ```
 
-## 2. Specifications
+## 2. Specification
 
 ### 2.1 Parameter Description
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `arg1` | `int` / `constexpr` | Required | Start value (when used as a single argument, it serves as the end value, starting from 0) |
-| `arg2` | `int` / `constexpr` | - | End value (exclusive) |
+| `arg2` | `int` / `constexpr` | - | End value (not included in the range) |
 | `step` | `int` / `constexpr` | `1` | Step increment per iteration |
 | `num_stages` | `int` | - | Number of pipeline stages (number of iterations executed concurrently) |
 | `loop_unroll_factor` | `int` | - | Loop unroll factor (<2 means no unrolling) |
-| `bind_sub_block` | `bool` | `False` | **Key parameter**: Bind to sub-block, enabling multi-core parallel execution |
-| `_semantic` | - | - | Reserved parameter, external calls not supported |
+| `bind_sub_block` | `bool` | `False` | **Key parameter**: Binds to sub-blocks, enabling multi-core parallel execution |
+| `_semantic` | - | - | Reserved parameter, external calls not supported for now |
 
-> **Note**: `parallel` removes the following parameters compared to `range`:
+> **Note**: Compared to `range`, `parallel` removes the following parameters:
 >
 > - `disallow_acc_multi_buffer`
 > - `flatten`
@@ -40,9 +40,9 @@ A3:
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | × | × |
 | Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | × | × | ✓ | × | × | × | × | × |
 
-### 2.3 Special Restrictions
+### 2.3 Special Limitations
 
-When `bind_sub_block` is true, the IR reflects a distinction from `range`. Whether the functionality is actually implemented remains to be verified.
+When `bind_sub_block` is true, the IR reflects a difference from `range`; whether the functionality is actually implemented remains to be verified.
 
 ## 3. Usage
 

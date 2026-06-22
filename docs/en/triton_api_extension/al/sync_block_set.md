@@ -1,10 +1,10 @@
-# al.sync_block_set Interface Documentation
+# al.sync_block_set API Documentation
 
 ## 1. Hardware Background
 
-Inter-core synchronization control interface for separated mode.
+Inter-core synchronization control interface for split mode.
 
-This interface is used in conjunction with the sync_block_wait interface. When used, a synchronization flag ID (flagId) must be passed. Each ID corresponds to a counter with an initial value of 0. After executing CrossCoreSetFlag, the counter corresponding to the ID increments by 1; when executing CrossCoreWaitFlag, if the corresponding counter value is 0, execution blocks; if the corresponding counter is greater than 0, the counter decrements by 1, and subsequent instructions begin execution.
+This interface is used in conjunction with the `sync_block_wait` interface. It requires passing a synchronization flag ID (`flagId`), where each ID corresponds to a counter with an initial value of 0. After executing `CrossCoreSetFlag`, the counter corresponding to the ID increments by 1. When executing `CrossCoreWaitFlag`, if the corresponding counter value is 0, execution blocks; if the corresponding counter is greater than 0, the counter decrements by 1, and subsequent instructions begin execution.
 
 ## 2. Interface Description
 
@@ -16,13 +16,13 @@ This interface is used in conjunction with the sync_block_wait interface. When u
 
 ### Return Value
 
-No return value
+No return value.
 
 ## 3. Parameter Description
 
 <table>
   <tr>
-    <td>Parameter Name</td>
+    <td>Parameter</td>
     <td>Type</td>
     <td>Description</td>
   </tr>
@@ -58,7 +58,7 @@ No return value
   </tr>
 </table>
 
-## 4. PIPE Enumeration Description
+## 4. PIPE Enum Description
 
 <table>
   <tr>
@@ -71,7 +71,7 @@ No return value
   </tr>
   <tr>
     <td>PIPE_V</td>
-    <td>Vector computation pipeline and L0C-&gt;UB data transfer pipeline</td>
+    <td>Vector computation pipeline and L0C-&gt;UB data movement pipeline</td>
   </tr>
   <tr>
     <td>PIPE_M</td>
@@ -79,15 +79,15 @@ No return value
   </tr>
   <tr>
     <td>PIPE_MTE1</td>
-    <td>L1-&gt;L0A, L1-&gt;L0B data transfer pipeline</td>
+    <td>L1-&gt;L0A, L1-&gt;L0B data movement pipeline</td>
   </tr>
   <tr>
     <td>PIPE_MTE2</td>
-    <td>GM-&gt;L1, GM-&gt;L0A, GM-&gt;L0B, GM-&gt;UB data transfer pipeline</td>
+    <td>GM-&gt;L1, GM-&gt;L0A, GM-&gt;L0B, GM-&gt;UB data movement pipeline</td>
   </tr>
   <tr>
     <td>PIPE_MTE3</td>
-    <td>UB-&gt;GM, UB-&gt;L1 data transfer pipeline</td>
+    <td>UB-&gt;GM, UB-&gt;L1 data movement pipeline</td>
   </tr>
   <tr>
     <td>PIPE_ALL</td>
@@ -95,7 +95,7 @@ No return value
   </tr>
   <tr>
     <td>PIPE_FIX</td>
-    <td>L0C-&gt;GM, L0C-&gt;L1 data transfer pipeline</td>
+    <td>L0C-&gt;GM, L0C-&gt;L1 data movement pipeline</td>
   </tr>
 </table>
 

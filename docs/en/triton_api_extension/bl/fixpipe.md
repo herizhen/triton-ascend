@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-A5 adds a data path from L0C to UB. To implement this path, a temporary solution explicitly calls this path at the frontend.
+The A5 adds a data path from L0C to UB. To implement this path, a temporary solution explicitly calls this path at the frontend.
 
 ## 2. Interface Description
 
@@ -23,12 +23,12 @@ A5 adds a data path from L0C to UB. To implement this path, a temporary solution
   <tr>
     <td>src</td>
     <td>tl.tensor</td>
-    <td>Source tensor, must be located in the L0C memory region</td>
+    <td>Source tensor, must reside in the L0C memory region</td>
   </tr>
   <tr>
     <td>dst</td>
     <td>bl.buffer</td>
-    <td>Destination buffer, must be located in the UB memory region</td>
+    <td>Destination buffer, must reside in the UB memory region</td>
   </tr>
   <tr>
     <td>dma_mode</td>
@@ -53,19 +53,19 @@ A5 adds a data path from L0C to UB. To implement this path, a temporary solution
   <tr>
     <td>_builder</td>
     <td>-</td>
-    <td>JIT automatic parameter passing</td>
+    <td>JIT auto-passed parameter</td>
   </tr>
 </table>
 
 ### 2.2 Return Value
 
-No return value, directly use the input parameter dst
+No return value, directly use the input parameter `dst`
 
 ## 3. Constraints
 
 - fixpipe only supports data transfer from L0C to UB
 
-- src must be the result after dot product
+- src must be the result after dot operation
 
 - dst must be a buffer with memscope set to UB
 

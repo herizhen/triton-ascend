@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Performs a gather operation on the `src` tensor along the `axis` dimension according to the `index`. The meaning of the gather operation is illustrated below:
+Description: Performs a gather operation on the `src` tensor along the `axis` dimension according to the `index`. The meaning of the gather operation is shown in the figure below:
 ![image](./gather.png)
 Prototype:
 
@@ -19,12 +19,12 @@ triton.language.gather(
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                      |
-| -------------- | ------------------ | ---------------------------------------------------------------- |
-| `src`          | `tensor`           | The tensor on which the gather operation is performed            |
-| `index`        | `tensor`           | The indices to gather                                            |
-| `axis`         | `int`              | The dimension along which to perform the gather operation        |
-| `_semantic`    | -                  | Reserved parameter, external calls are not supported             |
+| Parameter Name | Type               | Description                                                    |
+| -------------- | ------------------ | -------------------------------------------------------------- |
+| `src`          | `tensor`           | The tensor on which the gather operation is performed          |
+| `index`        | `tensor`           | The indices to gather                                          |
+| `axis`         | `int`              | The dimension along which to perform the gather operation      |
+| `_semantic`    | -                  | Reserved parameter, external calls are not supported           |
 
 Return value: `tensor`: The result after the gather operation
 
@@ -50,7 +50,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Capabilities missing compared to the community and cannot be implemented
+> Relative to community capabilities that are missing and cannot be implemented
 
 - Compared to GPU, Ascend lacks support for fp64 (hardware limitation).
 

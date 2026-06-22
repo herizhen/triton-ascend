@@ -25,7 +25,7 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
     <td>tensor</td>
     <td>tl.tensor</td>
     <td>Yes</td>
-    <td>Input tensor to be converted into a buffer</td>
+    <td>Input tensor to be converted to a buffer</td>
   </tr>
   <tr>
     <td>space</td>
@@ -79,10 +79,10 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
 
 ## 7. Core Description
 
-- This interface is the core conversion entry point between tensors and hardware buffers
+- This interface is the core conversion entry point for tensor ↔ hardware buffer
 
 - Supports manual specification of the full range of Ascend hardware address spaces (UB/L1/L0)
 
-- Supports binding to existing buffers to meet fine-grained memory management requirements
+- Supports binding to existing buffers for fine-grained memory management
 
 - Can only be used within kernel functions decorated with `@triton.jit`

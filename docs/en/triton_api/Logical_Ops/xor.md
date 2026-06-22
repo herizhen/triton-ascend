@@ -16,11 +16,11 @@ x.__xor__(y)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type       | Description                                                    |
-| -------------- | ---------- | -------------------------------------------------------------- |
-| `x`            | `tensor`   | Tensor data                                                    |
-| `y`            | `tensor`   | Tensor data                                                    |
-| `_semantic`    | -          | Reserved parameter, external calls not supported for now       |
+| Parameter Name | Type               | Description                                                        |
+| -------------- | ------------------ | ------------------------------------------------------------------ |
+| `x`            | `tensor`           | Tensor data                                                        |
+| `y`            | `tensor`           | Tensor data                                                        |
+| `_semantic`    | -                  | Reserved parameter, external calls not supported for now           |
 
 Return value:
 `out`: A tensor with the same shape as `x` and `y`

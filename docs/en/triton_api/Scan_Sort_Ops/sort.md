@@ -12,11 +12,11 @@ triton.language.sort(x, dim: constexpr | None = None, descending: constexpr = Fa
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type               | Description                                                    |
-| ------------ | ------------------ | -------------------------------------------------------------- |
-| `x`          | `tensor`           | Tensor data                                                    |
-| `dim`        | `int`              | Dimension to sort along                                        |
-| `descending` | `bool`             | Whether to sort in descending order                            |
+| Parameter      | Type                | Description                                                    |
+| -------------- | ------------------- | -------------------------------------------------------------- |
+| `x`            | `tensor`            | Tensor data                                                    |
+| `dim`          | `int`               | Sorting dimension                                              |
+| `descending`   | `bool`              | Whether to sort in descending order                            |
 
 Return value:
 `x`: Output tensor with the same shape as the input tensor `x`

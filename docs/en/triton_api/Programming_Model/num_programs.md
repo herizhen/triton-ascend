@@ -18,13 +18,13 @@ triton.language.num_programs(axis)
 | `axis` | `int` | Axis of the 3D launch grid. Must be 0, 1, or 2. |
 
 Return value:
-A `tl.tensor` containing the number of program instances launched.
+A `tl.tensor` containing the number of launched program instances.
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | × | × | √ | × | × | × | × | × | × | × | × | × | × |
 | Ascend A2/A3 | × | × | √ | × | × | × | × | × | × | × | × | × | × |
@@ -37,9 +37,9 @@ No relevant settings.
 
 None.
 
-### 2.4 Usage Example
+### 2.4 Usage
 
-Refer to [test_3Dgrid.py](../../../../third_party/ascend/unittest/pytest_ut/test_3Dgrid.py) for examples.
+For examples, refer to [test_3Dgrid.py](../../../../third_party/ascend/unittest/pytest_ut/test_3Dgrid.py)
 
 ```python
 @triton.jit

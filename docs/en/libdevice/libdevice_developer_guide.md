@@ -110,7 +110,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the addition result rounded down.
+Return value: `tl.tensor`, returns the result of the addition rounded down.
 
 Return type: `float32`
 
@@ -132,7 +132,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the addition result rounded to nearest even.
+Return value: `tl.tensor`, returns the result of the addition rounded to nearest even.
 
 Return type: `float32`
 
@@ -154,7 +154,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the addition result rounded up.
+Return value: `tl.tensor`, returns the result of the addition rounded up.
 
 Return type: `float32`
 
@@ -176,7 +176,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the addition result rounded towards zero.
+Return value: `tl.tensor`, returns the result of the addition rounded towards zero.
 
 Return type: `float32`
 
@@ -303,7 +303,7 @@ triton.language.extra.cann.libdevice.brev(x, _builder=None)
 Input types:
 - x: `int32`
 
-Return value: `tl.tensor`, returns the 32-bit integer with reversed bit order.
+Return value: `tl.tensor`, returns the 32-bit integer with reversed bits.
 
 Return type: `int32`
 
@@ -322,7 +322,7 @@ input[4] = y<7:0>     input[5] = y<15:8>
 input[6] = y<23:16>   input[7] = y<31:24>
 ```
 
-The byte selection parameter s is a 32-bit integer, with the correspondence between its bits and byte selection as follows.
+The byte selection parameter s is a 32-bit integer, and the mapping between its bits and byte selection is as follows.
 
 ```cpp
 selector[0] = s<2:0>    selector[1] = s<6:4>
@@ -477,7 +477,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Computes the value of cos(π × x).
+Computes cos(π × x).
 
 Prototype:
 
@@ -552,7 +552,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the division result.
+Return value: `tl.tensor`, returns the result of the division.
 
 Return type: `float32`
 
@@ -574,7 +574,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the division result.
+Return value: `tl.tensor`, returns the result of the division.
 
 Return type: `float32`
 
@@ -596,7 +596,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the division result.
+Return value: `tl.tensor`, returns the result of the division.
 
 Return type: `float32`
 
@@ -618,7 +618,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the division result.
+Return value: `tl.tensor`, returns the result of the division.
 
 Return type: `float32`
 
@@ -670,7 +670,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Inverse complementary error function, finds the value y such that x = erfc(y).
+Inverse complementary error function, finds the value y satisfying x = erfc(y).
 
 Prototype:
 
@@ -708,5 +708,4 @@ Return type: `float32`
 
 Supported compilation modes: SIMT
 
-## 32. triton.language.extra.cann.libdevice.erfinv
-
+## 32. triton.l

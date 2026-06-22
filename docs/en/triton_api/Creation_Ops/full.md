@@ -12,12 +12,12 @@ triton.language.full(shape, value, dtype, _semantic=None)¶
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type                  | Description                                   |
+| Parameter Name | Type | Description |
 | ------------- | ----------------- | ---------------------------- |
-| `shape`           | `tuple of ints`               | Shape of the new array, e.g., (8, 16) or (8, ) |
-| `value`            | `scalar`               | Scalar value used to fill the array |
-| `dtype`            | `tl.dtype`               | Data type of the new array, e.g., tl.float16  |
-| `_semantic`            | `Optional[str]`               | Reserved parameter, not supported for external calls|
+| `shape` | `tuple of ints` | Shape of the new array, e.g., (8, 16) or (8, ) |
+| `value` | `scalar` | Scalar value used to fill the array |
+| `dtype` | `tl.dtype` | Data type of the new array, e.g., tl.float16 |
+| `_semantic` | `Optional[str]` | Reserved parameter, not supported for external calls |
 
 Return value:
 `tensor`: The tensor after filling
@@ -26,18 +26,18 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 #### 2.2.2 Shape Support
 
-Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
+Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape.
 
 ### 2.3 Special Limitations
 
-> Relative community capability missing and cannot be implemented
+> Missing capabilities relative to the community that cannot be implemented
 > None
 
 ### 2.4 Usage Example

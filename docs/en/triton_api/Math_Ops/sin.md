@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise sine of `x`.
+Description: Computes the element-wise sine of x.
 
 ```python
 triton.language.sin(x, _semantic=None)
@@ -18,7 +18,7 @@ triton.language.sin(x, _semantic=None)
 | `_semantic`  | -        | Reserved parameter, not supported for external calls           |
 
 Return value:
-`x`: Output tensor with the same shape as the input `x`
+`x`: The output tensor has the same shape as the input tensor `x`.
 
 ### 2.2 OP Specifications
 
@@ -26,8 +26,8 @@ Return value:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU    | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | √    | √    | ×    | ×    |
-| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
+| GPU    | ×    | ×     | ×     | ×     | ×     | ×      | ×      | ×     | ×    | √    | √    | ×    | ×    |
+| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×     | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
 Conclusion: Compared to GPU, Ascend lacks fp64 support but additionally supports fp16 and bf16.
 torch_npu supports uint8.
@@ -43,7 +43,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative community capability gaps that cannot be implemented
+> Missing capabilities relative to the community that cannot be implemented
 
 None.
 

@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-The Ascend hardware A5 supports defining new views using only offsets, sizes, and strides, without copying the underlying data.
+The Ascend hardware A5 supports defining new views, implemented solely through offsets, sizes, and strides, without copying the underlying data.
 
 ## 2. Interface Description
 
@@ -36,21 +36,21 @@ Return value: bl.buffer
 
 ## 4. Constraints
 
-- The input parameters `size`, `offset`, and `stride` must be greater than 0 (`offset` can be 0); negative values are not allowed.
+- The input parameters `size`, `offset`, and `stride` must be greater than 0 (`offset` can be 0) and cannot be negative.
 
 - The size of each dimension must not exceed the size of the original buffer.
 
 - The size of each dimension of the subview must not exceed the size of the original buffer.
 
-- The stride access must not exceed the size of `src`; all elements of `stride` must be 1.
+- The access pattern defined by `stride` must not exceed the size of `src`; all elements of `stride` must be 1.
 
-- The parameter settings must specify the value for each dimension, and the parameter dimensions must be consistent with the input buffer dimensions.
+- The parameter settings must specify values for each dimension, and the number of parameter dimensions should match the dimensions of the input buffer.
 
 - `offset` must be 32-byte aligned.
 
-- The offset of the first point in the second row of the last dimension of the subview must be 32-byte aligned.
+- The offset of the first element in the second row of the last dimension of the subview must be 32-byte aligned.
 
-Explanation: `sizes` and `strides` are passed as type `List[tl.constexpr]` (be careful not to mistakenly pass a tensor, otherwise an error will occur - type mismatch). `offsets` additionally supports tensor input (constexpr can also be passed).
+Supplementary explanation: `sizes` and `strides` are passed with the type `List[tl.constexpr]` (note: do not mistakenly pass a tensor, as this will cause a type mismatch error). `offsets` additionally supports tensor input (constexpr input is also supported).
 
 ## 5. Usage Example
 

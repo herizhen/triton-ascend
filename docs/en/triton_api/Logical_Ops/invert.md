@@ -5,26 +5,26 @@
 Description: Performs bitwise inversion on each value of the tensor.
 
 ```python
-# Via operator
+# Using the operator
 ~x
 
-# Or directly call the dunder method
+# Or directly calling the dunder method
 x.__invert__()
 ```
 
-## 2. Specification
+## 2. Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type      | Description                                      |
-| -------------- | --------- | ------------------------------------------------ |
-| `x`            | `tensor`  | Tensor data                                      |
-| `_semantic`    | -         | Reserved parameter, not supported for external calls |
+| Parameter Name | Type     | Description                                                    |
+| -------------- | -------- | -------------------------------------------------------------- |
+| `x`            | `tensor` | Tensor data                                                    |
+| `_semantic`    | -        | Reserved parameter, not supported for external calls currently |
 
 Return value:
-`out`: The output tensor has the same shape as the input tensor `x`
+`out`: The shape of the output tensor is the same as the shape of the input `x`.
 
-### 2.2 OP Specification
+### 2.2 OP Specifications
 
 #### 2.2.1 DataType Support
 
@@ -37,10 +37,10 @@ Conclusion: Ascend lacks support for unsigned integer types compared to GPU.
 
 #### 2.2.2 Shape Support
 
-|               | Supported Dimension Range |
-| ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+|              | Supported Dimension Range |
+| ------------ | ------------------------- |
+| GPU          | Only supports 1~5D tensors |
+| Ascend A2/A3 | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
@@ -52,7 +52,7 @@ Ascend lacks support for unsigned integer types compared to GPU.
 
 ### 2.4 Usage Example
 
-The following example demonstrates element-wise bitwise inversion on the input tensor `x`:
+The following example demonstrates performing element-wise bitwise inversion on the input tensor `x`:
 
 ```python
 @triton.jit

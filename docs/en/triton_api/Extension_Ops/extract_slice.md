@@ -20,14 +20,14 @@ triton.language.extract_slice(
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type             | Description                                                      |
-| ------------ | ---------------- | ---------------------------------------------------------------- |
-| `ful`        | `tensor`         | Source tensor from which to extract the slice                    |
-| `offsets`    | `tuple of ints`  | Starting offsets of the slice in each dimension                  |
-| `sizes`      | `tuple of ints`  | Size of the slice in each dimension                              |
-| `strides`    | `tuple of ints`  | Stride of the slice in each dimension                            |
-| `_builder`   | -                | Reserved parameter, not supported for external calls             |
-| `_generator` | -                | Reserved parameter, not supported for external calls             |
+| Parameter Name | Type               | Description                                                    |
+| -------------- | ------------------ | -------------------------------------------------------------- |
+| `ful`          | `tensor`           | Source tensor from which to extract the slice                  |
+| `offsets`      | `tuple of ints`    | Starting offsets of the slice in each dimension                |
+| `sizes`        | `tuple of ints`    | Size of the slice in each dimension                            |
+| `strides`      | `tuple of ints`    | Stride of the slice in each dimension                          |
+| `_builder`     | -                  | Reserved parameter, not supported for external calls           |
+| `_generator`   | -                  | Reserved parameter, not supported for external calls           |
 
 Return value:
 `tensor`: The extracted slice tensor
@@ -36,8 +36,8 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|            | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | bf16 | bool |
-| ---------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
 | Ascend A2/A3 | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | ×    |
 
 #### 2.2.2 Shape Support

@@ -6,7 +6,7 @@ Along the way, you will learn:
 - The advantages of kernel fusion for bandwidth-bound operations.
 - Reduction operations in Triton.
 
-## Softmax Computation on X Row by Row Using Native PyTorch
+## Computing Softmax Row-wise on X Using Native PyTorch
 
 ```Python
 import torch
@@ -17,7 +17,7 @@ import triton.language as tl
 
 def naive_softmax(x):
     """
-    Subtract the maximum element to avoid overflow. Softmax is invariant to this shift.
+    We subtract the maximum element to avoid overflow. Softmax is invariant to this shift.
     """
     # Read MN elements; write M elements
     x_max = x.max(dim=1)[0]
@@ -33,7 +33,7 @@ def naive_softmax(x):
     return ret
 ```
 
-Purpose of Kernel Fusion
+The Purpose of Kernel Fusion
 
 When implemented natively in PyTorch, computing `y=naive_softmax(x)` requires reading 5MN+2M elements from DRAM and writing back 3MN+2M elements. This is clearly very inefficient; we would prefer to use a custom "fused" kernel that reads x only once and performs all necessary computations on-chip.
 This would require reading and writing only 2MN bytes, so we can expect a theoretical speedup of approximately 4x (i.e., (8MN+4M)/2MN).
@@ -48,7 +48,7 @@ Note: An important limitation of Triton is that each block must have a power-of-
 ```Python
 @triton.jit
 def softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n_rows, n_cols, BLOCK_SIZE: tl.constexpr):
-    # Starting row of the program
+    # Starting row for the program
     row_start = tl.program_id(0)
     row_step = tl.num_programs(0)
     for row_idx in tl.range(row_start, n_rows, row_step):
@@ -58,12 +58,12 @@ def softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n
         # the row in a single block
         col_offsets = tl.arange(0, BLOCK_SIZE)
         input_ptrs = row_start_ptr + col_offsets
-        # Load the row into SRAM, using a mask because BLOCK_SIZE may be greater than n_cols
+        # Load the row into SRAM, using a mask because BLOCK_SIZE may be larger than n_cols
         mask = col_offsets < n_cols
         row = tl.load(input_ptrs, mask=mask, other=-float('inf'))
         # Subtract the maximum for numerical stability
         row_minus_max = row - tl.max(row, axis=0)
-        # Note: exponentiation in Triton is fast but approximate.
+        # Note: The exponential operation in Triton is fast but approximate.
         numerator = tl.exp(row_minus_max)
         denominator = tl.sum(numerator, axis=0)
         softmax_output = numerator / denominator
@@ -145,4 +145,4 @@ tensor([[0.0002, 0.0017, 0.0009,  ..., 0.0009, 0.0013, 0.0073],
 The maximum difference between torch and triton is 1.4901161193847656e-08
 ```
 
-"The maximum difference between torch and triton is 1.4901161193847656e-08" indicates that the output results of Triton and PyTorch are very close and indistinguishable to the naked eye.
+"The maximum difference between torch and triton is 1.4901161193847656e-08" indicates that the outputs of Triton and PyTorch are very close and indistinguishable to the naked eye.

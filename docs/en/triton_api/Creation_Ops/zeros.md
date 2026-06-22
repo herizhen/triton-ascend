@@ -8,16 +8,16 @@ Description: `triton.language.zeros` returns a tensor filled with the scalar val
 triton.language.zeros(shape, dtype)
 ```
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type                  | Description                                   |
+| Parameter Name | Type | Description |
 | ------------- | ----------------- | ---------------------------- |
-| `shape`           | `tuple of ints`               | Shape of the new array, e.g., (8, 16) or (8, ) |
-| `dtype`            | `tl.dtype`               |  Data type of the new array, e.g., tl.float16 |
+| `shape` | `tuple of ints` | Shape of the new array, e.g., (8, 16) or (8, ) |
+| `dtype` | `tl.dtype` | Data type of the new array, e.g., tl.float16 |
 
-Return Value:
+Return value:
 `tensor`: Returns a tensor filled with the scalar value 0 of the given shape and dtype.
 
 ### 2.2 Supported Specifications
@@ -33,7 +33,7 @@ Return Value:
 
 Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
 
-### 2.3 Special Restrictions
+### 2.3 Special Limitations
 
 > Missing community capabilities that cannot be implemented
 > None

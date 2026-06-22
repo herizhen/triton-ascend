@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Splits the input tensor into two tensors along the last dimension. The last dimension of the output tensors is half the size of the input tensor's last dimension, while other dimensions remain unchanged.
+Splits the input tensor into two tensors along the last dimension. The last dimension size of the output tensors is half of the input tensor's last dimension, while other dimensions remain unchanged.
 
 **Syntax:**
 
@@ -12,7 +12,7 @@ Splits the input tensor into two tensors along the last dimension. The last dime
 **Functionality:**
 
 - Splits the input tensor into two tensors along the last dimension
-- The last dimension of the output tensors is half the size of the input tensor's last dimension, which must be 2
+- The last dimension size of the output tensors is half of the input tensor's last dimension, which must be 2
 - Other dimensions remain unchanged
 
 ## 2 Parameter Specifications
@@ -26,19 +26,19 @@ Splits the input tensor into two tensors along the last dimension. The last dime
 **Return Value:**
 
 - **Type:** Tuple[tensor, tensor]
-- **Shape:** Two tensors with the same shape, where the last dimension is half of the input's
+- **Shape:** Two tensors with the same shape, the last dimension being half of the input
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Contains the odd and even indexed elements of the input tensor, respectively
+- **Memory Layout:** Contains elements at odd and even positions of the input tensor respectively
 
 **Constraints:**
 
-- The last dimension of the input tensor must be even
-- The two output tensors have the same shape
+- The last dimension size of the input tensor must be even
+- Outputs two tensors with the same shape
 
 ### 2.2 DataType Support Table
 
 | Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:----:|:----:|:------:|:---:|
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 

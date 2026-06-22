@@ -4,21 +4,21 @@
 class triton.Config(self, kwargs, num_warps, num_stages, num_ctas, maxnreg, pre_hook)
 ```
 
-An object representing a kernel configuration that autotuning may try.
+An object representing a kernel configuration that autotuning may attempt.
 
 **Variables:**
 
-- kwargs – A dictionary of 1 meta-argument, to be passed as keyword arguments to the kernel.
+- **kwargs** – A dictionary of meta-parameters to be passed to the kernel as keyword arguments.
 
-- num_warps – The number of warps to use when the kernel is compiled for GPU. For example, if num_warps=8, each kernel instance will be automatically parallelized to use 8 * 32 = 256 threads executing cooperatively.
+- **num_warps** – The number of warps used by the kernel when compiled for a GPU. For example, if num_warps=8, each kernel instance will be automatically parallelized to execute with 8 * 32 = 256 threads working together.
 
-- num_stages – The number of stages the compiler should use when software-pipelining loops. Useful for matrix multiplication workloads on SM80+ GPUs.
+- **num_stages** – The number of stages the compiler should use when software-pipelining loops. Useful for matrix multiplication workloads on SM80+ GPUs.
 
-- num_ctas - The number of blocks in a block cluster. Only supported on SM90+.
+- **num_ctas** – The number of blocks in a block cluster. Only applicable for SM90+.
 
-- maxnreg - The maximum number of registers a single thread can use. Corresponds to the .maxnreg directive in ptx. Not supported on all platforms.
+- **maxnreg** – The maximum number of registers a single thread can use. Corresponds to the `.maxnreg` directive in PTX. Not supported on all platforms.
 
-- pre_hook – A function that will be called before the kernel is invoked. The function's argument is args.
+- **pre_hook** – A function that will be called before the kernel is invoked. The function takes `args` as its argument.
 
 ```python
 __init__(self, kwargs, num_warps=4, num_stages=2, num_ctas=1, maxnreg=None, pre_hook=None)
@@ -26,6 +26,7 @@ __init__(self, kwargs, num_warps=4, num_stages=2, num_ctas=1, maxnreg=None, pre_
 
 **Methods:**
 
-| init(self, kwargs[, num_warps, ...]) |
-|-----|
-|all_kwargs (self)|
+| Method | Description |
+|--------|-------------|
+| `init(self, kwargs[, num_warps, ...])` | |
+| `all_kwargs(self)` | |

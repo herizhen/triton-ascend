@@ -2,7 +2,7 @@
 
 ## 1. Background
 
-To support Ascend-level programming, users need to manually create memory (buffer) on specified address spaces. This interface is hardware-independent and interfaces with `memref.alloc`.
+To support Ascend-level programming needs, users must be able to manually allocate memory (buffer) on a specified address space. This interface is hardware-independent and interfaces with `memref.alloc`.
 
 ## 2. Interface Description
 
@@ -14,9 +14,9 @@ To support Ascend-level programming, users need to manually create memory (buffe
 
 ## 3. Return Value
 
-Returns a buffer type under the buffer language, semantically isolated from the tensor type under the triton language. Direct assignment between them is not supported; explicit conversion via `to_tensor` and `to_buffer` is required. It represents a block of memory allocated on a specified address space, carrying three pieces of information: data type, shape, and address space.
+Returns a buffer type under the buffer language, semantically isolated from tensors in the triton language. Direct assignment between them is not supported; explicit conversion via `to_tensor` and `to_buffer` is required. It represents a block of memory allocated on a specified address space, carrying three pieces of information: data type, shape, and address space.
 
-## 4. Parameters
+## 4. Input Parameters
 
 <table>
   <tr>
@@ -94,9 +94,9 @@ Returns a buffer type under the buffer language, semantically isolated from the 
 
 - Each element of `shape` must be a positive integer
 
-- Must ensure compliance with the size limits of the specified address space
+- Must ensure compliance with the size limit of the specified address space
 
-- The `address_space` parameter defaults to `None`, indicating no address space information is carried
+- The `address_space` parameter defaults to empty, indicating no address space information is carried
 
 ## 7. Usage Example
 

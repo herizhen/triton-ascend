@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Atomic compare-and-swap operation. It compares the value at *pointer with `cmp`. If equal, it updates *pointer to `val`; otherwise, *pointer remains unchanged.
+Description: Atomic compare-and-swap operation. Compares the value at `*pointer` with `cmp`. If equal, updates `*pointer` to `val`; otherwise, `*pointer` remains unchanged.
 Prototype:
 
 ```python
@@ -16,20 +16,20 @@ triton.language.atomic_cas(
 ) -> pointer
 ```
 
-It can be called as a member function of a tensor, e.g., `x.atomic_cas(...)`, which is equivalent to `atomic_cas(x, ...)`.
+Can be called as a member function of a tensor, e.g., `x.atomic_cas(...)`, which is equivalent to `atomic_cas(x, ...)`.
 
 ## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type                | Description                                                                                                                           |
-| -------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `pointer`      | `triton.PointerDType` | The memory location to operate on. If *pointer == cmp, *pointer is updated to `val`. The computed result is written back to this memory location. |
-| `cmp`          | `pointer.dtype.element_ty` | The value to compare with the target memory.                                                                                          |
-| `val`          | `pointer.dtype.element_ty` | The target value for the update.                                                                                                      |
-| `sem`          | `str`, optional     | Specifies the memory semantics of the operation.<br>Community official configuration accepts "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel":<br>- acquire: After acquiring the lock, previous release operations are visible (equivalent to a "read" operation that blocks until the "latest" data, i.e., data released by other threads, is read).<br>- release: All operations before releasing the lock are visible to threads that subsequently acquire the lock (equivalent to a "write" operation that "synchronizes" all previous write operations). |
-| `scope`        | `str`, optional     | The thread scope for observing the synchronization effect of the atomic operation.<br>Accepted values are "gpu" (default), "cta" (cooperative thread array, thread block), or "sys" (representing "SYSTEM").<br>We only support "gpu". |
-| `_semantic`    | -                   | Reserved parameter; external calls are not supported.                                                                                 |
+| Parameter    | Type                | Description                                                                                                                               |
+| ------------ | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `pointer`    | `triton.PointerDType` | Memory location to operate on. If `*pointer == cmp`, updates `*pointer` to `val`. The computed result is written back to this memory location. |
+| `cmp`        | `pointer.dtype.element_ty` | Value to compare with the target memory.                                                                                                  |
+| `val`        | `pointer.dtype.element_ty` | Target value for the update.                                                                                                              |
+| `sem`        | `str`, optional     | Specifies the memory semantics of the operation.<br>Community official configuration accepts "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel":<br>- acquire: After acquiring a lock, previous release operations are visible (equivalent to a "read" operation that blocks until the "latest" data, i.e., data released by other threads, is readable).<br>- release: All operations before releasing the lock are visible to threads that subsequently acquire the lock (equivalent to a "write" operation that "synchronizes" all previous write operations). |
+| `scope`      | `str`, optional     | Thread scope for observing the synchronization effect of the atomic operation.<br>Accepted values are "gpu" (default), "cta" (cooperative thread array, thread block), or "sys" (representing "SYSTEM").<br>We only support "gpu". |
+| `_semantic`  | -                   | Reserved parameter; external calls are not supported for now.                                                                             |
 
 Return value:
 `pointer`: tensor, the old value before the operation was performed.
@@ -38,9 +38,9 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|           | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| --------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU       | ×    | √     | √     | ×     | ×      | ×      | ×      | √     | ×    | √    | √    | √    | ×    |
+|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU          | ×    | √     | √     | ×     | ×      | ×      | ×      | √     | ×    | √    | √    | √    | ×    |
 | Ascend A2/A3 | ×    | √     | √     | ×     | √      | √      | √      | √     | √    | √    | ×    | ×    | ×    |
 
 Conclusion: Compared to GPU, Ascend lacks support for fp64 and bf16.
@@ -51,13 +51,13 @@ No special requirements.
 
 ### 2.3 Special Limitations
 
-> Capabilities missing compared to the community and cannot be implemented.
+> Capabilities missing relative to the community and cannot be implemented.
 
-| Difference Point | Description                                                                                                                         |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| Data Type        | Compared to GPU, Ascend lacks support for fp64 (hardware limitation).                                                               |
-| `sem`            | Community official configuration accepts "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel". |
-| `scope`          | Accepted values are "gpu", "cta", or "sys".<br>We only support "gpu".                                                               |
+| Difference | Description                                                                                                                              |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Data types | Compared to GPU, Ascend lacks support for fp64 (hardware limitation).                                                                      |
+| `sem`      | Community official configuration accepts "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel". |
+| `scope`    | Accepted values are "gpu", "cta", or "sys".<br>We only support "gpu".                                                                      |
 
 ### 2.4 Usage Example
 

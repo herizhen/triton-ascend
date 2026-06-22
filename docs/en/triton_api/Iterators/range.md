@@ -17,7 +17,7 @@ triton.language.range(arg1, arg2=None, step=None, num_stages=None, loop_unroll_f
 | `arg1` | `int` / `constexpr` | Required | Start value (when single parameter, acts as end value, starting from 0) |
 | `arg2` | `int` / `constexpr` | - | End value (exclusive) |
 | `step` | `int` / `constexpr` | `1` | An integer, the step increment per iteration |
-| `num_stages` | `int` | - | Number of pipeline stages (number of iterations executed concurrently) |
+| `num_stages` | `int` | - | Number of pipeline stages (number of concurrently executing iterations) |
 | `loop_unroll_factor` | `int` | - | Loop unroll factor (<2 means no unrolling) |
 | `disallow_acc_multi_buffer` | `bool` | `False` | Disables multi-buffer optimization for dot operation accumulators |
 | `flatten` | `bool` | `False` | Automatically flattens nested loops into a single loop |
@@ -36,10 +36,10 @@ A3:
 
 ### 2.3 Special Limitations
 
-> Relative community capability missing and unimplementable
+> Missing capabilities relative to the community, not implementable
 
 Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
-The functionalities related to `disallow_acc_multi_buffer`, `flatten`, `warp_specialize`, and `disable_licm` are not yet complete.
+The functionalities related to disallow_acc_multi_buffer, flatten, warp_specialize, and disable_licm are not yet complete.
 
 ### 2.4 Usage
 

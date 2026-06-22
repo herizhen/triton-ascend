@@ -31,7 +31,7 @@ A `tl.tensor` consisting of the axis value
 
 #### 2.2.2 Shape Support
 
-Not applicable
+No relevant settings
 
 ### 2.3 Special Constraints
 

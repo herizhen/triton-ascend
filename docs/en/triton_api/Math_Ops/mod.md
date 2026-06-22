@@ -8,10 +8,10 @@ Description: Modulo operation, arithmetic operator '%'
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type                | Description                                                  |
-| ------------ | ------------------- | ------------------------------------------------------------ |
-| `self`       | `tensor or Number`  | First input, dividend                                        |
-| `other`      | `tensor or Number`  | Second input, divisor                                        |
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| `self` | `tensor or Number` | First input, dividend |
+| `other` | `tensor or Number` | Second input, divisor |
 
 Return value:
 `tl.tensor`: Result of the modulo operation
@@ -27,10 +27,10 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-|        | Supported Dimension Range |
-| ------ | ------------------------- |
-| GPU    | No restrictions           |
-| Ascend A2/A3 | No restrictions    |
+| | Supported Dimension Range |
+| ------ | --------------- |
+| GPU | Unlimited |
+| Ascend A2/A3 | Unlimited |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 

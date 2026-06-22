@@ -12,14 +12,14 @@ triton.language.div_rn(x, y, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type       | Description                                                    |
-| -------------- | ---------- | -------------------------------------------------------------- |
-| `x`            | `tensor`   | Tensor data                                                    |
-| `y`            | `tensor`   | Tensor data                                                    |
-| `_semantic`    | -          | Reserved parameter, not supported for external calls currently |
+| Parameter      | Type                | Description                                                        |
+| -------------- | ------------------- | ------------------------------------------------------------------ |
+| `x`            | `tensor`            | Tensor data                                                        |
+| `y`            | `tensor`            | Tensor data                                                        |
+| `_semantic`    | -                   | Reserved parameter, not supported for external calls currently     |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor `x`
+`x`: The output tensor has the same shape as the input tensor `x`.
 
 ### 2.2 OP Specifications
 
@@ -50,7 +50,7 @@ None.
 
 ### 2.4 Usage Example
 
-The following example demonstrates the element-wise exact division of input tensors `x` and `y`:
+The following example implements element-wise exact division of input tensors `x` and `y`:
 
 ```python
 @triton.jit

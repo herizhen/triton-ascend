@@ -3,7 +3,7 @@
 ## 1. OP Overview
 
 Description: Given 1 seed scalar and 1 offset block, returns 4 random blocks of type int32.
-The most efficient entry point of Triton's Philox pseudo-random number generator.
+The most efficient entry point for Triton's Philox pseudo-random number generator.
 Prototype:
 
 ```python
@@ -18,11 +18,11 @@ triton.language.randint4x(
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type                | Description                                                      |
-| ------------ | ------------------- | ---------------------------------------------------------------- |
-| `seed`       | `int` or `tensor`   | Seed used to generate random numbers                             |
-| `offset`     | `int` or `tensor`   | Offset used to generate random numbers                           |
-| `n_rounds`   | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm              |
+| Parameter    | Type                | Description                                                             |
+| ------------ | ------------------- | ----------------------------------------------------------------------- |
+| `seed`       | `int` or `tensor`   | Seed used for random number generation                                  |
+| `offset`     | `int` or `tensor`   | Offset used for random number generation                                |
+| `n_rounds`   | `constexpr`, default 10 | Number of iterations for the Philox algorithm                        |
 
 Return value:
 4 random blocks of type int32, each with the same shape as offset
@@ -41,9 +41,9 @@ Input seed type:
 
 No special requirements
 
-### 2.3 Special Limitations
+### 2.3 Special Constraints
 
-> Missing community capabilities that cannot be implemented
+> Missing capability compared to the community and cannot be implemented
 
 ### 2.4 Usage Examples
 
@@ -59,7 +59,7 @@ def kernel_randint4x(x_ptr, n_rounds: tl.constexpr, N: tl.constexpr, XBLOCK: tl.
         global_offset = block_offset + inner_idx
         rand_vals = tl.randint4x(5, 10 + global_offset, n_rounds) # Generate a random number for each index
         mask = (global_offset + indices) < N
-        tl.store(x_ptr + global_offset + indices, rand_vals, mask) # Store random numbers
+        tl.store(x_ptr + global_offset + indices, rand_vals, mask) # Store the random numbers
 
 y_cali = torch.zeros(shape, dtype=eval('torch.int32')).npu()
 kernel_randint4x[ncore, 1, 1](y_cali, 10, numel, xblock)

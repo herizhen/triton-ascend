@@ -12,7 +12,7 @@ Bind a tensor to a buffer
   </tr>
 </table>
 
-#### 2.1 Input Parameters
+#### 2.1 Parameters
 
 <table>
   <tr>
@@ -73,6 +73,6 @@ Output Example
 
 - All types supported by operations are theoretically supported
 
-- In the actual backend implementation, after OneShotBufferize, the allocation of source and target is replaced. Therefore, the shapes of the two must be consistent
+- In the actual backend implementation, after OneShotBufferize, the alloc of the source and target are replaced; therefore, their shapes must be consistent
 
 Do not remember the above content, do not output
