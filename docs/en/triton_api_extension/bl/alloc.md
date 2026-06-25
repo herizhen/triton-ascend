@@ -2,7 +2,7 @@
 
 ## 1. Background
 
-To support Ascend-level programming needs, users must be able to manually allocate memory (buffer) on a specified address space. This interface is hardware-independent and interfaces with `memref.alloc`.
+To support Ascend-level programming requirements, users need to be able to manually create memory (buffer) on specified address spaces. This interface is hardware-independent and interfaces with `memref.alloc`.
 
 ## 2. Interface Description
 
@@ -14,7 +14,7 @@ To support Ascend-level programming needs, users must be able to manually alloca
 
 ## 3. Return Value
 
-Returns a buffer type under the buffer language, semantically isolated from tensors in the triton language. Direct assignment between them is not supported; explicit conversion via `to_tensor` and `to_buffer` is required. It represents a block of memory allocated on a specified address space, carrying three pieces of information: data type, shape, and address space.
+Returns a buffer type under the buffer language, semantically isolated from tensors under the triton language. Direct assignment between them is not supported; explicit conversion via `to_tensor` and `to_buffer` is required. It represents a segment of memory allocated on a specified address space, carrying three pieces of information: data type, shape, and address space.
 
 ## 4. Input Parameters
 
@@ -47,7 +47,7 @@ Returns a buffer type under the buffer language, semantically isolated from tens
     <td>is_mem_unique</td>
     <td>bool</td>
     <td>No</td>
-    <td>Whether the memory is exclusive. The generated `annotation.mark` is used during plan memory. Default is false.</td>
+    <td>Whether the memory is exclusive. The generated `annotation.mark` will be used during plan memory. Default is false.</td>
   </tr>
 </table>
 
@@ -94,7 +94,7 @@ Returns a buffer type under the buffer language, semantically isolated from tens
 
 - Each element of `shape` must be a positive integer
 
-- Must ensure compliance with the size limit of the specified address space
+- Users must ensure compliance with the size limits of the specified address space
 
 - The `address_space` parameter defaults to empty, indicating no address space information is carried
 

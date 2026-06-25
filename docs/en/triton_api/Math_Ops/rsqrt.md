@@ -12,13 +12,13 @@ triton.language.rsqrt(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type              | Description                                                    |
-| -------------- | ----------------- | -------------------------------------------------------------- |
-| `x`            | `tensor`          | Tensor data                                                    |
-| `_semantic`    | -                 | Reserved parameter, not supported for external calls           |
+| Parameter      | Type       | Description                                                  |
+| -------------- | ---------- | ------------------------------------------------------------ |
+| `x`            | `tensor`   | Tensor data                                                  |
+| `_semantic`    | -          | Reserved parameter, not supported for external calls currently |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor `x`
+`x`: Output tensor with the same shape as the input tensor `x`
 
 ### 2.2 OP Specifications
 
@@ -26,8 +26,8 @@ Return value:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU    | ×    | ×     | ×     | ×     | ×     | ×      | ×      | ×     | ×    | √    | √    | ×    | ×    |
-| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×     | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
+| GPU    | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | √    | √    | ×    | ×    |
+| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
 Conclusion: Compared to GPU, Ascend lacks fp64 support but additionally supports fp16 and bf16.
 torch_npu supports uint8.

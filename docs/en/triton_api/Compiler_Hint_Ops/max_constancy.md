@@ -16,10 +16,10 @@ triton.language.max_constancy(input, values, _builder=None, _semantic=None)
 |-----------|------|---------|-------------|
 | `input` | `Tensor` | Required | Input tensor whose values have a specific constancy pattern |
 | `values` | `constexpr[int]` or `list[constexpr[int]]` | Required | Compile-time constant integer (or sequence of integers) describing the constancy pattern |
-| `_semantic` | - | - | Reserved parameter, not supported for external calls |
+| `_semantic` | - | - | Reserved parameter, external calls not supported |
 
-**`values` describes the constancy characteristics of each dimension, so the dimensionality of `values` must match that of `input`.
-Note the dimension reduction that occurs when the last dimension of `shape` is `1`.**
+**`values` describes the constancy characteristics of each dimension, so the dimensions of `values` must match the dimensions of `input`.
+Note the dimensionality reduction that occurs when the last dimension of `shape` is `1`.**
 
 For example: a 2D `input` corresponds to a general `values` input of `[1,1]`.
 
@@ -30,15 +30,15 @@ A3:
 | | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 |------|-------|-------|-------|-------|--------|--------|--------|-------|------|------|------|------|------|
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | × | × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
+| Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | ×| × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
 
 ### 2.3 Special Limitations
 
-> Missing community capability that cannot be implemented
+> Missing community capabilities that cannot be implemented
 
-Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
+Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 
-### 2.4 Usage Example
+### 2.4 Usage
 
 ```python
 @triton.jit

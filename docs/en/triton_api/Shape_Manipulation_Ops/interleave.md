@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Interleaves two input tensors of the same shape along the last dimension. The output tensor's last dimension size is twice that of the input tensors, while other dimensions remain unchanged.
+Interleaves two input tensors of the same shape along the last dimension. The last dimension of the output tensor is twice the size of the input tensors, while other dimensions remain unchanged.
 
 **Syntax:**
 
@@ -12,7 +12,7 @@ Interleaves two input tensors of the same shape along the last dimension. The ou
 **Functionality:**
 
 - Interleaves two input tensors of the same shape along the last dimension
-- The output tensor's last dimension size is twice that of the input tensors
+- The last dimension of the output tensor is twice the size of the input tensors
 - Other dimensions remain unchanged
 
 ## 2 Parameter Specifications
@@ -22,19 +22,19 @@ Interleaves two input tensors of the same shape along the last dimension. The ou
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | x | tensor | Yes | First input tensor |
-| y | tensor | Yes | Second input tensor, shape must match x |
+| y | tensor | Yes | Second input tensor, must have the same shape as x |
 
 **Return Value:**
 
 - **Type:** tensor
-- **Shape:** Last dimension of input shape multiplied by 2
-- **Data Type:** Same as input tensors
+- **Shape:** Last dimension of the input shape multiplied by 2
+- **Data Type:** Same as the input tensors
 - **Memory Layout:** Alternating elements of x and y
 
 **Constraints:**
 
 - Both input tensors must have the same shape and data type
-- The output tensor's shape is the input shape with the last dimension multiplied by 2
+- The shape of the output tensor is the last dimension of the input shape multiplied by 2
 
 ### 2.2 DataType Support Table
 
@@ -63,12 +63,12 @@ def interleave_example():
     x = tl.zeros([2, 3], dtype=tl.float32)
     y = tl.ones([2, 3], dtype=tl.float32)
 
-    # Interleave to become 2x6
+    # Interleave, resulting in 2x6
     z = tl.interleave(x, y)
 
     return z
 
-## Call example
+## Example call
 result = interleave_example()
 print(result.shape)  # Output: (2, 6)
 ```

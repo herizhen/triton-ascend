@@ -17,8 +17,8 @@ triton.language.clamp(x, min, max, propagate_nan: constexpr = PropagateNan.NONE,
 | `x`            | `tensor`           | Tensor data                                                      |
 | `min`          | `tensor`           | Lower bound (can be a tensor or scalar, broadcast to `x`'s shape) |
 | `max`          | `tensor`           | Upper bound (can be a tensor or scalar, broadcast to `x`'s shape) |
-| `propagate_nan`| `triton.language.core.constexpr` | Whether to propagate NaN from `min` or `max`                     |
-| `_semantic`    | -                  | Reserved parameter, external calls not supported                  |
+| `propagate_nan`| `triton.language.core.constexpr` | Whether to propagate NaN from min or max                         |
+| `_semantic`    | -                  | Reserved parameter, external calls not supported                 |
 
 Return value:
 `x`: Output tensor with the same shape as the input tensor `x`
@@ -43,11 +43,11 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Missing functionality compared to the community, cannot be implemented
+> Missing community capability that cannot be implemented
 
-Ascend lacks fp64 support compared to GPU.
+Compared to GPU, Ascend lacks fp64 support.
 
-### 2.4 Usage Example
+### 2.4 Usage
 
 The following example demonstrates clamping the input tensor `x`:
 

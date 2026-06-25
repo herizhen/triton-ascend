@@ -53,7 +53,7 @@ The A5 adds a data path from L0C to UB. To implement this path, a temporary solu
   <tr>
     <td>_builder</td>
     <td>-</td>
-    <td>JIT auto-passed parameter</td>
+    <td>JIT automatic parameter passing</td>
   </tr>
 </table>
 
@@ -65,7 +65,7 @@ No return value, directly use the input parameter `dst`
 
 - fixpipe only supports data transfer from L0C to UB
 
-- src must be the result after dot operation
+- src must be the result after dot product
 
 - dst must be a buffer with memscope set to UB
 

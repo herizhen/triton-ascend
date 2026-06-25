@@ -50,15 +50,15 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Community capability gaps that cannot be implemented
+> Missing capabilities compared to the community that cannot be implemented
 
 Conclusion: Ascend lacks support for uint16, uint32, and uint64 compared to GPU (hardware limitation).
 
-| Difference Point             | Description                                                                 | Solution                                               |
-| ---------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------ |
-| Binding usage restriction    | `make_tensor_descriptor` / `load_tensor_descriptor` / `store_tensor_descriptor` must be used together and cannot be mixed with `tl.load()` / `tl.store()`. | Upgrading to Triton 3.4.0 to synchronize upstream functions (e.g., `cast`) can resolve this |
+| Difference                     | Description                                                                 | Solution                                               |
+| ------------------------------ | --------------------------------------------------------------------------- | ------------------------------------------------------ |
+| Binding usage restriction      | `make_tensor_descriptor` / `load_tensor_descriptor` / `store_tensor_descriptor` must be used together; cannot be mixed with `tl.load()` / `tl.store()`. | Upgrading to Triton 3.4.0 to sync upstream functions (e.g., `cast`) can resolve this |
 | `padding_option` parameter not supported | The current community main branch adds the `padding_option` parameter for out-of-bounds element padding strategies. | Can be supported via software development             |
-| Triton version compatibility | Triton 3.2.0 has compatibility issues with some functions (e.g., `cast`). It is recommended to upgrade Triton to version 3.4.0 to fix binding restrictions. | Upgrade to Triton 3.4.0                                |
+| Triton version compatibility   | Triton 3.2.0 has compatibility issues with some functions (e.g., `cast`). It is recommended to upgrade to Triton 3.4.0 to fix binding restrictions. | Upgrade to Triton 3.4.0                                |
 
 ### 2.4 Usage Example
 

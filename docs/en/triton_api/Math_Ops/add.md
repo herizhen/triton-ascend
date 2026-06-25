@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Introduction: Addition, equivalent to the arithmetic operator '+'
+Description: Addition, equivalent to the arithmetic operator '+'
 Prototype:
 
 ```python
@@ -17,7 +17,7 @@ triton.language.add(x, y, sanitize_overflow: constexpr = True, _builder=None)
 | ------------- | ----------------- | -------------------------------------------------------------- |
 | `x` | `tensor or Number` | First input parameter |
 | `y` | `tensor or Number` | Second input parameter |
-| `sanitize_overflow` | `bool` | Whether to perform overflow checking for integer addition, default value is True, no need to explicitly specify |
+| `sanitize_overflow` | `bool` | Whether to perform overflow checking for integer addition, default value is True, no need to specify explicitly |
 | `_builder` | - | Reserved parameter, external calls not supported temporarily |
 
 Return value:

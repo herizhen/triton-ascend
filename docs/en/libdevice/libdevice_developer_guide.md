@@ -2,7 +2,7 @@
 
 ## SIMT Compilation Example
 
-Example of a triton kernel compiled using SIMT
+Example of a triton kernel using SIMT compilation
 
 ```python
 # Enable libdevice SIMT compilation
@@ -303,7 +303,7 @@ triton.language.extra.cann.libdevice.brev(x, _builder=None)
 Input types:
 - x: `int32`
 
-Return value: `tl.tensor`, returns the 32-bit integer with reversed bits.
+Return value: `tl.tensor`, returns the 32-bit integer with reversed bit order.
 
 Return type: `int32`
 
@@ -322,7 +322,7 @@ input[4] = y<7:0>     input[5] = y<15:8>
 input[6] = y<23:16>   input[7] = y<31:24>
 ```
 
-The byte selection parameter s is a 32-bit integer, and the mapping between its bits and byte selection is as follows.
+The byte selection parameter s is a 32-bit integer, with the correspondence between its bits and byte selection as follows.
 
 ```cpp
 selector[0] = s<2:0>    selector[1] = s<6:4>
@@ -477,7 +477,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Computes cos(π × x).
+Computes the value of cos(π × x).
 
 Prototype:
 
@@ -498,7 +498,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Computes the modified Bessel function of the first kind of order zero for the input argument.
+Computes the modified Bessel function of the first kind of order 0 for the input argument.
 
 Prototype:
 
@@ -509,7 +509,7 @@ triton.language.extra.cann.libdevice.cyl_bessel_i0(x, _builder=None)
 Input types:
 - x: `float32`
 
-Return value: `tl.tensor`, returns the modified Bessel function of the first kind of order zero for the input argument.
+Return value: `tl.tensor`, returns the modified Bessel function of the first kind of order 0 for the input argument.
 
 Return type: `float32`
 
@@ -519,7 +519,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Computes the modified Bessel function of the first kind of order one for the input argument.
+Computes the modified Bessel function of the first kind of order 1 for the input argument.
 
 Prototype:
 
@@ -530,7 +530,7 @@ triton.language.extra.cann.libdevice.cyl_bessel_i1(x, _builder=None)
 Input types:
 - x: `float32`
 
-Return value: `tl.tensor`, returns the modified Bessel function of the first kind of order one for the input argument.
+Return value: `tl.tensor`, returns the modified Bessel function of the first kind of order 1 for the input argument.
 
 Return type: `float32`
 
@@ -670,7 +670,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Inverse complementary error function, finds the value y satisfying x = erfc(y).
+Inverse complementary error function, finds the value y such that x = erfc(y).
 
 Prototype:
 
@@ -707,5 +707,3 @@ Return value: `tl.tensor`, returns the scaled complementary error function of th
 Return type: `float32`
 
 Supported compilation modes: SIMT
-
-## 32. triton.l

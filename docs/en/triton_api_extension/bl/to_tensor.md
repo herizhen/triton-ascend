@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-Converts a buffer allocated on Ascend to a `tl.tensor` and returns it.
+Converts a buffer allocated on Ascend to a tl.tensor and returns it.
 
 ## 2. Interface Description
 
@@ -16,7 +16,7 @@ Converts a buffer allocated on Ascend to a `tl.tensor` and returns it.
 
 <table>
   <tr>
-    <td>Parameter</td>
+    <td>Parameter Name</td>
     <td>Type</td>
     <td>Required</td>
     <td>Description</td>
@@ -36,14 +36,14 @@ Converts a buffer allocated on Ascend to a `tl.tensor` and returns it.
   <tr>
     <td>_builder</td>
     <td>-</td>
-    <td>Internal</td>
+    <td>Internal parameter</td>
     <td>Automatically passed by the compiler; users do not need to use it.</td>
   </tr>
 </table>
 
 ## 3. Constraints
 
-This interface is subject to the same constraints as `bl.allocate_local_buffer`.
+This interface has the same constraints as bl.allocate_local_buffer.
 
 ## 4. Usage Example
 

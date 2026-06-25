@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: `triton.language.cumprod` computes the cumulative product of the input tensor along a specified axis and returns the cumulative product result.
+Description: `triton.language.cumprod` computes the cumulative product of the input tensor along the specified axis, returning the cumulative product result.
 
 ```python
 triton.language.cumprod(input, axis=0, reverse=False)
@@ -28,16 +28,16 @@ Unlike `cumsum`, `cumprod` does not have a `dtype` parameter, so attention must 
 
 #### 2.2.1 DataType Support
 
-| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 #### 2.2.2 Shape Support
 
-Conclusion: There is no difference in Shape between GPU and Ascend platforms.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 Special Constraints
+### 2.3 Special Limitations
 
 ### 2.4 Usage
 

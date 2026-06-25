@@ -37,14 +37,14 @@ Conclusion: Ascend lacks fp64 support compared to GPU.
 
 |              | Supported Dimension Range |
 | ------------ | ------------------------- |
-| GPU          | Supports only 1~5D tensors |
-| Ascend A2/A3 | Supports only 1~5D tensors |
+| GPU          | Only supports 1~5D tensors |
+| Ascend A2/A3 | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Community capability gaps that cannot be implemented
 
 None.
 

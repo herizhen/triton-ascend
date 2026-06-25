@@ -13,15 +13,15 @@ triton.language.randn(
 )
 ```
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                      |
-| -------------- | ------------------ | ---------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                          |
-| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                        |
-| `n_rounds`     | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm              |
+| Parameter Name | Type               | Description                                                    |
+| -------------- | ------------------ | -------------------------------------------------------------- |
+| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                        |
+| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                      |
+| `n_rounds`     | `constexpr`, default value is 10 | Number of iteration rounds for the Philox algorithm |
 
 Return Value:
 1 random block of float32 type, with the same shape as `offset`, whose values follow the standard normal distribution `N(0, 1)`
@@ -42,11 +42,11 @@ No special requirements
 
 ### 2.3 Special Constraints
 
-> Missing community capability and cannot be implemented
+> Missing community capabilities that cannot be implemented
 
 ### 2.4 Usage Example
 
-The following example demonstrates the call to `randn`:
+The following example demonstrates the invocation of `randn`:
 
 ```python
 import math

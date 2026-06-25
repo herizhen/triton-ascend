@@ -16,13 +16,13 @@ triton.language.load_tensor_descriptor(
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type                            | Description                                                         |
-| ------------ | ------------------------------- | ------------------------------------------------------------------- |
-| `desc`       | `tensor_descriptor_base`        | Tensor descriptor object created by `make_tensor_descriptor`, defining the memory layout (shape, strides, block size, etc.). |
-| `offsets`    | `Sequence[constexpr \| tensor]` | Sequence of starting offsets for data loading, specifying the data location to be loaded by the current thread block. |
-| `_semantic`  | -                               | Reserved parameter, not supported for external calls currently.     |
+| Parameter    | Type                             | Description                                                         |
+| ----------- | -------------------------------- | ------------------------------------------------------------------- |
+| `desc`      | `tensor_descriptor_base`         | Tensor descriptor object created by `make_tensor_descriptor`, defining the memory layout (shape, strides, block size, etc.). |
+| `offsets`   | `Sequence[constexpr \| tensor]`  | Sequence of starting offsets for data loading, used to specify the data location to be loaded by the current thread block. |
+| `_semantic` | -                                | Reserved parameter, not supported for external calls currently. |
 
-Return value: `tensor` - A data block loaded from the specified offsets according to the tensor descriptor's memory layout information.
+Return value: `tensor` - A data block loaded from the specified offset based on the memory layout information of the tensor descriptor.
 
 ### 2.2 Supported Specifications
 
@@ -46,12 +46,12 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 > Community capability gaps that cannot be implemented
 
-Conclusion: Ascend lacks support for uint16, uint32, and uint64 compared to GPU (hardware limitation).
+Conclusion: Compared to GPU, Ascend lacks support for uint16, uint32, and uint64 (hardware limitation).
 
-| Difference Point | Description                                                  | Solution                                                |
-| ---------------- | ------------------------------------------------------------ | ------------------------------------------------------- |
+| Difference Point       | Description                                                  | Solution                                                |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------- |
 | Binding Usage Restriction | `make_tensor_descriptor` / `load_tensor_descriptor` / `store_tensor_descriptor` must be used together and cannot be mixed with `tl.load()` / `tl.store()`. | Upgrading to Triton 3.4.0 to synchronize upstream functions (e.g., `cast`) can resolve this. |
-| Triton Version Compatibility | Triton 3.2.0 has compatibility issues with some functions (e.g., `cast`). It is recommended to upgrade the Triton version to 3.4.0 to fix the binding restriction. | Upgrade to Triton 3.4.0 |
+| Triton Version Compatibility | Triton 3.2.0 has compatibility issues with some functions (e.g., `cast`). It is recommended to upgrade Triton to version 3.4.0 to fix binding restrictions. | Upgrade to Triton 3.4.0                                     |
 
 ### 2.4 Usage
 
@@ -81,7 +81,7 @@ def inplace_abs(in_out_ptr, M, N, M_BLOCK: tl.constexpr, N_BLOCK: tl.constexpr):
         strides=[N, 1],
         block_shape=[M_BLOCK, N_BLOCK],
     )
- # Calculate offsets for the current thread
+ # Calculate the offset for the current thread
     moffset = tl.program_id(0) * M_BLOCK
     noffset = tl.program_id(1) * N_BLOCK
  # Load data, compute absolute value, store result

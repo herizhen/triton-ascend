@@ -16,13 +16,13 @@ x.__invert__()
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type     | Description                                                    |
-| -------------- | -------- | -------------------------------------------------------------- |
-| `x`            | `tensor` | Tensor data                                                    |
-| `_semantic`    | -        | Reserved parameter, not supported for external calls currently |
+| Parameter Name | Type      | Description                                        |
+| -------------- | --------- | -------------------------------------------------- |
+| `x`            | `tensor`  | Tensor data                                        |
+| `_semantic`    | -         | Reserved parameter, not supported for external calls |
 
 Return value:
-`out`: The shape of the output tensor is the same as the shape of the input `x`.
+`out`: The shape of the output tensor is the same as that of the input tensor `x`
 
 ### 2.2 OP Specifications
 
@@ -33,14 +33,14 @@ Return value:
 | GPU           | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | √    |
 | Ascend A2/A3  | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
 
-Conclusion: Ascend lacks support for unsigned integer types compared to GPU.
+Conclusion: Ascend lacks support for uint types compared to GPU.
 
 #### 2.2.2 Shape Support
 
-|              | Supported Dimension Range |
-| ------------ | ------------------------- |
-| GPU          | Only supports 1~5D tensors |
-| Ascend A2/A3 | Only supports 1~5D tensors |
+|               | Supported Dimension Range |
+| ------------- | ------------------------- |
+| GPU           | Only supports 1~5D tensors |
+| Ascend A2/A3  | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
@@ -48,7 +48,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 > Missing community capabilities that cannot be implemented
 
-Ascend lacks support for unsigned integer types compared to GPU.
+Ascend lacks support for uint types compared to GPU.
 
 ### 2.4 Usage Example
 

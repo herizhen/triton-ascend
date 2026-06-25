@@ -8,7 +8,7 @@
 triton.language.max_contiguous(input, values, _builder=None, _semantic=None)
 ```
 
-## 2. Specifications
+## 2. Specification
 
 ### 2.1 Parameter Description
 
@@ -16,10 +16,10 @@ triton.language.max_contiguous(input, values, _builder=None, _semantic=None)
 |-----------|------|---------|-------------|
 | `input` | `Tensor` | Required | Input tensor whose memory access has a specific contiguity pattern |
 | `values` | `constexpr[int]` or `list[constexpr[int]]` | Required | Compile-time constant integer (or sequence of integers) describing the contiguity pattern |
-| `_semantic` | - | - | Reserved parameter, not yet supported for external calls |
+| `_semantic` | - | - | Reserved parameter, not supported for external calls |
 
 **`values` describes the contiguity characteristics of each dimension, so the dimensionality of `values` must match that of `input`.
-Note the dimension reduction case when the last dimension of `shape` is `1`.**
+Note the dimensionality reduction when the last dimension of `shape` is `1`.**
 
 For example: a 2D `input` corresponds to a general `values` parameter of `[1,1]`.
 
@@ -38,14 +38,14 @@ A3:
 
 Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 
-### 2.4 Usage Example
+### 2.4 Usage
 
 ```python
 @triton.jit
 def triton_max_contiguous(A, B, BLOCK_SIZE : tl.constexpr):
     offsets = tl.arange(0, BLOCK_SIZE)
     val = tl.load(A + offsets)
-    # Declare that the first BLOCK_SIZE elements in offset are contiguous
+    # Declare that the first BLOCK_SIZE elements in offsets are contiguous
     input_data = tl.max_contiguous(val, [BLOCK_SIZE])
 
     # The compiler can generate more efficient memory access instructions

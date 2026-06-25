@@ -17,8 +17,8 @@ triton.language.max(input, axis=None, return_indices=False, return_indices_tie_b
 | `input` | `tensor` | Input tensor data |
 | `axis`   | `int` | Specifies the dimension along which to reduce; when axis=None, reduces over all axes |
 | `keep_dims` | `bool` | Whether to keep the reduced dimension |
-| `return_indices` | `bool` | If true, returns the index corresponding to the maximum value in addition to the maximum value itself |
-| `return_indices_tie_break_left` | `bool` | If multiple elements have the same maximum value, returns the left-most index for non-NaN values |
+| `return_indices` | `bool` | If true, returns the index corresponding to the maximum value in addition to the maximum value |
+| `return_indices_tie_break_left` | `bool` | If multiple elements have the same maximum value, returns the left-most index for values that aren't NaN |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -49,23 +49,23 @@ Parameter combination support:
 
 #### 2.2.1 DataType Support
 
-| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 |GPU| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 |Ascend A2/A3| √ | √ | × | √ | × | √ | × | √ | √ | √ | √ | √ |
 
 #### 2.2.2 Shape Support
 
-| | Supported Dimension Range |
+|        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU | Unlimited |
-| Ascend A2/A3 | Unlimited (default up to 8 dimensions) |
+| GPU    | No limit |
+| Ascend A2/A3| No limit (default up to 8 dimensions) |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Usage
 
-For more examples, refer to the triton-ascend repository: ascend/examples/generalization_cases/test_max.py
+For more examples, refer to the triton-ascend repository, ascend/examples/generalization_cases/test_max.py
 
 ```@triton.jit
 def triton_max_1d(in_ptr0, out_ptr1, xnumel, XBLOCK : tl.constexpr):
@@ -77,4 +77,4 @@ def triton_max_1d(in_ptr0, out_ptr1, xnumel, XBLOCK : tl.constexpr):
 
 ### 2.4 Special Limitations
 
-Compared to GPU, Ascend A3 does not support uint16, uint32, uint64, or fp64.
+Ascend A3 does not support uint16, uint32, uint64, fp64 compared to GPU.

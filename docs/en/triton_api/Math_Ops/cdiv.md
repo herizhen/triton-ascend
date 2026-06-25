@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Introduction: Computes the ceiling division of tensors.
+Description: Computes the ceiling division of tensors.
 Function prototype:
 
 ```python
@@ -15,10 +15,10 @@ Can be called as a member function of a tensor, e.g., `x.cdiv(...)`, which is eq
 
 ### 2.1 Parameter Description
 
-| Parameter | Type | Description |
-| :---: | :---: | :---: |
-| `x` | `tensor` | Tensor data, dividend |
-| `div`   | `tensor` | Tensor data, divisor |
+| Parameter | Type   | Description          |
+| :-------: | :----: | :------------------: |
+| `x`       | `tensor` | Tensor data, dividend |
+| `div`     | `tensor` | Tensor data, divisor  |
 
 Return value:
 `out`: A tensor with the same shape as `x` and `div`.
@@ -38,14 +38,14 @@ Conclusion: Compared to GPU, Ascend does not support uint and bool inputs.
 
 |        | Supported Dimension Range |
 | -------- | -------------------------- |
-| GPU    | No restrictions |
-| Ascend | No restrictions |
+| GPU    | No restriction            |
+| Ascend | No restriction            |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
+Conclusion: There is no difference in shape support between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Missing community capability that cannot be implemented
+> Missing functionality relative to the community that cannot be implemented
 
 Input range: 0~16777216
 

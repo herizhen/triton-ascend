@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Performs a left bitwise shift on a tensor based on a given value.
+Description: Performs a left bitwise shift on a tensor according to a given value.
 
 ```python
 triton.language.core.__lshift__(
@@ -14,15 +14,15 @@ triton.language.core.__lshift__(
 
 Used as a built-in operator for `tensor`, e.g., `x<<y`.
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
 | Parameter | Type | Description |
 | :---: | :---: | --- |
 | `input` | `tensor` | Tensor data, left operand, representing the main data to be shifted |
-| `other`   | `tensor or scalar` | Tensor data, right operand, the shift amount |
-| `_builder` | - | Reserved parameter, external calls not supported |
+| `other`   | `tensor or scalar` | Tensor data, right operand, the value by which to shift |
+| `_builder` | - | Reserved parameter, external invocation not supported |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -36,27 +36,27 @@ Return value:
 | GPU      | √ | √ | √ | √ | √ | √ | √ | √ | × | × | × | × | √ |
 | Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | × | × | × | × | √ |
 
-Conclusion: Ascend lacks uint support compared to GPU.
+Conclusion: Compared to GPU, Ascend lacks support for uint types.
 
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU    | Unlimited |
-| Ascend A2/A3 | Unlimited |
+| GPU    | No restrictions |
+| Ascend A2/A3 | No restrictions |
 
-Conclusion: No differences in shape support between GPU and Ascend platforms.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Features missing relative to community capabilities and cannot be implemented
 
-1. Ascend lacks uint type support compared to GPU.
-2. The right operand `other` only supports scalars, not tensors (i.e., `x << 2` is valid, `x << y` (where `y` is a tensor) is not supported).
+1. Compared to GPU, Ascend lacks support for uint types.
+2. The right operand `other` only supports scalars, not tensors (i.e., `x << 2` is valid, `x << y` (where `y` is a tensor) is not yet supported).
 
 ### 2.4 Usage Example
 
-The following example performs a left shift operation on 3D tensors `x0` and `x1`:
+The following example demonstrates performing a left shift operation on 3D tensors `x0` and `x1`:
 
 ```python
 @triton.jit

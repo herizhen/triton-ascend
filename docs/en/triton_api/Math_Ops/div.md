@@ -10,47 +10,47 @@ The underlying implementation is the same as the fdiv operator, except that fdiv
 
 ### 2.1 Parameter Description
 
-| Parameter | Type | Description |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `self` | `tensor or Number` | First input, dividend |
-| `other` | `tensor or Number` | Second input, divisor |
+| Parameter    | Type                | Description                                                  |
+| ------------ | ------------------- | ------------------------------------------------------------ |
+| `self`       | `tensor or Number`  | First input parameter, dividend                              |
+| `other`      | `tensor or Number`  | Second input parameter, divisor                              |
 
 Return value:
 `tl.tensor`: Division result
 Return type: Always returns floating-point type
 
-| Input Type | Processing Method | Result Type |
-| --------------------- | -------------------------- | --------------- |
-| `int / int` | Both converted to `float32` | `float32` |
-| `int / float` | int converted to float | float type |
-| `float / float` | Unified to higher precision float | Higher precision float |
-| `float / int` | int converted to float | float type |
+| Input Type             | Processing Method          | Result Type   |
+| ---------------------- | -------------------------- | ------------- |
+| `int / int`            | Both converted to `float32`| `float32`     |
+| `int / float`          | int converted to float     | float type    |
+| `float / float`        | Unified to higher precision float | Higher precision float |
+| `float / int`          | int converted to float     | float type    |
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
-| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-|---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
+|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+|---|-------|------|--------|-------|--------|-------|--------|-------|------|------|------|-----------|
 |GPU| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 |Ascend A2/A3| × | √ | × | √ | × | √ | × | √ | √ | √ | √ | √ |
 
 #### 2.2.2 Shape Support
 
-| | Supported Dimension Range |
-| ------ | --------------- |
-| GPU | No restrictions |
-| Ascend A2/A3 | No restrictions |
+|               | Supported Dimension Range |
+| ------------- | ------------------------- |
+| GPU           | No restrictions           |
+| Ascend A2/A3  | No restrictions           |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 Special Limitations
+### 2.3 Special Restrictions
 
-Compared to GPU, Ascend A3 lacks support for uint8, uint16, uint32, uint64, and fp64.
+Ascend A3 lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU.
 
 ### 2.4 Usage Example
 
-The following example demonstrates division computation on input tensors `in_ptr0, in_ptr1`:
+The following example demonstrates performing division on input tensors `in_ptr0, in_ptr1`:
 
 ```python
 @triton.jit

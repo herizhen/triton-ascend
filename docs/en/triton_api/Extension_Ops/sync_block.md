@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Explicit inter-core synchronization instruction used to coordinate execution order and data consistency between different cores in the Cube-Vector architecture.
+An explicit inter-core synchronization instruction used to coordinate execution order and data consistency between different cores in the Cube-Vector architecture.
 
 ## 2. `sync_block_set` Operation
 
@@ -22,12 +22,12 @@ triton.language.sync_block_set(sender, receiver, event_id, _builder=None)
 |-----------|------|---------|-------------|
 | `sender` | `str` | Required | Sender core type: "cube" or "vector" |
 | `receiver` | `str` | Required | Receiver core type: "cube" or "vector" |
-| `event_id` | `int` | Required | Event ID used to distinguish different synchronization points |
+| `event_id` | `int` | Required | Event ID, used to distinguish different synchronization points |
 | `_builder` | - | `None` | Reserved parameter, external calls not supported |
 
 #### 2.2.2 Special Constraints
 
-1. `sender` and `receiver` cannot be the same; a core cannot send signals to itself
+1. `sender` and `receiver` cannot be the same; a core cannot send a signal to itself
 2. `event_id` must be in the range 0-15 (16 independent events total)
 
 ## 3. `sync_block_wait` Operation
@@ -60,7 +60,7 @@ triton.language.sync_block_wait(sender, receiver, event_id, _builder=None)
 
 ### 4.1 Function Overview
 
-Global barrier synchronization that synchronizes all specified types of cores to the same point.
+Global barrier synchronization, synchronizing all specified types of cores to the same point.
 
 ```python
 triton.language.sync_block_all(mode, event_id, _builder=None)

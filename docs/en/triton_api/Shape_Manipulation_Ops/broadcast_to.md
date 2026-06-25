@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Broadcasts a tensor to a target shape, automatically handling dimension alignment. The broadcast operation does not copy data; it is implemented by changing the tensor's shape and strides.
+Broadcasts a tensor to a target shape, automatically handling dimension alignment. The broadcast operation does not copy data; it is implemented by modifying the tensor's shape and strides.
 
 **Syntax:**
 
@@ -38,7 +38,7 @@ Broadcasts a tensor to a target shape, automatically handling dimension alignmen
 ### 2.2 DataType Support Table
 
 | Support Status | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|----------------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
+|----------------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -48,7 +48,7 @@ Supports any number of dimensions and any shape size.
 
 ### 2.4 Special Constraints
 
-Unlike `broadcast`, the Triton community implementation of `broadcast_to` requires that the rank of the tensor's shape and the target shape are identical.
+Unlike `broadcast`, the Triton community implementation of `broadcast_to` requires that the rank of the tensor's shape must match the rank of the target shape.
 
 ### 2.5 Usage
 
@@ -60,7 +60,7 @@ def matrix_add_bias_kernel(x_ptr, bias_ptr, output_ptr, M, N, BLOCK_M: tl.conste
     # Load data block
     x = tl.load(x_ptr + offsets, mask=mask)
 
-    # Broadcast bias to match shape
+    # Broadcast bias to match the shape
     bias = tl.load(bias_ptr)
     bias_broadcast = bias.broadcast_to([BLOCK_M, BLOCK_N])
 

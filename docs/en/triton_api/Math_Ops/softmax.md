@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise softmax of `x`.
+Description: Computes the element-wise softmax of x.
 
 ```python
 triton.language.softmax(x, dim=None, keep_dims=False, ieee_rounding=False)
@@ -12,15 +12,15 @@ triton.language.softmax(x, dim=None, keep_dims=False, ieee_rounding=False)
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type               | Description                                                        |
-| ------------ | ------------------ | ------------------------------------------------------------------ |
-| `x`          | `tensor`           | Tensor data                                                        |
-| `dim`        | `int`              | Specifies the dimension along which softmax is computed            |
-| `keep_dims`  | `bool`             | Controls whether the original dimension shape is retained          |
-| `ieee_rounding` | `bool`          | Controls whether floating-point operations follow IEEE 754 rounding rules |
+| Parameter    | Type       | Description                                                        |
+| ------------ | ---------- | ------------------------------------------------------------------ |
+| `x`          | `tensor`   | Tensor data                                                        |
+| `dim`        | `int`      | Specifies the dimension along which to compute the softmax         |
+| `keep_dims`  | `bool`     | Controls whether to retain the original dimension shape after computation |
+| `ieee_rounding` | `bool`  | Controls whether floating-point operations follow IEEE 754 rounding rules |
 
 Return value:
-`x`: A tensor with the same shape as `x`
+`x`: A tensor with the same shape as x
 
 ### 2.2 OP Specifications
 
@@ -31,7 +31,7 @@ Return value:
 | GPU           | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | √    | √    | ×    |
 | Ascend A2/A3  | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Compared to GPU, Ascend lacks fp64 support.
+Conclusion: Ascend lacks fp64 support compared to GPU.
 torch_npu does not support uint8.
 
 #### 2.2.2 Shape Support

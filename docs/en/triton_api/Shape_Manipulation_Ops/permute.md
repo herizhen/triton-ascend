@@ -11,8 +11,8 @@ Reorders the dimensions of a tensor according to the `dims` parameter. This oper
 
 **Functionality:**
 
-- Reorders tensor dimensions according to the `dims` parameter
-- Does not change the tensor's data, only the dimension order
+- Reorders the dimensions of a tensor according to the `dims` parameter
+- Does not change the tensor's data, only the order of its dimensions
 - Supports arbitrary dimension reordering
 
 ## 2 Parameter Specifications
@@ -29,7 +29,7 @@ Reorders the dimensions of a tensor according to the `dims` parameter. This oper
 - **Type:** tensor
 - **Shape:** Dimensions reordered according to the `dims` parameter
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Transposition achieved by modifying stride information, no data copy
+- **Memory Layout:** Transposition is achieved by modifying stride information, with no data copy
 
 **Constraints:**
 
@@ -46,9 +46,9 @@ Reorders the dimensions of a tensor according to the `dims` parameter. This oper
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Constraints
+### 2.4 Special Constraint Notes
 
-* Transposition of dimensions higher than 8 is not supported
+* Transposition for dimensions greater than 8 is not supported
 
 ### 2.5 Usage Example
 

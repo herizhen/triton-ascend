@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Reinterprets a tensor into a new shape.
+Reinterprets a tensor with a new shape.
 
 **Syntax:**
 
@@ -11,7 +11,7 @@ Reinterprets a tensor into a new shape.
 
 **Functionality:**
 
-- Reinterprets a tensor into a new shape
+- Reinterprets a tensor with a new shape
 
 ## 2 Parameter Specifications
 
@@ -33,12 +33,12 @@ Reinterprets a tensor into a new shape.
 **Constraints:**
 
 - The total number of elements in the input and output tensors must be equal
-- All tensors must not have a dimension size less than 1
+- No tensor dimension size is allowed to be less than 1
 
 ### 2.2 DataType Support Table
 
 | Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 

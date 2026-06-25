@@ -3,7 +3,7 @@
 ## 1. Function Overview
 
 Description: Computes the element-wise cosine of the input `x`.
-Function prototype (Triton 3.4.0 version):
+Function prototype (Triton version 3.4.0):
 
 ```python
 triton.language.cos(x, _semantic=None)
@@ -13,10 +13,10 @@ triton.language.cos(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type       | Description                                                    |
-| -------------- | ---------- | -------------------------------------------------------------- |
-| `x`            | `tensor`   | Tensor data                                                    |
-| `_semantic`    | -          | Reserved parameter, not supported for external calls           |
+| Parameter      | Type                | Description                                                         |
+| -------------- | ------------------- | ------------------------------------------------------------------- |
+| `x`            | `tensor`            | Tensor data                                                         |
+| `_semantic`    | -                   | Reserved parameter, not supported for external calls currently      |
 
 Return value:
 `x`: The output tensor has the same shape as the input tensor `x`.
@@ -44,7 +44,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative community capability missing and cannot be implemented
+> Relative community capability gaps that cannot be implemented
 
 None.
 

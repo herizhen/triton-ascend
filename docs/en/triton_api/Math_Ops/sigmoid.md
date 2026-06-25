@@ -12,9 +12,9 @@ triton.language.sigmoid(x)
 
 ### 2.1 Parameter Description
 
-| Parameter | Type     | Description      |
-| --------- | -------- | ---------------- |
-| `x`       | `tensor` | Tensor data      |
+| Parameter | Type     | Description |
+|-----------|----------|-------------|
+| `x`       | `tensor` | Tensor data |
 
 Return value:
 `x`: The output tensor has the same shape as the input tensor `x`.
@@ -48,7 +48,7 @@ None.
 
 ### 2.4 Usage Example
 
-The following example demonstrates applying the element-wise sigmoid function to the input tensor `x`:
+The following example demonstrates applying the element-wise sigmoid to the input tensor `x`:
 
 ```python
 @triton.jit

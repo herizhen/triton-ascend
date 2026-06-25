@@ -38,15 +38,15 @@ Return value:
 | GPU    | No limit |
 | Ascend | No limit |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape support.
 
 ### 2.3 Special Limitations
 
-> Relative community capability gap that cannot be implemented
+> Community capability gap that cannot be implemented
 
-Ascend A3 lacks support for uint16, uint32, uint64, and fp64 compared to GPU
+Ascend A3 lacks support for uint16, uint32, uint64, and fp64 compared to GPU.
 
-### 2.4 Usage Examples
+### 2.4 Usage Example
 
 For more examples, refer to the triton-ascend code repository, ascend/examples/generalization_cases/test_argmax.py
 
@@ -60,4 +60,4 @@ def triton_argmax_1d(in_ptr0, out_ptr1, xnumel, XBLOCK: tl.constexpr):
 
 ## 3. Special Value Cases
 
-For the tensor[nan,inf] case, returns the index of inf
+For tensor[nan, inf], returns the index of inf.

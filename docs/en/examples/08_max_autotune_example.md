@@ -1,12 +1,12 @@
 # max_autotune Usage Example
 
-`max_autotune` is an enhanced auto-tuning decorator provided by Triton-Ascend, designed to simplify the code writing for multi-parameter tuning. Unlike the community version `autotune`, which requires users to manually enumerate all `triton.Config` instances, `max_autotune` allows users to provide only a few basic configurations (such as block size) and automatically incorporates related compiler options (such as `num_stages`, `enable_hivm_auto_cv_balance`, etc.) into the search space for optimal combinations. Users can also explicitly control the search scope through parameter lists.
+`max_autotune` is an enhanced auto-tuning decorator provided by Triton-Ascend, designed to simplify the code writing for multi-parameter tuning. Unlike the community version `autotune`, which requires users to manually enumerate all `triton.Config` instances, `max_autotune` allows users to provide only a few basic configurations (such as block size) and automatically incorporates related compiler options (e.g., `num_stages`, `enable_hivm_auto_cv_balance`) into the search space for optimal combinations. Users can also explicitly control the search range through parameter lists.
 
 **Applicable Scenarios**: `cube`, `mix`, and `vector` operators on Ascend NPU, especially suitable for scenarios requiring simultaneous adjustment of multiple hardware-related parameters.
 
 ## Basic Usage Example
 
-The following example demonstrates using `max_autotune` to automatically tune a simple vector addition kernel. Compared to the community version `autotune`, `max_autotune` also automatically includes different compiler options in the tuning space without requiring manual specification by the user.
+The following example demonstrates using `max_autotune` for automatic tuning of a simple vector addition kernel. Compared to the community version `autotune`, `max_autotune` also automatically includes different compiler options in the tuning space without requiring manual specification by the user.
 
 ```Python
 import torch
@@ -44,7 +44,7 @@ def test_max_autotune():
             tmp2 = tl.math.exp(tmp0) + tmp1 + i
             tl.store(out_ptr0 + idx, tmp2, mask=mask)
 
-    # Wrapper function
+    # Wrapper call function
     def triton_calc_func(x0, x1):
         n = x0.numel()
         y0 = torch.empty_like(x0)

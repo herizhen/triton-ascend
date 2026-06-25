@@ -12,18 +12,18 @@ triton.language.zeros_like(input)
 
 ### 2.1 Parameter Description
 
-| Parameter | Type | Description |
-| --------- | ---- | ----------- |
-| `input` | `Tensor` | Input tensor |
+| Parameter Name | Type        | Description                          |
+| -------------- | ----------- | ------------------------------------ |
+| `input`        | `Tensor`    | Input tensor                         |
 
-Return value:
+Return Value:
 `tensor`: Returns a tensor of zeros with the same shape and type as the given tensor.
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
-| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | × |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × |

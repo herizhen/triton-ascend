@@ -2,7 +2,7 @@
 
 ## Document Purpose
 
-This document is intended for users already familiar with the Triton-Ascend auto-tuning mechanism, introducing advanced usage of the `max_autotune` decorator:
+This document is intended for users already familiar with Triton-Ascend's auto-tuning mechanism, introducing advanced usage of the `max_autotune` decorator:
 
 - Differences and relationships between `max_autotune` and the standard `@triton.autotune`;
 - How to leverage the Cartesian product expansion mechanism to batch-generate candidate configurations;
@@ -53,19 +53,19 @@ The equivalent number of configurations after expansion is:
 
 Total configurations: `2 × 2 × 2 × 2 × 2 = 32` configurations.
 
-> Note: `kernel_type="mix"` supports many parameters. Parameters not explicitly provided will use default values during expansion. If you want a specific parameter not to participate in the expansion, you can fix its value in the base `Config`'s `kwargs`.
+> Note: `kernel_type="mix"` supports many parameters. Parameters not explicitly provided will use default values for expansion. If you want a specific parameter not to participate in expansion, you can fix its value in the base `Config`'s `kwargs`.
 
-### 2. Relationship Between `max_autotune` and `@triton.autotune`
+### 2. Relationship between `max_autotune` and `@triton.autotune`
 
-Essentially, `max_autotune` first calls `get_max_configs` to expand the base configurations, then passes the expanded configuration list to the standard `@triton.autotune`. Therefore:
+`max_autotune` essentially first calls `get_max_configs` to expand the base configurations, then passes the expanded configuration list to the standard `@triton.autotune`. Therefore:
 
 - All parameters supported by `@triton.autotune` (`key`, `prune_configs_by`, `reset_to_zero`, etc.) are also valid in `max_autotune`;
-- `max_autotune` additionally adds the `kernel_type` parameter and the `**tuning_params` tuning parameter space;
-- Ultimately, `@triton.autotune` still performs benchmarking, optimization, and caching.
+- `max_autotune` additionally adds the `kernel_type` parameter and `**tuning_params` tuning parameter space;
+- Ultimately, `@triton.autotune` still handles benchmarking, selection, and caching.
 
 ### 3. Must Import Ascend Backend Extension
 
-Similar to using `configs=[]` for automatic tiling, `max_autotune` requires the Ascend backend extension. `max_autotune` must be imported separately from the Ascend backend module:
+Similar to using `configs=[]` for automatic tiling, `max_autotune` requires Ascend backend extension support. `max_autotune` needs to be imported separately from the Ascend backend module:
 
 ```python
 from triton.backends.ascend.backend.runtime import max_autotune
@@ -73,21 +73,21 @@ from triton.backends.ascend.backend.runtime import max_autotune
 
 ## Kernel Types and Supported Parameters
 
-`max_autotune` distinguishes different types of operators via the `kernel_type` parameter, each supporting a different set of tuning parameters.
+`max_autotune` distinguishes different types of operators via the `kernel_type` parameter, with each type supporting a different set of tuning parameters.
 
 ### Parameter Support Matrix
 
 | Parameter | cube | mix | vector | Default Value | Valid Values | Description |
 |-----------|:----:|:---:|:------:|---------------|--------------|-------------|
 | `num_stages` | ✅ | ✅ | ✅ | `[2]` | `[1, 2]` | Number of pipeline stages |
-| `unit_flag` | ✅ | ✅ | ❌ | `[False]` | Boolean list | Cube offload related synchronization optimization |
-| `limit_auto_multi_buffer_of_local_buffer` | ✅ | ✅ | ❌ | `["no-l0c"]` | `["no-limit", "no-l0c"]` | Configure scope of local buffer auto multi-buffer |
-| `limit_auto_multi_buffer_only_for_local_buffer` | ❌ | ✅ | ❌ | `[False]` | Boolean list | Limit auto multi-buffer to only local buffer |
-| `set_workspace_multibuffer` | ❌ | ✅ | ❌ | `[2, 4]` | `[2, 4]` | Configure workspace multi-buffer level |
-| `enable_hivm_auto_cv_balance` | ❌ | ✅ | ❌ | `[True]` | Boolean list | Enable or disable automatic CV balance |
-| `tile_mix_vector_loop` | ❌ | ✅ | ❌ | `[2, 4]` | `[2, 4, 8]` | Configure the number of Vector loop splits |
-| `tile_mix_cube_loop` | ❌ | ✅ | ❌ | `[2, 4]` | `[2, 4, 8]` | Configure the number of Cube loop splits |
-| `enable_ubuf_saving` | ❌ | ✅ | ✅ | `[True]` | Boolean list | Enable ubuf saving |
+| `unit_flag` | ✅ | ✅ | ❌ | `[False]` | Boolean list | Cube transfer-related synchronization optimization |
+| `limit_auto_multi_buffer_of_local_buffer` | ✅ | ✅ | ❌ | `["no-l0c"]` | `["no-limit", "no-l0c"]` | Configures the scope of automatic multi-buffer for local buffer |
+| `limit_auto_multi_buffer_only_for_local_buffer` | ❌ | ✅ | ❌ | `[False]` | Boolean list | Restricts automatic multi-buffer to only local buffer |
+| `set_workspace_multibuffer` | ❌ | ✅ | ❌ | `[2, 4]` | `[2, 4]` | Configures workspace multi-buffer level |
+| `enable_hivm_auto_cv_balance` | ❌ | ✅ | ❌ | `[True]` | Boolean list | Enables or disables automatic CV balance |
+| `tile_mix_vector_loop` | ❌ | ✅ | ❌ | `[2, 4]` | `[2, 4, 8]` | Configures the split count for Vector loop |
+| `tile_mix_cube_loop` | ❌ | ✅ | ❌ | `[2, 4]` | `[2, 4, 8]` | Configures the split count for Cube loop |
+| `enable_ubuf_saving` | ❌ | ✅ | ✅ | `[True]` | Boolean list | Enables ubuf saving |
 
 ### Kernel Type Description
 
@@ -99,9 +99,9 @@ from triton.backends.ascend.backend.runtime import max_autotune
 
 ### Parameter Value Priority
 
-The value of a tuning parameter is determined by the following priority:
+Tuning parameter values are determined by the following priority:
 
-1. **tuning_params argument** (highest priority): Candidate value list passed via `**tuning_params`;
+1. **tuning_params parameter** (highest priority): Candidate value list passed via `**tuning_params`;
 2. **Value in base configuration**: If the parameter already exists in the base `Config`'s `kwargs`, it is fixed to that value (converted to a single-element list);
 3. **Default value** (lowest priority): Obtained from the internal default value table.
 
@@ -139,7 +139,7 @@ configs=[
 
 ### Fixing Parameters in Base Configuration
 
-If you want a specific tuning parameter not to participate in the expansion, you can fix it directly in the base configuration:
+If you want a specific tuning parameter not to participate in expansion, you can fix it directly in the base configuration:
 
 ```python
 @max_autotune(
@@ -149,7 +149,7 @@ If you want a specific tuning parameter not to participate in the expansion, you
     key=["M", "N"],
     kernel_type="vector",
     num_stages=[1, 2],
-    # enable_ubuf_saving is fixed to False in the base configuration, will not use default [True]
+    # enable_ubuf_saving is already fixed to False in the base config, will not use default [True]
 )
 @triton.jit
 def kernel(...):
@@ -160,7 +160,7 @@ def kernel(...):
 
 ### 1. Unsupported Parameters Are Ignored
 
-If an unsupported parameter for the current `kernel_type` is passed via `tuning_params`, a warning will be issued and the parameter will be ignored:
+If an unsupported parameter for the current `kernel_type` is passed via `tuning_params`, a warning will be generated and the parameter will be ignored:
 
 ```python
 # Warning: tile_mix_vector_loop is not supported for kernel_type="vector"
@@ -202,9 +202,9 @@ Too many configurations will increase the initial tuning time. It is recommended
 
 | Feature | `max_autotune` | `@triton.autotune(configs=[])` |
 |---------|----------------|--------------------------------|
-| Tiling parameter generation | User specifies in base configurations | Automatically generated by Ascend backend |
-| Compilation parameter tuning | Supported via `tuning_params` expansion | Passed via `hints` parameter |
-| Applicable scenario | Know the tiling parameter space, need to tune compilation parameters | Want tiling parameters to be automatically generated as well |
+| Tiling parameter generation | User specifies in base configurations | Ascend backend auto-generates |
+| Compilation parameter tuning | Supports expansion via `tuning_params` | Passed via `hints` parameter |
+| Applicable scenario | Knows tiling parameter space, needs to tune compilation parameters | Wants tiling parameters to also be auto-generated |
 
 ## Advanced Usage
 

@@ -2,16 +2,16 @@
 
 ## 1. OP Overview
 
-Description: Floor division, returns the division result rounded toward zero, arithmetic operator '//', no `tl.floordiv` method.
+Description: Floor division, returns the division result rounded toward zero. Arithmetic operation '//', no `tl.floordiv` method.
 
 ## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter | Type                | Description                                                             |
-| --------- | ------------------- | ----------------------------------------------------------------------- |
-| `self`    | `tensor or Number`  | First input, dividend                                                   |
-| `other`   | `tensor or Number`  | Second input, divisor                                                   |
+| Parameter    | Type                | Description                                                    |
+| ------------ | ------------------- | -------------------------------------------------------------- |
+| `self`       | `tensor or Number`  | First input, dividend                                          |
+| `other`      | `tensor or Number`  | Second input, divisor                                          |
 
 ### 2.2 Supported Specifications
 
@@ -31,7 +31,7 @@ Description: Floor division, returns the division result rounded toward zero, ar
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 Usage Example
+### 2.3 Usage
 
 The following example demonstrates performing floor division on input tensors `in_ptr0, in_ptr1`:
 
@@ -45,6 +45,6 @@ def triton_kernel(out_ptr0, in_ptr0, in_ptr1, N: tl.constexpr):
     tl.store(out_ptr0 + idx, ret)
 ```
 
-### 2.4 Special Restrictions
+### 2.4. Special Restrictions
 
 Compared to GPU, Ascend A3 lacks support for uint8, uint16, uint32, and uint64.

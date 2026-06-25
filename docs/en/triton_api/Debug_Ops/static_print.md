@@ -37,7 +37,7 @@ A3:
 | GPU | Only supports 1~5D tensors |
 | Ascend | Only supports 1~5D tensors |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms, both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
@@ -59,7 +59,7 @@ def basic_static_print_example(x_ptr, BLOCK_SIZE: tl.constexpr):
     tl.static_print(f"BLOCK_SIZE={BLOCK_SIZE}")
 ```
 
-If printing **non-constant** results, it will print a `data_type[data_shape(empty for scalar)]` value. For example, if the data type pointed to by `x_ptr` in the code below is `int32`, it will print `val:int32[constexpr[4]]`:
+If printing **non-constant** results, it will print a `data type[data shape (empty for scalar)]` value. For example, if the data type pointed to by `x_ptr` in the code below is `int32`, it will print `val:int32[constexpr[4]]` as the result.
 
 ```python
 import triton.language as tl

@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-`static_range` is a static range iterator, similar to `range` but with aggressive loop unrolling optimization at compile time.
+`static_range` is a static range iterator, similar to `range` but performs aggressive loop unrolling optimization at compile time.
 
 ```python
 triton.language.static_range(arg1, arg2=None, step=None, _semantic=None)
@@ -17,7 +17,7 @@ triton.language.static_range(arg1, arg2=None, step=None, _semantic=None)
 | `arg1` | `constexpr` | Required | Start value (when used as a single parameter, it serves as the end value, starting from 0) |
 | `arg2` | `constexpr` | - | End value (exclusive) |
 | `step` | `constexpr` | `1` | Step increment per iteration |
-| `_semantic` | - | - | Reserved parameter, not supported for external calls |
+| `_semantic` | - | - | Reserved parameter, external calls not supported |
 
 ### 2.2 Type Support
 
@@ -26,11 +26,11 @@ A3:
 | | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 |------|-------|-------|-------|-------|--------|--------|--------|-------|------|------|------|------|------|
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | × | × |
-| Ascend 910 Series | ✓ | ✓ | ✓ | × | × | × | × | ✓ | × | × | × | × | × |
+| Ascend 910 Series | ✓ | ✓ | ✓ | ×|×| × | × | ✓ | × | × | × | × | × |
 
 ### 2.3 Special Limitations
 
-> Capabilities missing relative to the community and not implementable
+> Missing capabilities compared to the community, not implementable
 
 Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 
@@ -54,4 +54,4 @@ def optimized_kernel(x_ptr, y_ptr, BLOCK_SIZE: tl.constexpr):
         tl.store(y_ptr + i, y)
 ```
 
-`static_range` trades code size for runtime performance, suitable for scenarios with known and small iteration counts.
+`static_range` trades code size for runtime performance, suitable for scenarios with known and small loop iteration counts.

@@ -14,7 +14,7 @@ where:
 - `z` (bias) has shape `(A, C)`
 - The output `output` has shape `(A, C)`
 
-This kernel assumes that a single block is responsible for computing the entire output matrix, making it suitable for small-scale matrices where A, B, and C are small enough to be fully covered by the current program block.
+This kernel assumes a single block is responsible for computing the entire output matrix, making it suitable for small-scale matrices where A, B, C are small and can be fully covered by the current program block.
 
 ```python
 import pytest
@@ -35,17 +35,17 @@ def triton_dot_2_Bias(
     C: tl.constexpr   # Second dimension size (number of columns)
 ):
     # Create index vectors
-    bidx = tl.arange(0, A)  # [0, 1, ..., A-1], for row dimension
-    cidx = tl.arange(0, B)  # [0, 1, ..., B-1], for x columns / y rows
-    didx = tl.arange(0, C)  # [0, 1, ..., C-1], for column dimension
+    bidx = tl.arange(0, A)  # [0, 1, ..., A-1], used for row dimension
+    cidx = tl.arange(0, B)  # [0, 1, ..., B-1], used for columns of x / rows of y
+    didx = tl.arange(0, C)  # [0, 1, ..., C-1], used for column dimension
 
-    # Construct linear indices for x: (A, B) -> flattened to A*B
+    # Construct linear index for x: (A, B) -> flattened to A*B
     Xidx = bidx[:, None] * B + cidx[None, :]  # Broadcast to form (A, B) index grid
 
-    # Construct linear indices for y: (B, C) -> flattened to B*C
+    # Construct linear index for y: (B, C) -> flattened to B*C
     Yidx = cidx[:, None] * C + didx[None, :]  # (B, C) index grid
 
-    # Construct linear indices for z and output: (A, C)
+    # Construct linear index for z and output: (A, C)
     Zidx = bidx[:, None] * C + didx[None, :]  # (A, C) index grid
 
     # Load data from global memory
@@ -72,7 +72,7 @@ def torch_dot_Bias(x0, x1, bias):
     return res
 
 def get_torch_typename(dtype):
-    """Maps a string data type to the corresponding torch.dtype."""
+    """Maps a string-form data type to the corresponding torch.dtype."""
     if dtype == 'float32':
         tyname = torch.float32
     elif dtype == 'int32':
@@ -150,7 +150,7 @@ def test_dot_2_Bias(sigtype, A, B, C):
     # Bias is generated using float32 uniformly (to avoid precision issues with integer bias)
     if 'int' in sigtype:
         bias = generate_tensor(shape=(A, C), dtype='int32').npu()
-        # Integer inputs need to be converted to float32 for computation, then converted back to target type
+        # Integer inputs need to be converted to float32 for computation, then back to target type
         ans = torch_dot_Bias(x0.to(torch.float32), x1.to(torch.float32), bias.to(torch.float32)).to(dtype)
     else:
         bias = generate_tensor(shape=(A, C), dtype='float32').npu()
@@ -168,7 +168,7 @@ def test_dot_2_Bias(sigtype, A, B, C):
 
 
 if __name__ == "__main__":
-    # Support running a single test case directly (for debugging)
+    # Supports running a single test case directly (convenient for debugging)
     test_dot_2_Bias("float16", 16, 16, 16)
 ```
 

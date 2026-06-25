@@ -41,11 +41,11 @@ None
 
 ## 3. Constraints
 
-- `src` and `dst` must both be either tensors or buffers; tensors are currently not supported.
+- `src` and `dst` must both be tensors or both be buffers; tensor mode is currently not supported.
 
 - The address space of `src` must be UB, and the address space of `dst` must be L1.
 
-- The types and shapes of `src` and `dst` must be identical.
+- The data types and shapes of `src` and `dst` must be identical.
 
 ## 4. Usage Example
 

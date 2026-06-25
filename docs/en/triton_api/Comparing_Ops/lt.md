@@ -23,7 +23,7 @@ Used as a built-in operator of `tensor`, e.g., `x<y`.
 | :---: | :---: | :---: |
 | `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
 | `other`   | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | - | Reserved parameter, external invocation not supported |
+| `_builder` | - | Reserved parameter, external invocation not supported for now |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -50,13 +50,13 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Capabilities missing relative to the community and cannot be implemented
+> Relative to community capabilities, missing and cannot be implemented
 
 Compared to GPU, Triton-Ascend lacks support for fp64. Support for uint8/uint16/uint32/uint64 is under development.
 
 ### 2.4 Usage Example
 
-The following example implements a less-than operation on three-dimensional tensors `x0` and `x1`:
+The following example implements a less-than operation on 3D tensors `x0` and `x1`:
 
 ```python
 @triton.jit

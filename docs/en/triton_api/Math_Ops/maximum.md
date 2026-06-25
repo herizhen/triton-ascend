@@ -3,7 +3,7 @@
 ## 1. Function Overview
 
 Description: Computes the element-wise maximum of `x` and `y`.
-Function prototype (Triton 3.4.0 version):
+Function prototype (Triton 3.4.0):
 
 ```python
 triton.language.maximum(x, y, propagate_nan: ~triton.language.core.constexpr = <PROPAGATE_NAN.NONE: 0>, _semantic=None)¶
@@ -21,7 +21,7 @@ triton.language.maximum(x, y, propagate_nan: ~triton.language.core.constexpr = <
 | `_semantic`    | -                  | Reserved parameter, not supported for external calls           |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor `x`.
+`x`: The output tensor has the same shape as the input tensor `x`
 
 ### 2.2 OP Specification
 

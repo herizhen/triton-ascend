@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Creates a view of a tensor, changing its shape without copying data. Similar to `reshape`, but emphasizes the concept of a view, maintaining data contiguity in memory.
+Creates a view of a tensor, changing its shape without copying data. Similar to reshape, but emphasizes the concept of a view while maintaining data continuity in memory.
 
 **Syntax:**
 
@@ -12,10 +12,10 @@ Creates a view of a tensor, changing its shape without copying data. Similar to 
 **Functionality:**
 
 - Creates a view of a tensor, changing its shape without copying data
-- Similar to `reshape`, but emphasizes the concept of a view
-- Maintains data contiguity in memory
+- Similar to reshape, but emphasizes the concept of a view
+- Maintains data continuity in memory
 
-## 2 Parameter Specification
+## 2 Parameter Specifications
 
 ### 2.1 Parameter Description
 
@@ -27,7 +27,7 @@ Creates a view of a tensor, changing its shape without copying data. Similar to 
 **Return Value:**
 
 - **Type:** tensor
-- **Shape:** Same as the target shape specified by the `shape` parameter
+- **Shape:** Same as the target shape specified by the shape parameter
 - **Data Type:** Same as the input tensor
 - **Memory Layout:** Contiguous in memory with the input tensor
 
@@ -70,7 +70,7 @@ def view_example(out_ptr):
     offs = tl.arange(0, 6)[:, None] * 4 + tl.arange(0, 4)[None, :]
     tl.store(out_ptr + offs, y)
 
-## Example call
+## Call example
 out = torch.empty((6, 4), dtype=torch.float32, device="npu")
 view_example[(1,)](out)
 print(out.shape)  # Output: torch.Size([6, 4])
