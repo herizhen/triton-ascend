@@ -1,10 +1,10 @@
-# al.ascend_address_space Interface Documentation
+# al.ascend_address_space API Documentation
 
 ## 1. Background
 
 To support Ascend-level programming requirements, users need to be able to manually create memory (buffer) on specified address spaces, interfacing with the `hivm::AddressSpace` enumeration.
 
-## 2. Interface Description
+## 2. API Description
 
 <table>
   <tr>

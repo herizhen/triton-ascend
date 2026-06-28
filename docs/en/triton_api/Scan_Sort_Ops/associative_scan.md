@@ -22,7 +22,7 @@ triton.language.associative_scan(input, axis, combine_fn, reverse=False, _semant
 | `_generator` | `Optional[Generator]` | Reserved parameter, currently not supported for external calls |
 
 Return value:
-`tensor`: The tensor after applying the associative scan operation to the input tensor along the specified axis, using the `combine_fn` function to combine elements and update the carry value.
+`tensor`: The tensor after applying the associative scan operation along the specified axis, using the `combine_fn` function to combine elements and update the carry value.
 
 ### 2.2 Supported Specifications
 
@@ -40,7 +40,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 ### 2.3 Special Limitations
 
 > Relative community capability missing and cannot be implemented
-> `reverse=True` indicates whether to apply the associative scan in the reverse direction along the axis. This feature requires `tl.load` to align data when loading, i.e., not using a mask to filter out excess data indices, as shown in the example code below:
+> `reverse=True` determines whether to apply the associative scan in the reverse direction along the axis. This functionality requires alignment when loading data with `tl.load`, i.e., not using a mask to filter out excess data indices, as shown in the example code below:
 
 ```python
     tl.static_assert(
@@ -55,9 +55,9 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
     x = tl.load(in_ptr0 + idx)
 ```
 
-### 2.4 Usage
+### 2.4 Usage Example
 
-The following example implements the `associative_scan` operation on a 2D shape tensor:
+The following example demonstrates performing an associative_scan operation on a 2D shape tensor:
 
 ```python
 

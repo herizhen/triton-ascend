@@ -14,8 +14,8 @@ triton.language.assume(cond, _semantic=None)
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `cond` | `bool` | Required | The conditional expression the compiler can assume to be true |
-| `_semantic` | - | - | Reserved parameter, currently not supported for external calls |
+| `cond` | `bool` | Required | The condition expression that the compiler can assume to be true |
+| `_semantic` | - | - | Reserved parameter, external calls not supported |
 
 ### 2.2 Type Support
 

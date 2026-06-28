@@ -6,12 +6,12 @@
 |--|--|
 |[extract_slice](./Extension_Ops/extract_slice.md)| Extracts a tensor from an input tensor according to the offset, size, and stride parameters specified by the operation. |
 |[insert_slice](./Extension_Ops/insert_slice.md)| Inserts a tensor (sub-tensor) into another tensor at a specified position, according to the offset, size, and stride parameters specified by the operation. |
-|[sync_block](./Extension_Ops/sync_block.md) | An explicit inter-core synchronization instruction used to coordinate execution order and data consistency among different cores in the Cube-Vector architecture. |
+|[sync_block](./Extension_Ops/sync_block.md) | An explicit inter-core synchronization instruction used to coordinate execution order and data consistency between different cores in the Cube-Vector architecture. |
 |[compile_hint](./Extension_Ops/compile_hint.md) | A compiler hint mechanism that allows users to attach metadata information to tensors, which is passed to the compiler backend to guide optimization and code generation.|
-|[multibuffer](./Extension_Ops/multibuffer.md) | Sets multi-buffering for a tensor, allowing the compiler to create multiple copies of the same tensor. |
+|[multibuffer](./Extension_Ops/multibuffer.md) | Sets up multi-buffering for a tensor, allowing the compiler to create multiple copies of the same tensor. |
 |[parallel](./Extension_Ops/parallel.md) | `parallel` is an iterator specifically designed for multi-core parallel execution, providing explicit multi-core parallel semantics. |
-|[get_element](./Extension_Ops/get_element.md)| Reads a single element from an input tensor according to the given index. |
-|[index_select High-Performance Interface](./Extension_Ops/index_select_simd.md) | Gathers multiple indices in parallel along non-trailing axis dimensions and copies data zero-copy from global memory (GM) directly to the correct position in the unified buffer (UB) in units of tiles. This operation is equivalent to a high-performance implementation of `torch.index_select`, suitable for scenarios such as embedding layer lookups and sparse index access. |
+|[get_element](./Extension_Ops/get_element.md)| Reads a single element from an input tensor based on a given index. |
+|[index_select High-Performance Interface](./Extension_Ops/index_select_simd.md) | Gathers multiple indices in parallel along non-trailing dimensions and moves data zero-copy from global memory (GM) directly to the correct position in the unified buffer (UB) in units of tiles. This operation is equivalent to a high-performance implementation of `torch.index_select`, suitable for scenarios like embedding layer lookups and sparse index access. |
 
 ```{toctree}
 :maxdepth: 3
@@ -54,7 +54,7 @@ Atomic_Ops/atomic_xchg.md
 Atomic_Ops/atomic_xor.md
 ```
 
-## Comparison Operations
+## Comparing Operations
 
 |api|Description|
 |--|--|
@@ -85,11 +85,11 @@ Comparing_Ops/ne.md
 |[max_constancy](./Compiler_Hint_Ops/max_constancy.md) |Informs the compiler that the first value in input is constant |
 |[max_contiguous](./Compiler_Hint_Ops/max_contiguous.md) |Informs the compiler that the first value in input is contiguous |
 |[multiple_of](./Compiler_Hint_Ops/multiple_of.md) |Informs the compiler that all values in input are multiples of value |
-|[assume](./Compiler_Hint_Ops/assume.md)         | Provides conditional assumption information to the compiler, allowing optimization based on conditions known to be true. |
+|[assume](./Compiler_Hint_Ops/assume.md)         | Provides conditional assumption information to the compiler, allowing the compiler to optimize based on conditions known to be true. |
 |[compile_hint](./Extension_Ops/compile_hint.md) | A compiler hint mechanism that allows users to attach metadata information to tensors, which is passed to the compiler backend to guide optimization and code generation.|
-|[multibuffer](./Extension_Ops/multibuffer.md) | Sets multi-buffering for a tensor, allowing the compiler to create multiple copies of the same tensor. |
+|[multibuffer](./Extension_Ops/multibuffer.md) | Sets up multi-buffering for a tensor, allowing the compiler to create multiple copies of the same tensor. |
 |[parallel](./Extension_Ops/parallel.md) | `parallel` is an iterator specifically designed for multi-core parallel execution, providing explicit multi-core parallel semantics. |
-|[sync_block instruction](./Extension_Ops/sync_block.md) | An explicit inter-core synchronization instruction used to coordinate execution order and data consistency among different cores in the Cube-Vector architecture. |
+|[sync_block instruction](./Extension_Ops/sync_block.md) | An explicit inter-core synchronization instruction used to coordinate execution order and data consistency between different cores in the Cube-Vector architecture. |
 
 ```{toctree}
 :maxdepth: 3
@@ -114,7 +114,7 @@ Extension_Ops/sync_block.md
 |[cat](./Creation_Ops/cat.md) | Concatenates the given blocks |
 |[full](./Creation_Ops/full.md) | Returns a tensor filled with a scalar value for the specified shape and dtype|
 |[zeros](./Creation_Ops/zeros.md)| Returns a tensor filled with the scalar value 0 for the specified shape and dtype |
-|[zeros_like](./Creation_Ops/zeros_like.md)| Returns a zero tensor with the same shape and dtype as the given tensor |
+|[zeros_like](./Creation_Ops/zeros_like.md)| Returns a tensor of zeros with the same shape and dtype as the given tensor |
 |[cast](./Creation_Ops/cast.md)| Casts a tensor to the specified dtype|
 
 ```{toctree}
@@ -136,7 +136,7 @@ Creation_Ops/cast.md
 |[static_print](./Debug_Ops/static_print.md) |Prints values at compile time |
 |[static_assert](./Debug_Ops/static_assert.md) |Asserts a condition at compile time |
 |[device_print](./Debug_Ops/device_print.md) |Prints values from the device at runtime |
-|[device_assert](./Debug_Ops/device_assert.md) |Asserts a condition from the device at runtime |
+|[device_assert](./Debug_Ops/device_assert.md) |Asserts a condition on the device at runtime |
 
 ```{toctree}
 :maxdepth: 3
@@ -155,10 +155,10 @@ Debug_Ops/device_assert.md
 |--|--|
 |[flip](./Indexing_Ops/flip.md) |Flips tensor x along dimension dim |
 |[where](./Indexing_Ops/where.md) |Returns a tensor of elements from x or y based on condition |
-|[swizzle2d](./Indexing_Ops/swizzle2d.md) |Converts the index of a row-major matrix of size_i * size_j to the index of a column-major matrix with groups of size_g rows |
-|[get_element](./Extension_Ops/get_element.md)| Reads a single element from an input tensor according to the given index. |
-|[index_select High-Performance Interface](./Extension_Ops/index_select_simd.md) | Gathers multiple indices in parallel along non-trailing axis dimensions and copies data zero-copy from global memory (GM) directly to the correct position in the unified buffer (UB) in units of tiles. This operation is equivalent to a high-performance implementation of `torch.index_select`, suitable for scenarios such as embedding layer lookups and sparse index access. |
-|[gather](./Indexing_Ops/gather.md) | Performs a gather operation on the `src` tensor along the `axis` dimension according to `index` |
+|[swizzle2d](./Indexing_Ops/swizzle2d.md) |Converts indices of a row-major matrix of size_i * size_j to indices of a column-major matrix with groups of size_g rows |
+|[get_element](./Extension_Ops/get_element.md)| Reads a single element from an input tensor based on a given index. |
+|[index_select High-Performance Interface](./Extension_Ops/index_select_simd.md) | Gathers multiple indices in parallel along non-trailing dimensions and moves data zero-copy from global memory (GM) directly to the correct position in the unified buffer (UB) in units of tiles. This operation is equivalent to a high-performance implementation of `torch.index_select`, suitable for scenarios like embedding layer lookups and sparse index access. |
+|[gather](./Indexing_Ops/gather.md) | Performs a gather operation on the `src` tensor along the `axis` dimension using `index` |
 
 ```{toctree}
 :maxdepth: 3
@@ -226,9 +226,9 @@ Linear_Algebra_Ops/dot_scaled.md
 |[logical_or](./Logical_Ops/logical_or.md)| Performs element-wise logical OR operation on two tensors |
 |[not](./Logical_Ops/not.md) | Bitwise NOT operation on tensor values. |
 |[invert](./Logical_Ops/invert.md) | Inverts each bit of the tensor values. |
-|[lshift](./Logical_Ops/lshift.md) | Left-shifts the tensor values by a given number of positions. |
-|[rshift](./Logical_Ops/rshift.md) | Right-shifts the tensor values by a given number of positions. |
-|[xor](./Logical_Ops/xor.md) | Computes the XOR of two elements. |
+|[lshift](./Logical_Ops/lshift.md) | Left-shifts the tensor by a given number of bits. |
+|[rshift](./Logical_Ops/rshift.md) | Right-shifts the tensor by a given number of bits. |
+|[xor](./Logical_Ops/xor.md) | Computes the bitwise XOR of two elements. |
 
 ```{toctree}
 :maxdepth: 3
@@ -261,7 +261,7 @@ Logical_Ops/xor.md
 |[ceil](./Math_Ops/ceil.md) |Computes the element-wise ceiling of x |
 |[clamp](./Math_Ops/clamp.md) |Clamps the values of the input tensor x to the range [min, max] |
 |[cos](./Math_Ops/cos.md) |Computes the element-wise cosine of x |
-|[div_rn](./Math_Ops/div_rn.md) |Computes the element-wise exact division of x and y (rounded to nearest according to IEEE standard) |
+|[div_rn](./Math_Ops/div_rn.md) |Computes the element-wise exact division of x and y (rounded to nearest value per IEEE standard) |
 |[erf](./Math_Ops/erf.md) |Computes the element-wise error function of x |
 |[exp](./Math_Ops/exp.md) |Computes the element-wise exponential of x |
 |[exp2](./Math_Ops/exp2.md) |Computes the element-wise exponential of x (base 2)|
@@ -278,7 +278,7 @@ Logical_Ops/xor.md
 |[sin](./Math_Ops/sin.md) |Computes the element-wise sine of x. |
 |[softmax](./Math_Ops/softmax.md) |Computes the element-wise softmax of x |
 |[sqrt](./Math_Ops/sqrt.md) |Computes the element-wise fast square root of x |
-|[sqrt_rn](./Math_Ops/sqrt_rn.md) |Computes the element-wise exact square root of x (rounded to nearest according to IEEE standard) |
+|[sqrt_rn](./Math_Ops/sqrt_rn.md) |Computes the element-wise exact square root of x (rounded to nearest value per IEEE standard) |
 |[umulhi](./Math_Ops/umulhi.md)  |Computes the element-wise most significant N bits of the 2N-bit product of x and y |
 
 ```{toctree}
@@ -321,9 +321,9 @@ Math_Ops/umulhi.md
 
 |api|Description|
 |--|--|
-|[load](./Memory_Pointer_Ops/tl.load.md) |Returns a tensor whose values are loaded from the memory location defined by the pointer|
-|[store](./Memory_Pointer_Ops/tl.store.md) |Stores a data tensor to the memory location defined by the pointer|
-|[make_block_ptr](./Memory_Pointer_Ops/tl.make_block_ptr.md) |Returns a pointer to a block within the parent tensor|
+|[load](./Memory_Pointer_Ops/tl.load.md) |Returns a tensor whose values are loaded from memory locations defined by pointers|
+|[store](./Memory_Pointer_Ops/tl.store.md) |Stores a data tensor to memory locations defined by pointers|
+|[make_block_ptr](./Memory_Pointer_Ops/tl.make_block_ptr.md) |Returns a pointer to a block within a parent tensor|
 |[advance](./Memory_Pointer_Ops/tl.advance.md) |Advances a block pointer|
 |[load_tensor_descriptor](./Memory_Pointer_Ops/load_tensor_descriptor.md) | Loads a data block from a tensor descriptor |
 |[make_tensor_descriptor](./Memory_Pointer_Ops/make_tensor_descriptor.md) | Creates a tensor descriptor object |
@@ -338,4 +338,5 @@ Memory_Pointer_Ops/tl.store.md
 Memory_Pointer_Ops/tl.make_block_ptr.md
 Memory_Pointer_Ops/tl.advance.md
 Memory_Pointer_Ops/load_tensor_descriptor.md
-Memory_Pointer_Ops/make_tensor_d
+Memory_Pointer_Ops/make_tensor_descriptor.md
+Memory

@@ -37,7 +37,7 @@ Conclusion: In terms of DataType, Ascend additionally supports integer and float
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | -------------------------- |
+| -------- | ---------------------- |
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
@@ -45,7 +45,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Not supported compared to community capabilities
+> Not yet supported compared to community capabilities
 
 None.
 

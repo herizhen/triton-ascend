@@ -4,43 +4,43 @@
 
 Description: Division, arithmetic operator '/', no tl.div method.
 
-The underlying implementation is the same as the fdiv operator, except that fdiv explicitly restricts input parameters to float type. '/' has no such restriction; it converts non-floating-point types to floating-point before computation.
+The underlying implementation is the same as the fdiv operator, except that fdiv explicitly restricts input parameters to float type. '/' has no such restriction; it converts non-floating-point types to floating-point types before computation.
 
 ## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type                | Description                                                  |
-| ------------ | ------------------- | ------------------------------------------------------------ |
-| `self`       | `tensor or Number`  | First input parameter, dividend                              |
-| `other`      | `tensor or Number`  | Second input parameter, divisor                              |
+| Parameter Name | Type                | Description                                                    |
+| -------------- | ------------------- | -------------------------------------------------------------- |
+| `self`         | `tensor or Number`  | First input parameter, dividend                                |
+| `other`        | `tensor or Number`  | Second input parameter, divisor                                |
 
-Return value:
+Return Value:
 `tl.tensor`: Division result
-Return type: Always returns floating-point type
+Return Type: Always returns floating-point type
 
-| Input Type             | Processing Method          | Result Type   |
-| ---------------------- | -------------------------- | ------------- |
-| `int / int`            | Both converted to `float32`| `float32`     |
-| `int / float`          | int converted to float     | float type    |
+| Input Type             | Processing Method              | Result Type |
+| ---------------------- | ------------------------------ | ----------- |
+| `int / int`            | Both converted to `float32`    | `float32`   |
+| `int / float`          | int converted to float         | float type  |
 | `float / float`        | Unified to higher precision float | Higher precision float |
-| `float / int`          | int converted to float     | float type    |
+| `float / int`          | int converted to float         | float type  |
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
-|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-|---|-------|------|--------|-------|--------|-------|--------|-------|------|------|------|-----------|
-|GPU| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
-|Ascend A2/A3| × | √ | × | √ | × | √ | × | √ | √ | √ | √ | √ |
+|       | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+| ----- | ----- | ---- | ------ | ----- | ------ | ----- | ------ | ----- | ---- | ---- | ---- | --------- |
+| GPU   | √     | √    | √      | √     | √      | √     | √      | √     | √    | √    | √    | √         |
+| Ascend A2/A3 | ×     | √    | ×      | √     | ×      | √     | ×      | √     | √    | √    | √    | √         |
 
 #### 2.2.2 Shape Support
 
-|               | Supported Dimension Range |
-| ------------- | ------------------------- |
-| GPU           | No restrictions           |
-| Ascend A2/A3  | No restrictions           |
+|              | Supported Dimension Range |
+| ------------ | ------------------------- |
+| GPU          | No restriction            |
+| Ascend A2/A3 | No restriction            |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 

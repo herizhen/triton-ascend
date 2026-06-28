@@ -26,20 +26,20 @@ A3:
 | | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 |------|-------|-------|-------|-------|--------|--------|--------|-------|------|------|------|------|------|
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | ×| × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
+| Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | × | × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
 
 ### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
-| GPU    | Only supports 1~5D tensors |
-| Ascend | Only supports 1~5D tensors |
+| GPU    | Only 1~5 dimensional tensors |
+| Ascend | Only 1~5 dimensional tensors |
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Missing community capabilities that cannot be implemented
 
-Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
+Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
 
 **DevicePrint Functional Limitations**
 
@@ -47,7 +47,7 @@ Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU
 `device_print` can only print result values involved in computation, and cannot print offset variables used purely for memory access.
 
 **Root Cause:**
-During the memory access analysis and optimization phase, the compiler optimizes away offsets used solely for address calculation; these intermediate variables are not retained in the final execution code.
+During the memory access analysis and optimization phase, the compiler optimizes away offsets used solely for address calculation, and these intermediate variables are not retained in the final execution code.
 
 **Example Scenario:**
 
@@ -68,11 +68,11 @@ def add_kernel(x_ptr,  # *Pointer* to first input vector.
     tl.device_print("offsets:", offsets)// ❌ Cannot print, already optimized away
 ```
 
-Additionally, in certain cases, `device_print` may expand some auxiliary DMA code, causing underlying errors. Related functionality is still under optimization.
+Additionally, under certain circumstances, `device_print` may expand some auxiliary DMA code, causing underlying errors. Related functionality is still being optimized.
 
 ### 2.4 Usage
 
-**Note**: The `prefix` string prefix must be included when using `device_print`; otherwise, a compilation error will occur. Currently, printing only the `prefix` string alone is not supported.
+**Note**: The `prefix` string prefix must be included when using `device_print`, otherwise it will cause a compilation error. Printing only the `prefix` string is currently not supported.
 
 ```python
 import triton

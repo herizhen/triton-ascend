@@ -21,7 +21,7 @@ triton.language.multiple_of(input, values, _semantic=None)
 **`values` describes the divisibility characteristics of the first value in each dimension, so the dimension of `values` must match the dimension of `input`.
 Note the dimension reduction that occurs when the last dimension of `shape` is `1`.**
 
-For example: A two-dimensional `input` corresponds to a general `values` parameter of `[1,1]`.
+For example: a two-dimensional `input` corresponds to a general `values` input of `[1,1]`.
 
 ### 2.2 Type Support
 
@@ -34,7 +34,7 @@ A3:
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Relative community capability missing and unimplementable
 
 Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 

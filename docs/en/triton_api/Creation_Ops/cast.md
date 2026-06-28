@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Converts a tensor to a specified data type, supporting numeric type conversion, bit-level reinterpretation (bitcast), floating-point downcast rounding modes, and Ascend extension integer overflow handling modes.
+Converts a tensor to a specified data type, supporting numeric type conversions, bit-level reinterpretation (bitcast), floating-point downcast rounding modes, and Ascend-extended integer overflow handling modes.
 
 **Syntax:**
 
@@ -13,10 +13,10 @@ Converts a tensor to a specified data type, supporting numeric type conversion, 
 
 - Numeric type conversion: integer <-> integer, float <-> float, integer <-> float
 - Bit-level reinterpretation (bitcast): does not change bits, only changes the interpretation type
-- Floating-point downcast supports rounding modes: `rtne` (default, round to nearest even), `rtz` (toward zero)
+- Floating-point downcast supports rounding modes: `rtne` (default, round to nearest, ties to even), `rtz` (toward zero)
 - Integer conversion (Ascend extension) supports overflow modes: `trunc` (truncation, default), `saturate` (saturation)
 
-## 2 Parameter Specification
+## 2 Parameter Specifications
 
 ### 2.1 Parameter Description
 
@@ -37,14 +37,14 @@ Converts a tensor to a specified data type, supporting numeric type conversion, 
 
 **Constraints:**
 
-- `fp_downcast_rounding` can only be set for floating-point downcast, otherwise an error will be raised
+- `fp_downcast_rounding` can only be set for floating-point downcast; otherwise, an error will be raised
 - When `bitcast=True`, no numeric conversion is performed; rounding/overflow modes are ignored
 - `overflow_mode` is only meaningful for integer types (Ascend extension)
 
 ### 2.2 DataType Support Table
 
 | Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:----:|:----:|:------:|:---:|
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -52,7 +52,7 @@ Converts a tensor to a specified data type, supporting numeric type conversion, 
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Limitations
+### 2.4 Special Constraints
 
 None
 
@@ -90,10 +90,10 @@ def cast_advanced_example():
     # Bit-level reinterpretation
     y = x.cast(tl.int32, bitcast=True)
 
-    # Floating-point downcast, rounding toward zero
+    # Floating-point downcast, round toward zero
     z = x.cast(tl.float16, fp_downcast_rounding="rtz")
 
-    # float32 → int8, enable saturation mode (Ascend extension, values exceeding int8 range are clamped to [-128, 127])
+    # float32 → int8, enable saturation mode (Ascend extension, values outside int8 range are clamped to [-128, 127])
     w = x.cast(tl.int8, overflow_mode="saturate")
 
     return y, z, w

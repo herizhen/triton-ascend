@@ -8,19 +8,19 @@ Description: Negates the values of a tensor.
 triton.language.neg(x)
 ```
 
-## 2. Specification
+## 2. Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type      | Description                                                    |
-| -------------- | --------- | -------------------------------------------------------------- |
-| `x`            | `tensor`  | Tensor data                                                    |
-| `_semantic`    | -         | Reserved parameter, not supported for external calls           |
+| Parameter Name | Type      | Description                                        |
+| -------------- | --------- | -------------------------------------------------- |
+| `x`            | `tensor`  | Tensor data                                        |
+| `_semantic`    | -         | Reserved parameter, not supported for external calls |
 
-Return Value:
+Return value:
 `out`: The output tensor has the same shape as the input tensor `x`.
 
-### 2.2 OP Specification
+### 2.2 OP Specifications
 
 #### 2.2.1 DataType Support
 
@@ -42,7 +42,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Relative community capability missing and cannot be implemented
 
 Ascend lacks support for `uint`, `fp64`, and `bool` types compared to GPU.
 

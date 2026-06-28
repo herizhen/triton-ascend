@@ -12,7 +12,7 @@ A decorator for JIT-compiling functions using the Triton compiler.
 - Note: This function will be compiled and run on the GPU. It can only access the following:
     - Python primitives,
     - Built-in functions within the Triton package,
-    - Arguments of this function,
+    - Parameters of this function,
     - Other JIT-compiled functions.
 
 **Parameters:** `fn (Callable)` - The function to be JIT-compiled

@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-`static_range` is a static range iterator, similar to `range` but performs aggressive loop unrolling optimization at compile time.
+`static_range` is a static range iterator, similar to `range`, but it aggressively unrolls loops at compile time for optimization.
 
 ```python
 triton.language.static_range(arg1, arg2=None, step=None, _semantic=None)
@@ -30,9 +30,9 @@ A3:
 
 ### 2.3 Special Limitations
 
-> Missing capabilities compared to the community, not implementable
+> Relative community capability missing and cannot be implemented
 
-Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
+Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
 
 ### 2.4 Usage
 
@@ -54,4 +54,4 @@ def optimized_kernel(x_ptr, y_ptr, BLOCK_SIZE: tl.constexpr):
         tl.store(y_ptr + i, y)
 ```
 
-`static_range` trades code size for runtime performance, suitable for scenarios with known and small loop iteration counts.
+`static_range` trades code size for runtime performance, making it suitable for scenarios with known and small loop iteration counts.

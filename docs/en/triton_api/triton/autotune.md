@@ -4,7 +4,7 @@
 triton.autotune(configs, key, prune_configs_by=None, reset_to_zero=None, restore_value=None, pre_hook=None, post_hook=None, warmup=25, rep=100, use_cuda_graph=False)
 ```
 
-Decorator for auto-tuning triton.jit functions.
+A decorator for auto-tuning `triton.jit` functions.
 
 ```python
 @triton.autotune(configs=[
@@ -24,7 +24,7 @@ def kernel(x_ptr, x_size, **META):
 **Parameters:**
 
 - `configs (list[triton.Config])` - A list of `triton.Config` objects.
-- `key (list[str])` - A list of parameter names; when their values change, all configurations will be evaluated.
+- `key (list[str])` - A list of parameter names whose value changes will trigger the evaluation of all configurations.
 - `prune_configs_by (dict)` - A dictionary of functions for pruning configurations. Contains the following fields:
   - `'perf_model'`: A performance model used to predict the runtime of different configurations, returning the runtime.
   - `'top_k'`: The number of configurations to benchmark.
@@ -37,6 +37,6 @@ def kernel(x_ptr, x_size, **META):
 - `post_hook (lambda args, exception)` - A function that will be called after invoking the kernel. This parameter overrides the default `post_hook` of `restore_value`.
   - `args`: The list of arguments passed to the kernel.
   - `exception`: The exception raised by the kernel in case of a compilation or runtime error.
-- `warmup (int)` - The warmup time passed to the benchmark (in milliseconds), default is 25.
-- `rep (int)` - The repetition time passed to the benchmark (in milliseconds), default is 100.
+- `warmup (int)` - The warmup time (in milliseconds) passed to the benchmark, default is 25.
+- `rep (int)` - The repetition time (in milliseconds) passed to the benchmark, default is 100.
 - `use_cuda_graph (bool)` - Whether to use CUDA Graph for performance measurement (default is `False`).

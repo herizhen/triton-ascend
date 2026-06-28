@@ -12,7 +12,7 @@ Bind a tensor to a buffer
   </tr>
 </table>
 
-#### 2.1 Input Parameters
+#### 2.1 Parameters
 
 <table>
   <tr>
@@ -31,7 +31,7 @@ Bind a tensor to a buffer
     <td>address_space</td>
     <td>bl.address_space</td>
     <td>No</td>
-    <td>The address space of the buffer</td>
+    <td>The address space where the buffer resides</td>
   </tr>
   <tr>
     <td>bind_buffer</td>
@@ -67,9 +67,9 @@ Output Example
 
 - The `bind_buffer` parameter must be of buffer type
 
-- The shapes and element types of `tensor` and `bind_buffer` must be identical
+- The shapes and element types of `tensor` and `bind_buffer` must be consistent
 
-- Binding one tensor to multiple buffers is not allowed
+- A tensor cannot be bound to multiple buffers
 
 - All types supported by operations are theoretically supported
 

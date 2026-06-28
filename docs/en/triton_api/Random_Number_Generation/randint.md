@@ -13,20 +13,20 @@ triton.language.randint(
 )
 ```
 
-If multiple random number streams are needed, using `randint4x` may be faster than calling `randint` 4 times consecutively.
+If multiple random number streams are needed, using randint4x may be faster than calling randint 4 times consecutively.
 
 ## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                    |
-| -------------- | ------------------ | -------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                        |
-| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                      |
-| `n_rounds`     | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm            |
+| Parameter Name | Type               | Description                                                        |
+| -------------- | ------------------ | ------------------------------------------------------------------ |
+| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                            |
+| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                          |
+| `n_rounds`     | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm                |
 
 Return Value:
-1 random block of type int32, with the same shape as `offset`
+1 random block of type int32, with the same shape as offset
 
 ### 2.2 Supported Specifications
 
@@ -44,11 +44,11 @@ No special requirements
 
 ### 2.3 Special Limitations
 
-> Missing functionality compared to the community, and cannot be implemented
+> Relative community capability missing and cannot be implemented
 
 ### 2.4 Usage
 
-The following example demonstrates a call to `randint` (generating a single random number per call):
+The following example demonstrates a call to randint (generating a single random number per call):
 
 ```python
 @triton.jit

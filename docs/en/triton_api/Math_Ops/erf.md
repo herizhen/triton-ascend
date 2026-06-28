@@ -38,11 +38,11 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 > Relative community capability missing and cannot be implemented
 
-Ascend lacks fp64 support compared to GPU but adds support for fp16 and bf16.
+Ascend lacks fp64 support compared to GPU, but adds support for fp16 and bf16.
 
 ### 2.4 Usage Example
 
-The following example demonstrates computing the element-wise error function of the input tensor `x`:
+The following example demonstrates computing the element-wise error function for the input tensor `x`:
 
 ```python
 @triton.jit

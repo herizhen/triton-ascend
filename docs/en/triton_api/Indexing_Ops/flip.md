@@ -12,23 +12,23 @@ triton.language.flip(x, dim=None)
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type       | Description                                                    |
-| ------------ | ---------- | -------------------------------------------------------------- |
-| `x`          | `tensor`   | Tensor data                                                    |
-| `dim`        | `int`      | Integer                                                        |
-| `_semantic`  | -          | Reserved parameter, external calls not supported temporarily    |
+| Parameter      | Type                | Description                                                    |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `x`           | `tensor`          | Tensor data                                                    |
+| `dim`         | `int`             | Integer                                                        |
+| `_semantic`   | -                 | Reserved parameter, external calls not supported temporarily    |
 
 Return value:
-`out`: Output tensor has the same shape as the input tensor `x`
+`out`: The shape of the output tensor is the same as the shape of the input `x`
 
 ### 2.2 OP Specifications
 
 #### 2.2.1 DataType Support
 
-|            | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ---------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU        | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | √    |
-| Ascend A2/A3 | √  | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | √    |
+| Ascend A2/A3 | √ | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
 
 Conclusion: Compared to GPU, Ascend lacks support for uint and fp64 types.
 
@@ -39,11 +39,11 @@ Conclusion: Compared to GPU, Ascend lacks support for uint and fp64 types.
 | GPU        | Only supports 1~5D tensors |
 | Ascend A2/A3 | Only supports 1~5D tensors |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms, both support 1 to 5-dimensional tensors.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Capabilities missing compared to the community that cannot be implemented
+> Community capabilities that are missing and cannot be implemented
 
 Compared to GPU, Ascend lacks support for uint and fp64 types.
 

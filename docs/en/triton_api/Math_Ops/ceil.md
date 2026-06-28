@@ -15,7 +15,7 @@ triton.language.ceil(x, _semantic=None)
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
 | `x` | `tensor` | Tensor data |
-| `_semantic` | - | Reserved parameter, not supported for external calls |
+| `_semantic` | - | Reserved parameter, external calls not supported for now |
 
 Return value:
 `out`: A tensor with the same shape as `x`
@@ -42,7 +42,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 > Missing community capabilities that cannot be implemented
 
-Compared to GPU, Ascend lacks support for fp64 but adds support for fp16, bf16, and integer inputs.
+Compared to GPU, Ascend lacks support for fp64 but adds support for fp16, bf16, and supports integer inputs.
 
 ### 2.4 Usage Example
 

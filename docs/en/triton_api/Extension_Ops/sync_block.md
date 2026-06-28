@@ -8,7 +8,7 @@ An explicit inter-core synchronization instruction used to coordinate execution 
 
 ### 2.1 Function Overview
 
-The producer core sends a synchronization signal to the consumer after completing its task.
+After the producer core completes its task, it sends a synchronization signal to the consumer.
 
 ```python
 triton.language.sync_block_set(sender, receiver, event_id, _builder=None)
@@ -27,7 +27,7 @@ triton.language.sync_block_set(sender, receiver, event_id, _builder=None)
 
 #### 2.2.2 Special Constraints
 
-1. `sender` and `receiver` cannot be the same; a core cannot send a signal to itself
+1. `sender` and `receiver` must be different; a core cannot send a signal to itself
 2. `event_id` must be in the range 0-15 (16 independent events total)
 
 ## 3. `sync_block_wait` Operation
@@ -53,14 +53,14 @@ triton.language.sync_block_wait(sender, receiver, event_id, _builder=None)
 
 #### 3.2.2 Special Constraints
 
-1. `sender` and `receiver` cannot be the same
+1. `sender` and `receiver` must be different
 2. `event_id` must match the ID used in the corresponding `sync_block_set`
 
 ## 4. `sync_block_all` Operation
 
 ### 4.1 Function Overview
 
-Global barrier synchronization, synchronizing all specified types of cores to the same point.
+Global barrier synchronization, synchronizing all cores of specified types to the same point.
 
 ```python
 triton.language.sync_block_all(mode, event_id, _builder=None)

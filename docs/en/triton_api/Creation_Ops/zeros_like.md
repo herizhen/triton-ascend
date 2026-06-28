@@ -12,11 +12,11 @@ triton.language.zeros_like(input)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type        | Description                          |
-| -------------- | ----------- | ------------------------------------ |
-| `input`        | `Tensor`    | Input tensor                         |
+| Parameter Name | Type      | Description                           |
+| -------------- | --------- | ------------------------------------- |
+| `input`        | `Tensor`  | Input tensor                          |
 
-Return Value:
+Return value:
 `tensor`: Returns a tensor of zeros with the same shape and type as the given tensor.
 
 ### 2.2 Supported Specifications

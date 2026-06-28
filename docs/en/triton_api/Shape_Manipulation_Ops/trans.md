@@ -12,17 +12,17 @@ Transposes the dimensions of a tensor according to the `dims` parameter, without
 **Functionality:**
 
 - Transposes tensor dimensions based on the `dims` parameter
-- Does not modify the tensor data, only the dimension order
+- Does not change the tensor's data, only the order of dimensions
 - Specially optimized transpose operation
 
 ## 2 Parameter Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter | Type   | Required | Description                    |
-|-----------|--------|----------|--------------------------------|
-| input     | tensor | Yes      | Input tensor                   |
-| dims      | List[int] | Yes    | Dimension order after transpose |
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| input | tensor | Yes | Input tensor |
+| dims | List[int] | Yes | Order of dimensions after transpose |
 
 **Return Value:**
 
@@ -37,10 +37,10 @@ Transposes the dimensions of a tensor according to the `dims` parameter, without
 
 ### 2.2 DataType Support Table
 
-| Support Status | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|----------------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:---:|
-| Ascend A2/A3   | ✓    | ✓     | ✓     | ✓     | ✓    | ×     | ×     | ×     | ✓      | ✓      | ✓       | ×        | ×        | ×      | ✓   |
-| GPU Support    | ✓    | ✓     | ✓     | ✓     | ✓    | ✓     | ✓     | ✓     | ✓      | ✓      | ✓       | ✓        | ✓        | ✓      | ✓   |
+| Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
+| Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
+| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 ### 2.3 Shape Support Table
 
@@ -48,7 +48,7 @@ Supports any number of dimensions and any shape size.
 
 ### 2.4 Special Limitations
 
-* Transpose with more than 8 dimensions is not supported
+* Transpose for dimensions higher than 8 is not supported
 
 ### 2.5 Usage Example
 

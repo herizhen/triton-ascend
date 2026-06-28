@@ -37,7 +37,7 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
     <td>bind_buffer</td>
     <td>bl.buffer</td>
     <td>No</td>
-    <td>Optional, directly binds the tensor to the specified target buffer</td>
+    <td>Optional, directly binds the tensor to a specified target buffer</td>
   </tr>
   <tr>
     <td>_builder</td>
@@ -55,7 +55,7 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
 
 ## 5. Constraints
 
-- The interface constraint rules are consistent with `bl.allocate_local_buffer`
+- Interface constraint rules are consistent with `bl.allocate_local_buffer`
 
 - The address space parameter must strictly match the memory regions supported by Ascend hardware (UB/L1/L0A/L0B/L0C)
 

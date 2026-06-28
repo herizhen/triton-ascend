@@ -12,10 +12,10 @@ triton.language.rsqrt(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type       | Description                                                  |
-| -------------- | ---------- | ------------------------------------------------------------ |
-| `x`            | `tensor`   | Tensor data                                                  |
-| `_semantic`    | -          | Reserved parameter, not supported for external calls currently |
+| Parameter Name | Type     | Description                                                    |
+| -------------- | -------- | -------------------------------------------------------------- |
+| `x`            | `tensor` | Tensor data                                                    |
+| `_semantic`    | -        | Reserved parameter, not supported for external calls           |
 
 Return value:
 `x`: Output tensor with the same shape as the input tensor `x`

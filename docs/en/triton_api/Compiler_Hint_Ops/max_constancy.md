@@ -16,12 +16,12 @@ triton.language.max_constancy(input, values, _builder=None, _semantic=None)
 |-----------|------|---------|-------------|
 | `input` | `Tensor` | Required | Input tensor whose values have a specific constancy pattern |
 | `values` | `constexpr[int]` or `list[constexpr[int]]` | Required | Compile-time constant integer (or sequence of integers) describing the constancy pattern |
-| `_semantic` | - | - | Reserved parameter, external calls not supported |
+| `_semantic` | - | - | Reserved parameter, not supported for external calls |
 
-**`values` describes the constancy characteristics of each dimension, so the dimensions of `values` must match the dimensions of `input`.
-Note the dimensionality reduction that occurs when the last dimension of `shape` is `1`.**
+**`values` describes the constancy characteristics of each dimension, so the dimension of `values` must be the same as the dimension of `input`.
+Note the dimension reduction that occurs when the last dimension of `shape` is `1`.**
 
-For example: a 2D `input` corresponds to a general `values` input of `[1,1]`.
+For example: a two-dimensional `input` corresponds to a general `values` input parameter of `[1,1]`.
 
 ### 2.2 Type Support
 
@@ -30,15 +30,15 @@ A3:
 | | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 |------|-------|-------|-------|-------|--------|--------|--------|-------|------|------|------|------|------|
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | ×| × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
+| Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | × | × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Missing capabilities compared to the community that cannot be implemented
 
 Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 
-### 2.4 Usage
+### 2.4 Usage Example
 
 ```python
 @triton.jit
@@ -47,7 +47,7 @@ def basic_constancy_example(A, B, BLOCK_SIZE: tl.constexpr):
     input_data = tl.load(A + offsets)
 
     # Use constexpr to declare the constancy pattern: every 4 consecutive values are equal
-    # Example input pattern: [0,0,0,0,1,1,1,1,2,2,2,2,...]
+    # For example, input pattern: [0,0,0,0,1,1,1,1,2,2,2,2,...]
     input_data = tl.max_constancy(input_data, [4])
 
     # The compiler can optimize based on this information

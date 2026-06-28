@@ -2,10 +2,10 @@
 
 ## 1. Function Overview
 
-Description: Computes the bitwise OR operation of two elements.
+Description: Computes the bitwise OR of two elements.
 
 ```python
-# Via operator
+# Using the operator
 x | y
 
 # Or directly calling the dunder method
@@ -47,7 +47,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Capabilities missing compared to the community and cannot be implemented
+> Relative community capability gap, not implementable
 
 Compared to GPU, Ascend lacks support for uint types.
 

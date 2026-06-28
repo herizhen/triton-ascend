@@ -17,14 +17,14 @@ triton.language.rand(
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                    |
-| -------------- | ------------------ | -------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                        |
-| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                      |
-| `n_rounds`     | `constexpr`, default value is 10 | Number of iteration rounds for the Philox algorithm |
+| Parameter Name | Type                | Description                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `seed`        | `int` or `tensor`           | Seed used for generating random numbers                                                   |
+| `offset`       |`int` or `tensor`     | Offset used for generating random numbers                     |
+| `n_rounds`     | `constexpr`, default value is 10   | Number of iteration rounds for the Philox algorithm |
 
 Return Value:
-1 random block of float32 type, with the same shape as the offset, uniformly distributed in the interval `[0.0, 1.0)`
+1 random block of float32 type, whose shape is the same as the shape of offset, with values uniformly distributed in the interval `[0.0, 1.0)`
 
 ### 2.2 Supported Specifications
 

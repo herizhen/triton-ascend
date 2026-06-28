@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise minimum of x and y.
+Description: Computes the element-wise minimum of `x` and `y`.
 
 ```python
 triton.language.minimum(x, y, propagate_nan: ~triton.language.core.constexpr = <PROPAGATE_NAN.NONE: 0>, _semantic=None)¶
@@ -12,7 +12,7 @@ triton.language.minimum(x, y, propagate_nan: ~triton.language.core.constexpr = <
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type               | Description                                                    |
+| Parameter Name | Type               | Description                                                    |
 | -------------- | ------------------ | -------------------------------------------------------------- |
 | `x`            | `tensor`           | Tensor data                                                    |
 | `y`            | `tensor`           | Tensor data                                                    |
@@ -20,25 +20,25 @@ triton.language.minimum(x, y, propagate_nan: ~triton.language.core.constexpr = <
 | `_semantic`    | -                  | Reserved parameter, external calls not supported               |
 
 Return value:
-`x`: A tensor with the same shape as the input x
+`x`: A tensor with the same shape as the input `x`
 
 ### 2.2 OP Specifications
 
 #### 2.2.1 DataType Support
 
-|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU          | √    | √     | √     | ×     | ×      | ×      | ×      | √     | √    | √    | √    | √    | √    |
-| Ascend A2/A3 | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
+|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU           | √    | √     | √     | ×     | ×      | ×      | ×      | √     | √    | √    | √    | √    | √    |
+| Ascend A2/A3  | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
 
 Conclusion: Ascend lacks fp64 support compared to GPU.
 
 #### 2.2.2 Shape Support
 
-|              | Supported Dimension Range |
-| ------------ | ------------------------- |
-| GPU          | Only supports 1~5D tensors |
-| Ascend A2/A3 | Only supports 1~5D tensors |
+|               | Supported Dimension Range |
+| ------------- | ------------------------- |
+| GPU           | Only supports 1~5D tensors |
+| Ascend A2/A3  | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 

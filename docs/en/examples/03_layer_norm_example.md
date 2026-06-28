@@ -19,7 +19,7 @@ def _layer_norm_fwd_fused(
     B,  # Bias pointer
     Mean,  # Mean pointer
     Rstd,  # 1/std pointer
-    stride,  # How many elements to add to move the pointer by one row
+    stride,  # Number of elements to add when moving the pointer by one row
     N,  # Number of columns in X
     eps,  # Epsilon to avoid division by zero
     BLOCK_SIZE: tl.constexpr,
@@ -61,7 +61,7 @@ def _layer_norm_fwd_fused(
         tl.store(Y + cols, y, mask=mask)
 ```
 
-Custom LayerNorm implementation using Triton
+Custom LayerNorm Implementation Using Triton
 
 ```Python
 @torch.inference_mode()
@@ -99,13 +99,13 @@ def _layer_norm(M, N, dtype, eps=1e-5, device='npu'):
     # Forward pass
     y_tri = layer_norm(x, weight, bias, eps)
     y_ref = torch.nn.functional.layer_norm(x, w_shape, weight, bias, eps).to(dtype)
-    # Check approximation
+    # Check approximate equality
     assert torch.allclose(y_tri, y_ref, atol=1e-2, rtol=0)
     print(f"y_tri: {y_tri}")
     print(f"y_ref: {y_ref}")
     print(f"Layer Normalization {M},{N} {dtype} PASSED!")
 
-# Execute test
+# Execute tests
 if __name__ == '__main__':
     _layer_norm(128, 128, torch.float16)
     _layer_norm(128, 128, torch.bfloat16)

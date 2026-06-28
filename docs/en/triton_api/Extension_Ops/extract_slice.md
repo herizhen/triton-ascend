@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Extracts a tensor from the input tensor according to the specified offsets, sizes, and strides parameters.
+Description: Extracts a tensor from the input tensor according to the offsets, sizes, and strides parameters specified by the operation.
 Prototype:
 
 ```python
@@ -16,7 +16,7 @@ triton.language.extract_slice(
 ) -> tensor
 ```
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 

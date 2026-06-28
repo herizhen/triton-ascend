@@ -2,16 +2,16 @@
 
 ## 1. OP Overview
 
-Description: Arithmetic operation '*', no `tl.mul` calling method.
+Description: Arithmetic operation '*', no `tl.mul` call method.
 
 ## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter | Type                | Description                                                             |
-| --------- | ------------------- | ----------------------------------------------------------------------- |
-| `x`       | `tensor or Number`  | First input parameter                                                   |
-| `y`       | `tensor or Number`  | Second input parameter                                                  |
+| Parameter | Type                | Description                                                    |
+| --------- | ------------------- | -------------------------------------------------------------- |
+| `x`       | `tensor or Number`  | First input parameter                                          |
+| `y`       | `tensor or Number`  | Second input parameter                                         |
 
 Return value:
 `tl.tensor`: Multiplication result
@@ -21,7 +21,7 @@ Return value:
 #### 2.2.1 DataType Support
 
 || uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-|---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
+|---|-------|------|--------|-------|--------|-------|--------|-------|------|------|------|-----------|
 |GPU| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 |Ascend A2/A3 | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 
@@ -29,14 +29,14 @@ Return value:
 
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
-| GPU    | No restriction            |
-| Ascend A2/A3 | No restriction      |
+| GPU    | Unlimited                 |
+| Ascend A2/A3 | Unlimited          |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Usage Example
 
-The following example implements multiplication calculation on input tensors `in_ptr0, in_ptr1`:
+The following example implements multiplication of input tensors `in_ptr0` and `in_ptr1`:
 
 ```python
 @triton.jit

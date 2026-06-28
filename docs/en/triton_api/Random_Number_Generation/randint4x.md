@@ -18,14 +18,14 @@ triton.language.randint4x(
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type                | Description                                                      |
-| ------------ | ------------------- | ---------------------------------------------------------------- |
-| `seed`       | `int` or `tensor`   | Seed used to generate random numbers                             |
-| `offset`     | `int` or `tensor`   | Offset used to generate random numbers                           |
-| `n_rounds`   | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm              |
+| Parameter Name | Type                | Description                                                             |
+| -------------- | ------------------- | ----------------------------------------------------------------------- |
+| `seed`         | `int` or `tensor`   | Seed used for generating random numbers                                 |
+| `offset`       | `int` or `tensor`   | Offset used for generating random numbers                               |
+| `n_rounds`     | `constexpr`, default 10 | Number of iterations for the Philox algorithm                        |
 
-Return value:
-4 random blocks of type int32, each block having the same shape as offset
+Return Value:
+4 random blocks of type int32, each with the same shape as offset
 
 ### 2.2 Supported Specifications
 
@@ -35,15 +35,15 @@ Input seed type:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| Ascend A2/A3 | √    | √     | √     | √     | √    | √     | √     |√     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3 | √    | √     | √     | √     | √      | √     | √      | √     | ×    | ×    | ×    | ×    | √    |
 
 #### 2.2.2 Shape Support
 
 No special requirements
 
-### 2.3 Special Constraints
+### 2.3 Special Limitations
 
-> Missing relative to community capabilities and cannot be implemented
+> Missing community capabilities that cannot be implemented
 
 ### 2.4 Usage Examples
 

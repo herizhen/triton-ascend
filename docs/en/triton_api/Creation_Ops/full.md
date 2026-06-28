@@ -12,14 +12,14 @@ triton.language.full(shape, value, dtype, _semantic=None)¶
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type | Description |
-| ------------- | ----------------- | ---------------------------- |
-| `shape` | `tuple of ints` | Shape of the new array, e.g., (8, 16) or (8, ) |
-| `value` | `scalar` | Scalar value used to fill the array |
-| `dtype` | `tl.dtype` | Data type of the new array, e.g., tl.float16 |
-| `_semantic` | `Optional[str]` | Reserved parameter, external calls not supported for now |
+| Parameter    | Type                  | Description                                  |
+| ------------ | --------------------- | -------------------------------------------- |
+| `shape`      | `tuple of ints`       | Shape of the new array, e.g., (8, 16) or (8,) |
+| `value`      | `scalar`              | Scalar value used to fill the array          |
+| `dtype`      | `tl.dtype`            | Data type of the new array, e.g., tl.float16 |
+| `_semantic`  | `Optional[str]`       | Reserved parameter, external calls not supported |
 
-Return Value:
+Return value:
 `tensor`: The tensor after filling
 
 ### 2.2 Supported Specifications
@@ -33,9 +33,9 @@ Return Value:
 
 #### 2.2.2 Shape Support
 
-Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape.
+Conclusion: There is no difference in Shape between GPU and Ascend platforms.
 
-### 2.3 Special Limitation Notes
+### 2.3 Special Limitations
 
 > Relative community capability missing and cannot be implemented
 > None

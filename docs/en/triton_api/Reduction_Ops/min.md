@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Returns the minimum value along the specified axis
+Description: Returns the minimum value along a specified axis
 
 ```python
 triton.language.min(input, axis=None, return_indices=False, return_indices_tie_break_left=True, keep_dims=False)
@@ -15,7 +15,7 @@ triton.language.min(input, axis=None, return_indices=False, return_indices_tie_b
 | Parameter | Type | Description |
 | :---: | :---: | --- |
 | `input` | `tensor` | Input tensor data |
-| `axis`   | `int` | Specifies the dimension along which to reduce |
+| `axis`   | `int` | Specifies the axis along which to reduce |
 | `keep_dims` | `bool` | If True, retains the reduced dimension (size 1) |
 | `return_indices` | `bool` | If True, returns the indices of the minimum values along with the minimum values |
 | `return_indices_tie_break_left` | `bool` | If True and multiple elements have the same minimum value, returns the index of the leftmost minimum value |
@@ -27,7 +27,7 @@ Parameter combination support:
 
 | axis | keep_dims | return_indices | return_indices_tie_break_left | Specification |
 | ------ | ------------ | ----------------- | ----------------------------------- | ---|
-|    1 |    TRUE    |      TRUE      |               TRUE                | Supported |
+|    1 |    TRUE    |      TRUE      |               TRUE                |  Supported |
 |    1 |    TRUE    |      TRUE      |               FALSE                | Supported |
 |    1 |    TRUE    |      FALSE      |               TRUE              | Supported |
 |    1 |    TRUE    |      FALSE      |               FALSE             | Supported |
@@ -37,7 +37,7 @@ Parameter combination support:
 |    1 |   FALSE   |      FALSE      |               FALSE                | Supported |
 | None |    TRUE    |      TRUE      |               TRUE                | Not supported |
 | None |    TRUE    |      TRUE      |               FALSE                | Not supported |
-| None |    TRUE    |      FALSE      |               TRUE               | Supported |
+|  None |    TRUE    |      FALSE      |               TRUE               | Supported |
 | None |    TRUE    |      FALSE      |               FALSE                | Supported |
 | None |   FALSE   |      TRUE      |               TRUE               | Not supported |
 | None |   FALSE   |      TRUE      |               FALSE              | Not supported |
@@ -57,10 +57,10 @@ Parameter combination support:
 
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU    | No restrictions |
-| Ascend A2/A3 | No restrictions |
+| GPU    | No limit |
+| Ascend A2/A3 | No limit |
 
-Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Usage
 
@@ -77,4 +77,4 @@ def triton_min_1d(in_ptr0, out_ptr1, xnumel, XBLOCK : tl.constexpr):
 
 ### 2.4. Special Limitations
 
-Compared to GPU, Ascend A3 lacks support for uint16, uint32, uint64, and fp64.
+Ascend A3 lacks support for uint16, uint32, uint64, and fp64 compared to GPU.

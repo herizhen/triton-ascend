@@ -2,27 +2,27 @@
 
 ## Project Introduction
 
-Triton-Ascend is an optimized version of Triton adapted for Huawei Ascend chips, providing efficient kernel function auto-tuning, operator compilation, and deployment capabilities. It supports Ascend Atlas A2/A3 series products, is compatible with Triton's core syntax, and has been deeply optimized for Ascend NPU features, including automatic parsing of kernel function parameters, optimized memory access logic, and improved secure deployment mechanisms.
+Triton-Ascend is an optimized version of Triton adapted for Huawei Ascend chips, providing efficient kernel function auto-tuning, operator compilation, and deployment capabilities. It supports Ascend Atlas A2/A3 series products and is fully compatible with Triton's core syntax while being deeply optimized for Ascend NPU features, including automatic parsing of kernel function parameters, optimized memory access logic, and improved secure deployment mechanisms.
 
 ## Online Documentation
 
-We provide comprehensive online documentation and resources covering environment setup, operator development, tuning practices, and frequently asked questions, making it easy for users to get started and use the tool in depth. For details, please refer to the [Online Documentation](https://triton-ascend.readthedocs.io/zh-cn/latest/index.html)
+We provide comprehensive online documentation and resources covering environment setup, operator development, tuning practices, and frequently asked questions to help users get started quickly and use the tool in depth. For details, please refer to the [Online Documentation](https://triton-ascend.readthedocs.io/zh-cn/latest/index.html)
 
 ## Environment Requirements
 
 ### Hardware Requirements
 
-Supported operating systems: linux(aarch64/x86_64)
+Supported Operating Systems: Linux (aarch64/x86_64)
 
-Supported Ascend products: Atlas A2/A3 series
+Supported Ascend Products: Atlas A2/A3 Series
 
-Minimum hardware configuration: Single card with 32GB memory (recommended)
+Minimum Hardware Configuration: Single card with 32GB memory (recommended)
 
 ### Software Dependencies
 
-Python (**3.9 - 3.13**, note: py3.9 does not support aarch64 architecture), CANN_TOOLKIT, CANN_OPS, and [requirements.txt](../../requirements.txt) and [requirements_dev.txt](../../requirements_dev.txt), etc.
+Python (**3.9 - 3.13**, Note: py3.9 does not support aarch64 architecture), CANN_TOOLKIT, CANN_OPS, and [requirements.txt](../../requirements.txt) and [requirements_dev.txt](../../requirements_dev.txt).
 
-You can visit the Ascend community official website and follow the [Community Software Installation Guide](https://www.hiascend.com/cann/download) to complete the installation and configuration of CANN. Developers can find the corresponding installation commands by selecting the CANN version, product series, CPU architecture, operating system, and installation method.
+You can visit the Ascend community official website and follow the [Community Software Installation Guide](https://www.hiascend.com/cann/download) to complete the installation and configuration of CANN. Developers can select the CANN version, product series, CPU architecture, operating system, and installation method to find the corresponding installation commands.
 
 During installation, please select one of the following versions for CANN version "**{version}**". It is recommended to download and install version 9.0.0:
 
@@ -32,7 +32,7 @@ The above environment variable configuration only takes effect in the current wi
 
 You need to select the corresponding compatible version (version 9.0.0 is recommended) based on the actual Ascend card model you are using. The installation of CANN takes approximately 5-10 minutes, please wait patiently for the installation to complete.
 
-The installation of requirements can be done as follows:
+The installation of requirements can be performed as follows:
 
 ```shell
 pip install -r requirements.txt -r requirements_dev.txt
@@ -40,7 +40,7 @@ pip install -r requirements.txt -r requirements_dev.txt
 
 ## Environment Setup
 
-Users can follow the steps in the environment preparation section of the [Installation Guide](installation_guide.md) to set up the Triton-Ascend environment.
+Users can follow the steps in the [Installation Guide](installation_guide.md) environment preparation section to set up the Triton-Ascend environment.
 
 ### Obtaining the Triton-Ascend Package
 
@@ -50,17 +50,17 @@ Users can directly install the latest stable version package via the command lin
 pip install triton-ascend
 ```
 
-- Note: Starting from version 3.2.1, Triton-Ascend mitigates the installation override issue by declaring Triton as an installation dependency. When installing Triton-Ascend, the community Triton is installed first, and then Triton-Ascend overrides the same-named directory, thereby preventing subsequent installation of other software packages that depend on Triton from reinstalling Triton and overriding Triton-Ascend. The reason x86 and arm use different versions of the community Triton installation package is that the community only started providing arm version installation packages from version 3.5 onwards: x86 depends on `triton==3.2.0`, arm depends on `triton==3.5.0`.
-- Note 1: This solution is used to mitigate the installation override issue and cannot completely eliminate the conflict caused by community Triton and Triton-Ascend sharing the same-named `triton` package directory; if the subsequent installation process explicitly reinstalls or upgrades community Triton, it may still affect the installed Triton-Ascend. In this case, please first uninstall both community Triton and Triton-Ascend, and then reinstall Triton-Ascend.
+- Note: Starting from version 3.2.1, Triton-Ascend mitigates installation overwrite issues by declaring Triton as an installation dependency. When installing Triton-Ascend, the community Triton is installed first, and then Triton-Ascend overwrites the same-named directory, thus preventing subsequent installation of other packages that depend on Triton from overwriting Triton-Ascend. The reason x86 and arm use different versions of the community Triton installation package is that the community only started providing arm version packages from version 3.5 onwards: x86 depends on `triton==3.2.0`, arm depends on `triton==3.5.0`.
+- Note 1: This solution is used to mitigate installation overwrite issues and cannot completely eliminate the conflict caused by the community Triton and Triton-Ascend sharing the same `triton` package directory; if subsequent installation processes explicitly reinstall or upgrade the community Triton, the installed Triton-Ascend may still be affected. In this case, please uninstall both the community Triton and Triton-Ascend first, and then reinstall Triton-Ascend.
 
-You can also choose to download a nightly package from the [Download Page](https://test.pypi.org/project/triton-ascend/#history) and install it locally.
+You can also choose to download nightly packages from the [Download Page](https://test.pypi.org/project/triton-ascend/#history) and install them locally.
 
-- Note 2: If you choose to download and install a nightly package yourself, please select the Triton-Ascend package that corresponds to your server's Python version and architecture (aarch64/x86_64).
+- Note 2: If you choose to download and install nightly packages yourself, please select the Triton-Ascend package that corresponds to your server's Python version and architecture (aarch64/x86_64).
 - Note 3: Nightly packages are built daily. Developers submit MRs frequently, and these packages have not undergone stable testing, so there may be functional bugs. Please be aware.
 
-## Quick Setup Using Docker
+## Quick Start with Docker Environment Setup
 
-We provide a Dockerfile to help you build a Docker environment image. The build process uses the `quay.io/ascend/cann` pre-built image as the base image, skipping the CANN installation step and significantly speeding up the build process.
+We provide a Dockerfile to help you install the Docker environment image. The build process uses the `quay.io/ascend/cann` pre-built image as the base image, skipping the CANN installation step and significantly speeding up the build process.
 
 You need to specify the `CANN_BASE_IMAGE` parameter via `--build-arg` to select the CANN base image suitable for your machine. Available CANN base image tags can be viewed at [quay.io/ascend/cann](https://quay.io/repository/ascend/cann?tab=tags).
 
@@ -77,12 +77,12 @@ You need to specify the `CANN_BASE_IMAGE` parameter via `--build-arg` to select 
 
 You can use the `npu-smi` command to check the NPU model on your system.
 
-Machines corresponding to different chip types can be referenced as follows:
+For reference on machines corresponding to different chip types:
 
-| Option No. | **Chip Type** | Corresponding Machine/Product Series | Typical Complete Machine |
+| Option No. | **Chip Type** | Corresponding Machine/Product Series |              Typical System              |
 | :---: |:-----------------:| :---: |:-----------------------------------:|
-| 1 | `A3` | Atlas A3 Training Series Products | Atlas 900 A3 SuperPoD |
-| 2 | `A2` | Atlas A2 Training Series Products | Atlas800T A2 |
+| 1 |       `A3`        | Atlas A3 Training Series Products |        Atlas 900 A3 SuperPoD        |
+| 2 |       `A2`        | Atlas A2 Training Series Products |            Atlas800T A2             |
 
 ```bash
 git clone https://github.com/triton-lang/triton-ascend.git && cd triton-ascend
@@ -125,7 +125,7 @@ docker exec -u root -it triton-ascend_container /bin/bash
 Run example: [01-vector-add.py](../../third_party/ascend/tutorials/01-vector-add.py)
 
 ```bash
-# Set CANN environment variables (using root user default installation path `/usr/local/Ascend` as an example)
+# Set CANN environment variables (taking root user default installation path `/usr/local/Ascend` as an example)
 source /usr/local/Ascend/ascend-toolkit/set_env.sh
 # Clone the triton-ascend source repository and examples (optional, required when running examples without source compilation installation)
 git clone https://github.com/triton-lang/triton-ascend.git
@@ -197,16 +197,16 @@ def test_add(SIZE, BLOCK_SIZE):
 
 Migration only requires replacing GPU-related APIs with their corresponding NPU versions. The mapping is as follows:
 
-| GPU Usage | NPU Usage |
+| GPU Usage                         | NPU Usage                        |
 | ------------------------------- | ------------------------------- |
-| `device='cuda'` | `device='npu'` |
-| `tensor.cuda()` | `tensor.npu()` |
-| `torch.cuda.current_device()` | `torch.npu.current_device()` |
-| `torch.cuda.synchronize()` | `torch.npu.synchronize()` |
+| `device='cuda'`                 | `device='npu'`                  |
+| `tensor.cuda()`                 | `tensor.npu()`                  |
+| `torch.cuda.current_device()`   | `torch.npu.current_device()`    |
+| `torch.cuda.synchronize()`      | `torch.npu.synchronize()`       |
 
-Kernel functions annotated with `@triton.jit` use the Triton common language and generally do not require special modifications. The Launch grid calling method is also completely consistent with GPU.
+Kernel functions annotated with `@triton.jit` use the Triton general language and generally do not require special modifications. The Launch grid calling method is also completely consistent with GPU.
 
-The core changes are shown in diff form:
+The core changes are shown in diff format:
 
 ```diff
 import pytest
@@ -216,7 +216,7 @@ from torch.testing import assert_close
 import triton
 import triton.language as tl
 
-# ...（kernel code remains unchanged）...
+# ... (kernel code remains unchanged) ...
 
 @pytest.mark.parametrize('SIZE,BLOCK_SIZE', [(98432, 1024)])
 def test_add(SIZE, BLOCK_SIZE):
@@ -240,7 +240,7 @@ def test_add(SIZE, BLOCK_SIZE):
     output_torch = x + y
     assert_close(output, output_torch, rtol=1e-3, atol=1e-3)
 ```
-After modification, you can run the test case with `pytest`. Successful execution indicates successful migration.
+After modification, you can run the test case using `pytest`. Successful execution indicates successful migration.
 ```
 pytest test_add.py
 ```

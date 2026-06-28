@@ -1,6 +1,6 @@
 # triton.language.device_assert
 
-**Using `device_assert` requires setting the environment variable `TRITON_DEBUG` to a non-`0` value for it to take effect.**
+**Using `device_assert` requires setting the environment variable `TRITON_DEBUG` to a non-zero value to take effect.**
 
 ## 1. Function Overview
 

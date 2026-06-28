@@ -11,14 +11,14 @@ triton.language.abs(x, _semantic=None)
 
 Can be called as a member function of a tensor, e.g., `x.abs()`, which is equivalent to `abs(x)`.
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter | Type | Description |
-| :---: | :---: | :---: |
-| `x` | `tensor` | Tensor data |
-| `_semantic`   | - | Reserved parameter, external calls not supported for now |
+| Parameter | Type   | Description |
+| :-------: | :----: | :---------: |
+| `x`       | `tensor` | Tensor data |
+| `_semantic` | -     | Reserved parameter, not supported for external calls |
 
 Return value:
 `out`: A tensor with the same shape as `x`
@@ -27,7 +27,7 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 | Ascend A2/A3 | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | × | √ | √ |
@@ -35,19 +35,19 @@ Return value:
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | :---: |
-| GPU    | No restrictions |
-| Ascend | No restrictions |
+| :----: | :-----------------------: |
+| GPU    | No restrictions          |
+| Ascend | No restrictions          |
 
-Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape support.
+Conclusion: There is no difference between GPU and Ascend platforms in terms of shape support.
 
-### 2.3 Special Limitations
+### 2.3 Special Restrictions
 
 Triton-Ascend does not support fp64 compared to GPU.
 
 ### 2.4 Usage Example
 
-The following example demonstrates computing the absolute value of the input tensor `x`:
+The following example demonstrates performing absolute value computation on the input tensor `x`:
 
 ```python
 @triton.jit

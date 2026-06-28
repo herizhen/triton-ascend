@@ -2,7 +2,7 @@
 
 ## SIMT Compilation Example
 
-Example of a triton kernel using SIMT compilation
+Example of a triton kernel compiled using SIMT
 
 ```python
 # Enable libdevice SIMT compilation
@@ -110,7 +110,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the result of the addition rounded down.
+Return value: `tl.tensor`, returns the result of the addition rounded downwards.
 
 Return type: `float32`
 
@@ -154,7 +154,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the result of the addition rounded up.
+Return value: `tl.tensor`, returns the result of the addition rounded upwards.
 
 Return type: `float32`
 
@@ -371,7 +371,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Rounds up, returns the smallest integer greater than or equal to x.
+Rounds up, returning the smallest integer greater than or equal to x.
 
 Prototype:
 
@@ -498,7 +498,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Computes the modified Bessel function of the first kind of order 0 for the input argument.
+Computes the modified Bessel function of the first kind of order zero for the input argument.
 
 Prototype:
 
@@ -509,7 +509,7 @@ triton.language.extra.cann.libdevice.cyl_bessel_i0(x, _builder=None)
 Input types:
 - x: `float32`
 
-Return value: `tl.tensor`, returns the modified Bessel function of the first kind of order 0 for the input argument.
+Return value: `tl.tensor`, returns the modified Bessel function of the first kind of order zero for the input argument.
 
 Return type: `float32`
 
@@ -519,7 +519,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Computes the modified Bessel function of the first kind of order 1 for the input argument.
+Computes the modified Bessel function of the first kind of order one for the input argument.
 
 Prototype:
 
@@ -530,7 +530,7 @@ triton.language.extra.cann.libdevice.cyl_bessel_i1(x, _builder=None)
 Input types:
 - x: `float32`
 
-Return value: `tl.tensor`, returns the modified Bessel function of the first kind of order 1 for the input argument.
+Return value: `tl.tensor`, returns the modified Bessel function of the first kind of order one for the input argument.
 
 Return type: `float32`
 
@@ -707,3 +707,5 @@ Return value: `tl.tensor`, returns the scaled complementary error function of th
 Return type: `float32`
 
 Supported compilation modes: SIMT
+
+## 32

@@ -12,15 +12,15 @@ triton.language.fdiv(x, y, ieee_rounding=False, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type              | Description                                                        |
-| -------------- | ----------------- | ------------------------------------------------------------------ |
-| `x`            | `tensor`          | Tensor data                                                        |
-| `y`            | `tensor`          | Tensor data                                                        |
-| `ieee_rounding`| `bool`            | Controls whether the floating-point division follows IEEE 754 rounding behavior |
-| `_semantic`    | -                 | Reserved parameter, external calls not supported                   |
+| Parameter       | Type              | Description                                                        |
+| --------------- | ----------------- | ------------------------------------------------------------------ |
+| `x`             | `tensor`          | Tensor data                                                        |
+| `y`             | `tensor`          | Tensor data                                                        |
+| `ieee_rounding` | `bool`            | Controls whether the floating-point division operation follows the rounding behavior specified in IEEE 754 standard |
+| `_semantic`     | -                 | Reserved parameter, external calls not supported currently         |
 
 Return value:
-`x`: Output tensor with the same shape as the input tensor `x`
+`x`: The output tensor has the same shape as the input tensor `x`
 
 ### 2.2 OP Specification
 
@@ -45,13 +45,13 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Missing capabilities compared to the community and cannot be implemented
+> Relative community capability gap that cannot be implemented
 
 fp64 is under development.
 
-### 2.4 Usage
+### 2.4 Usage Example
 
-The following example demonstrates element-wise fast division of input tensors `x` and `y`:
+The following example implements element-wise fast division of input tensors `x` and `y`:
 
 ```python
 @triton.jit

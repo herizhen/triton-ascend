@@ -8,7 +8,7 @@ Description: Performs bitwise inversion on each value of the tensor.
 # Using the operator
 ~x
 
-# Or directly calling the dunder method
+# Or by directly calling the dunder method
 x.__invert__()
 ```
 
@@ -16,13 +16,13 @@ x.__invert__()
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type      | Description                                        |
-| -------------- | --------- | -------------------------------------------------- |
-| `x`            | `tensor`  | Tensor data                                        |
-| `_semantic`    | -         | Reserved parameter, not supported for external calls |
+| Parameter Name | Type     | Description                                                    |
+| -------------- | -------- | -------------------------------------------------------------- |
+| `x`            | `tensor` | Tensor data                                                    |
+| `_semantic`    | -        | Reserved parameter, external calls not supported for now       |
 
 Return value:
-`out`: The shape of the output tensor is the same as that of the input tensor `x`
+`out`: The shape of the output tensor is the same as the shape of the input `x`.
 
 ### 2.2 OP Specifications
 
@@ -33,7 +33,7 @@ Return value:
 | GPU           | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | √    |
 | Ascend A2/A3  | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
 
-Conclusion: Ascend lacks support for uint types compared to GPU.
+Conclusion: Ascend lacks support for `uint` types compared to GPU.
 
 #### 2.2.2 Shape Support
 
@@ -46,13 +46,13 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Missing capabilities compared to the community that cannot be implemented
 
-Ascend lacks support for uint types compared to GPU.
+Ascend lacks support for `uint` types compared to GPU.
 
 ### 2.4 Usage Example
 
-The following example demonstrates performing element-wise bitwise inversion on the input tensor `x`:
+The following example demonstrates element-wise bitwise inversion on the input tensor `x`:
 
 ```python
 @triton.jit

@@ -26,9 +26,9 @@ Splits the input tensor into two tensors along the last dimension. The last dime
 **Return Value:**
 
 - **Type:** Tuple[tensor, tensor]
-- **Shape:** Two tensors with the same shape, the last dimension being half of the input
+- **Shape:** Two tensors with the same shape, where the last dimension is half of the input's
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Contains elements at odd and even positions of the input tensor respectively
+- **Memory Layout:** Contains elements at odd and even positions of the input tensor, respectively
 
 **Constraints:**
 

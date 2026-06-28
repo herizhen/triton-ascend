@@ -14,7 +14,7 @@ triton.language.debug_barrier(_semantic=None)
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `_semantic` | - | - | Reserved parameter, external calls not supported yet |
+| `_semantic` | - | - | Reserved parameter, external calls not supported for now |
 
 ### 2.2 Type Support
 

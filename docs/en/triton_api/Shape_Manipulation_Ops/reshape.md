@@ -13,7 +13,7 @@ Reinterprets a tensor with a new shape.
 
 - Reinterprets a tensor with a new shape
 
-## 2 Parameter Specifications
+## 2 Parameter Specification
 
 ### 2.1 Parameter Description
 
@@ -21,7 +21,7 @@ Reinterprets a tensor with a new shape.
 |-----------|------|----------|-------------|
 | input | tensor | Yes | Input tensor |
 | shape | List[int] | Yes | Target shape |
-| can_reorder | bool | No | Whether to allow reordering elements, default False |
+| can_reorder | bool | No | Whether to allow reordering of elements, default False |
 
 **Return Value:**
 
@@ -46,7 +46,7 @@ Reinterprets a tensor with a new shape.
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Constraints
+### 2.4 Special Limitations
 
 * The `can_reorder` parameter only supports `False`
 

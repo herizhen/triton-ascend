@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Returns the number of program instances launched along the given axis.
+Description: Returns the number of program instances launched along a given axis.
 Function prototype:
 
 ```python
@@ -24,7 +24,7 @@ A `tl.tensor` containing the number of launched program instances.
 
 #### 2.2.1 DataType Support
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | × | × | √ | × | × | × | × | × | × | × | × | × | × |
 | Ascend A2/A3 | × | × | √ | × | × | × | × | × | × | × | × | × | × |

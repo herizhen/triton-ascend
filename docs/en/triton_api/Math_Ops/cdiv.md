@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Computes the ceiling division of tensors.
+Introduction: Computes the ceiling division of tensors.
 Function prototype:
 
 ```python
@@ -37,11 +37,11 @@ Conclusion: Compared to GPU, Ascend does not support uint and bool inputs.
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | -------------------------- |
-| GPU    | No restriction            |
-| Ascend | No restriction            |
+| -------- | --------------------------- |
+| GPU    | No restrictions |
+| Ascend | No restrictions |
 
-Conclusion: There is no difference in shape support between GPU and Ascend platforms.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
