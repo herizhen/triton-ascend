@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Splits the input tensor into two tensors along the last dimension. The last dimension of the output tensors is half the size of the input tensor's last dimension, while other dimensions remain unchanged.
+Splits the input tensor into two tensors along the last dimension. The last dimension size of each output tensor is half that of the input tensor, while other dimensions remain unchanged.
 
 **Syntax:**
 
@@ -12,7 +12,7 @@ Splits the input tensor into two tensors along the last dimension. The last dime
 **Functionality:**
 
 - Splits the input tensor into two tensors along the last dimension
-- The last dimension of the output tensors is half the size of the input tensor's last dimension, which must be 2
+- The last dimension size of each output tensor is half that of the input tensor; the last dimension size must be 2
 - Other dimensions remain unchanged
 
 ## 2 Parameter Specifications
@@ -26,14 +26,14 @@ Splits the input tensor into two tensors along the last dimension. The last dime
 **Return Value:**
 
 - **Type:** Tuple[tensor, tensor]
-- **Shape:** Two tensors with the same shape, where the last dimension is half of the input's
+- **Shape:** Two tensors with identical shapes, each having half the last dimension size of the input
 - **Data Type:** Same as the input tensor
 - **Memory Layout:** Contains elements at odd and even positions of the input tensor, respectively
 
 **Constraints:**
 
-- The last dimension of the input tensor must be even
-- Outputs two tensors with the same shape
+- The last dimension size of the input tensor must be even
+- The two output tensors have identical shapes
 
 ### 2.2 DataType Support Table
 

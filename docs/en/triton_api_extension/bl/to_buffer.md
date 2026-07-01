@@ -25,7 +25,7 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
     <td>tensor</td>
     <td>tl.tensor</td>
     <td>Yes</td>
-    <td>Input tensor to be converted into a buffer</td>
+    <td>Input tensor to be converted to a buffer</td>
   </tr>
   <tr>
     <td>space</td>
@@ -37,7 +37,7 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
     <td>bind_buffer</td>
     <td>bl.buffer</td>
     <td>No</td>
-    <td>Optional, directly binds the tensor to a specified target buffer</td>
+    <td>Optional, directly binds the tensor to the specified target buffer</td>
   </tr>
   <tr>
     <td>_builder</td>
@@ -51,7 +51,7 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
 
 - Returns a `bl.buffer` object corresponding to the input tensor
 
-- If the `bind_buffer` parameter is provided, directly returns the bound buffer itself
+- If the `bind_buffer` parameter is provided, returns the bound buffer itself directly
 
 ## 5. Constraints
 
@@ -69,7 +69,7 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
   </tr>
 </table>
 
-### Advanced Usage (Compilation + IR Printing)
+### Advanced Usage (Compilation + IR Print)
 
 <table>
   <tr>
@@ -81,7 +81,7 @@ Used to convert a `tl.tensor` tensor object into a `bl.buffer` buffer object ded
 
 - This interface is the core conversion entry point between tensors and hardware buffers
 
-- Supports manual specification of the full range of Ascend hardware address spaces (UB/L1/L0)
+- Supports manually specifying the full range of Ascend hardware address spaces (UB/L1/L0)
 
 - Supports binding to existing buffers for fine-grained memory management
 

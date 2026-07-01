@@ -1,10 +1,10 @@
-# al.sync_block_wait Interface Documentation
+# al.sync_block_wait API Documentation
 
 ## 1. Hardware Background
 
 Inter-core synchronization control interface for split mode.
 
-This interface is used in conjunction with the sync_block_set interface. When used, the synchronization flag ID (flagId) must be passed in. Each ID corresponds to a counter with an initial value of 0. After executing CrossCoreSetFlag, the counter corresponding to the ID increments by 1; when executing CrossCoreWaitFlag, if the corresponding counter value is 0, it blocks and does not execute; if the corresponding counter is greater than 0, the counter decrements by 1, and subsequent instructions begin execution.
+This interface is used in conjunction with the sync_block_set interface. It requires passing a synchronization flag ID (flagId), where each ID corresponds to a counter with an initial value of 0. After executing CrossCoreSetFlag, the counter corresponding to the ID increments by 1; when executing CrossCoreWaitFlag, if the corresponding counter value is 0, it blocks and does not execute; if the corresponding counter is greater than 0, the counter decrements by 1, and subsequent instructions begin execution.
 
 ## 2. Interface Description
 
@@ -29,17 +29,17 @@ No return value
   <tr>
     <td>sender</td>
     <td>str</td>
-    <td>Sender side, only supports &quot;cube&quot; / &quot;vector&quot;</td>
+    <td>Sender, only supports &quot;cube&quot; / &quot;vector&quot;</td>
   </tr>
   <tr>
     <td>receiver</td>
     <td>str</td>
-    <td>Receiver side, only supports &quot;cube&quot; / &quot;vector&quot;</td>
+    <td>Receiver, only supports &quot;cube&quot; / &quot;vector&quot;</td>
   </tr>
   <tr>
     <td>event_id</td>
     <td>int</td>
-    <td>Synchronization flag ID, value range [0,15]</td>
+    <td>Synchronization flag ID, range [0,15]</td>
   </tr>
   <tr>
     <td>sender_pipe</td>
@@ -54,7 +54,7 @@ No return value
   <tr>
     <td>_builder</td>
     <td>-</td>
-    <td>Automatically passed by the JIT compiler</td>
+    <td>Automatically passed by JIT compiler</td>
   </tr>
 </table>
 
@@ -67,7 +67,7 @@ No return value
   </tr>
   <tr>
     <td>PIPE_S</td>
-    <td>Scalar pipeline, used when using the Tensor GetValue function</td>
+    <td>Scalar pipeline, used when using Tensor GetValue function</td>
   </tr>
   <tr>
     <td>PIPE_V</td>
@@ -115,4 +115,4 @@ Output:
 
 <table>
   <tr>
-    <td>Plain Text<br>============================================================<br><br>Test 1: Cube -&gt; Vector Sync<br><br>============================================================<br><br>✅ Generated MLIR (1275 chars):<br><br>module {<br><br>  tt.func public @kernel_sync_cube_to_vector() attributes {noinline = false} {<br><br>    scope.scope : () -&gt; () {<br><br>      %c0_i32 = arith.constant 0 : i32 loc(#loc2)<br><br>      %0 = arith.extui %c0_i32 : i32 to i64 loc(#loc2)<br><br>      hivm.hir.sync_block_set[&lt;CUBE&gt;, &lt;PIPE_MTE1&gt;, &lt;PIPE_MTE3&gt;] flag = %0 loc(#loc2)<br><br>      scope.return loc(#loc2)<br><br>    } {hivm.tcore_type = #hivm.tcore_type&lt;CUBE&gt;, noinline} loc(#loc1)<br><br>    scope.scope : () -&gt; () {<br><br>      %c0_i32 = arith.constant 0 : i32 loc(#loc4)<br><br>      %0 = arith.extui %c0_i32 : i32 to i64 loc(#loc4)<br><br>      hivm.hir.sync_block_wait[&lt;VECTOR&gt;, &lt;PIPE_MTE1&gt;, &lt;PIPE_MTE3&gt;] flag = %0 loc(#loc4)<br><br>      scope.return loc(#loc4)<br><br>    } {hivm.tcore_type = #hivm.tcore_type&lt;VECTOR&gt;, noinline} loc(#loc3)<br><br>    tt.return loc(#loc5)<br><br>  } loc(#loc)<br><br>} loc(#loc)<br><br>#loc = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:36:0)<br><br>#loc1 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:37:9)<br><br>#loc2 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:38:66)<br><br>#loc3 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:39:9)<br><br>#loc4 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:40:67)<br><br>#loc5 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:39:4)<br><br>============================================================<br><br>Test 2: Vector -&gt; Cube Sync<br><br>============================================================<br><br>✅ Generated MLIR (1267 chars):<br><br>module {<br><br>  tt.func public @kernel_sync_vector_to_cube() attributes {noinline = false} {<br><br>    scope.scope : () -&gt; () {<br><br>      %c1_i32 = arith.constant 1 : i32 loc(#loc2)<br><br>      %0 = arith.extui %c1_i32 : i32 to i64 loc(#loc2)<br><br>      hivm.hir.sync_block_set[&lt;VECTOR&gt;, &lt;PIPE_V&gt;, &lt;PIPE_FIX&gt;] flag = %0 loc(#loc2)<br><br>      scope.return loc(#loc2)<br><br>    } {hivm.tcore_type = #hivm.tcore_type&lt;VECTOR&gt;, noinline} loc(#loc1)<br><br>    scope.scope : () -&gt; () {<br><br>      %c1_i32 = arith.constant 1 : i32 loc(#loc4)<br><br>      %0 = arith.extui %c1_i32 : i32 to i64 loc(#loc4)<br><br>      hivm.hir.sync_block_wait[&lt;CUBE&gt;, &lt;PIPE_V&gt;, &lt;PIPE_FIX&gt;] flag = %0 loc(#loc4)<br><br>      scope.return loc(#loc4)<br><br>    } {hivm.tcore_type = #hivm.tcore_type&lt;CUBE&gt;, noinline} loc(#loc3)<br><br>    tt.return loc(#loc5)<br><br>  } loc(#loc)<br><br>} loc(#loc)<br><br>#loc = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:44:0)<br><br>#loc1 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:45:9)<br><br>#loc2 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:46:63)<br><br>#loc3 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:47:9)<br><br>#loc4 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:48:64)<br><br>#loc5 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:47:4)<br><br>============================================================<br><br>Test 3: Multi-ID Sync<br><br>============================================================<br><br>✅ Generated MLIR (1818 chars):<br><br>module {<br><br>  tt.func public @kernel_sync_multi_id() attributes {noinline = false} {<br><br>    scope.scope : () -&gt; () {<br><br>      %c0_i32 = arith.constant 0 : i32 loc(#loc2)<br><br>      %0 = arith.extui %c0_i32 : i32 to i64 loc(#loc2)<br><br>      hivm.hir.sync_block_set[&lt;CUBE&gt;, &lt;PIPE_MTE1&gt;, &lt;PIPE_MTE3&gt;] flag = %0 loc(#loc2)<br><br>      %c1_i32 = arith.constant 1 : i32 loc(#loc3)<br><br>      %1 = arith.extui %c1_i32 : i32 to i64 loc(#loc3)<br><br>      hiv
+    <td>Plain Text<br>============================================================<br><br>Test 1: Cube -&gt; Vector Sync<br><br>============================================================<br><br>✅ Generated MLIR (1275 chars):<br><br>module {<br><br>  tt.func public @kernel_sync_cube_to_vector() attributes {noinline = false} {<br><br>    scope.scope : () -&gt; () {<br><br>      %c0_i32 = arith.constant 0 : i32 loc(#loc2)<br><br>      %0 = arith.extui %c0_i32 : i32 to i64 loc(#loc2)<br><br>      hivm.hir.sync_block_set[&lt;CUBE&gt;, &lt;PIPE_MTE1&gt;, &lt;PIPE_MTE3&gt;] flag = %0 loc(#loc2)<br><br>      scope.return loc(#loc2)<br><br>    } {hivm.tcore_type = #hivm.tcore_type&lt;CUBE&gt;, noinline} loc(#loc1)<br><br>    scope.scope : () -&gt; () {<br><br>      %c0_i32 = arith.constant 0 : i32 loc(#loc4)<br><br>      %0 = arith.extui %c0_i32 : i32 to i64 loc(#loc4)<br><br>      hivm.hir.sync_block_wait[&lt;VECTOR&gt;, &lt;PIPE_MTE1&gt;, &lt;PIPE_MTE3&gt;] flag = %0 loc(#loc4)<br><br>      scope.return loc(#loc4)<br><br>    } {hivm.tcore_type = #hivm.tcore_type&lt;VECTOR&gt;, noinline} loc(#loc3)<br><br>    tt.return loc(#loc5)<br><br>  } loc(#loc)<br><br>} loc(#loc)<br><br>#loc = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:36:0)<br><br>#loc1 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:37:9)<br><br>#loc2 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:38:66)<br><br>#loc3 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:39:9)<br><br>#loc4 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:40:67)<br><br>#loc5 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:39:4)<br><br>============================================================<br><br>Test 2: Vector -&gt; Cube Sync<br><br>============================================================<br><br>✅ Generated MLIR (1267 chars):<br><br>module {<br><br>  tt.func public @kernel_sync_vector_to_cube() attributes {noinline = false} {<br><br>    scope.scope : () -&gt; () {<br><br>      %c1_i32 = arith.constant 1 : i32 loc(#loc2)<br><br>      %0 = arith.extui %c1_i32 : i32 to i64 loc(#loc2)<br><br>      hivm.hir.sync_block_set[&lt;VECTOR&gt;, &lt;PIPE_V&gt;, &lt;PIPE_FIX&gt;] flag = %0 loc(#loc2)<br><br>      scope.return loc(#loc2)<br><br>    } {hivm.tcore_type = #hivm.tcore_type&lt;VECTOR&gt;, noinline} loc(#loc1)<br><br>    scope.scope : () -&gt; () {<br><br>      %c1_i32 = arith.constant 1 : i32 loc(#loc4)<br><br>      %0 = arith.extui %c1_i32 : i32 to i64 loc(#loc4)<br><br>      hivm.hir.sync_block_wait[&lt;CUBE&gt;, &lt;PIPE_V&gt;, &lt;PIPE_FIX&gt;] flag = %0 loc(#loc4)<br><br>      scope.return loc(#loc4)<br><br>    } {hivm.tcore_type = #hivm.tcore_type&lt;CUBE&gt;, noinline} loc(#loc3)<br><br>    tt.return loc(#loc5)<br><br>  } loc(#loc)<br><br>} loc(#loc)<br><br>#loc = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:44:0)<br><br>#loc1 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:45:9)<br><br>#loc2 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:46:63)<br><br>#loc3 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:47:9)<br><br>#loc4 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:48:64)<br><br>#loc5 = loc(&quot;/home/ganpengfei/workspace/triton-test/sync_block_set_wait.py&quot;:47:4)<br><br>============================================================<br><br>Test 3: Multi-ID Sync<br><br>============================================================<br><br>✅ Generated MLIR (1818 chars):<br><br>module {<br><br>  tt.func public @kernel_sync_multi_id() attributes {noinline = false} {<br><br>    scope.scope : () -&gt; () {<br><br>      %c0_i32 = arith.constant 0 : i32 loc(#loc2)<br><br>      %0 = arith.extui %c0_i32 : i32 to i64 loc(#loc2)<br><br>      hivm.hir.sync_block_set[&lt;CUBE&gt;, &lt;PIPE_MTE1&gt;, &lt;PIPE_MTE3&gt;] flag = %0 loc(#loc2)<br><br>      %c1_i32 = arith.constant 1 : i32 loc(#loc3)<br><br>      %1 = arith.extui %c1_i32 : i32 to i64 loc(#loc3)<br><br>      hivm.hir.sync_block_set[&

@@ -43,7 +43,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative community capability missing and cannot be implemented
+> Community capability gap that cannot be implemented
 
 None.
 

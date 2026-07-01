@@ -37,7 +37,7 @@ Conclusion: In terms of DataType, Ascend additionally supports integer and float
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | ---------------------- |
+| -------- | -------------------------- |
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
@@ -45,13 +45,13 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Not yet supported compared to community capabilities
+> Not supported compared to community capabilities
 
 None.
 
-### 2.4 Usage Example
+### 2.4 Usage
 
-The following example demonstrates performing a logical AND operation on 3D tensors `x0` and `x1`:
+The following example demonstrates performing a logical AND operation on three-dimensional tensors `x0` and `x1`:
 
 ```python
 @triton.jit

@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-`inline_asm_elementwise` is used to execute inline assembly code within a Triton kernel, enabling element-wise operations on tensors.
+`inline_asm_elementwise` is used to execute inline assembly code within Triton kernels, enabling element-wise operations on tensors.
 
 ```python
 triton.language.inline_asm_elementwise(asm, constraints, args, dtype, is_pure, pack, _semantic=None)
@@ -31,7 +31,7 @@ A3:
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | ×| × | ✓ |×|   ✓  | × | × | ×  |
 
-Compared to GPU, Ascend lacks support for input tensor types: uint8, uint16, uint32, uint64, fp16, fp64, bf16, and bool.
+Compared to GPU, Ascend lacks support for input tensor types uint8, uint16, uint32, uint64, fp16, fp64, bf16, and bool.
 
 ### 2.3 Usage
 
@@ -69,4 +69,4 @@ def triton_asm_add(x_ptr,
 
 1. Inline assembly registers only support `int64(s64)` and `float32(f32)`.
 2. Constraint restrictions only support `l`.
-3. Currently, only 1D tensors are supported for input; computing higher-dimensional tensors requires flattening.
+3. Currently, only one-dimensional tensors are supported for input; computing higher-dimensional tensors requires unrolling.

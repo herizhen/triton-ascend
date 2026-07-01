@@ -18,7 +18,7 @@ triton.language.add(x, y, sanitize_overflow: constexpr = True, _builder=None)
 | `x` | `tensor or Number` | First input parameter |
 | `y` | `tensor or Number` | Second input parameter |
 | `sanitize_overflow` | `bool` | Whether to perform overflow checking for integer addition, default value is True, no need to specify explicitly |
-| `_builder` | - | Reserved parameter, external calls not supported currently |
+| `_builder` | - | Reserved parameter, external calls not supported temporarily |
 
 Return value:
 `tl.tensor`: Addition result

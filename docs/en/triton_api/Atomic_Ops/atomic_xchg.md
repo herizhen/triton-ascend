@@ -18,18 +18,18 @@ triton.language.atomic_xchg(
 
 Can be called as a member function of a tensor, e.g., `x.atomic_xchg(...)`, which is equivalent to `atomic_xchg(x, ...)`.
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type                | Description                                                             |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `pointer`        | `triton.PointerDType`          | The memory location to operate on; updates *pointer to val, and writes the computed result back to this memory location                                                     |
-| `val`       | `pointer.dtype.element_ty`    | The target value to update to (right operand)                                                        |
-| `mask`     | `int1` or `tensor<int1>`, optional    | Specifies the data range to prevent out-of-bounds access |
-| `sem` | `str`, optional | Specifies the memory semantics of the operation<br>Community official configuration accepts values: "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed"<br>We only support "acq_rel":<br>- acquire: After acquiring the lock, previous release operations are visible (equivalent to a "read" operation that blocks until the "latest" data is available, i.e., data released by other threads)<br>- release: All operations before releasing the lock are visible to threads that subsequently acquire the lock (equivalent to a "write" operation that "synchronizes" all previous write operations)                                             |
-| `scope` | `str`, optional | The thread scope for observing the synchronization effect of the atomic operation<br>Accepted values: "gpu" (default), "cta" (cooperative thread array, thread block), or "sys" (representing "SYSTEM") <br>We only support "gpu"                                            |
-| `_semantic`   | -                 | Reserved parameter, currently not supported for external calls                                                |
+| Parameter    | Type                | Description                                                             |
+| ------------ | ------------------- | ----------------------------------------------------------------------- |
+| `pointer`    | `triton.PointerDType` | The memory location to operate on; updates *pointer to val, writes the computed result back to this memory |
+| `val`        | `pointer.dtype.element_ty` | The target value to update to (right operand)                           |
+| `mask`       | `int1` or `tensor<int1>`, optional | Specifies the data range to prevent out-of-bounds access                |
+| `sem`        | `str`, optional     | Specifies the memory semantics of the operation<br>Community official configuration accepts "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed"<br>We only support "acq_rel":<br>- acquire: After acquiring the lock, previous release operations are visible (equivalent to a "read" operation that blocks until the "latest" data, i.e., data released by other threads, is readable)<br>- release: All operations before releasing the lock are visible to threads that subsequently acquire the lock (equivalent to a "write" operation that "synchronizes" all previous write operations) |
+| `scope`      | `str`, optional     | The thread scope for observing the synchronization effect of the atomic operation<br>Acceptable values are "gpu" (default), "cta" (cooperative thread array, thread block), or "sys" (representing "SYSTEM")<br>We only support "gpu" |
+| `_semantic`  | -                   | Reserved parameter, currently not supported for external calls           |
 
 Return value:
 `pointer`: tensor, the old value before the operation
@@ -40,8 +40,8 @@ Return value:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU      | ×      | ×    |  √      | ×    |  ×    | √   | √    | √      | ×    | √      | √    | ×    |  ×    |
-| Ascend A2/A3 | √    | √     | √     | √     | √     | √     | √     | √      | √    | √    | ×    | ×    | ×    |
+| GPU    | ×    | ×     | √     | ×     | ×      | √      | √      | √     | ×    | √    | √    | ×    | ×    |
+| Ascend A2/A3 | √ | √     | √     | √     | √      | √      | √      | √     | √    | √    | ×    | ×    | ×    |
 
 #### 2.2.2 Shape Support
 
@@ -49,16 +49,16 @@ No special requirements, default eight-dimensional
 
 ### 2.3 Special Limitations
 
-> Relative to community capabilities, these are missing and cannot be implemented
+> Relative to community capabilities that are missing and cannot be implemented
 
-| Difference Point | Description                                                                           |
-| --------------------- | ---------------------------------------------------------------------------- |
-| sem | Community official configuration accepts values: "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed"<br>We only support "acq_rel" |
-| scope | Accepted values: "gpu", "cta", or "sys"<br>We only support "gpu" |
+| Difference              | Description                                                                           |
+| ----------------------- | ------------------------------------------------------------------------------------- |
+| `sem`                   | Community official configuration accepts "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed"<br>We only support "acq_rel" |
+| `scope`                 | Acceptable values are "gpu", "cta", or "sys"<br>We only support "gpu"                  |
 
 ### 2.4 Usage Example
 
-The following example implements an atomic exchange computation:
+The following example implements atomic exchange computation:
 
 ```python
 @triton.jit

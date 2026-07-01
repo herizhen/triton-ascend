@@ -36,7 +36,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Usage Example
 
-The following example demonstrates performing a modulo calculation on input tensors `in_ptr0, in_ptr1`:
+The following example demonstrates performing a modulo operation on input tensors `in_ptr0, in_ptr1`:
 
 ```python
 @triton.jit

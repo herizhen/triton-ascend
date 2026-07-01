@@ -1,10 +1,10 @@
-# Triton-Ascend Release
+# Triton-Ascend Version Release
 
-The Triton-Ascend release provides a stable codebase snapshot, packaged as binary packages easily installable via PyPI. Additionally, releases allow the development team to formally announce the availability of new features, completed improvements, and changes that may affect users (e.g., breaking changes) to the community.
+The Triton-Ascend version provides a stable codebase snapshot, packaged as binary wheels that can be easily installed via PyPI. Additionally, version releases allow the development team to formally announce to the community the availability of new features, completed improvements, and changes that may affect users (e.g., breaking changes).
 
 ## Release Compatibility Matrix
 
-The following is the release compatibility matrix for Triton-Ascend:
+The following is the release compatibility matrix for Triton-Ascend versions:
 
 | Triton-Ascend Version | Python Version | Manylinux Version | Hardware Platform | Hardware Product |
 | --- | --- | --- | --- | --- |
@@ -16,15 +16,15 @@ The following is the release schedule for Triton-Ascend. Note: Patch versions ar
 
 | Major Version | Release Branch Cut Date | Release Date | Patch Release Date |
 | --- | --- | --- | --- |
-| 3.2.0 | December 8, 2025 | January 2026 | --- |
+| 3.2.0 | December 08, 2025 | January 2026 | --- |
 
-## Release Highlights
+## Version Highlights
 
 ### Triton-Ascend 3.2.0
 
 **First Release: Ascend NPU Support**
 
-Triton-Ascend 3.2.0 is the first Triton version to officially support Huawei Ascend NPUs. This release is based on the Triton 3.2.0 community version and is specifically adapted for the Ascend NPU hardware architecture.
+Triton-Ascend 3.2.0 is the first Triton version to officially support Huawei Ascend NPUs. This version is based on the Triton 3.2.0 community release and is specifically adapted for the Ascend NPU hardware architecture.
 
 #### Key Features
 
@@ -32,7 +32,7 @@ Triton-Ascend 3.2.0 is the first Triton version to officially support Huawei Asc
    - Complete compilation pipeline from Triton IR to NPU instruction set
    - Support for all Triton Ops
 
-2. **Performance Optimization**
+2. **Performance Optimizations**
    - NPU-specific kernel optimizations
    - CV computation optimizations
 

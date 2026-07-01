@@ -15,7 +15,7 @@ triton.language.argmin(input, axis, tie_break_left=True, keep_dims=False)
 | Parameter | Type | Description |
 | :---: | :---: | --- |
 | `input` | `tensor` | Tensor data, left operand |
-| `axis`   | `int` | Specifies the axis along which to reduce |
+| `axis`   | `int` | Specifies the dimension along which to reduce |
 | `keep_dims` | `bool` | Whether to keep the reduced dimension |
 | `tie_break_left` | `bool` | If multiple elements have the same minimum value, returns the index of the leftmost minimum |
 
@@ -35,14 +35,14 @@ Return value:
 
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU    | No restrictions |
-| Ascend | No restrictions |
+| GPU    | Unlimited |
+| Ascend | Unlimited |
 
-Conclusion: There is no difference between GPU and Ascend platforms in terms of shape support.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Capabilities missing compared to the community and cannot be implemented
+> Missing capabilities compared to the community that cannot be implemented
 
 Ascend A3 lacks support for uint16, uint32, uint64, and fp64 compared to GPU.
 

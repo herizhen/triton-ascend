@@ -14,7 +14,7 @@ where:
 - `z` (bias) has shape `(A, C)`
 - The output `output` has shape `(A, C)`
 
-This kernel assumes a single block is responsible for computing the entire output matrix, suitable for small-scale matrices (A, B, C are small and can be fully covered by the current program block).
+This kernel assumes a single block is responsible for computing the entire output matrix, making it suitable for small-scale matrices (where A, B, C are small and can be fully covered by the current program block).
 
 ```python
 import pytest
@@ -35,9 +35,9 @@ def triton_dot_2_Bias(
     C: tl.constexpr   # Second dimension size (number of columns)
 ):
     # Create index vectors
-    bidx = tl.arange(0, A)  # [0, 1, ..., A-1], for row dimension
-    cidx = tl.arange(0, B)  # [0, 1, ..., B-1], for x columns / y rows
-    didx = tl.arange(0, C)  # [0, 1, ..., C-1], for column dimension
+    bidx = tl.arange(0, A)  # [0, 1, ..., A-1], used for row dimension
+    cidx = tl.arange(0, B)  # [0, 1, ..., B-1], used for columns of x / rows of y
+    didx = tl.arange(0, C)  # [0, 1, ..., C-1], used for column dimension
 
     # Construct linear index for x: (A, B) -> flattened to A*B
     Xidx = bidx[:, None] * B + cidx[None, :]  # Broadcast to form (A, B) index grid
@@ -63,7 +63,7 @@ def triton_dot_2_Bias(
 
 ## Utility Functions
 
-The following helper functions support testing and validation of the Triton kernel, including PyTorch reference implementation, data type mapping, random tensor generation, and result verification.
+The following helper functions support testing and validation of the Triton kernel, including a PyTorch reference implementation, data type mapping, random tensor generation, and result verification.
 
 ```Python
 def torch_dot_Bias(x0, x1, bias):
@@ -94,7 +94,7 @@ def get_torch_typename(dtype):
     return tyname
 
 def generate_tensor(shape, dtype):
-     """Generates a random tensor with the specified shape and data type, adapting value ranges for different numeric types."""
+    """Generates a random tensor with the specified shape and data type, adapting value ranges for different numeric types."""
     if dtype == 'float32' or dtype == 'float16' or dtype == 'bfloat16':
         return torch.randn(size=shape, dtype=eval('torch.' + dtype))
     elif dtype == 'int32' or dtype == 'int64' or dtype == 'int16':
@@ -126,7 +126,7 @@ def validate_cmp(dtype, y_cal, y_ref):
 
 ## Parameterized Tests
 
-Using `pytest` to perform parameterized functional validation of the `triton_dot_2_Bias` kernel, covering different matrix dimensions and data type combinations.
+Using `pytest` for parameterized functional validation of the `triton_dot_2_Bias` kernel, covering different matrix dimensions and data type combinations.
 
 ```python
 # Test case configuration: (A, B, C) represents matrix x: (A,B), y: (B,C), bias/output: (A,C)
@@ -168,7 +168,7 @@ def test_dot_2_Bias(sigtype, A, B, C):
 
 
 if __name__ == "__main__":
-    # Support running a single test case directly (for debugging convenience)
+    # Supports running a single test case directly (convenient for debugging)
     test_dot_2_Bias("float16", 16, 16, 16)
 ```
 
@@ -178,4 +178,4 @@ if __name__ == "__main__":
 Test matmul with dtype=float16, shape=(16,16,16) PASSED!
 ```
 
-The output log above indicates that the results from Triton and PyTorch are completely consistent.
+The output log above indicates that the results from Triton and PyTorch are identical.

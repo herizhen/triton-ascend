@@ -10,7 +10,7 @@ triton.language.sum(input, axis=None, keep_dims=False)
 
 > **Version Differences**
 >
-> The `dtype` parameter is a feature introduced in community Triton 3.5.0. The current release of Triton-Ascend is based on community Triton 3.2.0 and does not include the `dtype` parameter. Full support for the `dtype` parameter will be provided when upgrading to community Triton 3.5.0 in the future.
+> The `dtype` parameter is a feature introduced in community Triton 3.5.0. The current release of Triton-Ascend is based on community Triton 3.2.0 and does not include the `dtype` parameter. When upgrading to community Triton 3.5.0 in the future, full support for the `dtype` parameter will be provided.
 
 ## 2. OP Specification
 
@@ -20,7 +20,7 @@ triton.language.sum(input, axis=None, keep_dims=False)
 |-----------|------|-------------|
 | `input` | `Tensor` | Input tensor |
 | `axis` | `int` or `None` | The dimension along which to perform the sum operation. If None, sums over all dimensions |
-| `keep_dims` | `bool` | If True, retains the reduced dimensions with length 1 |
+| `keep_dims` | `bool` | If True, retains the summed dimensions with length 1 |
 
 Return value:
 `tensor`: Computes the sum of elements of the input tensor along the specified axis and returns the result.
@@ -41,13 +41,13 @@ Conclusion: There is no difference in Shape support between GPU and Ascend platf
 ### 2.3 Special Limitations
 
 > Missing community capabilities that cannot be implemented
-> `keep_dims=True` requires testing with more specifications to determine full support. Currently tested with 3D dim=2, where `keep_dims=True` is supported.
+> `keep_dims=True` requires testing with more specifications to determine full support. Currently tested with 3D dim=2, `keep_dims=True` is supported.
 
-> The `dtype` parameter is not supported in the current version. In community Triton 3.5.0, the `dtype` parameter controls the accumulation data type for the sum operation: when unspecified, integer types with bit width less than 32 are automatically promoted to `int32`/`uint32` to avoid overflow; when explicitly specified, the input is first converted to the specified type before performing the sum. The current Triton-Ascend is based on community Triton 3.2.0, and this type promotion logic is not yet supported. Full support will be provided when upgrading to version 3.5.0 in the future.
+> The `dtype` parameter is not supported in the current version. In community Triton 3.5.0, the `dtype` parameter controls the accumulation data type for the sum operation: when not specified, integer types with bit width less than 32 are automatically promoted to `int32`/`uint32` to avoid overflow; when explicitly specified, the input is first converted to the specified type before performing the sum. The current Triton-Ascend is based on community Triton 3.2.0, and this type promotion logic is not yet supported. Full support will be provided when upgrading to version 3.5.0 in the future.
 
 ### 2.4 Usage Example
 
-The following example implements a sum operation on a 2D tensor:
+The following example implements the sum operation on a 2D tensor:
 
 ```python
 @triton.jit

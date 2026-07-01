@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Given 1 seed scalar and 1 offset block, returns 1 random block of float32 type following the standard normal distribution **N**(**0**,**1**).
+Description: Given 1 seed scalar and 1 offset block, returns 1 float32 random block following the standard normal distribution **N**(**0**,**1**).
 Prototype:
 
 ```python
@@ -17,20 +17,20 @@ triton.language.randn(
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type                | Description                                                             |
-| -------------- | ------------------- | ----------------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`   | Seed used for generating random numbers                                 |
-| `offset`       | `int` or `tensor`   | Offset used for generating random numbers                               |
-| `n_rounds`     | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm                     |
+| Parameter Name | Type               | Description                                                    |
+| -------------- | ------------------ | -------------------------------------------------------------- |
+| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                        |
+| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                      |
+| `n_rounds`     | `constexpr`, default 10 | Number of iterations for the Philox algorithm                  |
 
 Return Value:
-1 random block of float32 type, with the same shape as `offset`, whose values follow the standard normal distribution `N(0, 1)`
+1 float32 random block with the same shape as `offset`, whose values follow the standard normal distribution `N(0, 1)`
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
-Supported types for input seed:
+Input seed type:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
@@ -42,11 +42,11 @@ No special requirements
 
 ### 2.3 Special Limitations
 
-> Feature missing compared to the community version and cannot be implemented
+> Missing community capability and cannot be implemented
 
 ### 2.4 Usage Example
 
-The following example demonstrates the usage of `randn`:
+The following example demonstrates the call to `randn`:
 
 ```python
 import math
@@ -57,9 +57,9 @@ import triton.language as tl
 @triton.jit
 def kernel_randn(x_ptr, n_rounds: tl.constexpr, N: tl.constexpr, XBLOCK: tl.constexpr):
     block_offset = tl.program_id(0) * XBLOCK
-    offsets = block_offset + tl.arange(0, XBLOCK)  # block-level offset tensor
+    offsets = block_offset + tl.arange(0, XBLOCK)  # Block-level offset tensor
     mask = offsets < N
-    rand_vals = tl.randn(5, 10 + offsets, n_rounds)  # generate a block of random numbers at once
+    rand_vals = tl.randn(5, 10 + offsets, n_rounds)  # Generate a block of random numbers at once
     tl.store(x_ptr + offsets, rand_vals, mask=mask)
 
 shape = (1024,)

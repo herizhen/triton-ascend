@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-`assume` is used to provide conditional assumption information to the compiler, allowing it to perform optimizations based on conditions known to be true. This is a compiler hint operation and does not check conditions at runtime.
+`assume` is used to provide conditional assumption information to the compiler, allowing the compiler to perform optimizations based on conditions known to be true. This is a compiler hint operation and does not check conditions at runtime.
 
 ```python
 triton.language.assume(cond, _semantic=None)
@@ -15,7 +15,7 @@ triton.language.assume(cond, _semantic=None)
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `cond` | `bool` | Required | The condition expression that the compiler can assume to be true |
-| `_semantic` | - | - | Reserved parameter, external calls not supported |
+| `_semantic` | - | - | Reserved parameter, currently not supported for external calls |
 
 ### 2.2 Type Support
 

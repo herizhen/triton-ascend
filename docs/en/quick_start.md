@@ -32,7 +32,7 @@ The above environment variable configuration only takes effect in the current wi
 
 You need to select the corresponding compatible version (version 9.0.0 is recommended) based on the actual Ascend card model you are using. The installation of CANN takes approximately 5-10 minutes, please wait patiently for the installation to complete.
 
-The installation of requirements can be performed as follows:
+The installation of requirements can be done as follows:
 
 ```shell
 pip install -r requirements.txt -r requirements_dev.txt
@@ -50,15 +50,15 @@ Users can directly install the latest stable version package via the command lin
 pip install triton-ascend
 ```
 
-- Note: Starting from version 3.2.1, Triton-Ascend mitigates installation overwrite issues by declaring Triton as an installation dependency. When installing Triton-Ascend, the community Triton is installed first, and then Triton-Ascend overwrites the same-named directory, thus preventing subsequent installation of other packages that depend on Triton from overwriting Triton-Ascend. The reason x86 and arm use different versions of the community Triton installation package is that the community only started providing arm version packages from version 3.5 onwards: x86 depends on `triton==3.2.0`, arm depends on `triton==3.5.0`.
-- Note 1: This solution is used to mitigate installation overwrite issues and cannot completely eliminate the conflict caused by the community Triton and Triton-Ascend sharing the same `triton` package directory; if subsequent installation processes explicitly reinstall or upgrade the community Triton, the installed Triton-Ascend may still be affected. In this case, please uninstall both the community Triton and Triton-Ascend first, and then reinstall Triton-Ascend.
+- Note: Starting from version 3.2.1, Triton-Ascend mitigates installation override issues by declaring Triton as an installation dependency. When installing Triton-Ascend, the community Triton is installed first, and then Triton-Ascend overwrites the directory with the same name, thus preventing subsequent installation of other packages that depend on Triton from overwriting Triton-Ascend. The reason x86 and arm use different versions of the community Triton installation package is that the community only started providing arm version installation packages from version 3.5: x86 depends on `triton==3.2.0`, arm depends on `triton==3.5.0`.
+- Note 1: This solution is used to mitigate installation override issues and cannot completely eliminate the conflict caused by the community Triton and Triton-Ascend sharing the same `triton` package directory; if subsequent installation processes explicitly reinstall or upgrade the community Triton, it may still affect the installed Triton-Ascend. In this case, please uninstall both the community Triton and Triton-Ascend first, and then reinstall Triton-Ascend.
 
-You can also choose to download nightly packages from the [Download Page](https://test.pypi.org/project/triton-ascend/#history) and install them locally.
+You can also choose to download a nightly package from the [Download Page](https://test.pypi.org/project/triton-ascend/#history) and install it locally.
 
-- Note 2: If you choose to download and install nightly packages yourself, please select the Triton-Ascend package that corresponds to your server's Python version and architecture (aarch64/x86_64).
+- Note 2: If you choose to download and install a nightly package yourself, please select the Triton-Ascend package that matches your server's Python version and architecture (aarch64/x86_64).
 - Note 3: Nightly packages are built daily. Developers submit MRs frequently, and these packages have not undergone stable testing, so there may be functional bugs. Please be aware.
 
-## Quick Start with Docker Environment Setup
+## Quick Use of Docker for Environment Setup
 
 We provide a Dockerfile to help you install the Docker environment image. The build process uses the `quay.io/ascend/cann` pre-built image as the base image, skipping the CANN installation step and significantly speeding up the build process.
 
@@ -77,12 +77,12 @@ You need to specify the `CANN_BASE_IMAGE` parameter via `--build-arg` to select 
 
 You can use the `npu-smi` command to check the NPU model on your system.
 
-For reference on machines corresponding to different chip types:
+For different chip types, refer to the following machines:
 
-| Option No. | **Chip Type** | Corresponding Machine/Product Series |              Typical System              |
+| Option No. | **Chip Type** | Corresponding Machine/Product Series | Typical Complete Machine |
 | :---: |:-----------------:| :---: |:-----------------------------------:|
-| 1 |       `A3`        | Atlas A3 Training Series Products |        Atlas 900 A3 SuperPoD        |
-| 2 |       `A2`        | Atlas A2 Training Series Products |            Atlas800T A2             |
+| 1 | `A3` | Atlas A3 Training Series Products | Atlas 900 A3 SuperPoD |
+| 2 | `A2` | Atlas A2 Training Series Products | Atlas800T A2 |
 
 ```bash
 git clone https://github.com/triton-lang/triton-ascend.git && cd triton-ascend
@@ -125,9 +125,9 @@ docker exec -u root -it triton-ascend_container /bin/bash
 Run example: [01-vector-add.py](../../third_party/ascend/tutorials/01-vector-add.py)
 
 ```bash
-# Set CANN environment variables (taking root user default installation path `/usr/local/Ascend` as an example)
+# Set CANN environment variables (using root user default installation path `/usr/local/Ascend` as an example)
 source /usr/local/Ascend/ascend-toolkit/set_env.sh
-# Clone the triton-ascend source repository and examples (optional, required when running examples without source compilation installation)
+# Clone the triton-ascend source repository and examples (optional, required when running examples without source code compilation)
 git clone https://github.com/triton-lang/triton-ascend.git
 # Run the tutorials example:
 python3 ./triton-ascend/third_party/ascend/tutorials/01-vector-add.py
@@ -141,9 +141,9 @@ tensor([0.8329, 1.0024, 1.3639,  ..., 1.0796, 1.0406, 1.5811], device='npu:0')
 The maximum difference between torch and triton is 0.0
 ```
 
-## Migrating Triton Examples from GPU to NPU
+## From GPU to NPU: Migrating Triton Examples
 
-Triton-Ascend maintains full syntax compatibility with the community Triton. You only need to replace the **tensor device declaration** and a few `torch.cuda.*` interfaces, and the original GPU examples can run on the Ascend NPU. The following demonstrates the complete migration process using a typical vector addition test.
+Triton-Ascend maintains full syntax compatibility with the community Triton. You only need to replace the **tensor device declaration** and a few `torch.cuda.*` interfaces to run the original GPU examples on the Ascend NPU. The following demonstrates the complete migration process using a typical vector addition test.
 
 The GPU version example file `test_add.py` is as follows:
 
@@ -195,18 +195,18 @@ def test_add(SIZE, BLOCK_SIZE):
     assert_close(output, output_torch, rtol=1e-3, atol=1e-3)
 ```
 
-Migration only requires replacing GPU-related APIs with their corresponding NPU versions. The mapping is as follows:
+Migration only requires replacing the GPU-related APIs with the corresponding NPU versions. The mapping is as follows:
 
-| GPU Usage                         | NPU Usage                        |
+| GPU Syntax | NPU Syntax |
 | ------------------------------- | ------------------------------- |
-| `device='cuda'`                 | `device='npu'`                  |
-| `tensor.cuda()`                 | `tensor.npu()`                  |
-| `torch.cuda.current_device()`   | `torch.npu.current_device()`    |
-| `torch.cuda.synchronize()`      | `torch.npu.synchronize()`       |
+| `device='cuda'` | `device='npu'` |
+| `tensor.cuda()` | `tensor.npu()` |
+| `torch.cuda.current_device()` | `torch.npu.current_device()` |
+| `torch.cuda.synchronize()` | `torch.npu.synchronize()` |
 
-Kernel functions annotated with `@triton.jit` use the Triton general language and generally do not require special modifications. The Launch grid calling method is also completely consistent with GPU.
+Kernel functions annotated with `@triton.jit` use the Triton general language and generally do not require special modifications. The Launch grid calling method is also exactly the same as for GPU.
 
-The core changes are shown in diff format:
+The core changes are shown in diff form:
 
 ```diff
 import pytest
@@ -240,7 +240,7 @@ def test_add(SIZE, BLOCK_SIZE):
     output_torch = x + y
     assert_close(output, output_torch, rtol=1e-3, atol=1e-3)
 ```
-After modification, you can run the test case using `pytest`. Successful execution indicates successful migration.
+After modification, you can run the test case with `pytest`. Successful execution indicates a successful migration.
 ```
 pytest test_add.py
 ```

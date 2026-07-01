@@ -14,14 +14,14 @@ triton.language.core.__lshift__(
 
 Used as a built-in operator for `tensor`, e.g., `x<<y`.
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
 | Parameter | Type | Description |
 | :---: | :---: | --- |
 | `input` | `tensor` | Tensor data, left operand, representing the main data to be shifted |
-| `other`   | `tensor or scalar` | Tensor data, right operand, the value used for shifting |
+| `other`   | `tensor or scalar` | Tensor data, right operand, the shift amount |
 | `_builder` | - | Reserved parameter, external calls not supported |
 
 Return value:
@@ -45,11 +45,11 @@ Conclusion: Ascend lacks uint support compared to GPU.
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
-Conclusion: There is no difference between GPU and Ascend platforms regarding shape.
+Conclusion: There is no difference in shape support between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Missing relative to community capabilities and cannot be implemented
 
 1. Ascend lacks uint type support compared to GPU.
 2. The right operand `other` only supports scalars, not tensors (i.e., `x << 2` is valid, `x << y` (where `y` is a tensor) is not yet supported).

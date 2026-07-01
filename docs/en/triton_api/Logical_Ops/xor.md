@@ -2,13 +2,13 @@
 
 ## 1. Function Overview
 
-Description: Computes the XOR of two elements.
+Description: Computes the XOR value of two elements.
 
 ```python
 # Via operator
 x ^ y
 
-# Or by directly calling the dunder method
+# Or directly call the dunder method
 x.__xor__(y)
 ```
 
@@ -20,7 +20,7 @@ x.__xor__(y)
 | -------------- | ------------------ | -------------------------------------------------------------- |
 | `x`            | `tensor`           | Tensor data                                                    |
 | `y`            | `tensor`           | Tensor data                                                    |
-| `_semantic`    | -                  | Reserved parameter, external calls not supported currently     |
+| `_semantic`    | -                  | Reserved parameter, external calls not supported for now        |
 
 Return value:
 `out`: A tensor with the same shape as `x` and `y`
@@ -47,7 +47,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Capabilities not currently supported compared to the community
+> Capabilities not yet supported compared to the community
 
 Compared to GPU, Ascend lacks support for uint types.
 

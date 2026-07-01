@@ -4,13 +4,13 @@
 class triton.Config(self, kwargs, num_warps, num_stages, num_ctas, maxnreg, pre_hook)
 ```
 
-An object representing a kernel configuration that autotuning may attempt.
+An object representing a kernel configuration that autotuning may try.
 
 **Variables:**
 
-- **kwargs** – A dictionary of meta-parameters to be passed as keyword arguments to the kernel.
+- **kwargs** – A dictionary of meta-parameters to be passed to the kernel as keyword arguments.
 
-- **num_warps** – The number of warps used by the kernel when compiling for GPU. For example, if num_warps=8, each kernel instance will be automatically parallelized to execute cooperatively using 8 * 32 = 256 threads.
+- **num_warps** – The number of warps used by the kernel when compiled for a GPU. For example, if num_warps=8, each kernel instance will be automatically parallelized to execute with 8 * 32 = 256 threads working together.
 
 - **num_stages** – The number of stages the compiler should use when software-pipelining loops. Useful for matrix multiplication workloads on SM80+ GPUs.
 
@@ -26,7 +26,6 @@ __init__(self, kwargs, num_warps=4, num_stages=2, num_ctas=1, maxnreg=None, pre_
 
 **Methods:**
 
-| Method | Description |
-|--------|-------------|
-| `init(self, kwargs[, num_warps, ...])` | |
-| `all_kwargs(self)` | |
+| init(self, kwargs[, num_warps, ...]) |
+|--------------------------------------|
+| all_kwargs(self)                     |

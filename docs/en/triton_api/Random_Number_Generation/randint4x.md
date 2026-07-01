@@ -18,13 +18,13 @@ triton.language.randint4x(
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type                | Description                                                             |
-| -------------- | ------------------- | ----------------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`   | Seed used for generating random numbers                                 |
-| `offset`       | `int` or `tensor`   | Offset used for generating random numbers                               |
-| `n_rounds`     | `constexpr`, default 10 | Number of iterations for the Philox algorithm                        |
+| Parameter    | Type               | Description                                                      |
+| ------------ | ------------------ | ---------------------------------------------------------------- |
+| `seed`       | `int` or `tensor`  | Seed used for generating random numbers                          |
+| `offset`     | `int` or `tensor`  | Offset used for generating random numbers                        |
+| `n_rounds`   | `constexpr`, default 10 | Number of rounds for the Philox algorithm                    |
 
-Return Value:
+Return value:
 4 random blocks of type int32, each with the same shape as offset
 
 ### 2.2 Supported Specifications
@@ -35,7 +35,7 @@ Input seed type:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| Ascend A2/A3 | √    | √     | √     | √     | √      | √     | √      | √     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3 | √    | √     | √     | √     | √    | √     | √     |√     | ×    | ×    | ×    | ×    | √    |
 
 #### 2.2.2 Shape Support
 
@@ -43,7 +43,7 @@ No special requirements
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Missing functionality relative to the community and cannot be implemented
 
 ### 2.4 Usage Examples
 
@@ -59,7 +59,7 @@ def kernel_randint4x(x_ptr, n_rounds: tl.constexpr, N: tl.constexpr, XBLOCK: tl.
         global_offset = block_offset + inner_idx
         rand_vals = tl.randint4x(5, 10 + global_offset, n_rounds) # Generate a random number for each index
         mask = (global_offset + indices) < N
-        tl.store(x_ptr + global_offset + indices, rand_vals, mask) # Store random numbers
+        tl.store(x_ptr + global_offset + indices, rand_vals, mask) # Store the random number
 
 y_cali = torch.zeros(shape, dtype=eval('torch.int32')).npu()
 kernel_randint4x[ncore, 1, 1](y_cali, 10, numel, xblock)

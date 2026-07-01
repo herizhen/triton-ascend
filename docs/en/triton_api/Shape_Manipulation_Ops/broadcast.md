@@ -25,7 +25,7 @@ Broadcasts two tensors to a common compatible shape, enabling element-wise opera
 **Return Value:**
 
 - **Type:** tensor
-- **Shape:** Common compatible target shape of the two tensors
+- **Shape:** The common compatible target shape of the two tensors
 - **Data Type:** Each returned tensor retains its input's original data type
 - **Memory Layout:** Returns a newly created tensor
 
@@ -40,7 +40,7 @@ Broadcasts two tensors to a common compatible shape, enabling element-wise opera
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Constraints
+### 2.4 Special Limitations
 
 None
 
@@ -60,7 +60,7 @@ def broadcast_kernel(
     # Create a vector (1-dimensional tensor)
     vector = tl.arange(0, BLOCK_SIZE) * 1.0  # Shape: (BLOCK_SIZE,)
 
-    # Use broadcast to broadcast the scalar to the same shape as the vector
+    # Use broadcast to expand the scalar to the same shape as the vector
     # scalar: () -> (BLOCK_SIZE,)
     broadcasted_scalar = tl.broadcast(scalar, vector)
 

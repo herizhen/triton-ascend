@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Returns the maximum value along a specified dimension.
+Description: Returns the maximum value along the specified axis.
 
 ```python
 triton.language.max(input, axis=None, return_indices=False, return_indices_tie_break_left=True, keep_dims=False)
@@ -15,53 +15,53 @@ triton.language.max(input, axis=None, return_indices=False, return_indices_tie_b
 | Parameter | Type | Description |
 | :---: | :---: | --- |
 | `input` | `tensor` | Input tensor data |
-| `axis` | `int` | Specifies the dimension along which to perform the reduction; when axis=None, reduction is performed over all axes |
-| `keep_dims` | `bool` | Whether to keep the reduced dimension(s) |
+| `axis`   | `int` | Specifies the dimension along which to reduce; when axis=None, reduces over all axes |
+| `keep_dims` | `bool` | Whether to keep the reduced dimension |
 | `return_indices` | `bool` | If true, returns the index corresponding to the maximum value in addition to the maximum value itself |
-| `return_indices_tie_break_left` | `bool` | If multiple elements have the same maximum value, returns the left-most index for values that aren’t NaN |
+| `return_indices_tie_break_left` | `bool` | If multiple elements have the same maximum value, returns the left-most index for non-NaN values |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
-When return_indices = true, the returned index type is fp32.
+When return_indices=true, the returned index type is fp32.
 
 Parameter combination support:
 
 | axis | keep_dims | return_indices | return_indices_tie_break_left | Specification |
 | ------ | ------------ | ----------------- | ----------------------------------- | ---|
-| 1 | TRUE | TRUE | TRUE | Supported |
-| 1 | TRUE | TRUE | FALSE | Supported |
-| 1 | TRUE | FALSE | TRUE | Supported |
-| 1 | TRUE | FALSE | FALSE | Supported |
-| 1 | FALSE | TRUE | TRUE | Supported |
-| 1 | FALSE | TRUE | FALSE | Supported |
-| 1 | FALSE | FALSE | TRUE | Supported |
-| 1 | FALSE | FALSE | FALSE | Supported |
-| None | TRUE | TRUE | TRUE | Not supported |
-| None | TRUE | TRUE | FALSE | Not supported |
-| None | TRUE | FALSE | TRUE | Supported |
-| None | TRUE | FALSE | FALSE | Supported |
-| None | FALSE | TRUE | TRUE | Not supported |
-| None | FALSE | TRUE | FALSE | Not supported |
-| None | FALSE | FALSE | TRUE | Supported |
-| None | FALSE | FALSE | FALSE | Supported |
+|    1 |    TRUE    |      TRUE      |               TRUE                | Supported |
+|    1 |    TRUE    |      TRUE      |               FALSE                | Supported |
+|    1 |    TRUE    |      FALSE      |               TRUE                | Supported |
+|    1 |    TRUE    |      FALSE      |               FALSE                | Supported |
+|    1 |   FALSE   |      TRUE      |               TRUE                | Supported |
+|    1 |   FALSE   |      TRUE      |               FALSE                | Supported |
+|    1 |   FALSE   |      FALSE      |               TRUE                | Supported |
+|    1 |   FALSE   |      FALSE      |               FALSE              | Supported |
+| None |    TRUE    |      TRUE      |               TRUE               | Not supported |
+| None |    TRUE    |      TRUE      |               FALSE              | Not supported |
+| None |    TRUE    |      FALSE      |               TRUE              | Supported |
+| None |    TRUE    |      FALSE      |               FALSE              | Supported |
+| None |   FALSE   |      TRUE      |               TRUE                | Not supported |
+| None |   FALSE   |      TRUE      |               FALSE               | Not supported |
+| None |   FALSE   |      FALSE      |               TRUE              | Supported |
+| None |   FALSE   |      FALSE      |               FALSE             | Supported |
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
-| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
-| GPU | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
-| Ascend A2/A3 | √ | √ | × | √ | × | √ | × | √ | √ | √ | √ | √ |
+|GPU| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
+|Ascend A2/A3| √ | √ | × | √ | × | √ | × | √ | √ | √ | √ | √ |
 
 #### 2.2.2 Shape Support
 
-| | Supported Dimension Range |
+|        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU | No limit |
-| Ascend A2/A3 | No limit (default maximum 8 dimensions) |
+| GPU    | No limit |
+| Ascend A2/A3| No limit (default up to 8 dimensions) |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Usage
 
@@ -77,4 +77,4 @@ def triton_max_1d(in_ptr0, out_ptr1, xnumel, XBLOCK : tl.constexpr):
 
 ### 2.4 Special Limitations
 
-Compared to GPU, Ascend A3 does not support uint16, uint32, uint64, fp64.
+Compared to GPU, Ascend A3 does not support uint16, uint32, uint64, or fp64.

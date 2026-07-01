@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Introduction: Computes the ceiling division of tensors.
+Description: Computes the ceiling division of tensors.
 Function prototype:
 
 ```python
@@ -27,23 +27,23 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| GPU          | √ | √ | √ | √ | √ | √ | √ | √ | × | × | × | × | √ |
-| Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | × | × | × | × | × |
+|            | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| :--------: | :--: | :---: | :---: | :---: | :----: | :----: | :----: | :---: | :--: | :--: | :--: | :--: | :--: |
+| GPU        | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3 | √  | √     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | ×    |
 
 Conclusion: Compared to GPU, Ascend does not support uint and bool inputs.
 
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | --------------------------- |
-| GPU    | No restrictions |
-| Ascend | No restrictions |
+| :------: | :------------------------: |
+| GPU    | No restrictions           |
+| Ascend | No restrictions           |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
+Conclusion: There is no difference in shape support between GPU and Ascend platforms.
 
-### 2.3 Special Limitations
+### 2.3 Special Restrictions
 
 > Missing functionality relative to the community that cannot be implemented
 

@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise minimum of `x` and `y`.
+Description: Computes the element-wise minimum of x and y.
 
 ```python
 triton.language.minimum(x, y, propagate_nan: ~triton.language.core.constexpr = <PROPAGATE_NAN.NONE: 0>, _semantic=None)¶
@@ -12,15 +12,15 @@ triton.language.minimum(x, y, propagate_nan: ~triton.language.core.constexpr = <
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                    |
-| -------------- | ------------------ | -------------------------------------------------------------- |
-| `x`            | `tensor`           | Tensor data                                                    |
-| `y`            | `tensor`           | Tensor data                                                    |
-| `propagate_nan`| `tl.PropagateNan`  | Whether to propagate NaN values                                |
-| `_semantic`    | -                  | Reserved parameter, external calls not supported               |
+| Parameter Name | Type               | Description                                                        |
+| -------------- | ------------------ | ------------------------------------------------------------------ |
+| `x`            | `tensor`           | Tensor data                                                        |
+| `y`            | `tensor`           | Tensor data                                                        |
+| `propagate_nan`| `tl.PropagateNan`  | Whether to propagate NaN values                                    |
+| `_semantic`    | -                  | Reserved parameter, external calls not supported                   |
 
 Return value:
-`x`: A tensor with the same shape as the input `x`
+`x`: A tensor with the same shape as the input x
 
 ### 2.2 OP Specifications
 
@@ -44,13 +44,13 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Community capability gaps that cannot be implemented
+> Community feature gap that cannot be implemented
 
 None.
 
 ### 2.4 Usage Example
 
-The following example demonstrates computing the element-wise minimum of input tensors `x` and `y`:
+The following example implements the element-wise minimum of input tensors `x` and `y`:
 
 ```python
 @triton.jit

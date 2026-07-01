@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: `triton.language.cumprod` computes the cumulative product of the input tensor along the specified axis, returning the cumulative product result.
+Description: `triton.language.cumprod` computes the cumulative product of the input tensor along a specified axis, returning the cumulative product result.
 
 ```python
 triton.language.cumprod(input, axis=0, reverse=False)
@@ -16,7 +16,7 @@ triton.language.cumprod(input, axis=0, reverse=False)
 |-----------|------|-------------|
 | `input` | `Tensor` | Input tensor |
 | `axis` | `int` | The dimension along which to perform the cumulative product operation, default is 0 |
-| `reverse` | `bool` | If True, performs the cumulative product operation in reverse direction |
+| `reverse` | `bool` | If True, performs the cumulative product operation in the reverse direction |
 
 The `cumprod` function computes the cumulative product (prefix product) along the specified axis. For example, for input `[a, b, c, d]`, the cumulative product result is `[a, a*b, a*b*c, a*b*c*d]`.
 
@@ -37,7 +37,7 @@ Unlike `cumsum`, `cumprod` does not have a `dtype` parameter, so attention must 
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 Special Limitations
+### 2.3 Special Constraints
 
 ### 2.4 Usage
 

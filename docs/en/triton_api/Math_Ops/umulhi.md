@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the most significant N bits of the 2N-bit product of each element in x and y.
+Description: Computes the most significant N bits of the 2N-bit product of each element in `x` and `y`.
 
 ```python
 triton.language.umulhi(x, y, _semantic=None)
@@ -12,14 +12,14 @@ triton.language.umulhi(x, y, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type              | Description                                                      |
-| -------------- | ----------------- | ---------------------------------------------------------------- |
-| `x`            | `tensor`          | Tensor data                                                      |
-| `y`            | `tensor`          | Tensor data                                                      |
-| `_semantic`    | -                 | Reserved parameter, currently not supported for external calls   |
+| Parameter      | Type                | Description                                                    |
+| -------------- | ------------------- | -------------------------------------------------------------- |
+| `x`            | `tensor`            | Tensor data                                                    |
+| `y`            | `tensor`            | Tensor data                                                    |
+| `_semantic`    | -                   | Reserved parameter, not supported for external calls           |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor x
+`x`: The output tensor has the same shape as the input tensor `x`.
 
 ### 2.2 OP Specifications
 
@@ -42,9 +42,9 @@ torch_npu supports uint8.
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
-### 2.3 Special Limitations
+### 2.3 Special Constraints
 
-int64 is not supported
+int64 is not supported.
 
 ### 2.4 Usage Example
 

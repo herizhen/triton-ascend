@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise base-2 exponential of x.
+Description: Computes the element-wise base-2 exponential of `x`.
 
 ```python
 triton.language.exp2(x, _semantic=None)
@@ -12,10 +12,10 @@ triton.language.exp2(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type       | Description                                                    |
-| -------------- | ---------- | -------------------------------------------------------------- |
-| `x`            | `tensor`   | Tensor data                                                    |
-| `_semantic`    | -          | Reserved parameter, external calls not supported temporarily    |
+| Parameter      | Type       | Description                                                        |
+| -------------- | ---------- | ------------------------------------------------------------------ |
+| `x`            | `tensor`   | Input tensor                                                       |
+| `_semantic`    | -          | Reserved parameter, not supported for external calls currently      |
 
 Return value:
 `x`: Output tensor with the same shape as the input tensor `x`

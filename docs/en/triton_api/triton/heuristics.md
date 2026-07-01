@@ -4,7 +4,7 @@
 triton.heuristics(values)
 ```
 
-A decorator for specifying how to compute certain meta-parameter values. This is useful when auto-tuning is too expensive or not applicable.
+A decorator used to specify how to compute certain meta-parameter values. This is useful when auto-tuning is too expensive or not applicable.
 
 ```python
 @triton.heuristics(values={'BLOCK_SIZE': lambda args: 2 ** int(math.ceil(math.log2(args[1])))})

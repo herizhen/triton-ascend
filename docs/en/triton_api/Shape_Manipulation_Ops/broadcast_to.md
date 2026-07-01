@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Broadcasts a tensor to a target shape, automatically handling dimension alignment. The broadcast operation does not copy data; instead, it achieves broadcasting by changing the tensor's shape and strides.
+Broadcasts a tensor to a target shape, automatically handling dimension alignment. The broadcast operation does not copy data; it is achieved by modifying the tensor's shape and strides.
 
 **Syntax:**
 
@@ -28,12 +28,12 @@ Broadcasts a tensor to a target shape, automatically handling dimension alignmen
 - **Type:** tensor
 - **Shape:** Same as the target shape specified by the `shape` parameter
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Broadcasting is achieved by modifying stride information, with no data copy
+- **Memory Layout:** Broadcast is achieved by modifying stride information, no data copy occurs
 
 **Constraints:**
 
 - The number of dimensions of the input tensor must equal the number of dimensions of the target shape
-- All dimensions must satisfy the broadcasting rules
+- All dimensions must satisfy the broadcast rules
 
 ### 2.2 DataType Support Table
 
@@ -48,7 +48,7 @@ Supports any number of dimensions and any shape size.
 
 ### 2.4 Special Constraints
 
-Unlike `broadcast`, the Triton community implementation of `broadcast_to` requires that the rank of the tensor's shape and the target shape are identical.
+Unlike `broadcast`, the Triton community implementation of `broadcast_to` requires that the rank of the tensor's shape matches the rank of the target shape.
 
 ### 2.5 Usage
 

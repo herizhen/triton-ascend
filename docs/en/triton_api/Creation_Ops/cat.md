@@ -13,11 +13,11 @@ triton.language.cat(input, other, can_reorder=False, _semantic=None)
 ### 2.1 Parameter Description
 
 | Parameter Name | Type | Description |
-| -------------- | ---- | ----------- |
+| ------------- | ----------------- | ---------------------------- |
 | `input` | `Tensor` | The first tensor to concatenate |
 | `other` | `Tensor` | The second tensor to concatenate |
 | `can_reorder` | `Bool` | Reordering – compiler hint. If true, the compiler allows reordering elements when concatenating inputs. Only supports can_reorder=True. |
-| `_semantic` | `Optional[str]` | Reserved parameter, external invocation not supported |
+| `_semantic` | `Optional[str]` | Reserved parameter, external calls not supported for now |
 
 Return value:
 `tensor`: The tensor after concatenation

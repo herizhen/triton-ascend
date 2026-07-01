@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Used to compare elements of two tensors, equivalent to `==`. Used as a built-in operator of `tensor`, e.g., `x==y`.
+Description: Used to compare elements of two tensors, equivalent to `==`. Used as a built-in operator of `tensor`, such as `x==y`.
 
 ## 2. OP Specification
 
@@ -10,9 +10,9 @@ Description: Used to compare elements of two tensors, equivalent to `==`. Used a
 
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
-| `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
-| `other` | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | - | Reserved parameter, external calls not supported |
+| `input` | `tensor` | Tensor data, left operand, represents the main data to be compared |
+| `other`   | `tensor` | Tensor data, right operand, compared element-wise with `input` |
+| `_builder` | - | Reserved parameter, external calls not supported for now |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -21,7 +21,7 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 | Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | √ | √ | × | √ | √ |
@@ -45,7 +45,7 @@ Compared to GPU, Triton-Ascend lacks support for fp64, and support for uint8/uin
 
 ### 2.4 Usage
 
-The following example demonstrates performing `==` operation on tensors `x0` and `x1`:
+The following example implements the `==` operation on tensors `x0` and `x1`:
 
 ```python
 @triton.jit

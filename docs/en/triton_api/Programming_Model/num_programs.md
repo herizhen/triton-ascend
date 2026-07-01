@@ -18,7 +18,7 @@ triton.language.num_programs(axis)
 | `axis` | `int` | Axis of the 3D launch grid. Must be 0, 1, or 2. |
 
 Return value:
-A `tl.tensor` containing the number of launched program instances.
+A `tl.tensor` containing the number of program instances launched.
 
 ### 2.2 Supported Specifications
 

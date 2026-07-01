@@ -22,7 +22,7 @@ Used as a built-in operator of `tensor`, e.g., `x > y`.
 | :---: | :---: | --- |
 | `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
 | `other`   | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | - | Reserved parameter, not supported for external calls |
+| `_builder` | - | Reserved parameter, external calls not supported |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -49,7 +49,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative to community capabilities, missing and cannot be implemented
+> Capabilities missing relative to the community and cannot be implemented
 
 Compared to GPU, Ascend lacks support for uint16/uint32/uint64 and fp64.
 
@@ -73,6 +73,6 @@ def triton_gt_3d(in_ptr0, in_ptr1, out_ptr0, L: tl.constexpr, M: tl.constexpr, N
 
 ## 3. Semantic GAP
 
-> Relative to community capabilities, missing but can be developed and supported
+> Capabilities missing relative to the community but can be developed and supported
 
 Consider supporting the uint8 type.

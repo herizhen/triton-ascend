@@ -16,7 +16,7 @@ Called as a member function of `tensor`, e.g., `x0.logical_or(x1)`.
 
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
-| `input` | `tensor` | Tensor data, left operand, represents the primary data for comparison |
+| `input` | `tensor` | Tensor data, left operand, representing the primary data for comparison |
 | `other` | `tensor` | Tensor data, right operand, performs element-wise logical OR with `input` |
 | `_builder` | - | Reserved parameter, external invocation not supported |
 
@@ -38,8 +38,8 @@ Conclusion: In terms of DataType, Ascend additionally supports integer and float
 
 |        | Supported Dimension Range |
 | -------- | --------------------------- |
-| GPU    | Unlimited |
-| Ascend A2/A3 | Unlimited |
+| GPU    | No restrictions |
+| Ascend A2/A3 | No restrictions |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 

@@ -8,7 +8,7 @@ Description: Performs bitwise inversion on each value of the tensor.
 # Using the operator
 ~x
 
-# Or by directly calling the dunder method
+# Or directly calling the dunder method
 x.__invert__()
 ```
 
@@ -16,13 +16,13 @@ x.__invert__()
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type     | Description                                                    |
-| -------------- | -------- | -------------------------------------------------------------- |
-| `x`            | `tensor` | Tensor data                                                    |
-| `_semantic`    | -        | Reserved parameter, external calls not supported for now       |
+| Parameter Name | Type     | Description                                      |
+| -------------- | -------- | ------------------------------------------------ |
+| `x`            | `tensor` | Tensor data                                      |
+| `_semantic`    | -        | Reserved parameter, external calls not supported |
 
 Return value:
-`out`: The shape of the output tensor is the same as the shape of the input `x`.
+`out`: The output tensor has the same shape as the input tensor `x`
 
 ### 2.2 OP Specifications
 
@@ -33,26 +33,26 @@ Return value:
 | GPU           | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | √    |
 | Ascend A2/A3  | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
 
-Conclusion: Ascend lacks support for `uint` types compared to GPU.
+Conclusion: Ascend lacks support for uint types compared to GPU.
 
 #### 2.2.2 Shape Support
 
 |               | Supported Dimension Range |
 | ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+| GPU           | Supports only 1~5D tensors |
+| Ascend A2/A3  | Supports only 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Missing capabilities compared to the community that cannot be implemented
+> Missing community capabilities that cannot be implemented
 
-Ascend lacks support for `uint` types compared to GPU.
+Ascend lacks support for uint types compared to GPU.
 
 ### 2.4 Usage Example
 
-The following example demonstrates element-wise bitwise inversion on the input tensor `x`:
+The following example demonstrates performing element-wise bitwise inversion on the input tensor `x`:
 
 ```python
 @triton.jit

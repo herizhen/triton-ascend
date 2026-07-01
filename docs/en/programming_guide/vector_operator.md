@@ -1,6 +1,6 @@
 # Vector Operator Development
 
-Vector operators are primarily executed by the Vector Core. Typical forms include element-wise computation, row-level reduction, type conversion, Gather/Scatter, Mask update, and small fusion operators that do not contain `tl.dot`. The development focus is not on making the grid as fine as possible, but on having each program process multiple tiles in a loop within the core, given a fixed number of physical Vector Cores.
+Vector operators are primarily executed by the Vector Core. Typical forms include element-wise computation, row-level reduction, type conversion, Gather/Scatter, Mask updates, and small fusion operators that do not contain `tl.dot`. The development focus is not on making the grid as fine as possible, but on having each program process multiple tiles in a loop within the core, given a fixed number of physical Vector Cores.
 
 ## Simple Vector Operator Development
 
@@ -32,17 +32,17 @@ During development, prioritize checking three types of issues:
 
 - **Data Type**: The Ascend Vector unit has different support and performance for different integer types. For index, length, and offset data that do not affect precision, prefer using `int32`. Refer to `triton-ascend-ops/tutorial/basic/001-vector_add.zh.md` and `002-vector_cmp.zh.md`.
 - **BLOCK_SIZE**: BLOCK_SIZE should be as large as possible within the UB capacity. If UB overflow occurs, first reduce the number of elements processed at a time, then consider splitting into sub-blocks.
-- **Number of Cores**: The number of physical Vector Cores on an NPU is typically a few dozen. When migrating a GPU approach with small tiles and a large grid to an NPU, significant overhead can arise from multiple rounds of dispatch.
+- **Number of Cores**: The number of physical Vector Cores on an NPU is typically a few dozen. When migrating GPU code with small tiles and a large grid to NPU, the overhead from multiple rounds of dispatch can be significant.
 
 ## Complex Vector Operator Development
 
-Complex Vector operators are usually not single element-wise expressions but combinatorial logic with discrete memory access, batch rearrangement, multiple outputs, or long hidden sizes. Refer to the following examples in [Ascend/triton-ascend-ops](https://github.com/Ascend/triton-ascend-ops):
+Complex Vector operators are usually not single element-wise expressions but combinatorial logic involving discrete memory access, batch rearrangement, multiple outputs, or long hidden sizes. Refer to the following examples in [Ascend/triton-ascend-ops](https://github.com/Ascend/triton-ascend-ops):
 
 - [`tutorial/best_practice/004-gather_scatter.py`](https://github.com/Ascend/triton-ascend-ops/blob/main/tutorial/best_practice/004-gather_scatter.py): Ascend-friendly implementation of Megablocks gather/scatter/scatter_wgrad.
 - [`tutorial/best_practice/005-binned_gather_scatter.py`](https://github.com/Ascend/triton-ascend-ops/blob/main/tutorial/best_practice/005-binned_gather_scatter.py): Gather/scatter grouped by expert/bin.
 - [`tutorial/best_practice/006-padded_gather_scatter.py`](https://github.com/Ascend/triton-ascend-ops/blob/main/tutorial/best_practice/006-padded_gather_scatter.py): MoE gather/scatter with padding.
 
-The organization of this type of operator is typically:
+The organization of such operators is typically:
 
 1. **Partition the outer task by physical cores**: Use `num_vectorcore` as the grid, with each program responsible for a segment of indices or tokens.
 2. **Partition the hidden dimension by UB capacity**: Use `BLOCK_X` to chunk `NUM_COLUMNS`, reserving space for double buffers, indices, and temporary tensors.

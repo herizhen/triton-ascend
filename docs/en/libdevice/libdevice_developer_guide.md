@@ -110,7 +110,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the result of the addition rounded downwards.
+Return value: `tl.tensor`, returns the result of the addition rounded down.
 
 Return type: `float32`
 
@@ -154,7 +154,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the result of the addition rounded upwards.
+Return value: `tl.tensor`, returns the result of the addition rounded up.
 
 Return type: `float32`
 
@@ -303,7 +303,7 @@ triton.language.extra.cann.libdevice.brev(x, _builder=None)
 Input types:
 - x: `int32`
 
-Return value: `tl.tensor`, returns the 32-bit integer with reversed bit order.
+Return value: `tl.tensor`, returns the 32-bit integer with reversed bits.
 
 Return type: `int32`
 
@@ -322,7 +322,7 @@ input[4] = y<7:0>     input[5] = y<15:8>
 input[6] = y<23:16>   input[7] = y<31:24>
 ```
 
-The byte selection parameter s is a 32-bit integer, with the correspondence between its bits and byte selection as follows.
+The byte selection parameter s is a 32-bit integer, and the correspondence between its bits and byte selection is as follows.
 
 ```cpp
 selector[0] = s<2:0>    selector[1] = s<6:4>
