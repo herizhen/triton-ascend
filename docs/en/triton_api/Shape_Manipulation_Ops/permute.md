@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Reorders the dimensions of a tensor according to the `dims` parameter without changing the tensor's data, only the order of dimensions. Supports arbitrary dimension reordering.
+Reorders the dimensions of a tensor according to the `dims` parameter. This operation does not change the tensor's data, only the order of its dimensions. It supports arbitrary dimension reordering.
 
 **Syntax:**
 
@@ -29,7 +29,7 @@ Reorders the dimensions of a tensor according to the `dims` parameter without ch
 - **Type:** tensor
 - **Shape:** Dimensions reordered according to the `dims` parameter
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Transposition achieved by modifying stride information, no data copy
+- **Memory Layout:** Transposition is achieved by modifying stride information, with no data copy
 
 **Constraints:**
 
@@ -37,8 +37,8 @@ Reorders the dimensions of a tensor according to the `dims` parameter without ch
 
 ### 2.2 DataType Support Table
 
-| Supported | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|-----------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
+| Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -46,7 +46,7 @@ Reorders the dimensions of a tensor according to the `dims` parameter without ch
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Constraints
+### 2.4 Special Constraint Description
 
 * Transposition with more than 8 dimensions is not supported
 

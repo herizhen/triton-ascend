@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-The A5 adds a data path from L0C to UB. To implement this path, a temporary solution explicitly calls this path at the frontend.
+A5 adds a data path from L0C to UB. To implement this path, the temporary solution explicitly calls this path at the frontend.
 
 ## 2. Interface Description
 
@@ -38,7 +38,7 @@ The A5 adds a data path from L0C to UB. To implement this path, a temporary solu
   <tr>
     <td>dual_dst_mode</td>
     <td>al.FixpipeDualDstMode</td>
-    <td>Dual destination mode control, only available in NZ2ND/normal mode</td>
+    <td>Dual destination mode control, only enabled in NZ2ND/normal mode</td>
   </tr>
   <tr>
     <td>pre_quant_mode</td>
@@ -53,19 +53,19 @@ The A5 adds a data path from L0C to UB. To implement this path, a temporary solu
   <tr>
     <td>_builder</td>
     <td>-</td>
-    <td>JIT auto-passed parameter</td>
+    <td>JIT automatic parameter passing</td>
   </tr>
 </table>
 
 ### 2.2 Return Value
 
-No return value, directly use the input parameter `dst`
+No return value, directly use the input parameter dst
 
 ## 3. Constraints
 
 - fixpipe only supports data transfer from L0C to UB
 
-- src must be the result after dot operation
+- src must be the result after dot product
 
 - dst must be a buffer with memscope set to UB
 

@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Atomic logical AND operation that performs a bitwise AND at a specified memory location.
+Description: Atomic logical AND operation, performs a logical AND at the specified memory location.
 Prototype:
 
 ```python
@@ -18,18 +18,18 @@ triton.language.atomic_and(
 
 Can be called as a member function of a tensor, e.g., `x.atomic_and(...)`, which is equivalent to `atomic_and(x, ...)`.
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                                                                                      |
-| -------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| `pointer`      | `triton.PointerDType` | The memory location to operate on. The result of *pointer & val is written back to this memory location.                         |
-| `val`          | `pointer.dtype.element_ty` | The value to use in the atomic AND operation (right operand).                                                                    |
-| `mask`         | `int1` or `tensor<int1>`, optional | Specifies the data range to prevent out-of-bounds access.                                                                        |
-| `sem`          | `str`, optional    | Specifies the memory semantics of the operation.<br>Community-accepted values are "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel":<br>- acquire: After acquiring a lock, can see previous release operations (equivalent to a "read" operation that blocks until the "latest" data, i.e., data released by other threads, is available).<br>- release: All operations before releasing the lock are visible to threads that subsequently acquire the lock (equivalent to a "write" operation that "synchronizes" all previous writes). |
-| `scope`        | `str`, optional    | The thread scope over which the atomic operation's synchronization effects are observed.<br>Accepted values are "gpu" (default), "cta" (cooperative thread array, thread block), or "sys" (representing "SYSTEM").<br>We only support "gpu". |
-| `_semantic`    | -                  | Reserved parameter; external calls are not supported.                                                                            |
+| Parameter Name | Type | Description |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `pointer` | `triton.PointerDType` | The memory location to operate on. The result of *pointer & val is written back to this memory location. |
+| `val` | `pointer.dtype.element_ty` | The value for the atomic AND operation (right operand). |
+| `mask` | `int1` or `tensor<int1>`, optional | Specifies the data range to prevent out-of-bounds access. |
+| `sem` | `str`, optional | Specifies the memory semantics of the operation.<br>Accepted values in the official community configuration are "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel":<br>- acquire: After acquiring the lock, it can see previous release operations (equivalent to a "read" operation that blocks until it can read the "latest" data, i.e., data released by other threads).<br>- release: All operations before releasing the lock are visible to threads that subsequently acquire the lock (equivalent to a "write" operation that "synchronizes" all previous writes). |
+| `scope` | `str`, optional | The thread scope for observing the synchronization effect of the atomic operation.<br>Accepted values are "gpu" (default), "cta" (cooperative thread array, thread block), or "sys" (representing "SYSTEM").<br>We only support "gpu". |
+| `_semantic` | - | Reserved parameter; external calls are not supported for now. |
 
 Return value:
 `pointer`: tensor, the old value before the operation.
@@ -40,8 +40,8 @@ Return value:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU    | ×    | ×     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | ×    |
-| Ascend A2/A3 | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | ×    |
+| GPU   | ×     | ×      |√     | ×     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | ×    |
+| Ascend A2/A3| √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | ×    |
 
 #### 2.2.2 Shape Support
 
@@ -49,12 +49,12 @@ No special requirements.
 
 ### 2.3 Special Limitations
 
-> Features missing compared to the community version and not implementable.
+> Relative to community capabilities, these are missing and cannot be implemented.
 
-| Difference Point | Description                                                                                                                      | Resolution |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| `sem`            | Community-accepted values are "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel". | Pending development |
-| `scope`          | Accepted values are "gpu", "cta", or "sys".<br>We only support "gpu".                                                            | Pending development |
+| Difference | Description | Resolution |
+| --------------------- | ---------------------------------------------------------------------------- | ----------------------------- |
+| sem | Accepted values in the official community configuration are "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel". | Pending development |
+| scope | Accepted values are "gpu", "cta", or "sys".<br>We only support "gpu". | Pending development |
 
 ### 2.4 Usage Example
 

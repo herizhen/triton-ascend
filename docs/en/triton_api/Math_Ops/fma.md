@@ -12,12 +12,12 @@ triton.language.fma(x, y, z, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type              | Description                                                    |
-| -------------- | ----------------- | -------------------------------------------------------------- |
-| `x`            | `tensor`          | Tensor data                                                    |
-| `y`            | `tensor`          | Tensor data                                                    |
-| `z`            | `tensor`          | Tensor data                                                    |
-| `_semantic`    | -                 | Reserved parameter, external calls not supported temporarily   |
+| Parameter Name | Type               | Description                                                    |
+| -------------- | ------------------ | -------------------------------------------------------------- |
+| `x`            | `tensor`           | Tensor data                                                    |
+| `y`            | `tensor`           | Tensor data                                                    |
+| `z`            | `tensor`           | Tensor data                                                    |
+| `_semantic`    | -                  | Reserved parameter, external calls not supported temporarily   |
 
 Return value:
 `z`: A tensor with the same shape as `z`

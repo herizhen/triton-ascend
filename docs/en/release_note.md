@@ -1,10 +1,10 @@
 # Triton-Ascend Version Release
 
-The Triton-Ascend version provides a stable codebase snapshot, packaged as binary wheels that can be easily installed via PyPI. Additionally, version releases allow the development team to formally announce to the community the availability of new features, completed improvements, and changes that may affect users (e.g., breaking changes).
+The Triton-Ascend version provides a stable codebase snapshot, packaged as binary wheels easily installable via PyPI. Additionally, version releases allow the development team to officially announce new feature availability, completed improvements, and changes that may impact users (e.g., breaking changes) to the community.
 
 ## Release Compatibility Matrix
 
-The following is the release compatibility matrix for Triton-Ascend versions:
+Below is the release compatibility matrix for Triton-Ascend versions:
 
 | Triton-Ascend Version | Python Version | Manylinux Version | Hardware Platform | Hardware Product |
 | --- | --- | --- | --- | --- |
@@ -24,7 +24,7 @@ The following is the release schedule for Triton-Ascend. Note: Patch versions ar
 
 **First Release: Ascend NPU Support**
 
-Triton-Ascend 3.2.0 is the first Triton version to officially support Huawei Ascend NPUs. This version is based on the Triton 3.2.0 community release and is specifically adapted for the Ascend NPU hardware architecture.
+Triton-Ascend 3.2.0 is the first Triton version to officially support Huawei Ascend NPU. This version is based on the Triton 3.2.0 community release and is specifically adapted for the Ascend NPU hardware architecture.
 
 #### Key Features
 

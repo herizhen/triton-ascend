@@ -2,8 +2,8 @@
 
 ## 1. OP Overview
 
-Description: Creates a tensor descriptor object.
-Prototype (Triton 3.4.0):
+Introduction: Creates a tensor descriptor object.
+Prototype (Triton 3.4.0 version):
 
 ```python
 triton.language.make_tensor_descriptor(
@@ -23,42 +23,42 @@ triton.language.make_tensor_descriptor(
 | ------------ | ------------------- | --------------------------------------------------------------------------- |
 | `base`       | `tensor`            | Base pointer of the tensor                                                  |
 | `shape`      | `List[tensor]`      | Shape of the tensor                                                         |
-| `strides`    | `List[tensor]`      | Stride list for each dimension of the tensor, with constraints: - Leading dimensions must be multiples of 16 bytes - The last dimension must be contiguous |
+| `strides`    | `List[tensor]`      | Stride list for each dimension of the tensor, with constraints: - The preceding dimensions must be multiples of 16 bytes - The last dimension must be contiguous |
 | `block_shape`| `List[constexpr]`   | Shape of the block to load/store from global memory                         |
-| `_semantic`  | -                   | Reserved parameter, not supported for external calls                        |
+| `_semantic`  | -                   | Reserved parameter, external calls are not supported temporarily            |
 
 Return value:
-`tensor_descriptor`: Tensor descriptor object (cannot be used directly for arithmetic operations; must be used with `load` / `store`)
+`tensor_descriptor`: Tensor descriptor object (cannot be directly used for arithmetic operations; must be used with `load` / `store`)
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
-|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-|---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
-|GPU| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | × |
-|Ascend A2/A3| √ | √ | × | √ | × | √ | × | √ | √ | √ | √ | × |
+|       | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+| ----- | ----- | ---- | ------ | ----- | ------ | ----- | ------ | ----- | ---- | ---- | ---- | --------- |
+| GPU   | √     | √    | √      | √     | √      | √     | √      | √     | √    | √    | √    | ×         |
+| Ascend A2/A3 | √     | √    | ×      | √     | ×      | √     | ×      | √     | √    | √    | √    | ×         |
 
 #### 2.2.2 Shape Support
 
-|        | Supported Dimension Range |
-| ------ | ------------------------- |
-| GPU    | Only supports 1~5D tensors |
+|              | Supported Dimension Range |
+| ------------ | ------------------------- |
+| GPU          | Only supports 1~5D tensors |
 | Ascend A2/A3 | Only supports 1~5D tensors |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Capabilities missing compared to the community and cannot be implemented
 
 Conclusion: Ascend lacks support for uint16, uint32, and uint64 compared to GPU (hardware limitation).
 
-| Difference Point              | Description                                                                 | Solution                                               |
+| Difference                    | Description                                                                 | Solution                                               |
 | ----------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------ |
 | Binding usage restriction     | `make_tensor_descriptor` / `load_tensor_descriptor` / `store_tensor_descriptor` must be used together; cannot be mixed with `tl.load()` / `tl.store()`. | Upgrading to Triton 3.4.0 to synchronize upstream functions (e.g., `cast`) can resolve this |
-| `padding_option` parameter not supported | The current community main branch adds the `padding_option` parameter for out-of-bounds element padding strategies. | Can be supported via software development              |
-| Triton version compatibility | Triton 3.2.0 has compatibility issues with some functions (e.g., `cast`). It is recommended to upgrade to Triton 3.4.0 to fix binding restrictions. | Upgrade to Triton 3.4.0                                |
+| `padding_option` parameter not supported | The current community main branch adds the `padding_option` parameter for out-of-bounds element padding strategies. | Can be supported via software development |
+| Triton version compatibility  | Triton 3.2.0 has compatibility issues with some functions (e.g., `cast`). It is recommended to upgrade the Triton version to 3.4.0 to fix binding restrictions. | Upgrade to Triton 3.4.0 |
 
 ### 2.4 Usage Example
 
@@ -74,10 +74,10 @@ def inplace_abs(in_out_ptr, M, N, M_BLOCK: tl.constexpr, N_BLOCK: tl.constexpr):
         strides=[N, 1],
         block_shape=[M_BLOCK, N_BLOCK],
     )
-    # Compute offsets for the current thread
+ # Compute the offset for the current thread
     moffset = tl.program_id(0) * M_BLOCK
     noffset = tl.program_id(1) * N_BLOCK
-    # Load data, compute absolute value, store result
+ # Load data, compute absolute value, store result
     value = desc.load([moffset, noffset])
     desc.store([moffset, noffset], tl.abs(value))
 ## Initialize tensor

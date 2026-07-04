@@ -15,11 +15,11 @@ triton.language.topk(x, k, dim: constexpr | None = None)
 | Parameter | Type | Description |
 | --------- | ---- | ----------- |
 | `x` | `tensor` | Input tensor |
-| `k` | `int` | Number of top elements to return, must be a power of 2 |
+| `k` | `int` | Number of top elements to return; must be a power of 2 |
 | `dim` | `constexpr int` or `None` | Dimension along which to find the top k elements; this parameter must be determined at compile time; if `None`, the last dimension is used; currently only the last dimension is supported |
 
 Return value:
-`out`: The shape of the output tensor is the same as the input tensor, except the specified dimension length becomes `k`
+`out`: The output tensor has the same shape as the input tensor, except the specified dimension length becomes `k`
 
 ### 2.2 OP Specifications
 

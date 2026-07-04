@@ -43,7 +43,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Missing capabilities compared to the community, cannot be implemented
+> Relative community capability missing and cannot be implemented
 
 Ascend lacks fp64 support compared to GPU.
 

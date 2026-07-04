@@ -41,15 +41,15 @@ Conclusion: Compared to GPU, Ascend lacks support for uint16/uint32/uint64 and f
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | ---------------------- |
+| -------- | -------------------------- |
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Capabilities missing relative to the community and cannot be implemented
+> Capabilities missing relative to the community and not implementable
 
 Compared to GPU, Ascend lacks support for uint16/uint32/uint64 and fp64.
 

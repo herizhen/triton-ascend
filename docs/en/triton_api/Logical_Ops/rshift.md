@@ -12,7 +12,7 @@ triton.language.core.__rshift__(
 ) -> tl.tensor
 ```
 
-Used as a built-in operator for `tensor`, such as `x>>y`.
+Used as a built-in operator for `tensor`, e.g., `x>>y`.
 
 ## 2. OP Specification
 
@@ -41,18 +41,18 @@ Conclusion: Ascend lacks support for uint types compared to GPU.
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | -------------------------- |
+| -------- | ---------------------- |
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
-Conclusion: In terms of shape, there are no differences between GPU and Ascend platforms.
+Conclusion: There is no difference between GPU and Ascend platforms in terms of shape support.
 
 ### 2.3 Special Limitations
 
-> Capabilities missing relative to the community and not implementable
+> Missing capabilities relative to the community that cannot be implemented
 
 1. Ascend lacks support for uint types compared to GPU.
-2. The right operand `other` only supports scalars, not tensors (i.e., `x >> 2` is valid, `x >> y` (where `y` is a tensor) is not supported).
+2. The right operand `other` only supports scalars, not tensors (i.e., `x >> 2` is valid, `x >> y` where `y` is a tensor is not supported).
 
 ### 2.4 Usage Example
 

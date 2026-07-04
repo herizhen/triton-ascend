@@ -11,8 +11,8 @@ Converts a tensor to a specified data type, supporting numeric type conversion, 
 
 **Functionality:**
 
-- Numeric type conversion: integer<->integer, float<->float, integer<->float
-- Bit-level reinterpretation (bitcast): does not change bits, only the interpretation type
+- Numeric type conversion: integer <-> integer, float <-> float, integer <-> float
+- Bit-level reinterpretation (bitcast): preserves bits, only changes the interpretation type
 - Floating-point downcast supports rounding modes: `rtne` (default, round to nearest even), `rtz` (toward zero)
 - Integer conversion (Ascend extension) supports overflow modes: `trunc` (truncation, default), `saturate` (saturation)
 
@@ -37,8 +37,8 @@ Converts a tensor to a specified data type, supporting numeric type conversion, 
 
 **Constraints:**
 
-- `fp_downcast_rounding` can only be set during floating-point downcast, otherwise an error will be raised
-- When `bitcast=True`, no numeric conversion is performed, rounding/overflow modes are ignored
+- `fp_downcast_rounding` can only be set for floating-point downcast; otherwise, an error will be raised
+- When `bitcast=True`, no numeric conversion is performed; rounding/overflow modes are ignored
 - `overflow_mode` is only meaningful for integer types (Ascend extension)
 
 ### 2.2 DataType Support Table
@@ -66,7 +66,7 @@ import triton.language as tl
 
 @triton.jit
 def cast_example():
-    # Create float32 tensor
+    # Create a float32 tensor
     x = tl.zeros([2, 3], dtype=tl.float32)
 
     # Convert to int32
@@ -84,7 +84,7 @@ print(result.dtype)  # Output: int32
 ```python
 @triton.jit
 def cast_advanced_example():
-    # Create float32 tensor
+    # Create a float32 tensor
     x = tl.zeros([2, 3], dtype=tl.float32)
 
     # Bit-level reinterpretation

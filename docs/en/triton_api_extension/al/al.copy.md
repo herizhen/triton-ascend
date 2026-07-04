@@ -2,7 +2,7 @@
 
 ## 1. Background
 
-Its functionality is similar to `copy_from_ub_to_l1`. Based on `copy_from_ub_to_l1`, it adds support for UB-to-UB copying. The original `copy_from_ub_to_l1` has been updated to include a deprecation warning.
+Its functionality is similar to copy_from_ub_to_l1. Based on copy_from_ub_to_l1, it adds support for UB-to-UB copying. The original copy_from_ub_to_l1 has been updated to include a deprecation warning.
 
 ## 2. Interface Description
 
@@ -41,11 +41,11 @@ None
 
 ## 3. Constraints
 
-- `src` and `dst` must both be either tensor or buffer; tensor is currently not supported.
+- src and dst must both be either tensor or buffer; tensor is currently not supported
 
-- The address space of `src` must be UB, and the address space of `dst` must be L1.
+- src address space must be UB, dst address space must be L1
 
-- The types and shapes of `src` and `dst` must be identical.
+- src and dst types and shapes must be identical
 
 ## 4. Usage Example
 

@@ -8,7 +8,7 @@ Description: Returns the index of the maximum value along the specified axis
 triton.language.argmax(input, axis, tie_break_left=True, keep_dims=False)
 ```
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
@@ -42,7 +42,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitation Notes
 
-> Missing capabilities compared to the community that cannot be implemented
+> Capability missing compared to the community and cannot be implemented
 
 Ascend A3 lacks support for uint16, uint32, uint64, and fp64 compared to GPU
 

@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-`max_contiguous` is used to declare the contiguity pattern of an input tensor to the compiler, informing the compiler that the first `value` elements of the input tensor are contiguous.
+`max_contiguous` is used to declare the contiguity pattern of the input tensor to the compiler, informing the compiler that the first `value` elements of the input tensor are contiguous.
 
 ```python
 triton.language.max_contiguous(input, values, _builder=None, _semantic=None)
@@ -16,7 +16,7 @@ triton.language.max_contiguous(input, values, _builder=None, _semantic=None)
 |-----------|------|---------|-------------|
 | `input` | `Tensor` | Required | Input tensor whose memory access has a specific contiguity pattern |
 | `values` | `constexpr[int]` or `list[constexpr[int]]` | Required | Compile-time constant integer (or sequence of integers) describing the contiguity pattern |
-| `_semantic` | - | - | Reserved parameter, not supported for external calls |
+| `_semantic` | - | - | Reserved parameter, external calls not supported |
 
 **`values` describes the contiguity characteristics of each dimension, so the dimensionality of `values` must match that of `input`.
 Note the dimension reduction case when the last dimension of `shape` is `1`.**
@@ -34,11 +34,11 @@ A3:
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Missing community capability and not implementable
 
-Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
+Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 
-### 2.4 Usage
+### 2.4 Usage Example
 
 ```python
 @triton.jit

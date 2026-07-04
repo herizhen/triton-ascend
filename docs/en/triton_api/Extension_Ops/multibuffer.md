@@ -17,13 +17,13 @@ triton.language.multibuffer(
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type              | Description                                                          |
-| ------------ | ----------------- | -------------------------------------------------------------------- |
-| `src`        | `tensor`          | The source tensor to be multi-buffered                               |
-| `size`       | `int` or `constexpr` | The number of buffer copies to create                                |
-| `_builder`   | -                 | Reserved parameter, not supported for external calls                 |
+| Parameter Name | Type               | Description                                                        |
+| -------------- | ------------------ | ------------------------------------------------------------------ |
+| `src`          | `tensor`           | The source tensor to be multi-buffered                             |
+| `size`         | `int` or `constexpr` | The number of buffer copies to create                             |
+| `_builder`     | -                  | Reserved parameter, not supported for external calls               |
 
-Return value:
+Return Value:
 `None`: This operation is a compilation hint and does not return a value at runtime; it only affects the compiler's optimization behavior.
 
 ### 2.2 Supported Specifications
@@ -42,11 +42,11 @@ Supports tensors of arbitrary shapes.
 
 | Constraint Parameter | Description                                                                      |
 | -------------------- | -------------------------------------------------------------------------------- |
-| `size`               | The current implementation only supports `size` as `2`.                          |
+| `size`               | The current implementation only supports `size` equal to `2`.                    |
 
 ### 2.4 Usage Example
 
-The following example demonstrates how to set multi-buffering for the tensor `tmp0` in a kernel, combined with other compilation hints:
+The following example demonstrates how to set multi-buffering for tensor `tmp0` in a kernel, combined with other compilation hints:
 
 ```python
 @triton.jit

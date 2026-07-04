@@ -23,13 +23,13 @@ When different cores operate on the same global memory and there may be data dep
     <td>mode</td>
     <td>str</td>
     <td>Yes</td>
-    <td>Synchronization mode. Optional strings: all_cube/all_vector/all/all_sub_vector. &lt;br&gt;all_cube: Synchronize all cube cores&lt;br&gt;all_vector: Synchronize all vector cores&lt;br&gt;all: Synchronize all cube and vector cores&lt;br&gt;all_sub_vector: Synchronize between Vector sub-blocks</td>
+    <td>Synchronization mode. Optional strings: all_cube/all_vector/all/all_sub_vector.&lt;br&gt;all_cube: Synchronize all cube cores&lt;br&gt;all_vector: Synchronize all vector cores&lt;br&gt;all: Synchronize all cube and vector cores&lt;br&gt;all_sub_vector: Synchronize between Vector sub-blocks</td>
   </tr>
   <tr>
     <td>event_id</td>
     <td>int</td>
     <td>Yes</td>
-    <td>Event ID. Range is [0,15]</td>
+    <td>Marker ID. Range is [0,15]</td>
   </tr>
 </table>
 

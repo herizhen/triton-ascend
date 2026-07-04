@@ -20,7 +20,7 @@ triton.language.store_tensor_descriptor(
 | Parameter    | Type                              | Description                                                         |
 | ----------- | ------------------------------- | ---------------------------------------------------------- |
 | `desc`      | `tensor_descriptor_base`        | Tensor descriptor object, created by `make_tensor_descriptor`, defining the memory layout (shape, strides, block size, etc.). |
-| `offsets`   | `Sequence[constexpr \| tensor]` | Sequence of starting offsets for data storage, specifying the location to store data for the current thread block.                             |
+| `offsets`   | `Sequence[constexpr \| tensor]` | Sequence of starting offsets for data storage, specifying the data location for the current thread block.                             |
 | `value`     | `tensor`                        | Tensor data block to be written.                                                  |
 | `_semantic` | -                               | Reserved parameter, not supported for external calls.                                            |
 
@@ -46,7 +46,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative to community capabilities, these are missing and cannot be implemented.
+> Relative community capability deficiency and not implementable
 
 Conclusion: Ascend lacks support for uint16, uint32, and uint64 compared to GPU (hardware limitation).
 

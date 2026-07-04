@@ -14,11 +14,11 @@ Called as a member function of `tensor`, e.g., `x0.logical_and(x1)`.
 
 ### 2.1 Parameter Description
 
-| Parameter | Type | Description |
-| :---: | :---: | :---: |
-| `input` | `tensor` | Tensor data, left operand, representing the primary data for comparison |
-| `other` | `tensor` | Tensor data, right operand, performs element-wise logical AND with `input` |
-| `_builder` | - | Reserved parameter, external invocation not supported |
+| Parameter | Type   | Description |
+| :-------: | :----: | :---------- |
+| `input`   | `tensor` | Tensor data, left operand, representing the primary data for comparison |
+| `other`   | `tensor` | Tensor data, right operand, performs element-wise logical AND with `input` |
+| `_builder`| -      | Reserved parameter, external invocation not supported |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -38,20 +38,20 @@ Conclusion: In terms of DataType, Ascend additionally supports integer and float
 
 |        | Supported Dimension Range |
 | -------- | -------------------------- |
-| GPU    | No restrictions |
-| Ascend A2/A3 | No restrictions |
+| GPU    | No restriction |
+| Ascend A2/A3 | No restriction |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Not supported compared to community capabilities
+> Not yet supported compared to community capabilities
 
 None.
 
-### 2.4 Usage
+### 2.4 Usage Example
 
-The following example demonstrates performing a logical AND operation on three-dimensional tensors `x0` and `x1`:
+The following example demonstrates performing a logical AND operation on 3D tensors `x0` and `x1`:
 
 ```python
 @triton.jit

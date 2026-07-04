@@ -32,19 +32,19 @@ A3:
 
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
-| GPU    | Only supports 1~5D tensors |
-| Ascend | Only supports 1~5D tensors |
+| GPU    | Only 1~5 dimensional tensors |
+| Ascend | Only 1~5 dimensional tensors |
 
 ### 2.3 Special Limitations
 
 > Missing capabilities relative to the community that cannot be implemented
 
-Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
+Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 
 **DevicePrint Functional Limitations**
 
 **Phenomenon Description:**
-`device_print` can only print result values involved in computation; it cannot print offset variables used purely for memory access.
+`device_print` can only print result values involved in computation, and cannot print offset variables used purely for memory access.
 
 **Root Cause:**
 During the memory access analysis and optimization phase, the compiler optimizes away offsets used solely for address calculation. These intermediate variables are not retained in the final execution code.
@@ -65,14 +65,14 @@ def add_kernel(x_ptr,  # *Pointer* to first input vector.
     pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.
     block_start = pid * BLOCK_SIZE
     offsets = block_start + tl.arange(0, BLOCK_SIZE)
-    tl.device_print("offsets:", offsets)// ❌ Cannot print, already optimized away
+    tl.device_print("offsets:", offsets)// ❌ Cannot print, already optimized
 ```
 
-Additionally, in certain cases, `device_print` may expand some auxiliary DMA code, causing underlying errors. This functionality is still under optimization.
+Additionally, in certain cases, `device_print` may expand some auxiliary DMA code, causing underlying errors. Related functionality is still under optimization.
 
 ### 2.4 Usage
 
-**Note**: The `prefix` string prefix must be included when using `device_print`; otherwise, a compilation error will occur. Printing only the `prefix` string is currently not supported.
+**Note**: The `prefix` string prefix is mandatory when using `device_print`; otherwise, a compilation error will occur. Printing only the `prefix` string is currently not supported.
 
 ```python
 import triton

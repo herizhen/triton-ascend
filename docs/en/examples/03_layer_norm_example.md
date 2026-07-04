@@ -19,7 +19,7 @@ def _layer_norm_fwd_fused(
     B,  # Bias pointer
     Mean,  # Mean pointer
     Rstd,  # 1/std pointer
-    stride,  # How many elements to advance the pointer by moving one row
+    stride,  # Number of elements to add when moving the pointer by one row
     N,  # Number of columns in X
     eps,  # Epsilon to avoid division by zero
     BLOCK_SIZE: tl.constexpr,
@@ -79,11 +79,11 @@ def layer_norm(x, weight, bias, eps=1e-5):
     BLOCK_SIZE = 1024
 
     # Enqueue kernel
-    kernel = _layer_norm_fwd_fused[(M, )](  # M represents number of blocks, launch grid=(M,)
-        x_arg, y, weight, bias, mean, rstd,  # Input, output, and intermediate tensors
+    kernel = _layer_norm_fwd_fused[(M, )](  # M represents the number of blocks, launch grid=(M,)
+        x_arg, y, weight, bias, mean, rstd,  # Input, output, and intermediate variables
         x_arg.stride(0), N, eps,
         BLOCK_SIZE=BLOCK_SIZE)
-    # Return normalized output
+    # Return the normalized output
     return y
 
 # Call layer normalization during forward pass

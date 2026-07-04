@@ -19,12 +19,12 @@ triton.language.rand(
 
 | Parameter Name | Type               | Description                                                    |
 | -------------- | ------------------ | -------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                        |
-| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                      |
-| `n_rounds`     | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm            |
+| `seed`         | `int` or `tensor`  | Seed used for random number generation                         |
+| `offset`       | `int` or `tensor`  | Offset used for random number generation                       |
+| `n_rounds`     | `constexpr`, default value is 10 | Number of iteration rounds for the Philox algorithm |
 
 Return Value:
-A random block of float32 type with the same shape as `offset`, with values uniformly distributed in the interval `[0.0, 1.0)`
+A random block of float32 type, with the same shape as the offset, uniformly distributed in the interval `[0.0, 1.0)`
 
 ### 2.2 Supported Specifications
 
@@ -46,7 +46,7 @@ No special requirements
 
 ### 2.4 Usage Example
 
-The following example demonstrates calling `rand`:
+The following example demonstrates calling rand:
 
 ```python
 @triton.jit

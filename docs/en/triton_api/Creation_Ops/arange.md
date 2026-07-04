@@ -14,8 +14,8 @@ triton.language.arange(start, end, _semantic=None)
 
 | Parameter | Type | Description |
 | --------- | ---- | ----------- |
-| `start` | `scalar` | The starting value for creating a contiguous integer sequence, must be a compile-time constant (tl.constexpr) |
-| `end` | `scalar` | The ending value for creating a contiguous integer sequence |
+| `start` | `scalar` | Starting value for creating the contiguous integer sequence, must be a compile-time constant (tl.constexpr) |
+| `end` | `scalar` | Ending value for creating the contiguous integer sequence |
 
 Return value:
 `tensor`: A tensor containing the contiguous integer sequence
@@ -24,7 +24,7 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-Conclusion: The parameters `start` and `end` of arange must be constants, therefore they have no type. The supported value range corresponds to the type, up to int32, and hardware instructions only support up to int32.
+Conclusion: The parameters `start` and `end` of `arange` must be constants, hence they have no type. The supported value range corresponds to the type, up to int32. Hardware instructions also only support up to int32.
 
 | | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 | - | ----- | ---- | ------ | ----- | ------ | ----- | ------ | ----- | ---- | ---- | ---- | --------- |
@@ -40,16 +40,16 @@ Conclusion: There is no difference between GPU and Ascend platforms regarding Sh
 
 ### 2.3 Special Limitations
 
-> Relative community feature deficiency that cannot be implemented
+> Missing community capabilities that cannot be implemented
 
 1. The function generates a contiguous integer sequence [start, end). CUDA requires that range=(end-start) must be a power of 2. Triton-ascend does not have this requirement.
 2. Both NV and Triton-ascend limit the maximum value of end to TRITON_MAX_TENSOR_NUMEL = 1048576.
-3. The inputs of arange must be constant values, supporting uint and int type values less than 1048576 (maximum value TRITON_MAX_TENSOR_NUMEL). int64 is not supported.
-4. The `start` and `end` of arange should be greater than or equal to 0.
+3. The input to arange must be a constant, supporting uint and int type values less than 1048576 (the maximum value TRITON_MAX_TENSOR_NUMEL). int64 is not supported.
+4. The `start` and `end` of arange must be greater than or equal to 0.
 
 ### 2.4 Usage Example
 
-The following example demonstrates generating a contiguous integer sequence [0, 128):
+The following example implements generating a contiguous integer sequence [0, 128):
 
 ```python
 @triton.jit

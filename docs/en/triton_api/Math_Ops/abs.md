@@ -18,7 +18,7 @@ Can be called as a member function of a tensor, e.g., `x.abs()`, which is equiva
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
 | `x` | `tensor` | Tensor data |
-| `_semantic` | - | Reserved parameter, external calls not supported for now |
+| `_semantic` | - | Reserved parameter, external calls not supported |
 
 Return value:
 `out`: A tensor with the same shape as `x`
@@ -39,9 +39,9 @@ Return value:
 | GPU    | No restrictions |
 | Ascend | No restrictions |
 
-Conclusion: There is no difference between GPU and Ascend platforms in terms of shape support.
+Conclusion: There are no differences between GPU and Ascend platforms regarding shape support.
 
-### 2.3 Special Restrictions
+### 2.3 Special Limitations
 
 Triton-Ascend does not support fp64 compared to GPU.
 

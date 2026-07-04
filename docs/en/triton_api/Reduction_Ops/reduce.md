@@ -15,11 +15,11 @@ triton.language.reduce(input, axis, combine_fn, keep_dims=False, _semantic=None,
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `input` | `Tensor` or `tuple of Tensor` | Input tensor, can be a single tensor or a tuple of tensors |
-| `axis` | `int` or `None` | The dimension along which to perform the reduce operation. If None, all dimensions are reduced |
-| `combine_fn` | `Callable` | Function to combine two groups of scalar tensors (must be decorated with @triton.jit) |
+| `axis` | `int` or `None` | The dimension along which to perform the reduction. If None, all dimensions are reduced |
+| `combine_fn` | `Callable` | Function for combining two groups of scalar tensors (must be decorated with @triton.jit) |
 | `keep_dims` | `bool` | If True, keeps the reduced dimension with length 1 |
-| `_semantic` | `Optional[str]` | Reserved parameter, not supported for external calls |
-| `_generator` | `Optional[Generator]` | Reserved parameter, not supported for external calls |
+| `_semantic` | `Optional[str]` | Reserved parameter, external calls not supported |
+| `_generator` | `Optional[Generator]` | Reserved parameter, external calls not supported |
 
 **Note**: This function can also be called as a member function of a tensor, e.g., `x.reduce(...)` instead of `reduce(x, ...)`
 
@@ -37,16 +37,16 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
+Conclusion: There is no difference between GPU and Ascend platforms regarding Shape.
 
-### 2.3 Special Limitations
+### 2.3 Special Restrictions
 
 > Relative community capability missing and cannot be implemented
-> keep_dims=True requires testing more specifications to determine full support. Currently tested with 3D dim=2, keep_dims=True is supported.
+> keep_dims=True requires more test specifications to determine full support. Currently tested with 3D dim=2, keep_dims=True is supported.
 
 ### 2.4 Usage Example
 
-The following example implements reduce computation on a 2D tensor, where the combine_fn uses simple addition:
+The following example implements reduce computation on a 2D tensor, with the combine_fn using simple addition:
 
 ```python
 @triton.jit

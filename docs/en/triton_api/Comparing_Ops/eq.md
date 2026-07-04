@@ -10,8 +10,8 @@ Description: Used to compare elements of two tensors, equivalent to `==`. Used a
 
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
-| `input` | `tensor` | Tensor data, left operand, represents the main data to be compared |
-| `other`   | `tensor` | Tensor data, right operand, compared element-wise with `input` |
+| `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
+| `other` | `tensor` | Tensor data, right operand, compared element-wise with `input` |
 | `_builder` | - | Reserved parameter, external calls not supported for now |
 
 Return value:
@@ -21,7 +21,7 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 | Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | √ | √ | × | √ | √ |
@@ -31,7 +31,7 @@ Conclusion: Compared to GPU, Triton-Ascend lacks support for uint8/uint16/uint32
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | -------------------------- |
+| -------- | --------------------------- |
 | GPU    | No restrictions |
 | Ascend | No restrictions |
 

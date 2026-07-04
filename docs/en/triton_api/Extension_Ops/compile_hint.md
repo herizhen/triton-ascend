@@ -15,9 +15,9 @@ triton.language.compile_hint(ptr, hint_name, hint_val=None, _builder=None)
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `ptr` | `tensor` | Required | The tensor object to attach the hint to |
-| `hint_name` | `str` `constexpr` | Required | Identifier name of the hint (must be a string) |
-| `hint_val` | `None` `bool` `int` `constexpr` `list` | `None` | Value of the hint, supports multiple types |
-| `_builder` | - | `None` | Reserved parameter, external calls not supported |
+| `hint_name` | `str` `constexpr` | Required | The identifier name of the hint (must be a string) |
+| `hint_val` | `None` `bool` `int` `constexpr` `list` | `None` | The value of the hint, supporting multiple types |
+| `_builder` | - | `None` | Reserved parameter, not supported for external calls |
 
 ### 2.2 Type Support
 
@@ -25,14 +25,14 @@ A3:
 
 | | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 |------|-------|-------|-------|-------|--------|--------|--------|-------|------|------|------|------|------|
-| Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | ×| × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
+| Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | × | × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
 
-### 2.3 Special Constraints
+### 2.3 Special Restrictions
 
 1. **hint_name must be a string type**: Other types cannot be passed as hint names
 2. **list parameter only supports integer arrays**: Elements must be integers (`int` or `constexpr` integers); lists with floating-point numbers or mixed types are not supported
 3. **Non-intrusive design**: `compile_hint` does not change computation semantics; it only adds metadata
-4. **Same tensor can be annotated multiple times**: Multiple hints with different names can be attached to the same tensor
+4. **Same tensor can be annotated multiple times**: A single tensor can have multiple hints with different names attached
 
 ### 2.4 Usage
 

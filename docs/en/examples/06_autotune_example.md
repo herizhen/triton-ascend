@@ -1,11 +1,11 @@
 # Autotune
 
-If you wish to first understand the recommended usage of Triton-Ascend autotune, the meaning of `configs=[]`, and the applicable boundaries of automatic Tiling, it is recommended to read [Triton-Ascend autotune Usage Guide](../autotune_guide.md).
+If you want to first understand the recommended usage of Triton-Ascend autotune, the meaning of `configs=[]`, and the applicable boundaries of automatic Tiling, it is recommended to read [Triton-Ascend autotune Usage Guide](../autotune_guide.md).
 
-In this section, we will demonstrate using Triton's autotune method to automatically select the optimal kernel configuration parameters. Currently, Triton-Ascend autotune is fully compatible with the community autotune usage (refer to [community documentation](https://triton-lang.org/main/python-api/generated/triton.autotune.html)), meaning users need to manually pass a set of defined `triton.Config` objects, and autotune will select the optimal kernel configuration through benchmarking. Additionally, Triton-Ascend provides **advanced autotune** usage, where users do not need to provide information such as the kernel's split axes or tiling axes. Autotune will automatically parse this information based on the triton kernel semantics, automatically generate some potentially optimal kernel configurations, and then select the best one through benchmarking or profiling.
+In this section, we will demonstrate using Triton's autotune method to automatically select the optimal kernel configuration parameters. Currently, Triton-Ascend autotune is fully compatible with the community autotune usage (refer to [community documentation](https://triton-lang.org/main/python-api/generated/triton.autotune.html)), meaning users need to manually pass in a set of predefined `triton.Config` objects, and autotune will select the optimal kernel configuration among them via benchmarking. Additionally, Triton-Ascend provides an **advanced autotune** usage, where users do not need to provide information such as the kernel's split axes or tiling axes. Autotune will automatically parse the split axes, tiling axes, etc., based on the Triton kernel semantics, automatically generate some potentially optimal kernel configurations, and then select the optimal configuration via benchmarking or profiling.
 
 Note:
-Currently, Triton-Ascend autotune supports block size and multibuffer (compiler optimization). Due to hardware architecture differences, it does not support `num_warps` and `num_stages` parameters. The number of tunable items for autotune will continue to increase in the future.
+Currently, Triton-Ascend autotune supports block size and multibuffer (compiler optimization). Due to hardware architecture differences, it does not support `num_warps` and `num_stages` parameters. More tunable items for autotune will be added in the future.
 
 ## Community Autotune Usage Example
 
@@ -86,20 +86,20 @@ if __name__ == "__main__":
 #         5. The advanced version supports setting the performance collection method via os.environ["TRITON_BENCH_METHOD"] = ( "npu" ).
 #
 # hints(Dict[str, str]):
-# Note: 1. hints is optional. If the user does not provide it, the framework will automatically parse relevant parameters such as split_params and tiling_params.
+# Note: 1. hints is optional. If the user does not provide it, the framework will automatically parse relevant parameters such as split_params, tiling_params, etc.
 #       2. Users can pass parameters via hints to generate tiling. This involves split_params, tiling_params, low_dim_axes, and reduction_axes. All four parameters must be provided simultaneously.
 
 # split_params (Dict[str, str]): A dictionary of axis name: argument name. The argument is a tunable parameter for the split axis, e.g., 'XBLOCK'
-#     The axis name must be in the set of axis names for the parameter keys. Do not prefix axis names with r.
+#     The axis name must be in the set of axis names for the parameter keys. Do not prefix axis names with 'r'.
 #     This parameter can be empty. If both split_params and tiling_params are empty, automatic optimization will not be performed.
-#     Split axes can usually be determined by `tl.program_id()` kernel launch statements.
+#     Split axes can usually be determined by the `tl.program_id()` kernel launch statement.
 # tiling_params (Dict[str, str]): A dictionary of axis name: argument name. The argument is a tunable parameter for the tiling axis, e.g., 'XBLOCK_SUB'
-#     The axis name must be in the set of axis names for the parameter keys. Do not prefix axis names with r.
+#     The axis name must be in the set of axis names for the parameter keys. Do not prefix axis names with 'r'.
 #     This parameter can be empty. If both split_params and tiling_params are empty, automatic optimization will not be performed.
-#     Tiling axes can usually be determined by `tl.arange()` tiling expressions.
-# low_dim_axes (List[str]): A list of axis names for all low-dimensional axes. Axis names must be in the set of axis names for the parameter keys.
-# reduction_axes (List[str]): A list of axis names for all reduction axes. Axis names must be in the set of axis names for the parameter keys. Prefix axis names with r.
-# auto_gen_config (bool): Defaults to False. Involves the following combinations of scenarios:
+#     Tiling axes can usually be determined by the `tl.arange()` tiling expression.
+# low_dim_axes (List[str]): A list of axis names for all low-dimensional axes. The axis name must be in the set of axis names for the parameter keys.
+# reduction_axes (List[str]): A list of axis names for all reduction axes. The axis name must be in the set of axis names for the parameter keys. Prefix axis names with 'r'.
+# auto_gen_config (bool): Default is False. It involves the following scenarios:
 #     1. If the user does not define Config, regardless of whether auto_gen_config is set, the framework automatically generates Config by default;
 #     2. If the user defines Config and auto_gen_config=False, the framework does not automatically generate Config and only uses the user-defined Config;
 #     3. If the user defines Config and auto_gen_config=True, the framework automatically generates Config and merges it with the user-defined Config for configuration selection;
@@ -107,7 +107,7 @@ if __name__ == "__main__":
 # key (list[str]/Dict[str,str]):
 # - Pass a list of runtime parameter names; a change in any parameter value in the list will trigger the regeneration and evaluation of candidate configurations.
 # Note: 1. If hints passes information for split_params, tiling_params, low_dim_axes, and reduction_axes, the key type must be Dict[str,str], as shown in Example 1:
-#       2. If hints does not pass information for split_params, tiling_params, low_dim_axes, and reduction_axes, the key type must be list[str]. Axis information will be allocated according to parameter order, as shown in Example 2:
+#       2. If hints does not pass information for split_params, tiling_params, low_dim_axes, and reduction_axes, the key type must be list[str]. The axis information will be assigned according to the parameter order, as shown in Example 2:
 
 Example 1:
 @triton.autotune(
@@ -132,9 +132,9 @@ def add_kernel(
     output_ptr,  # *Pointer* to the output vector.
     n_elements,  # Size of the vector.
     BLOCK_SIZE: tl.constexpr,  # Number of elements each kernel should process.
-    # Note: `constexpr` indicates it can be determined at compile time, thus usable as a shape value.
+    # Note: `constexpr` indicates it can be determined at compile time, so it can be used as a shape value.
 ):
-    pid = tl.program_id(axis=0)  # We use a 1D grid, so axis is 0.
+    pid = tl.program_id(axis=0)  # We use a 1D grid, so the axis is 0.
     # The offset of the data the current kernel will process relative to the starting address in memory.
     # For example, if you have a vector of length 256 and a block_size of 64, the programs
     # will access elements [0:64, 64:128, 128:192, 192:256] respectively.
@@ -153,12 +153,12 @@ def add_kernel(
 
 Note:
 
-1. Triton-Ascend defaults to using a benchmark method to measure on-chip computation time. When the environment variable `export TRITON_BENCH_METHOD="npu"` is set, it uses `torch_npu.profiler.profile` to obtain the on-chip computation time for each kernel configuration. For triton kernels with fast computation, such as small shape operators, this can provide more accurate computation time compared to the default method, but it will significantly increase the overall autotune time. Use with caution.
-2. Currently, this advanced usage targets Vector-type operators and does not support Cube-type operators. More advanced usage examples can be found in the [autotune advanced usage examples](https://gitcode.com/Ascend/triton-ascend/tree/main/third_party/ascend/unittest/autotune_ut/).
+1. By default, Triton-Ascend uses benchmarking to measure on-chip computation time. When the environment variable `export TRITON_BENCH_METHOD="npu"` is set, it uses `torch_npu.profiler.profile` to obtain the on-chip computation time for each kernel configuration. For Triton kernels with fast computation, such as small shape operators, this can provide more accurate computation time compared to the default method, but it will significantly increase the overall autotune time. Enable with caution.
+2. Currently, this advanced usage targets Vector-type operators and does not support Cube-type operators. For more advanced usage examples, refer to [Advanced Autotune Usage Examples](https://gitcode.com/Ascend/triton-ascend/tree/main/third_party/ascend/unittest/autotune_ut/).
 
 ### Automatic Parameter Parsing
 
-Before automatic parameter parsing, the system first obtains the parameters not passed during the `kernel` function call. **These unpassed parameters are considered candidates for split axis and tiling axis parameters.**
+Before performing automatic parameter parsing, the system first obtains the parameters that were **not passed** during the `kernel` function call. **These unpassed parameters are considered candidates for split axis and tiling axis parameters.**
 
 ```Python
 @triton.jit
@@ -174,18 +174,18 @@ def kernel_func(
     # kernel implementation
     ...
 
-# XBLOCK and XBLOCK_SUB are not passed, so they are candidates for split and tiling axis parameters.
-# BLOCK_SIZE is passed as a keyword argument, so it is not a candidate parameter and will not be recognized.
+# XBLOCK and XBLOCK_SUB are not passed, so they are candidates for split axis and tiling axis parameters.
+# BLOCK_SIZE is passed as a keyword argument, so it is not a candidate parameter and will not be identified.
 kernel_func[grid](y, x, n_rows, n_cols, BLOCK_SIZE=block_size)
 ```
 
 #### Split Axis Parameter Parsing
 
-Split axis parameter parsing is determined by the `tl.program_id()` kernel launch statement. The system identifies potential split axis parameters by analyzing the usage of `tl.program_id()` variables in the program and their multiplication operations with other variables (currently supports direct multiplication or indirect multiplication through intermediate variables). It then filters based on the candidate parameter list (parameters not provided by the user).
+Split axis parameter parsing is determined based on the `tl.program_id()` kernel launch statement. The system identifies potential split axis parameters by analyzing the usage of `tl.program_id()` variables in the program and their multiplication operations with other variables (currently supports direct multiplication or indirect multiplication through intermediate variables). It then filters based on the candidate parameter list (parameters not provided by the user).
 
 Finally, it confirms the split axis corresponding to the current parameter through mask comparison and the `key` passed in `autotune`.
 
-Note: 1. The split axis parameter must be multiplied by `tl.program_id()`. 2. A mask comparison must be performed, and the key corresponding to this axis must be used directly as the right-hand side or as the right-hand side of a min function with the key as a parameter to correspond to the specific split axis; otherwise, parameter parsing will fail. 3. The identified split axis parameters are limited to the candidate parameter list, ensuring only parameters that can be dynamically adjusted through autotune are considered.
+Note: 1. The split axis parameter **must** be multiplied by `tl.program_id()`. 2. A mask comparison **must** be performed, and the key corresponding to this axis must be used directly as the right-hand side value or as the right-hand side value of a min function with the key as a parameter, to correspond to the specific split axis. Otherwise, parameter parsing will fail. 3. The identified split axis parameters are limited to the candidate parameter list, ensuring that only parameters that can be dynamically adjusted through autotune are considered.
 
 ```Python
 @triton.autotune(
@@ -216,11 +216,11 @@ def triton_func(...):
 
 #### Tiling Axis Parameter Parsing
 
-Tiling axis parameter parsing is determined by `tl.arange()`, `tl.range()`, and `range()` tiling statements. It identifies potential tiling axis parameters by analyzing the usage of `tl.range()`, `tl.arange()`, and `range()` in `for` loops and the variables they compute. It extracts common parameters from `tl.range()` or `range()` and `tl.arange()`, and filters based on the candidate parameter list (parameters not provided by the user).
+Tiling axis parameter parsing is determined based on `tl.arange()`, `tl.range()`, and `range()` tiling statements. It identifies potential tiling axis parameters by analyzing the usage of `tl.range()`, `tl.arange()`, and `range()` in `for` loops and the variables they compute. It extracts common parameters of `tl.range()` or `range()` and `tl.arange()`, and filters based on the candidate parameter list (parameters not provided by the user).
 
 Finally, it confirms the tiling axis corresponding to the current parameter through mask comparison and the `key` passed in `autotune`.
 
-Note: 1. The tiling axis parameter must appear in a call to `tl.arange()` and must participate in the calculation of the loop range within a `for` loop via `tl.range()`, `range()`, or integer division (`//`). 2. A mask comparison must be performed, and the key corresponding to this axis must be used directly as the right-hand side or as the right-hand side of a min function with the key as a parameter to correspond to the specific tiling axis; otherwise, parameter parsing will fail. 3. The identified tiling axis parameters are limited to the candidate parameter list, ensuring only parameters that can be dynamically adjusted through autotune are considered.
+Note: 1. The tiling axis parameter **must** appear in the call to `tl.arange()` and **must** participate in the calculation of the loop range via `tl.range()`, `range()`, or integer division (`//`) within a `for` loop. 2. A mask comparison **must** be performed, and the key corresponding to this axis must be used directly as the right-hand side value or as the right-hand side value of a min function with the key as a parameter, to correspond to the specific tiling axis. Otherwise, parameter parsing will fail. 3. The identified tiling axis parameters are limited to the candidate parameter list, ensuring that only parameters that can be dynamically adjusted through autotune are considered.
 
 ```Python
 @triton.autotune(
@@ -247,13 +247,13 @@ def triton_func(...):
         ymask = col_offsets < n_cols
 
 # Parsed tiling axis parameter: tiling_params = {"x": "XBLOCK_SUB"}
-# Parameter BLOCK_SIZE, although also in tl.arange and compared with n_cols to compute the mask, is not a tiling axis parameter.
+# Parameter BLOCK_SIZE, although also in tl.arange and compared with n_cols for mask calculation, is not a tiling axis parameter.
 ```
 
 #### Low-Dimensional Axis Parameter Parsing
 
-Low-dimensional axis parameter parsing is determined by `tl.arange()` tiling statements. It identifies potential low-dimensional axis parameters by analyzing the usage of `tl.arange()` in the program and the variables it computes. It extracts `tl.arange()` itself and the variables it participates in calculating. It filters based on whether slicing operations are performed for dimension increase and by judging the increased dimension.
+Low-dimensional axis parameter parsing is determined based on `tl.arange()` tiling statements. It identifies potential low-dimensional axis parameters by analyzing the usage of `tl.arange()` in the program and the variables it computes. It extracts `tl.arange()` itself and the variables it participates in calculating. It filters by checking whether dimension expansion is performed via slicing operations and by judging the expanded dimension.
 
 Finally, it confirms the low-dimensional axis of the current kernel through mask comparison and the `key` passed in `autotune`.
 
-Note: 1. The low-dimensional axis must be computed using `tl.arange()` and then sliced. It must be dimensionally expanded on a non-lowest dimension or not participate in slicing to be recognized. 2. If no mask comparison
+Note: 1

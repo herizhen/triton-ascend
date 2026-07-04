@@ -4,7 +4,7 @@
 
 Description: Subtraction, arithmetic operation '-', no tl.sub method
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
@@ -34,9 +34,9 @@ Return value:
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 Usage Example
+### 2.3 Usage
 
-The following example implements subtraction calculation on input tensors `in_ptr0, in_ptr1`:
+The following example demonstrates subtraction computation on input tensors `in_ptr0, in_ptr1`:
 
 ```python
 @triton.jit

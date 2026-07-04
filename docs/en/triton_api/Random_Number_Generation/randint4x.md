@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Given 1 seed scalar and 1 offset block, returns 4 random blocks of type int32.
+Description: Given 1 seed scalar and 1 offset block, returns 4 random blocks of int32 type.
 The most efficient entry point for Triton's Philox pseudo-random number generator.
 Prototype:
 
@@ -18,14 +18,14 @@ triton.language.randint4x(
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type               | Description                                                      |
-| ------------ | ------------------ | ---------------------------------------------------------------- |
-| `seed`       | `int` or `tensor`  | Seed used for generating random numbers                          |
-| `offset`     | `int` or `tensor`  | Offset used for generating random numbers                        |
-| `n_rounds`   | `constexpr`, default 10 | Number of rounds for the Philox algorithm                    |
+| Parameter Name | Type               | Description                                                      |
+| -------------- | ------------------ | ---------------------------------------------------------------- |
+| `seed`         | `int` or `tensor`  | Seed used for generating random numbers                          |
+| `offset`       | `int` or `tensor`  | Offset used for generating random numbers                        |
+| `n_rounds`     | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm          |
 
-Return value:
-4 random blocks of type int32, each with the same shape as offset
+Return Value:
+4 random blocks of int32 type, each with the same shape as offset
 
 ### 2.2 Supported Specifications
 
@@ -43,7 +43,7 @@ No special requirements
 
 ### 2.3 Special Limitations
 
-> Missing functionality relative to the community and cannot be implemented
+> Missing capabilities relative to the community that cannot be implemented
 
 ### 2.4 Usage Examples
 

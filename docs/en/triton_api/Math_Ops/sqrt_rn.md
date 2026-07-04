@@ -12,10 +12,10 @@ triton.language.sqrt_rn(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type                | Description                                                      |
-| -------------- | ------------------- | ---------------------------------------------------------------- |
-| `x`            | `tensor`            | Tensor data                                                      |
-| `_semantic`    | -                   | Reserved parameter, not currently supported for external calls   |
+| Parameter      | Type              | Description                                                    |
+| -------------- | ----------------- | -------------------------------------------------------------- |
+| `x`            | `tensor`          | Tensor data                                                    |
+| `_semantic`    | -                 | Reserved parameter, not supported for external calls           |
 
 Return value:
 `x`: Output tensor with the same shape as the input tensor `x`
@@ -29,7 +29,7 @@ Return value:
 | GPU            | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | √    | ×    | ×    | ×    |
 | Ascend A2/A3   | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Ascend supports fp16 and bf16 in addition to the types supported by GPU.
+Conclusion: Ascend supports fp16 and bf16 in addition to GPU support.
 torch_npu supports u8.
 
 #### 2.2.2 Shape Support

@@ -25,21 +25,21 @@ Return value:
 | GPU           | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | √    | √    | ×    | ×    |
 | Ascend A2/A3  | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Compared to GPU, Ascend lacks support for fp64 but adds support for fp16 and bf16.
+Conclusion: Compared to GPU, Ascend lacks fp64 support but adds support for fp16 and bf16.
 torch_npu does not support u8.
 
 #### 2.2.2 Shape Support
 
-|               | Supported Dimension Range |
-| ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+|              | Supported Dimension Range |
+| ------------ | ------------------------- |
+| GPU          | Only supports 1~5D tensors |
+| Ascend A2/A3 | Only supports 1~5D tensors |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Relative community capability gaps that cannot be implemented
+> Community capability missing and cannot be implemented.
 
 None.
 

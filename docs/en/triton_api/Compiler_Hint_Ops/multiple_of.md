@@ -16,12 +16,12 @@ triton.language.multiple_of(input, values, _semantic=None)
 |-----------|------|---------|-------------|
 | `input` | `Tensor` | Required | Input tensor whose values are all multiples of a certain number |
 | `values` | `constexpr[int]` or `list[constexpr[int]]` | Required | Declares that the input values are multiples of these numbers (a single integer or a sequence of integers per dimension) |
-| `_semantic` | - | - | Reserved parameter, not supported for external calls |
+| `_semantic` | - | - | Reserved parameter, not yet supported for external calls |
 
-**`values` describes the divisibility characteristic of the first value in each dimension, so the dimension of `values` must match the dimension of `input`.
+**`values` describes the divisibility characteristics of the first value in each dimension, so the dimension of `values` must match the dimension of `input`.
 Note the dimension reduction that occurs when the last dimension of `shape` is `1`.**
 
-For example: A two-dimensional `input` corresponds to a general `values` input of `[1,1]`.
+For example: a 2D `input` corresponds to a general `values` parameter of `[1,1]`.
 
 ### 2.2 Type Support
 

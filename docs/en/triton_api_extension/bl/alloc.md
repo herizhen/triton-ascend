@@ -2,7 +2,7 @@
 
 ## 1. Background
 
-To support Ascend-level programming requirements, users need to manually create memory (buffer) on specified address spaces. This interface is hardware-independent and interfaces with `memref.alloc`.
+To support Ascend-level programming requirements, users need to manually create memory (buffer) on specified address spaces. This interface is hardware-independent and interfaces with memref.alloc.
 
 ## 2. Interface Description
 
@@ -14,7 +14,7 @@ To support Ascend-level programming requirements, users need to manually create 
 
 ## 3. Return Value
 
-Returns a buffer type under the buffer language, semantically isolated from tensors under the triton language. Direct assignment between them is not supported; explicit conversion via `to_tensor` and `to_buffer` is required. It represents a block of memory allocated in the specified address space, carrying three pieces of information: data type, shape, and address space.
+Returns a buffer type under the buffer language, semantically isolated from tensors under the triton language. Direct assignment between them is not supported; explicit conversion via to_tensor and to_buffer is required. Represents a block of memory allocated in the specified address space, carrying three pieces of information: data type, shape, and address space.
 
 ## 4. Parameters
 
@@ -47,7 +47,7 @@ Returns a buffer type under the buffer language, semantically isolated from tens
     <td>is_mem_unique</td>
     <td>bool</td>
     <td>No</td>
-    <td>Whether the memory is exclusive. The generated `annotation.mark` is used during plan memory. Default is false.</td>
+    <td>Whether the memory is exclusive. The generated annotation.mark is used during plan memory. Default is false.</td>
   </tr>
 </table>
 
@@ -90,13 +90,13 @@ Returns a buffer type under the buffer language, semantically isolated from tens
 
 ## 6. Constraints
 
-- `dtype` does not support `tl.void`
+- dtype does not support tl.void
 
-- Each element of `shape` must be a positive integer
+- Each element of shape must be a positive integer
 
 - Must ensure compliance with the size limits of the specified address space
 
-- The `address_space` parameter defaults to empty, indicating no address space information is carried
+- The address_space parameter defaults to empty, indicating no address space information is carried
 
 ## 7. Usage Example
 
