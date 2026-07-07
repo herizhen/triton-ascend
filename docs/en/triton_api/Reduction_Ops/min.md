@@ -64,7 +64,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Usage
 
-For more examples, refer to the triton-ascend repository, ascend/examples/generalization_cases/test_min.py
+For more examples, refer to the triton-ascend code repository, ascend/examples/generalization_cases/test_min.py
 
 ```python
 @triton.jit
@@ -77,4 +77,4 @@ def triton_min_1d(in_ptr0, out_ptr1, xnumel, XBLOCK : tl.constexpr):
 
 ### 2.4. Special Limitations
 
-Compared to GPU, Ascend A3 lacks support for uint16, uint32, uint64, and fp64.
+Ascend A3 lacks support for uint16, uint32, uint64, and fp64 compared to GPU.

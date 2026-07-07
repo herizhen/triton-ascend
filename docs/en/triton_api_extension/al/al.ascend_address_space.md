@@ -2,7 +2,7 @@
 
 ## 1. Background
 
-To support Ascend-level programming, it is necessary to allow users to manually create memory buffers on specified address spaces, interfacing with the `hivm::AddressSpace` enum.
+To support Ascend-level programming needs, it is necessary to allow users to manually create memory (buffer) on specified address spaces, interfacing with the `hivm::AddressSpace` enum.
 
 ## 2. Interface Description
 
@@ -22,7 +22,7 @@ Not applicable
 
 ## 3. Constraints
 
-- Must be used together with `bl.alloc`
+- Must be used in conjunction with `bl.alloc`
 
 ## 4. Usage Example
 

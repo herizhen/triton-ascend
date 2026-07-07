@@ -12,14 +12,14 @@ triton.language.sort(x, dim: constexpr | None = None, descending: constexpr = Fa
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type               | Description                                                    |
-| ------------ | ------------------ | -------------------------------------------------------------- |
-| `x`          | `tensor`           | Tensor data                                                    |
-| `dim`        | `int`              | Sorting dimension                                              |
-| `descending` | `bool`             | Whether to sort in descending order                            |
+| Parameter      | Type                | Description                                      |
+| -------------- | ------------------- | ------------------------------------------------ |
+| `x`            | `tensor`            | Tensor data                                      |
+| `dim`          | `int`               | Dimension to sort along                          |
+| `descending`   | `bool`              | Whether to sort in descending order              |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor `x`
+`x`: Output tensor with the same shape as the input tensor `x`
 
 ### 2.2 OP Specifications
 
@@ -44,7 +44,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative capability gaps that cannot be implemented
+> Relative capability gap that cannot be implemented
 
 Due to limitations of the Bisheng compiler, int32, uint8, int64, float64, and bool cannot be implemented.
 

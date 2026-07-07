@@ -56,7 +56,7 @@ Compared to GPU, Triton-Ascend lacks support for fp64. Support for uint8/uint16/
 
 ### 2.4 Usage Example
 
-The following example implements the less-than operation on three-dimensional tensors `x0` and `x1`:
+The following example implements a less-than operation on 3D tensors `x0` and `x1`:
 
 ```python
 @triton.jit

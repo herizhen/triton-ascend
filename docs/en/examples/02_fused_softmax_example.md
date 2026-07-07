@@ -1,12 +1,12 @@
 # Fused Softmax
 
-In this section, we will use Triton to write a program for a fused softmax operation.
+In this section, we will use Triton to write a fused softmax operation program.
 Along the way, you will learn:
 
 - The advantages of kernel fusion for bandwidth-bound operations.
 - Reduction operations in Triton.
 
-## Performing Softmax Row-wise on X Using Native PyTorch
+## Native PyTorch Softmax Computation on X Row-wise
 
 ```Python
 import torch
@@ -38,21 +38,21 @@ Purpose of Kernel Fusion
 When implemented natively in PyTorch, computing `y=naive_softmax(x)` requires reading 5MN+2M elements from DRAM and writing back 3MN+2M elements. This is clearly very inefficient; we would prefer to use a custom "fused" kernel that reads x only once and performs all necessary computations on-chip.
 This would only require reading and writing 2MN bytes, so we can expect a theoretical speedup of approximately 4x (i.e., (8MN+4M)/2MN).
 
-`torch.jit.script` aims to perform this "kernel fusion" automatically, but it is still far from ideal.
+`torch.jit.script` aims to automatically perform this kind of "kernel fusion," but it is still far from ideal.
 
-## Compute Kernel
+## Computation Kernel
 
-The softmax kernel works as follows: each program loads a set of rows from the input matrix X with a stride equal to the number of programs, performs normalization, and writes the result to the output matrix Y.
-Note: An important limitation of Triton is that each block must have a power-of-two number of elements. Therefore, if we need to handle arbitrary input shapes, we must internally "pad" each row and ensure correct memory operations.
+The softmax kernel works as follows: each program loads a set of rows from the input matrix X with a stride equal to the number of programs, performs normalization, and writes the results to the output matrix Y.
+Note: An important limitation of Triton is that each block must have a power-of-two number of elements. Therefore, if we want to handle arbitrary input shapes, we need to internally "pad" each row and ensure correct memory operations.
 
 ```Python
 @triton.jit
 def softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n_rows, n_cols, BLOCK_SIZE: tl.constexpr):
-    # Starting row for the program
+    # Starting row of the program
     row_start = tl.program_id(0)
     row_step = tl.num_programs(0)
     for row_idx in tl.range(row_start, n_rows, row_step):
-        # The stride indicates how much we need to increase the pointer to advance by 1 row
+        # The stride indicates how much we need to increase the pointer to advance 1 row
         row_start_ptr = input_ptr + row_idx * input_row_stride
         # The block size is the next power of two greater than n_cols, so we can fit
         # the row in a single block
@@ -63,7 +63,7 @@ def softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n
         row = tl.load(input_ptrs, mask=mask, other=-float('inf'))
         # Subtract the maximum for numerical stability
         row_minus_max = row - tl.max(row, axis=0)
-        # Note: The exponential operation in Triton is fast but approximate.
+        # Note: exponential operations in Triton are fast but approximate.
         numerator = tl.exp(row_minus_max)
         denominator = tl.sum(numerator, axis=0)
         softmax_output = numerator / denominator
@@ -73,7 +73,7 @@ def softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n
         tl.store(output_ptrs, softmax_output, mask=mask)
 ```
 
-We can create a helper function that enqueues the kernel with its meta-parameters to handle any given input tensor.
+We can create a helper function that queues the kernel and its meta-parameters to handle any given input tensor.
 
 ```Python
 kernels = {}

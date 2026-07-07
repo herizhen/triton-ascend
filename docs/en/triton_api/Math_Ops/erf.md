@@ -4,7 +4,7 @@
 
 Description: Computes the element-wise error function of x.
 
-## 2. Specifications
+## 2. Specification
 
 ### 2.1 Parameter Description
 
@@ -14,9 +14,9 @@ Description: Computes the element-wise error function of x.
 | `_semantic`    | -          | Reserved parameter, not supported for external calls           |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor x.
+`x`: The output tensor has the same shape as the input tensor `x`.
 
-### 2.2 OP Specifications
+### 2.2 OP Specification
 
 #### 2.2.1 DataType Support
 
@@ -36,13 +36,13 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative to community capabilities, missing and unimplemented
+> Relative to community capabilities, these are missing and cannot be implemented
 
-Ascend lacks fp64 support compared to GPU but adds support for fp16 and bf16.
+Ascend lacks fp64 support compared to GPU, but adds support for fp16 and bf16.
 
 ### 2.4 Usage Example
 
-The following example demonstrates element-wise error function computation on the input tensor `x`:
+The following example demonstrates computing the element-wise error function of the input tensor `x`:
 
 ```python
 @triton.jit

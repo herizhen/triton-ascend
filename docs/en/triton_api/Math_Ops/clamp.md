@@ -12,13 +12,13 @@ triton.language.clamp(x, min, max, propagate_nan: constexpr = PropagateNan.NONE,
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                             |
-| -------------- | ------------------ | ----------------------------------------------------------------------- |
-| `x`            | `tensor`           | Tensor data                                                             |
-| `min`          | `tensor`           | Lower bound (can be a tensor or scalar, broadcast to the shape of `x`)  |
-| `max`          | `tensor`           | Upper bound (can be a tensor or scalar, broadcast to the shape of `x`)  |
-| `propagate_nan`| `triton.language.core.constexpr` | Whether to propagate NaN from `min` or `max`                            |
-| `_semantic`    | -                  | Reserved parameter, external calls not supported                        |
+| Parameter Name | Type               | Description                                                      |
+| -------------- | ------------------ | ---------------------------------------------------------------- |
+| `x`            | `tensor`           | Tensor data                                                      |
+| `min`          | `tensor`           | Lower bound (can be a tensor or scalar, broadcast to `x`'s shape) |
+| `max`          | `tensor`           | Upper bound (can be a tensor or scalar, broadcast to `x`'s shape) |
+| `propagate_nan`| `triton.language.core.constexpr` | Whether to propagate NaN from min or max                         |
+| `_semantic`    | -                  | Reserved parameter, external calls not supported                  |
 
 Return value:
 `x`: Output tensor with the same shape as the input tensor `x`

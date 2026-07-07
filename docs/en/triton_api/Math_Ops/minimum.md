@@ -26,19 +26,19 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU          | √    | √     | √     | ×     | ×      | ×      | ×      | √     | √    | √    | √    | √    | √    |
-| Ascend A2/A3 | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
+|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU           | √    | √     | √     | ×     | ×      | ×      | ×      | √     | √    | √    | √    | √    | √    |
+| Ascend A2/A3  | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
 
 Conclusion: Compared to GPU, Ascend lacks fp64 support.
 
 #### 2.2.2 Shape Support
 
-|              | Supported Dimension Range |
-| ------------ | ------------------------- |
-| GPU          | Only supports 1~5D tensors |
-| Ascend A2/A3 | Only supports 1~5D tensors |
+|               | Supported Dimension Range |
+| ------------- | ------------------------- |
+| GPU           | Supports only 1~5D tensors |
+| Ascend A2/A3  | Supports only 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 

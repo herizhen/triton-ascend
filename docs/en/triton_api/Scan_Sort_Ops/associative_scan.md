@@ -18,8 +18,8 @@ triton.language.associative_scan(input, axis, combine_fn, reverse=False, _semant
 | `axis` | `int` | The dimension along which to perform the associative scan operation |
 | `combine_fn` | `Callable` | Function used to combine two groups of scalar tensors (must be decorated with `@triton.jit`) |
 | `reverse` | `bool` | Whether to apply the associative scan in the reverse direction along the axis |
-| `_semantic` | `Optional[str]` | Reserved parameter, external calls not supported for now |
-| `_generator` | `Optional[Generator]` | Reserved parameter, external calls not supported for now |
+| `_semantic` | `Optional[str]` | Reserved parameter, currently not supported for external calls |
+| `_generator` | `Optional[Generator]` | Reserved parameter, currently not supported for external calls |
 
 Return value:
 `tensor`: The tensor after applying the associative scan operation to the input tensor along the specified axis, using the `combine_fn` function to combine elements and update the carry value.
@@ -35,12 +35,12 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Missing functionality relative to the community that cannot be implemented
-> Whether `reverse=True` applies the associative scan in the reverse direction along the axis. This feature requires alignment when loading data with `tl.load`, meaning no mask is used to filter out excess data indices, as shown in the example code below:
+> Relative community capability missing and cannot be implemented
+> `reverse=True` indicates whether to apply the associative scan in the reverse direction along the axis. This feature requires `tl.load` to align when loading data, i.e., without using a mask to filter out excess data indices, as shown in the example code below:
 
 ```python
     tl.static_assert(
@@ -57,7 +57,7 @@ Conclusion: There is no difference between GPU and Ascend platforms in terms of 
 
 ### 2.4 Usage
 
-The following example demonstrates performing an associative_scan operation on a 2D shape tensor:
+The following example implements an associative_scan operation on a 2D shape tensor:
 
 ```python
 

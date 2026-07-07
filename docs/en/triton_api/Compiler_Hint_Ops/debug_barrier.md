@@ -8,13 +8,13 @@
 triton.language.debug_barrier(_semantic=None)
 ```
 
-## 2. Specification
+## 2. Specifications
 
 ### 2.1 Parameter Description
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `_semantic` | - | - | Reserved parameter, external calls not supported yet |
+| `_semantic` | - | - | Reserved parameter, external calls not supported for now |
 
 ### 2.2 Type Support
 
@@ -51,4 +51,4 @@ def debug_barrier_basic(A, B, C, BLOCK_SIZE: tl.constexpr):
     tl.store(C + offsets, b)
 ```
 
-**Note:** `debug_barrier` is primarily intended for debugging and should generally not be used in performance-critical production code, as it may introduce overhead due to synchronization.
+**Note:** `debug_barrier` is primarily used for debugging and should generally not be used in performance-critical production code, as it may introduce overhead due to synchronization.

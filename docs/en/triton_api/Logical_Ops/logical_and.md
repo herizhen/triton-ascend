@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Performs element-wise logical AND operation on two tensors.
+Description: Performs element-wise logical AND operation on two tensors
 
 ```python
 x.logical_and(y)
@@ -14,11 +14,11 @@ Called as a member function of `tensor`, e.g., `x0.logical_and(x1)`.
 
 ### 2.1 Parameter Description
 
-| Parameter | Type   | Description |
-| :-------: | :----: | :---------- |
-| `input`   | `tensor` | Tensor data, left operand, representing the primary data for comparison |
-| `other`   | `tensor` | Tensor data, right operand, performs element-wise logical AND with `input` |
-| `_builder`| -      | Reserved parameter, external invocation not supported |
+| Parameter | Type | Description |
+| :---: | :---: | :---: |
+| `input` | `tensor` | Tensor data, left operand, represents the primary data for comparison |
+| `other` | `tensor` | Tensor data, right operand, performs element-wise logical AND with `input` |
+| `_builder` | - | Reserved parameter, external invocation not supported |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -37,9 +37,9 @@ Conclusion: In terms of DataType, Ascend additionally supports integer and float
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | -------------------------- |
-| GPU    | No restriction |
-| Ascend A2/A3 | No restriction |
+| -------- | --------------------------- |
+| GPU    | No restrictions |
+| Ascend A2/A3 | No restrictions |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 

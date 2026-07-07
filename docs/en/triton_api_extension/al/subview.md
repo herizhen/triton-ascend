@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-The Ascend hardware A5 supports defining new views solely through offsets, sizes, and strides, without copying the underlying data.
+The Ascend hardware A5 supports defining new views, implemented only through offsets, sizes, and strides, without copying the underlying data.
 
 ## 2. Interface Description
 
@@ -36,21 +36,21 @@ Return value: bl.buffer
 
 ## 4. Constraints
 
-- The input parameters `size`, `offset`, and `stride` must be greater than 0 (`offset` can be 0); negative values are not allowed.
+- The input parameters size, offset, and stride must be greater than 0 (offset can be 0), and cannot be negative.
 
-- Each dimension of `size` must not exceed the corresponding dimension of the source buffer.
+- Each dimension of size must not be greater than the size of the original buffer.
 
-- Each dimension of the subview must not exceed the corresponding dimension of the source buffer.
+- Each dimension of the subview must not exceed the size of the original buffer.
 
-- The access pattern defined by `stride` must not exceed the size of `src`; all elements of `stride` must be 1.
+- The stride access must not exceed the size of src; all elements of stride must be 1.
 
-- The parameter settings must specify the value for each dimension, and the number of parameter dimensions must match the dimensions of the input buffer.
+- The parameter settings must specify the value for each dimension, and the parameter dimensions must be consistent with the input buffer dimensions.
 
-- `offset` must be 32-byte aligned.
+- The offset must be 32-byte aligned.
 
-- The offset of the first element in the second row of the last dimension of the subview must be 32-byte aligned.
+- The offset of the first point in the second row of the last dimension in the subview must be 32-byte aligned.
 
-Additional Explanation: When using `sizes` and `strides`, the input type should be `List[tl.constexpr]` (be careful not to pass a tensor by mistake, as this will cause a type mismatch error). `offsets` additionally supports tensor input (constexpr input is also supported).
+Explanation supplement: When using sizes and strides, the input type is: List[tl.constexpr] (be careful not to mistakenly pass a tensor, otherwise an error will occur - type mismatch). offsets additionally supports tensor input (constexpr can also be passed).
 
 ## 5. Usage Example
 

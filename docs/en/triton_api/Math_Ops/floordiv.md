@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Integer division, returns the division result rounded toward zero, arithmetic operator '//', no `tl.floordiv` method.
+Description: Floor division, returns the division result rounded towards zero, arithmetic operator '//', no `tl.floordiv` method.
 
 ## 2. OP Specification
 
@@ -26,14 +26,14 @@ Description: Integer division, returns the division result rounded toward zero, 
 
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
-| GPU    | No restrictions           |
-| Ascend A2/A3 | No restrictions    |
+| GPU    | No restriction            |
+| Ascend A2/A3 | No restriction     |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 Usage
+### 2.3 Usage Example
 
-The following example demonstrates performing integer division on input tensors `in_ptr0` and `in_ptr1`:
+The following example demonstrates performing floor division on input tensors `in_ptr0` and `in_ptr1`:
 
 ```python
 @triton.jit

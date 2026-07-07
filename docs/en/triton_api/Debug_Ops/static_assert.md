@@ -42,7 +42,7 @@ def basic_static_assert_example(x_ptr, BLOCK_SIZE: tl.constexpr):
     # Assertion with custom error message
     tl.static_assert(BLOCK_SIZE >= 64, "BLOCK_SIZE must be at least 64 for performance")
 
-    # Using non-constant values in static_assert condition will cause compilation error
+    # Using non-constant values in static_assert conditions will cause compilation errors
     # val = tl.load(x_ptr)
     # tl.static_assert(val <= 64)
 ```

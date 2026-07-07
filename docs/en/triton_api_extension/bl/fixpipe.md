@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-A5 adds a data path from L0C to UB. To implement this path, the temporary solution explicitly calls this path at the frontend.
+The A5 adds a data path from L0C to UB. To implement this path, the temporary solution explicitly calls this path in the frontend.
 
 ## 2. Interface Description
 
@@ -33,7 +33,7 @@ A5 adds a data path from L0C to UB. To implement this path, the temporary soluti
   <tr>
     <td>dma_mode</td>
     <td>al.FixpipeDMAMode</td>
-    <td>HIVM data transfer mode, optional values: NZ2DN, NZ2ND, NZ2NZ</td>
+    <td>HIVM data movement mode, optional values: NZ2DN, NZ2ND, NZ2NZ</td>
   </tr>
   <tr>
     <td>dual_dst_mode</td>
@@ -63,11 +63,11 @@ No return value, directly use the input parameter dst
 
 ## 3. Constraints
 
-- fixpipe only supports data transfer from L0C to UB
+- fixpipe only supports data movement from l0c to ub
 
-- src must be the result after dot product
+- src must be the result after dot
 
-- dst must be a buffer with memscope set to UB
+- dst must be a buffer with memscope set to ub
 
 ## 4. Usage Example
 

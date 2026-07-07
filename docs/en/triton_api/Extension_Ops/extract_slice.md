@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Extracts a tensor from the input tensor according to the offsets, sizes, and strides parameters specified by the operation.
+Description: Extracts a tensor from the input tensor according to the specified offsets, sizes, and strides parameters.
 Prototype:
 
 ```python
@@ -16,7 +16,7 @@ triton.language.extract_slice(
 ) -> tensor
 ```
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
@@ -30,7 +30,7 @@ triton.language.extract_slice(
 | `_generator` | -                | Reserved parameter, not supported for external calls             |
 
 Return value:
-`tensor`: Extracted slice tensor
+`tensor`: The extracted slice tensor
 
 ### 2.2 Supported Specifications
 
@@ -50,7 +50,7 @@ No special constraints.
 
 ### 2.4 Usage Example
 
-The following example demonstrates extracting the first 32 elements from the computation result:
+The following example extracts the first 32 elements from the computation result:
 
 ```python
 @triton.jit

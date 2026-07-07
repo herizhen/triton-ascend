@@ -5,7 +5,7 @@
 Description: Computes the XOR of two elements.
 
 ```python
-# Via operator
+# Using the operator
 x ^ y
 
 # Or by directly calling the dunder method
@@ -16,11 +16,11 @@ x.__xor__(y)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                    |
-| -------------- | ------------------ | -------------------------------------------------------------- |
-| `x`            | `tensor`           | Tensor data                                                    |
-| `y`            | `tensor`           | Tensor data                                                    |
-| `_semantic`    | -                  | Reserved parameter, external calls not supported temporarily   |
+| Parameter Name | Type       | Description                                                    |
+| -------------- | ---------- | -------------------------------------------------------------- |
+| `x`            | `tensor`   | Tensor data                                                    |
+| `y`            | `tensor`   | Tensor data                                                    |
+| `_semantic`    | -          | Reserved parameter, external calls are not supported yet       |
 
 Return value:
 `out`: A tensor with the same shape as `x` and `y`
@@ -40,14 +40,14 @@ Conclusion: Compared to GPU, Ascend lacks support for uint types.
 
 |               | Supported Dimension Range |
 | ------------- | ------------------------- |
-| GPU           | Supports only 1~5D tensors |
-| Ascend A2/A3  | Supports only 1~5D tensors |
+| GPU           | Only supports 1~5D tensors |
+| Ascend A2/A3  | Only supports 1~5D tensors |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Capabilities not yet supported compared to the community version
+> Capabilities not yet supported compared to the community
 
 Compared to GPU, Ascend lacks support for uint types.
 

@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Performs parallel gather of multiple indices on non-tail dimensions and zero-copies data directly from Global Memory (GM) to the correct positions in the Unified Buffer (UB) in tile units. This operation is equivalent to a high-performance implementation of `torch.index_select`, suitable for scenarios such as embedding layer lookups and sparse index access.
+Performs parallel gather of multiple indices on non-last-axis dimensions and copies data zero-copy from global memory (GM) directly to the correct positions in the unified buffer (UB) in tile units. This operation is equivalent to a high-performance implementation of `torch.index_select`, suitable for scenarios such as embedding layer lookups and sparse index access.
 
 **Syntax:**
 
@@ -10,16 +10,16 @@ Performs parallel gather of multiple indices on non-tail dimensions and zero-cop
 
 **Functionality:**
 
-- Reads data in batches from the source tensor along the specified dimension according to the index array
+- Reads data in batches from the source tensor along the specified dimension based on the index array
 - Supports specifying the offset and size of the read region for flexible slicing
-- High-performance zero-copy implementation, directly moving data from GM to UB
+- Zero-copy efficient implementation, directly transfers from GM to UB
 - Preserves element type and encoding unchanged
 
 **Typical Use Cases:**
 
-- Embedding Lookup: Batch reading word vectors from a large vocabulary based on token IDs
-- Sparse Tensor Operations: Accessing specific rows of a dense tensor based on sparse indices
-- Dynamic Routing and Attention Mechanisms: Selecting specific features based on dynamically computed indices
+- Embedding layer lookup: Batch reading word vectors from a large vocabulary based on token IDs
+- Sparse tensor operations: Accessing specific rows of a dense tensor based on sparse indices
+- Dynamic routing and attention mechanisms: Selecting specific features based on dynamically computed indices
 
 ## 2 Parameter Specifications
 
@@ -27,12 +27,12 @@ Performs parallel gather of multiple indices on non-tail dimensions and zero-cop
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| src | tensor/pointer | Yes | Source tensor pointer, data located in Global Memory (GM) |
-| dim | int | Yes | Dimension along which to perform index_select, range [0, len(src_shape)-2], **does not support the tail axis** (last dimension) |
-| index | tensor | Yes | 1D index array, located in UB, specifying the index positions to read |
+| src | tensor/pointer | Yes | Source tensor pointer, data located in global memory (GM) |
+| dim | int | Yes | Dimension along which to perform index_select, range [0, len(src_shape)-2], **does not support the last axis** |
+| index | tensor | Yes | 1D index array, located in UB, specifies the index positions to read |
 | src_shape | Tuple[int] | Yes | Full shape of the source tensor |
-| src_offset | Tuple[int] | Yes | Starting position for reading; can be set to -1 for the dim dimension (this dimension is determined by index) |
-| read_shape | Tuple[int] | Yes | Size of the data to read; must be -1 for the dim dimension (this dimension is determined by the length of index) |
+| src_offset | Tuple[int] | Yes | Starting position for reading; can be set to -1 for the dim dimension (determined by index) |
+| read_shape | Tuple[int] | Yes | Size of data to read; must be -1 for the dim dimension (determined by index length) |
 
 **Return Value:**
 
@@ -44,18 +44,18 @@ Performs parallel gather of multiple indices on non-tail dimensions and zero-cop
 **Constraints:**
 
 - `read_shape[dim]` must be -1
-- `src_offset[dim]` can be set to -1 (it will be ignored as this dimension is determined by index)
+- `src_offset[dim]` can be set to -1 (ignored, as this dimension is determined by index)
 - `len(src_shape) == len(src_offset) == len(read_shape)`
 - `index` must be a 1D tensor
-- `dim` cannot be the tail axis (last dimension), i.e., `dim < len(src_shape) - 1`
+- `dim` cannot be the last axis, i.e., `dim < len(src_shape) - 1`
 - For non-dim dimensions: `0 <= src_offset[i] < src_shape[i]`
 - For non-dim dimensions: `src_offset[i] + read_shape[i] <= src_shape[i]` (automatically truncated if out of bounds)
-- Index values in `index` must be within the range `[0, src_shape[dim])`
+- Index values in `index` must be within `[0, src_shape[dim])`
 
 ### 2.2 DataType Support Table
 
-| Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
+| Support Status | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|----------------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
 
@@ -69,20 +69,20 @@ Performs parallel gather of multiple indices on non-tail dimensions and zero-cop
 Supports any number of dimensions (1D to high-dimensional tensors), subject to the following conditions:
 
 - `index` must be a 1D tensor
-- The size of each dimension of the source tensor is limited by actual hardware memory constraints
+- Dimension sizes of the source tensor are limited by actual hardware memory constraints
 - The size of `read_shape` on non-dim dimensions must consider UB space limitations
 
 **Common Shape Combinations:**
 
-- 2D Tensor: Suitable for embedding layer lookups, sparse matrix row selection
-- 3D Tensor: Suitable for batch embedding lookups, sequence feature extraction
-- High-dimensional Tensor: Suitable for complex multi-dimensional indexing operations
+- 2D tensor: Suitable for embedding layer lookups, sparse matrix row selection
+- 3D tensor: Suitable for batch embedding lookups, sequence feature extraction
+- High-dimensional tensor: Suitable for complex multi-dimensional indexing operations
 
 ### 2.4 Special Constraint Notes
 
-1. **dim Constraint:** index_select is not supported on the tail axis (last dimension); `dim` must satisfy `dim < len(src_shape) - 1`
-2. **Data Type Constraint:** uint16/uint32/uint64/float8/float64 data types are currently not supported
-3. **Index Out of Bounds:** Out-of-bounds indices in `index` are not checked; users must ensure index validity
+1. **dim restriction:** index_select is not supported on the last axis; `dim` must satisfy `dim < len(src_shape) - 1`
+2. **Data type restriction:** uint16/uint32/uint64/float8/float64 data types are currently not supported
+3. **Index out of bounds:** No bounds checking is performed on index values; users must ensure index validity
 
 ### 2.5 Usage
 

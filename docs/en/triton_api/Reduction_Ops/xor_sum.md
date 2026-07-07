@@ -8,7 +8,7 @@ Description: `triton.language.xor_sum` computes the XOR sum of the input tensor 
 triton.language.xor_sum(input, axis=None, keep_dims=False)
 ```
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
@@ -25,23 +25,23 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ |
 
 #### 2.2.2 Shape Support
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
-> keep_dims=True requires testing more specifications to determine full support. Currently tested with 3D dim=2, keep_dims=True is supported.
+> Relative community capability is missing and cannot be implemented
+> `keep_dims=True` requires testing more specifications to determine full support. Currently tested for 3D dim=2, `keep_dims=True` is supported.
 
-### 2.4 Usage
+### 2.4 Usage Example
 
-The following example demonstrates performing xor_sum on a 2D tensor:
+The following example demonstrates performing an xor_sum operation on a 2D tensor:
 
 ```python
 @triton.jit

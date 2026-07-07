@@ -2,13 +2,13 @@
 
 ## 1. Function Overview
 
-Description: Computes the bitwise OR operation of two elements.
+Description: Computes the bitwise OR of two elements.
 
 ```python
-# Via operator
+# Using the operator
 x | y
 
-# Or directly call the dunder method
+# Or directly calling the dunder method
 x.__or__(y)
 ```
 
@@ -20,10 +20,10 @@ x.__or__(y)
 | -------------- | ------------------ | -------------------------------------------------------------- |
 | `x`            | `tensor`           | Tensor data                                                    |
 | `y`            | `tensor`           | Tensor data                                                    |
-| `_semantic`    | -                  | Reserved parameter, external calls not supported for now       |
+| `_semantic`    | -                  | Reserved parameter, external calls not supported temporarily   |
 
 Return value:
-`out`: A tensor with the same shape as x and y
+`out`: A tensor with the same shape as `x` and `y`
 
 ### 2.2 OP Specifications
 
@@ -47,7 +47,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative community capability gap that cannot be implemented
+> Relative community capability deficiency and unimplementable
 
 Compared to GPU, Ascend lacks support for uint types.
 

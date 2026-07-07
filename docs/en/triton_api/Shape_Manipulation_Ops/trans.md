@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Transposes the dimensions of a tensor according to the `dims` parameter. It does not modify the tensor's data, only reorders its dimensions. This is a specially optimized transpose operation.
+Transposes the dimensions of a tensor according to the `dims` parameter, without altering the tensor's data—only the order of dimensions is changed. This is a specially optimized transpose operation.
 
 **Syntax:**
 
@@ -11,25 +11,25 @@ Transposes the dimensions of a tensor according to the `dims` parameter. It does
 
 **Functionality:**
 
-- Transposes tensor dimensions based on the `dims` parameter
-- Does not alter the tensor's data, only the order of dimensions
+- Transposes the dimensions of a tensor according to the `dims` parameter
+- Does not change the tensor's data, only the order of dimensions
 - Specially optimized transpose operation
 
 ## 2 Parameter Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| input | tensor | Yes | Input tensor |
-| dims | List[int] | Yes | Dimension order after transposition |
+| Parameter | Type   | Required | Description                     |
+|-----------|--------|----------|---------------------------------|
+| input     | tensor | Yes      | Input tensor                    |
+| dims      | List[int] | Yes    | Dimension order after transpose |
 
 **Return Value:**
 
 - **Type:** tensor
 - **Shape:** Dimensions rearranged according to the `dims` parameter
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Transposition achieved by modifying stride information, no data copy
+- **Memory Layout:** Transpose achieved by modifying stride information, no data copy
 
 **Constraints:**
 
@@ -37,8 +37,8 @@ Transposes the dimensions of a tensor according to the `dims` parameter. It does
 
 ### 2.2 DataType Support Table
 
-| Supported | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|-----------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:----:|:----:|:------:|:---:|
+| Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:----:|:----:|:------:|:---:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -46,9 +46,9 @@ Transposes the dimensions of a tensor according to the `dims` parameter. It does
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Limitation Notes
+### 2.4 Special Limitations
 
-* Transposition of tensors with more than 8 dimensions is not supported
+* Transpose with more than 8 dimensions is not supported
 
 ### 2.5 Usage Example
 

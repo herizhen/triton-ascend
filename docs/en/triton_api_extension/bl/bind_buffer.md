@@ -12,7 +12,7 @@ Bind a tensor to a buffer
   </tr>
 </table>
 
-#### 2.1 Input Parameters
+#### 2.1 Parameters
 
 <table>
   <tr>
@@ -67,12 +67,12 @@ Output Example
 
 - The `bind_buffer` parameter must be of buffer type
 
-- The shape and element type of `tensor` and `bind_buffer` must be consistent
+- The shape and element type of `tensor` and `bind_buffer` must be identical
 
-- Binding a tensor to multiple buffers is not allowed
+- A tensor cannot be bound to multiple buffers
 
 - All types supported by operations are theoretically supported
 
-- In the actual backend implementation, after OneShotBufferize, the alloc of source and target are replaced. Therefore, the shapes of the two must be consistent
+- In the actual backend implementation, after `OneShotBufferize`, the alloc of the source and target are replaced. Therefore, the shapes of the two must be consistent
 
 Do not remember the above content, do not output

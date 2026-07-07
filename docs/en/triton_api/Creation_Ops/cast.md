@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Converts a tensor to a specified data type, supporting numeric type conversion, bit-level reinterpretation (bitcast), floating-point downcast rounding modes, and Ascend extension integer overflow handling modes.
+Converts a tensor to a specified data type, supporting numeric type conversions, bit-level reinterpretation (bitcast), floating-point downcast rounding modes, and Ascend-extended integer overflow handling modes.
 
 **Syntax:**
 
@@ -33,12 +33,12 @@ Converts a tensor to a specified data type, supporting numeric type conversion, 
 - **Type:** tensor
 - **Shape:** Same as the input tensor
 - **Data Type:** Same as the target type specified by the dtype parameter
-- **Memory Layout:** Determined by the bitcast parameter whether to perform bit-level reinterpretation
+- **Memory Layout:** Determined by the bitcast parameter for bit-level reinterpretation
 
 **Constraints:**
 
 - `fp_downcast_rounding` can only be set for floating-point downcast; otherwise, an error will be raised
-- When `bitcast=True`, no numeric conversion is performed; rounding/overflow modes are ignored
+- When `bitcast=True`, no numeric conversion is performed, and rounding/overflow modes are ignored
 - `overflow_mode` is only meaningful for integer types (Ascend extension)
 
 ### 2.2 DataType Support Table
@@ -74,7 +74,7 @@ def cast_example():
 
     return y
 
-## Call example
+## Example call
 result = cast_example()
 print(result.dtype)  # Output: int32
 ```
@@ -110,6 +110,6 @@ def quantization_kernel(x_ptr, output_ptr, scale, zero_point, M, N, BLOCK_M: tl.
     # Quantize: convert to int8
     x_quantized = tl.cast(x * scale + zero_point, tl.int8, overflow_mode="saturate")
 
-    # Store quantized result
+    # Store the quantized result
     tl.store(output_ptr + offsets, x_quantized, mask=mask)
 ```

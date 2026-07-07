@@ -33,11 +33,11 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-Conclusion: There is no difference in Shape between GPU and Ascend platforms.
+Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Relative community capability missing and not implementable
+> Relative community capability missing and cannot be implemented
 > None
 
 ### 2.4 Usage Example
@@ -46,14 +46,14 @@ The following example demonstrates returning a tensor of shape (XB, YB, ZB) fill
 
 ```python
 @triton.jit
-def fn_f32(output_ptr, XB: tl.constexpr, YB: tl.constexpr, ZB: tl.constexpr):
-    xidx = tl.arange(0, XB)
-    yidx = tl.arange(0, YB)
-    zidx = tl.arange(0, ZB)
+def fn_f32(output_ptr,XB : tl.constexpr,YB : tl.constexpr,ZB : tl.constexpr):
+    xidx=tl.arange(0,XB)
+    yidx=tl.arange(0,YB)
+    zidx=tl.arange(0,ZB)
 
-    ret = tl.full((XB, YB, ZB), value=100, dtype=tl.float32)
+    ret = tl.full((XB,YB,ZB),value = 100,dtype = tl.float32)
 
-    oidx = xidx[:, None, None] * YB * ZB + yidx[None, :, None] * ZB + zidx[None, None, :]
+    oidx=xidx[:,None,None]*YB*ZB+yidx[None,:,None]*ZB+zidx[None,None,:]
 
-    tl.store(output_ptr + oidx, ret)
+    tl.store(output_ptr+oidx,ret)
 ```

@@ -21,14 +21,14 @@ Reinterprets a tensor into a new shape.
 |-----------|------|----------|-------------|
 | input | tensor | Yes | Input tensor |
 | shape | List[int] | Yes | Target shape |
-| can_reorder | bool | No | Whether to allow reordering elements, default False |
+| can_reorder | bool | No | Whether to allow reordering of elements, default False |
 
 **Return Value:**
 
 - **Type:** tensor
-- **Shape:** Same as the target shape specified by the shape parameter
+- **Shape:** Same as the target shape specified by the `shape` parameter
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Determined by the can_reorder parameter
+- **Memory Layout:** Determined by the `can_reorder` parameter
 
 **Constraints:**
 
@@ -37,8 +37,8 @@ Reinterprets a tensor into a new shape.
 
 ### 2.2 DataType Support Table
 
-| Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
+| Supported | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|-----------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -48,7 +48,7 @@ Supports any number of dimensions and any shape size.
 
 ### 2.4 Special Constraints
 
-* The can_reorder parameter only supports False
+* The `can_reorder` parameter only supports `False`
 
 ### 2.5 Usage Example
 

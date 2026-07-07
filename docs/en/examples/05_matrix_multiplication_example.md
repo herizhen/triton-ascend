@@ -14,7 +14,7 @@ where:
 - `z` (bias) has shape `(A, C)`
 - The output `output` has shape `(A, C)`
 
-This kernel assumes a single block is responsible for computing the entire output matrix, making it suitable for small-scale matrices (A, B, C are small and can be fully covered by the current program block).
+This kernel assumes a single block is responsible for computing the entire output matrix, suitable for small-scale matrices where A, B, C are small and can be fully covered by the current program block.
 
 ```python
 import pytest
@@ -61,7 +61,7 @@ def triton_dot_2_Bias(
     tl.store(output_ptr + oidx, ret)
 ```
 
-## Utility Methods
+## Utility Functions
 
 The following helper functions support testing and validation of the Triton kernel, including a PyTorch reference implementation, data type mapping, random tensor generation, and result verification.
 
@@ -72,7 +72,7 @@ def torch_dot_Bias(x0, x1, bias):
     return res
 
 def get_torch_typename(dtype):
-    """Maps a string data type to the corresponding torch.dtype."""
+    """Maps a string representation of a data type to the corresponding torch.dtype."""
     if dtype == 'float32':
         tyname = torch.float32
     elif dtype == 'int32':
@@ -124,9 +124,9 @@ def validate_cmp(dtype, y_cal, y_ref):
         raise ValueError('Invalid parameter \"dtype\" is found : {}'.format(dtype))
 ```
 
-## Parameterized Testing
+## Parameterized Tests
 
-Using `pytest` for parameterized functional validation of the `triton_dot_2_Bias` kernel, covering different matrix dimensions and data type combinations.
+Use `pytest` for parameterized functional validation of the `triton_dot_2_Bias` kernel, covering different matrix dimensions and data type combinations.
 
 ```python
 # Test case configuration: (A, B, C) represents matrix x: (A,B), y: (B,C), bias/output: (A,C)
@@ -147,7 +147,7 @@ def test_dot_2_Bias(sigtype, A, B, C):
     x0 = generate_tensor(shape=(A, B), dtype=sigtype).npu()
     x1 = generate_tensor(shape=(B, C), dtype=sigtype).npu()
 
-    # Bias term generated uniformly with float32 (to avoid precision issues with integer bias)
+    # Bias is generated using float32 uniformly (to avoid precision issues with integer bias)
     if 'int' in sigtype:
         bias = generate_tensor(shape=(A, C), dtype='int32').npu()
         # Integer inputs need to be converted to float32 for computation, then back to target type
@@ -168,7 +168,7 @@ def test_dot_2_Bias(sigtype, A, B, C):
 
 
 if __name__ == "__main__":
-    # Supports running a single test case directly (convenient for debugging)
+    # Support running a single test case directly (for debugging)
     test_dot_2_Bias("float16", 16, 16, 16)
 ```
 
@@ -178,4 +178,4 @@ if __name__ == "__main__":
 Test matmul with dtype=float16, shape=(16,16,16) PASSED!
 ```
 
-The output log above indicates that the results from Triton and PyTorch are completely consistent.
+The output log above indicates that the results from Triton and PyTorch are identical.

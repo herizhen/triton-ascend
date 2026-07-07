@@ -4,14 +4,14 @@
 
 Description: Subtraction, arithmetic operation '-', no tl.sub method
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter | Type | Description |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `x` | `tensor or Number` | First input parameter |
-| `y` | `tensor or Number` | Second input parameter |
+| Parameter | Type                | Description                                                             |
+| --------- | ------------------- | ----------------------------------------------------------------------- |
+| `x`       | `tensor or Number`  | First input parameter                                                   |
+| `y`       | `tensor or Number`  | Second input parameter                                                  |
 
 Return value:
 `tl.tensor`: Subtraction result
@@ -27,16 +27,16 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-| | Supported Dimension Range |
-| ------ | --------------- |
-| GPU | No restrictions |
-| Ascend | No restrictions |
+|        | Supported Dimension Range |
+| ------ | ------------------------- |
+| GPU    | No restrictions           |
+| Ascend | No restrictions           |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 Usage
+### 2.3 Usage Example
 
-The following example demonstrates subtraction computation on input tensors `in_ptr0, in_ptr1`:
+The following example implements subtraction calculation on input tensors `in_ptr0, in_ptr1`:
 
 ```python
 @triton.jit

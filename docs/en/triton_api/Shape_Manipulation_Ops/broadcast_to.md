@@ -18,29 +18,29 @@ Broadcasts a tensor to a target shape, automatically handling dimension alignmen
 
 ### 2.1 Parameter Description
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| input | tensor | Yes | Input tensor |
-| shape | List[int] | Yes | Target shape |
+| Parameter | Type   | Required | Description |
+|-----------|--------|----------|-------------|
+| input     | tensor | Yes      | Input tensor |
+| shape     | List[int] | Yes    | Target shape |
 
 **Return Value:**
 
 - **Type:** tensor
 - **Shape:** Same as the target shape specified by the `shape` parameter
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Broadcast is achieved by modifying stride information, with no data copy
+- **Memory Layout:** Broadcasting is achieved by modifying stride information; no data copy occurs
 
 **Constraints:**
 
 - The number of dimensions of the input tensor must equal the number of dimensions of the target shape
-- All dimensions must satisfy the broadcast rules
+- All dimensions must satisfy the broadcasting rules
 
 ### 2.2 DataType Support Table
 
-| Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
-| Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
-| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Support Status | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|----------------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
+| Ascend A2/A3   | ✓    | ✓     | ✓     | ✓     | ✓    | ×     | ×     | ×     | ✓      | ✓      | ✓       | ×        | ×        | ×       | ✓    |
+| GPU Support    | ✓    | ✓     | ✓     | ✓     | ✓    | ✓     | ✓     | ✓     | ✓      | ✓      | ✓       | ✓        | ✓        | ✓       | ✓    |
 
 ### 2.3 Shape Support Table
 
@@ -48,7 +48,7 @@ Supports any number of dimensions and any shape size.
 
 ### 2.4 Special Constraints
 
-Unlike `broadcast`, the Triton community implementation of `broadcast_to` requires that the rank of the tensor's shape must match the rank of the target shape.
+Unlike `broadcast`, the Triton community implementation of `broadcast_to` requires that the rank of the tensor's shape must be equal to the rank of the target shape.
 
 ### 2.5 Usage
 
@@ -60,7 +60,7 @@ def matrix_add_bias_kernel(x_ptr, bias_ptr, output_ptr, M, N, BLOCK_M: tl.conste
     # Load data block
     x = tl.load(x_ptr + offsets, mask=mask)
 
-    # Broadcast bias to match the shape
+    # Broadcast bias to matching shape
     bias = tl.load(bias_ptr)
     bias_broadcast = bias.broadcast_to([BLOCK_M, BLOCK_N])
 

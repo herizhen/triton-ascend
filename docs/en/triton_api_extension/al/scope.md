@@ -12,7 +12,7 @@ Ascend processors contain multiple types of compute units (e.g., Cube Unit for m
   </tr>
 </table>
 
-al.scope is a context manager in the triton.language.extra.ascend module, designed to specify the Ascend hardware execution mode for code blocks within Triton kernels.
+al.scope is a context manager in the `triton.language.extra.ascend` module, specifically designed to specify the execution mode of Ascend hardware for code blocks within Triton kernels.
 
 ### Parameters
 
@@ -28,7 +28,7 @@ al.scope is a context manager in the triton.language.extra.ascend module, design
     <td>core_mode</td>
     <td>str</td>
     <td>Yes</td>
-    <td>Specifies the Ascend core type to be used for code within this scope</td>
+    <td>Specifies the Ascend core type to be used by the code within this scope</td>
     <td>&quot;vector&quot;, &quot;cube&quot;</td>
   </tr>
 </table>
@@ -39,7 +39,7 @@ al.scope is a context manager in the triton.language.extra.ascend module, design
   <tr>
     <td>Value</td>
     <td>Target Core</td>
-    <td>Use Case / Optimization Direction</td>
+    <td>Usage/Optimization Direction</td>
   </tr>
   <tr>
     <td>&quot;vector&quot;</td>
@@ -65,7 +65,7 @@ al.scope is a context manager in the triton.language.extra.ascend module, design
 
 ## 3. Constraints
 
-Each kernel has 1 scope for cube and vector, inside them they run in parallel and there are other syncing operations that declare the synchronization between both scopes.
+Each kernel has 1 scope for cube and vector, inside them they run in parallel and there are other syncing operations that declare the sync between both scopes.
 
 - Parallel Execution: Operations within cube and vector scopes execute in parallel.
 - Single Scope per Type: Each kernel supports one cube scope and one vector scope (?).
@@ -83,4 +83,4 @@ Each kernel has 1 scope for cube and vector, inside them they run in parallel an
 
 <table>
   <tr>
-    <td>Plain Text<br>============================================================<br><br>Test 1: Nested Scopes<br><br>============================================================<br><br>✅ Generated MLIR (4155 chars):<br><br>#loc = loc(&quot;/home/linxin/triton-test/scope.py&quot;:34:0)<br><br>module {<br><br>  tt.func public @kernel_nested_scope(%arg0: !tt.ptr&lt;f32&gt; loc(&quot;/home/linxin/triton-test/scope.py&quot;:34:0), %arg1: !tt.ptr&lt;f32&gt; loc(&quot;/home/linxin/triton-test/scope.py&quot;:34:0), %arg2: !tt.ptr&lt;f32&gt; loc(&quot;/home/linxin/triton-test/scope.py&quot;:34:0), %arg3: i32 loc(&quot;/home/linxin/triton-test/scope.py&quot;:34:0)) attributes {noinline = false} {<br><br>    %0 = tt.get_program_id x : i32 loc(#loc1)<br><br>    %c256_i32 = arith.constant 256 : i32 loc(#loc2)<br><br>    %c256_i32_0 = arith.constant 256 : i32 loc(#loc2)<br><br>    %1 = arith.muli %0, %c256_i32_0 : i32 loc(#loc2)<br><br>    %2 = tt.make_range {end = 256 : i32, start = 0 : i32} : tensor&lt;256xi32&gt; loc(#loc3)<br><br>    %3 = tt.splat %1 : i32 -&gt; tensor&lt;256xi32&gt; loc(#loc4)<br><br>    %4 = arith.addi %3, %2 : tensor&lt;256xi32&gt; loc(#loc4)<br><br>    %5:3 = scope.scope : () -&gt; (tensor&lt;256xf32&gt;, tensor&lt;256xf32&gt;, tensor&lt;256xf32&gt;) {<br><br>      %6:3 = scope.scope : () -&gt; (tensor&lt;256xf32&gt;, tensor&lt;256xf32&gt;, tensor&lt;256xf32&gt;) {<br><br>        %7:3 = scope.scope : () -&gt; (tensor&lt;256xf32&gt;, tensor&lt;256xf32&gt;, tensor&lt;256xf32&gt;) {<br><br>          %8 = tt.splat %arg3 : i32 -&gt; tensor&lt;256xi32&gt; loc(#loc8)<br><br>          %9 = arith.cmpi slt, %4, %8 : tensor&lt;256xi32&gt; loc(#loc8)<br><br>          %10 = tt.splat %arg0 : !tt.ptr&lt;f32&gt; -&gt; tensor&lt;256x!tt.ptr&lt;f32&gt;&gt; loc(#loc9)<br><br>          %11 = tt.addptr %10, %4 : tensor&lt;256x!tt.ptr&lt;f32&gt;&gt;, tensor&lt;256xi32&gt; loc(#loc9)<br><br>          %cst = arith.constant 0.000000e+00 : f32 loc(#loc10)<br><br>          %cst_1 = arith.constant dense&lt;0.000000e+00&gt; : tensor&lt;256xf32&gt; loc(#loc10)<br><br>          %12 = tt.load %11, %9, %cst_1 : tensor&lt;256x!tt.ptr&lt;f32&gt;&gt; loc(#loc10)<br><br>          %13 = tt.splat %arg3 : i32 -&gt; tensor&lt;256xi32&gt; loc(#loc11)<br><br>          %14 = arith.cmpi slt, %4, %13 : tensor&lt;256xi32&gt; loc(#loc11)<br><br>          %15 = tt.splat %arg1 : !tt.ptr&lt;f32&gt; -&gt; tensor&lt;256x!tt.ptr&lt;f32&gt;&gt; loc(#loc12)<br><br>          %16 = tt.addptr %15, %4 : tensor&lt;256x!tt.ptr&lt;f32&gt;&gt;, tensor&lt;256xi32&gt; loc(#loc12)<br><br>          %cst_2 = arith.constant 0.000000e+00 : f32 loc(#loc13)<br><br>          %cst_3 = arith.constant dense&lt;0.000000e+00&gt; : tensor&lt;256xf32&gt; loc(#loc13)<br><br>          %17 = tt.load %16, %14, %cst_3 : tensor&lt;256x!tt
+    <td>Plain Text<br>============================================================<br><br>Test 1: Nested Scopes<br><br>============================================================<br><br>✅ Generated MLIR (4155 chars):<br><br>#loc = loc(&quot;/home/linxin/triton-test/scope.py&quot;:34:0)<br><br>module {<br><br>  tt.func public @kernel_nested_scope(%arg0: !tt.ptr&lt;f32&gt; loc(&quot;/home/linxin/triton-test/scope.py&quot;:34:0), %arg1: !tt.ptr&lt;f32&gt; loc(&quot;/home/linxin/triton-test/scope.py&quot;:34:0), %arg2: !tt.ptr&lt;f32&gt; loc(&quot;/home/linxin/triton-test/scope.py&quot;:34:0), %arg3: i32 loc(&quot;/home/linxin/triton-test/scope.py&quot;:34:0)) attributes {noinline = false} {<br><br>    %0 = tt.get_program_id x : i32 loc(#loc1)<br><br>    %c256_i32 = arith.constant 256 : i32 loc(#loc2)<br><br>    %c256_i32_0 = arith.constant 256 : i32 loc(#loc2)<br><br>    %1 = arith.muli %0, %c256_i32_0 : i32 loc(#loc2)<br><br>    %2 = tt.make_range {end = 256 : i32, start = 0 : i32} : tensor&lt;256xi32&gt; loc(#loc3)<br><br>    %3 = tt.splat %1 : i32 -&gt; tensor&lt;256xi32&gt; loc(#loc4)<br><br>    %4 = arith.addi %3, %2 : tensor&lt;256xi32&gt; loc(#loc4)<br><br>    %5:3 = scope.scope : () -&gt; (tensor&lt;256xf32&gt;, tensor&lt;256xf32&gt;, tensor&lt;256xf32&gt;) {<br><br>      %6:3 = scope.scope : () -&gt; (tensor&lt;256xf32&gt;, tensor&lt;256xf32&gt;, tensor&lt;256xf32&gt;) {<br><br>        %7:3 = scope.scope : () -&gt; (tensor&lt;256xf32&gt;, tensor&lt;256xf32&gt;, tensor&lt;256xf32&gt;) {<br><br>          %8 = tt.splat %arg3 : i32 -&gt; tensor&lt;256xi32&gt; loc(#loc8)<br><br>          %9 = arith.cmpi slt, %4, %8 : tensor&lt;256xi32&gt; loc(#loc8)<br><br>          %10 = tt.splat %arg0 : !tt.ptr&lt;f32&gt; -&gt; tensor&lt;256x!tt.ptr&lt;f32&gt;&gt; loc(#loc9)<br><br>          %11 = tt.addptr %10, %4 : tensor&lt;256x!tt.ptr&lt;f32&gt;&gt;, tensor&lt;256xi32&gt; loc(#loc9)<br><br>          %cst = arith.constant 0.000000e+00 : f32 loc(#loc10)<br><br>          %cst_1 = arith.constant dense&lt;0.000000e+00&gt; : tensor&lt;256xf32&gt; loc(#loc10)<br><br>          %12 = tt.load %11, %9, %cst_1 : tensor&lt;256x!tt.ptr&lt;f32&gt;&gt; loc(#loc10)<br><br>          %13 = tt.splat %arg3 : i32 -&gt; tensor&lt;256xi32&gt; loc(#loc11)<br><br>          %14 = arith.cmpi slt, %4, %13 : tensor&lt;256xi32&gt; loc(#loc11)<br><br>          %15 = tt.splat %arg1 : !tt.ptr&lt;f32&gt; -&gt; tensor&lt;256x!tt.ptr&lt;f32&gt;&gt; loc(#loc12)<br><br>          %16 = tt.addptr %15, %4 : tensor&lt;256x!tt.ptr&lt;f32&gt;&gt;, tensor&lt;256xi32&gt; loc(#loc12)<br><br>          %cst_2 = arith.constant 0.000000e+00 : f32 loc(#loc13)<br><br>          %cst_3 = arith.constant dense&lt;0.000000e+00&gt; : tensor&lt;256xf32&gt; loc(#loc13)<br><br>          %17 = tt.load %16, %14, %cst_3 :

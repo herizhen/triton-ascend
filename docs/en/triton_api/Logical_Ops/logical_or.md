@@ -10,15 +10,15 @@ x.logical_or(y)
 
 Called as a member function of `tensor`, e.g., `x0.logical_or(x1)`.
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
-| `input` | `tensor` | Tensor data, left operand, representing the primary data for comparison |
+| `input` | `tensor` | Tensor data, left operand, represents the primary data for comparison |
 | `other` | `tensor` | Tensor data, right operand, performs element-wise logical OR with `input` |
-| `_builder` | - | Reserved parameter, external calls not supported |
+| `_builder` | - | Reserved parameter, external invocation not supported |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -37,7 +37,7 @@ Conclusion: In terms of DataType, Ascend additionally supports integer and float
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | --------------------------- |
+| -------- | -------------------------- |
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
@@ -49,9 +49,9 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 None.
 
-### 2.4 Usage
+### 2.4 Usage Example
 
-The following example performs a logical OR operation on three-dimensional tensors `x0` and `x1`:
+The following example demonstrates the logical OR operation on 3D tensors `x0` and `x1`:
 
 ```python
 @triton.jit

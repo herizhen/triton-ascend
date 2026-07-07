@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Returns the number of program instances launched along a given axis.
+Description: Returns the number of program instances launched along the given axis.
 Function prototype:
 
 ```python
@@ -31,11 +31,11 @@ A `tl.tensor` containing the number of program instances launched.
 
 #### 2.2.2 Shape Support
 
-No relevant settings.
+No related settings.
 
 ### 2.3 Special Constraints
 
-None
+None.
 
 ### 2.4 Usage
 

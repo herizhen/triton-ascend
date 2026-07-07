@@ -16,10 +16,10 @@ triton.language.flip(x, dim=None)
 | -------------- | ---------- | -------------------------------------------------------------- |
 | `x`            | `tensor`   | Tensor data                                                    |
 | `dim`          | `int`      | Integer                                                        |
-| `_semantic`    | -          | Reserved parameter, external calls not supported temporarily    |
+| `_semantic`    | -          | Reserved parameter, external calls not supported temporarily   |
 
 Return value:
-`out`: The output tensor has the same shape as the input tensor `x`
+`out`: Output tensor has the same shape as the input tensor `x`
 
 ### 2.2 OP Specifications
 
@@ -43,7 +43,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Community capability gap that cannot be implemented
+> Missing community capabilities that cannot be implemented
 
 Compared to GPU, Ascend lacks support for uint and fp64 types.
 

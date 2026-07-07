@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Sets multi-buffering for a tensor, allowing the compiler to create multiple copies of the same tensor.
+Description: Sets up multi-buffering for a tensor, allowing the compiler to create multiple copies of the same tensor.
 Prototype:
 
 ```python
@@ -17,11 +17,11 @@ triton.language.multibuffer(
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                        |
+| Parameter      | Type               | Description                                                        |
 | -------------- | ------------------ | ------------------------------------------------------------------ |
 | `src`          | `tensor`           | The source tensor to be multi-buffered                             |
-| `size`         | `int` or `constexpr` | The number of buffer copies to create                             |
-| `_builder`     | -                  | Reserved parameter, not supported for external calls               |
+| `size`         | `int` or `constexpr` | The number of buffer copies to create                              |
+| `_builder`     | -                  | Reserved parameter, external calls not supported                   |
 
 Return Value:
 `None`: This operation is a compilation hint and does not return a value at runtime; it only affects the compiler's optimization behavior.
@@ -46,7 +46,7 @@ Supports tensors of arbitrary shapes.
 
 ### 2.4 Usage Example
 
-The following example demonstrates how to set multi-buffering for tensor `tmp0` in a kernel, combined with other compilation hints:
+The following example demonstrates how to set up multi-buffering for tensor `tmp0` in a kernel, combined with other compilation hints:
 
 ```python
 @triton.jit
@@ -57,7 +57,7 @@ def triton_compile_hint(in_ptr0, out_ptr0, xnumel, XBLOCK: tl.constexpr, XBLOCK_
         xmask = xindex < xnumel
         x0 = xindex
         tmp0 = tl.load(in_ptr0 + (x0), xmask)
-        # Set double buffering for tmp0
+        # Set up double buffering for tmp0
         tl.multibuffer(tmp0, 2)
         tmp2 = tmp0
         tl.compile_hint(tmp2, "hint_b", 42)

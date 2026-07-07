@@ -8,7 +8,7 @@ Description: Returns the index of the maximum value along the specified axis
 triton.language.argmax(input, axis, tie_break_left=True, keep_dims=False)
 ```
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
@@ -35,14 +35,14 @@ Return value:
 
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU    | No limit |
-| Ascend | No limit |
+| GPU    | No restrictions |
+| Ascend | No restrictions |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 Special Limitation Notes
+### 2.3 Special Restrictions
 
-> Capability missing compared to the community and cannot be implemented
+> Capabilities missing compared to the community and cannot be implemented
 
 Ascend A3 lacks support for uint16, uint32, uint64, and fp64 compared to GPU
 
@@ -60,4 +60,4 @@ def triton_argmax_1d(in_ptr0, out_ptr1, xnumel, XBLOCK: tl.constexpr):
 
 ## 3. Special Value Cases
 
-For the tensor[nan,inf] case, returns the index of inf
+For tensor[nan, inf], returns the index of inf

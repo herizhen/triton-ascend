@@ -16,20 +16,20 @@ triton.language.atomic_min(
 ) -> pointer
 ```
 
-Can be called as a tensor member function, e.g., `x.atomic_min(...)`, which is equivalent to `atomic_min(x, ...)`.
+Can be called as a member function of a tensor, e.g., `x.atomic_min(...)`, which is equivalent to `atomic_min(x, ...)`.
 
 ## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type                | Description                                                                                                                      |
-| ------------ | ------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `pointer`    | `triton.PointerDType` | The memory location to operate on. The result of `min(*pointer, val)` is written back to this memory location.                   |
-| `val`        | `pointer.dtype.element_ty` | The value for the atomic minimum operation (right operand).                                                                      |
-| `mask`       | `int1` or `tensor<int1>`, optional | Specifies the data range to prevent out-of-bounds access.                                                                        |
-| `sem`        | `str`, optional     | Specifies the memory semantics of the operation.<br>Community accepted values: "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel":<br>- acquire: After acquiring the lock, can see previous release operations (equivalent to a "read" operation that blocks until the "latest" data, i.e., data released by other threads, is readable).<br>- release: All operations before releasing the lock are visible to threads that subsequently acquire the lock (equivalent to a "write" operation that "synchronizes" all previous writes). |
-| `scope`      | `str`, optional     | The thread scope for observing the synchronization effect of the atomic operation.<br>Accepted values: "gpu" (default), "cta" (cooperative thread array, thread block), or "sys" (representing "SYSTEM").<br>We only support "gpu". |
-| `_semantic`  | -                   | Reserved parameter, not currently supported for external calls.                                                                  |
+| Parameter    | Type                | Description                                                             |
+| ------------ | ------------------- | ----------------------------------------------------------------------- |
+| `pointer`    | `triton.PointerDType` | The memory location to operate on. The result of `min(*pointer, val)` is written back to this memory. |
+| `val`        | `pointer.dtype.element_ty` | The value for the atomic min operation (right operand).                 |
+| `mask`       | `int1` or `tensor<int1>`, optional | Specifies the data range to prevent out-of-bounds access.               |
+| `sem`        | `str`, optional     | Specifies the memory semantics of the operation.<br>Community-accepted values are "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel":<br>- acquire: After acquiring the lock, can see previous release operations (equivalent to a "read" operation that blocks until the "latest" data, i.e., data released by other threads, is readable).<br>- release: All operations before releasing the lock are visible to threads that subsequently acquire the lock (equivalent to a "write" operation that "synchronizes" all previous writes). |
+| `scope`      | `str`, optional     | The thread scope for observing the synchronization effect of the atomic operation.<br>Accepted values are "gpu" (default), "cta" (cooperative thread array, thread block), or "sys" (representing "SYSTEM").<br>We only support "gpu". |
+| `_semantic`  | -                   | Reserved parameter, not currently supported for external calls.         |
 
 Return value:
 `pointer`: tensor, the old value before the operation.
@@ -40,10 +40,10 @@ Return value:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-GPU     | ×     | ×      |  √     | ×     | ×      | ×      | ×      | √    | ×     | √    | ×      | ×      | ×     |
-| Ascend A2/A3 | √    | √     | √     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
+| GPU    | ×    | ×     | √     | ×     | ×      | ×      | ×      | √     | ×    | √    | ×    | ×    | ×    |
+| Ascend A2/A3 | √ | √     | √     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Compared to GPU, Ascend lacks support for int64.
+Conclusion: Ascend lacks support for int64 compared to GPU.
 
 #### 2.2.2 Shape Support
 
@@ -51,17 +51,17 @@ No special requirements.
 
 ### 2.3 Special Limitations
 
-> Capabilities missing compared to the community and cannot be implemented.
+> Capabilities missing compared to the community and not implementable.
 
-| Difference              | Description                                                                                                                      |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| Data Type               | Compared to GPU, Ascend lacks support for int64 (hardware limitation).                                                           |
-| `sem`                   | Community accepted values: "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel". |
-| `scope`                 | Accepted values: "gpu", "cta", or "sys".<br>We only support "gpu".                                                               |
+| Difference              | Description                                                                           |
+| ----------------------- | ------------------------------------------------------------------------------------- |
+| Data Type               | Ascend lacks support for int64 compared to GPU (hardware limitation).                 |
+| `sem`                   | Community-accepted values are "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel". |
+| `scope`                 | Accepted values are "gpu", "cta", or "sys".<br>We only support "gpu".                 |
 
 ### 2.4 Usage Example
 
-The following example implements an atomic minimum computation:
+The following example demonstrates an atomic min computation:
 
 ```python
 @triton.jit

@@ -8,10 +8,10 @@ Description: Modulo operation, arithmetic operator '%'
 
 ### 2.1 Parameter Description
 
-| Parameter | Type                | Description                                                             |
-| --------- | ------------------- | ----------------------------------------------------------------------- |
-| `self`    | `tensor or Number`  | First input parameter, dividend                                         |
-| `other`   | `tensor or Number`  | Second input parameter, divisor                                         |
+| Parameter Name | Type                | Description                                                             |
+| -------------- | ------------------- | ----------------------------------------------------------------------- |
+| `self`         | `tensor or Number`  | First input, dividend                                                   |
+| `other`        | `tensor or Number`  | Second input, divisor                                                   |
 
 Return value:
 `tl.tensor`: Result of the modulo operation
@@ -36,7 +36,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Usage Example
 
-The following example implements modulo computation on input tensors `in_ptr0, in_ptr1`:
+The following example demonstrates performing a modulo calculation on input tensors `in_ptr0, in_ptr1`:
 
 ```python
 @triton.jit
@@ -54,4 +54,4 @@ def triton_mod(in_ptr0, in_ptr1, out_ptr0, XBLOCK: tl.constexpr, XBLOCK_SUB: tl.
 
 ## 3. Special Notes
 
-Compared to GPU, Ascend A3 lacks support for uint8, uint16, uint32, uint64, and fp64.
+Ascend A3 lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU.

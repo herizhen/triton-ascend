@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Returns the value of tensor `x` or `y` based on a condition. When the condition is true, the value of `x` is returned; otherwise, the value of `y` is returned.
+Description: Returns the value of tensor `x` or `y` based on the condition. When the condition is true, it returns the value of `x`; otherwise, it returns the value of `y`.
 
 ```python
 triton.language.where(condition, x, y, _semantic=None)
@@ -12,15 +12,15 @@ triton.language.where(condition, x, y, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                    |
-| -------------- | ------------------ | -------------------------------------------------------------- |
-| `condition`    | `tensor(bool)`     | Tensor data                                                    |
-| `x`            | `tensor`           | Tensor data                                                    |
-| `y`            | `tensor`           | Tensor data                                                    |
-| `_semantic`    | -                  | Reserved parameter, currently not supported for external calls |
+| Parameter       | Type                | Description                                                    |
+| --------------- | ------------------- | -------------------------------------------------------------- |
+| `condition`     | `tensor(bool)`      | Tensor data                                                    |
+| `x`             | `tensor`            | Tensor data                                                    |
+| `y`             | `tensor`            | Tensor data                                                    |
+| `_semantic`     | -                   | Reserved parameter, currently not supported for external calls |
 
 Return value:
-`out`: The output tensor has the same shape as the input tensor `x`
+`out`: The shape of the output tensor is the same as the shape of the input `x`.
 
 ### 2.2 OP Specifications
 
@@ -44,13 +44,13 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative community capability gap that cannot be implemented
+> Relative community capability gaps that cannot be implemented
 
 Compared to GPU, Ascend lacks support for uint and fp64 types.
 
 ### 2.4 Usage Example
 
-The following example selects element-wise based on the condition `X < Y`: when the condition is true, it takes the element from `X`; otherwise, it takes the constant `1`.
+The following example performs element-wise selection based on the condition `X < Y`: when the condition is true, it takes the element from `X`; otherwise, it takes the constant `1`.
 
 ```python
 @triton.jit

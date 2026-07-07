@@ -6,7 +6,7 @@
 |[argmin](./argmin.md) |Returns the indices of the minimum values of all elements in the input tensor along the specified axis |
 |[max](./max.md) |Returns the maximum values of all elements in the input tensor along the specified axis |
 |[min](./min.md) |Returns the minimum values of all elements in the input tensor along the specified axis |
-|[reduce](./reduce.md) |Applies combine_fn to all elements in the input tensor along the specified axis |
+|[reduce](./reduce.md) |Applies the combine_fn to all elements in the input tensor along the specified axis |
 |[sum](./sum.md) |Returns the sum of all elements in the input tensor along the specified axis |
 |[xor_sum](./xor_sum.md) |Returns the XOR sum of all elements in the input tensor along the specified axis |
 

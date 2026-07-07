@@ -14,7 +14,7 @@ triton.language.device_print(prefix, *args, hex=False, _semantic=None)
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `prefix` | `str` | Required | Prefix string before the printed values |
+| `prefix` | `str` | Required | Prefix string before printed values |
 | `args` | `tensor`/`scalar` | Required | Values to print, can be any tensor or scalar |
 | `hex` | `bool` | `False` | Whether to print all values in hexadecimal format |
 | `_semantic` | - | - | Reserved parameter, external calls not supported |
@@ -32,19 +32,19 @@ A3:
 
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
-| GPU    | Only 1~5 dimensional tensors |
-| Ascend | Only 1~5 dimensional tensors |
+| GPU    | Only supports 1~5D tensors |
+| Ascend | Only supports 1~5D tensors |
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Missing community capabilities that cannot be implemented
 
 Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
 
 **DevicePrint Functional Limitations**
 
 **Phenomenon Description:**
-`device_print` can only print result values involved in computation, and cannot print offset variables used purely for memory access.
+device_print can only print result values involved in computation, and cannot print offset variables used purely for memory access.
 
 **Root Cause:**
 During the memory access analysis and optimization phase, the compiler optimizes away offsets used solely for address calculation. These intermediate variables are not retained in the final execution code.
@@ -68,11 +68,11 @@ def add_kernel(x_ptr,  # *Pointer* to first input vector.
     tl.device_print("offsets:", offsets)// ❌ Cannot print, already optimized
 ```
 
-Additionally, in certain cases, `device_print` may expand some auxiliary DMA code, causing underlying errors. Related functionality is still under optimization.
+Additionally, in certain cases, `device_print` may expand some auxiliary DMA code, causing underlying errors. Related functionality is still being optimized.
 
 ### 2.4 Usage
 
-**Note**: The `prefix` string prefix is mandatory when using `device_print`; otherwise, a compilation error will occur. Printing only the `prefix` string is currently not supported.
+**Note**: The `prefix` string prefix must be included when using `device_print`, otherwise it will cause a compilation error. Currently, printing only the `prefix` string alone is not supported.
 
 ```python
 import triton
@@ -84,6 +84,6 @@ def kernel(x_ptr):
     idy = tl.arange(0,4)
     offset = idx[:,None] * 4 + idy[None,:]
     val = tl.load(x_ptr + offset)
-    # Print the value of the 2D tensor val
+    # Print the value of 2D tensor val
     tl.device_print("val:",val)
 ```

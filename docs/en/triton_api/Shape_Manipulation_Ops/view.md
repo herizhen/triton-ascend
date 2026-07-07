@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Creates a view of a tensor, changing its shape without copying data. Similar to reshape, but emphasizes the concept of a view, maintaining data contiguity in memory.
+Creates a view of a tensor, changing its shape without copying data. Similar to `reshape`, but emphasizes the concept of a view, maintaining data contiguity in memory.
 
 **Syntax:**
 
@@ -12,7 +12,7 @@ Creates a view of a tensor, changing its shape without copying data. Similar to 
 **Functionality:**
 
 - Creates a view of a tensor, changing its shape without copying data
-- Similar to reshape, but emphasizes the concept of a view
+- Similar to `reshape`, but emphasizes the concept of a view
 - Maintains data contiguity in memory
 
 ## 2 Parameter Specifications
@@ -63,10 +63,10 @@ def view_example(out_ptr):
     # Create a 2x3x4 tensor
     x = tl.zeros([2, 3, 4], dtype=tl.float32)
 
-    # Create a view, reshape to 6x4
+    # Create a view, reshaping to 6x4
     y = tl.view(x, [6, 4])
 
-    # Write the result to the external tensor
+    # Write the result back to the external tensor
     offs = tl.arange(0, 6)[:, None] * 4 + tl.arange(0, 4)[None, :]
     tl.store(out_ptr + offs, y)
 

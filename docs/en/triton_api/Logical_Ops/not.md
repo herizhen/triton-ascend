@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Performs element-wise logical NOT on a tensor (0 becomes 1, non-zero becomes 0). Corresponds to Python's `not` keyword — Triton handles this specially through an AST visitor, rewriting `not X` as `X.__not__()`. This differs from bitwise inversion `~X` (see [invert](./invert.md)): the former is logical NOT, while the latter is bitwise inversion.
+Description: Performs element-wise logical NOT on a tensor (0 becomes 1, non-zero becomes 0). Corresponds to Python's `not` keyword — Triton handles it specially through an AST visitor, rewriting `not X` as `X.__not__()`. This differs from bitwise inversion `~X` (see [invert](./invert.md)): the former is logical NOT, while the latter is bitwise flip.
 
 ```python
 # Via the not keyword (handled by Triton AST interception)
@@ -12,19 +12,19 @@ not x
 x.__not__()
 ```
 
-## 2. Specification
+## 2. Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type      | Description                                                  |
-| -------------- | --------- | ------------------------------------------------------------ |
-| `x`            | `tensor`  | Tensor data                                                  |
-| `_semantic`    | -         | Reserved parameter, external invocation not supported yet    |
+| Parameter Name | Type      | Description                                                    |
+| -------------- | --------- | -------------------------------------------------------------- |
+| `x`            | `tensor`  | Tensor data                                                    |
+| `_semantic`    | -         | Reserved parameter, external invocation not supported currently |
 
 Return Value:
 `out`: The output tensor has the same shape as the input tensor `x`.
 
-### 2.2 OP Specification
+### 2.2 OP Specifications
 
 #### 2.2.1 DataType Support
 
@@ -46,9 +46,9 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented.
+> Relative community capability missing and cannot be implemented
 
-None at present.
+None currently.
 
 ### 2.4 Usage Example
 

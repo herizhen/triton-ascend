@@ -14,8 +14,8 @@ triton.language.exp2(x, _semantic=None)
 
 | Parameter      | Type       | Description                                                    |
 | -------------- | ---------- | -------------------------------------------------------------- |
-| `x`            | `tensor`   | Tensor data                                                    |
-| `_semantic`    | -          | Reserved parameter, external calls not supported for now       |
+| `x`            | `tensor`   | Input tensor data                                              |
+| `_semantic`    | -          | Reserved parameter, not supported for external calls currently |
 
 Return value:
 `x`: Output tensor with the same shape as the input tensor `x`
@@ -41,9 +41,9 @@ torch_npu supports u8.
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
-### 2.3 Special Limitations
+### 2.3 Special Constraints
 
-> Relative community capability gaps that cannot be implemented
+> Missing capabilities relative to the community that cannot be implemented
 
 None.
 

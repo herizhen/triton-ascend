@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Used to compare elements of two tensors, equivalent to `==`. Used as a built-in operator of `tensor`, such as `x==y`.
+Description: Used to compare elements of two tensors element-wise, equivalent to `==`. It is used as a built-in operator of `tensor`, such as `x==y`.
 
 ## 2. OP Specification
 
@@ -12,7 +12,7 @@ Description: Used to compare elements of two tensors, equivalent to `==`. Used a
 | :---: | :---: | :---: |
 | `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
 | `other` | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | - | Reserved parameter, external calls not supported for now |
+| `_builder` | - | Reserved parameter, currently not supported for external calls |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -31,15 +31,15 @@ Conclusion: Compared to GPU, Triton-Ascend lacks support for uint8/uint16/uint32
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | --------------------------- |
+| -------- | -------------------------- |
 | GPU    | No restrictions |
 | Ascend | No restrictions |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Relative lack of community capabilities and cannot be implemented
 
 Compared to GPU, Triton-Ascend lacks support for fp64, and support for uint8/uint16/uint32/uint64 types is under development.
 

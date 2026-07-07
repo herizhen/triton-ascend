@@ -1,9 +1,9 @@
 # Vector Addition
 
 In this section, we will write a simple vector addition program using Triton.  
-Through this process, you will learn:
+Along the way, you will learn:
 
-- The basic programming pattern of Triton.
+- The basic programming model of Triton.
 - The `triton.jit` decorator used to define Triton kernels.
 
 Computation kernel:
@@ -24,14 +24,15 @@ def add_kernel(x_ptr,  # Pointer to the first input vector.
                BLOCK_SIZE: tl.constexpr,  # Number of elements each program should process.
                # Note: `constexpr` marks the variable as a constant.
                ):
-    # Different data is processed by different "programs", so we need to assign:
+    # Different data is handled by different "processes," so we need to assign:
     pid = tl.program_id(axis=0)  # Using a 1D launch grid, so axis is 0.
     # This program will process inputs relative to the initial data offset.
-    # For example, if there is a vector of length 256 with a block size of 64, programs will access elements [0:64, 64:128, 128:192, 192:256] respectively.
+    # For example, if there is a vector of length 256 with a block size of 64, 
+    # the programs will access elements [0:64, 64:128, 128:192, 192:256] respectively.
     # Note that offsets are a list of pointers:
     block_start = pid * BLOCK_SIZE
     offsets = block_start + tl.arange(0, BLOCK_SIZE)
-    # Create a mask to prevent memory operations from accessing out of bounds.
+    # Create a mask to prevent memory operations from accessing out-of-bounds.
     mask = offsets < n_elements
     # Load x and y from DRAM, masking out any extra elements if the input is not a multiple of the block size.
     x = tl.load(x_ptr + offsets, mask=mask)
@@ -41,10 +42,10 @@ def add_kernel(x_ptr,  # Pointer to the first input vector.
     tl.store(output_ptr + offsets, output, mask=mask)
 ```
 
-Create a helper function for:
+Create a helper function to:
 
-- Generating the z tensor;
-- Enqueuing the above kernel with appropriate grid/block sizes.
+- Generate the z tensor;
+- Enqueue the above kernel with appropriate grid/block sizes.
 
 ```Python
 def add(x: torch.Tensor, y: torch.Tensor):
@@ -87,4 +88,4 @@ tensor([0.8329, 1.0024, 1.3639,  ..., 1.0796, 1.0406, 1.5811], device='npu:0')
 The maximum difference between torch and triton is 0.0
 ```
 
-"The maximum difference between torch and triton is 0.0" indicates that the output results of Triton and PyTorch are consistent.
+"The maximum difference between torch and triton is 0.0" indicates that the outputs of Triton and PyTorch are consistent.
