@@ -11,7 +11,7 @@ Broadcasts two tensors to a common compatible shape, enabling element-wise opera
 **Functionality:**
 
 - Automatically aligns tensors of different ranks to the target shape
-- Expands dimensions of size 1 to match the corresponding dimension size in the target shape
+- Expands dimensions of size 1 to the corresponding dimension size in the target shape
 
 ## 2 Parameter Specifications
 
@@ -25,14 +25,14 @@ Broadcasts two tensors to a common compatible shape, enabling element-wise opera
 **Return Value:**
 
 - **Type:** tensor
-- **Shape:** The common compatible target shape of the two tensors
-- **Data Type:** Each returned tensor retains its input's original data type
+- **Shape:** The common compatible target shape of both tensors
+- **Data Type:** Each returned tensor retains its original input data type
 - **Memory Layout:** Returns a newly created tensor
 
 ### 2.2 DataType Support Table
 
 | Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
+|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -54,10 +54,10 @@ def broadcast_kernel(
     output_ptr,
     BLOCK_SIZE: tl.constexpr
 ):
-    # Create a scalar (0-D tensor)
+    # Create a scalar (0-dimensional tensor)
     scalar = 5.0
 
-    # Create a vector (1-D tensor)
+    # Create a vector (1-dimensional tensor)
     vector = tl.arange(0, BLOCK_SIZE) * 1.0  # Shape: (BLOCK_SIZE,)
 
     # Use broadcast to broadcast the scalar to the same shape as the vector

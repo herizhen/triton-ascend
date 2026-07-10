@@ -17,7 +17,7 @@ triton.language.fma(x, y, z, _semantic=None)
 | `x`            | `tensor`           | Tensor data                                                    |
 | `y`            | `tensor`           | Tensor data                                                    |
 | `z`            | `tensor`           | Tensor data                                                    |
-| `_semantic`    | -                  | Reserved parameter, currently not supported for external calls |
+| `_semantic`    | -                  | Reserved parameter, external calls not supported temporarily   |
 
 Return value:
 `z`: A tensor with the same shape as `z`
@@ -39,9 +39,9 @@ PyTorch supports uint8.
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
 | GPU    | Only supports 1~5D tensors |
-| Ascend A2/A3| Only supports 1~5D tensors |
+| Ascend A2/A3 | Only supports 1~5D tensors |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 

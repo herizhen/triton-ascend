@@ -14,7 +14,7 @@ Used as a built-in operator of `tensor`, e.g., `x != y`.
 | :-------: | :----: | :---------- |
 | `input`   | `tensor` | Tensor data, left operand, representing the primary data for comparison |
 | `other`   | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | -      | Reserved parameter, not supported for external calls |
+| `_builder` | -      | Reserved parameter, external calls not supported |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -23,31 +23,31 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| :----------: | :--: | :---: | :---: | :---: | :----: | :----: | :----: | :---: | :--: | :--: | :--: | :--: | :--: |
-| GPU          | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | √    |
-| Ascend A2/A3 | √    | √     | √     | ×     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| GPU          | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
+| Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | √ | √ | × | √ | √ |
 
 Conclusion: Compared to GPU, Triton-Ascend lacks support for uint8/uint16/uint32/uint64 and fp64.
 
 #### 2.2.2 Shape Support
 
-|              | Supported Dimension Range |
-| :----------: | :------------------------ |
-| GPU          | No restriction            |
-| Ascend A2/A3 | No restriction            |
+|        | Supported Dimension Range |
+| -------- | --------------------------- |
+| GPU    | No restrictions |
+| Ascend A2/A3 | No restrictions |
 
-Conclusion: There is no difference in shape support between GPU and Ascend platforms.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
 > Missing community capabilities that cannot be implemented
 
-Compared to GPU, Triton-Ascend lacks support for fp64; support for uint8/uint16/uint32/uint64 types is under development.
+Compared to GPU, Triton-Ascend lacks support for fp64. Support for uint8/uint16/uint32/uint64 types is under development.
 
 ### 2.4 Usage
 
-The following example demonstrates performing the `!=` operation on tensors `x0` and `x1`:
+The following example performs `!=` operation on tensors `x0` and `x1`:
 
 ```python
 @triton.jit

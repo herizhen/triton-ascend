@@ -47,7 +47,7 @@ Inserts a dimension of size 1 at the specified axis position, without changing t
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Restrictions
+### 2.4 Special Limitations
 
 None
 
@@ -74,7 +74,7 @@ def expand_dims_example(out_ptr):
     )
     tl.store(out_ptr + offs, y)
 
-## Example call
+## Call example
 out = torch.empty((2, 1, 3), dtype=torch.float32, device="npu")
 expand_dims_example[(1,)](out)
 print(out.shape)  # Output: torch.Size([2, 1, 3])

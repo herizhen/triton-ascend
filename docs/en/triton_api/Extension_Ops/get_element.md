@@ -20,14 +20,14 @@ Can be called as a member function of a tensor, e.g., `x.get_element(...)`, whic
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type                | Description                                                      |
-| -------------- | ------------------- | ---------------------------------------------------------------- |
-| `src`          | `tensor`            | The source tensor to be accessed                                 |
-| `indice`       | `tuple of ints` or `tuple of tensors` | Indices specifying the element position                          |
-| `_builder`     | -                   | Reserved parameter, external invocation not supported            |
-| `_generator`   | -                   | Reserved parameter, external invocation not supported            |
+| Parameter    | Type                            | Description                                                  |
+| ------------ | ------------------------------- | ------------------------------------------------------------ |
+| `src`        | `tensor`                        | The source tensor to be accessed                             |
+| `indice`     | `tuple of ints` or `tuple of tensors` | Indices specifying the element position                      |
+| `_builder`   | -                               | Reserved parameter, external invocation not supported yet    |
+| `_generator` | -                               | Reserved parameter, external invocation not supported yet    |
 
-Return Value:
+Return value:
 `scalar`: A scalar value of the same element type as the `src` tensor
 
 ### 2.2 Supported Specifications
@@ -41,7 +41,7 @@ Return Value:
 #### 2.2.2 Shape Support
 
 Supports tensors of arbitrary shapes, with the following requirement:
-The length of `indice` must equal the number of dimensions of the `src` tensor.
+The length of `indice` must be equal to the number of dimensions of the `src` tensor.
 
 ### 2.3 Special Constraints
 

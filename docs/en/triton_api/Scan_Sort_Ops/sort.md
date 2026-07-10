@@ -12,39 +12,39 @@ triton.language.sort(x, dim: constexpr | None = None, descending: constexpr = Fa
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type                | Description                                      |
-| -------------- | ------------------- | ------------------------------------------------ |
-| `x`            | `tensor`            | Tensor data                                      |
-| `dim`          | `int`               | Dimension to sort along                          |
-| `descending`   | `bool`              | Whether to sort in descending order              |
+| Parameter      | Type               | Description                                                    |
+| -------------- | ------------------ | -------------------------------------------------------------- |
+| `x`            | `tensor`           | Tensor data                                                    |
+| `dim`          | `int`              | Sorting dimension                                              |
+| `descending`   | `bool`             | Whether to sort in descending order                            |
 
 Return value:
-`x`: Output tensor with the same shape as the input tensor `x`
+`x`: The output tensor has the same shape as the input tensor `x`.
 
 ### 2.2 OP Specifications
 
 #### 2.2.1 DataType Support
 
-|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU           | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | √    | √    | √    |
-| Ascend A2/A3  | √    | √     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
+|                 | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| --------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU             | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | √    | √    | √    |
+| Ascend A2/A3    | √    | √     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
 Conclusion: Compared to GPU, Ascend lacks support for int32, uint8, int64, float64, and bool.
 torch_npu supports uint8.
 
 #### 2.2.2 Shape Support
 
-|               | Supported Dimension Range |
-| ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+|                 | Supported Dimension Range |
+| --------------- | ------------------------- |
+| GPU             | Only supports 1~5D tensors |
+| Ascend A2/A3    | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Relative capability gap that cannot be implemented
+> Relative capability gaps that cannot be implemented
 
 Due to limitations of the Bisheng compiler, int32, uint8, int64, float64, and bool cannot be implemented.
 

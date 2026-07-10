@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Concatenates two input tensors of the same shape along a new innermost dimension. The output tensor has one more dimension than the input tensors, with a size of 2, while all other dimensions remain unchanged.
+Joins two input tensors of the same shape along a new innermost dimension. The output tensor has one more dimension than the input tensors, with a size of 2, while keeping other dimensions unchanged.
 
 **Syntax:**
 
@@ -11,18 +11,18 @@ Concatenates two input tensors of the same shape along a new innermost dimension
 
 **Functionality:**
 
-- Concatenates two input tensors of the same shape along a new innermost dimension
+- Joins two input tensors of the same shape along a new innermost dimension
 - The output tensor has one more dimension than the input tensors, with a size of 2
-- All other dimensions remain unchanged
+- Keeps other dimensions unchanged
 
 ## 2 Parameter Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| x | tensor | Yes | First input tensor |
-| y | tensor | Yes | Second input tensor |
+| Parameter | Type   | Required | Description          |
+|-----------|--------|----------|----------------------|
+| x         | tensor | Yes      | First input tensor   |
+| y         | tensor | Yes      | Second input tensor  |
 
 **Return Value:**
 
@@ -37,16 +37,16 @@ Concatenates two input tensors of the same shape along a new innermost dimension
 
 ### 2.2 DataType Support Table
 
-| Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:-----:|:------:|:------:|:------:|:-------:|:-------:|:--------:|:--------:|:--------:|:-------:|:----:|
-| Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
-| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Support Status | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|----------------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:-------:|:----:|
+| Ascend A2/A3   | ✓    | ✓     | ✓     | ✓     | ✓    | ×     | ×     | ×     | ✓      | ✓      | ✓       | ×        | ×        | ×       | ✓    |
+| GPU Support    | ✓    | ✓     | ✓     | ✓     | ✓    | ✓     | ✓     | ✓     | ✓      | ✓      | ✓       | ✓        | ✓        | ✓       | ✓    |
 
 ### 2.3 Shape Support Table
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Constraints
+### 2.4 Special Limitations
 
 None
 
@@ -63,7 +63,7 @@ def join_example(out_ptr):
     x = tl.zeros([2, 3], dtype=tl.float32)
     y = tl.full([2, 3], 1.0, dtype=tl.float32)
 
-    # Concatenate, resulting in 2x2x3
+    # Join, resulting in 2x2x3
     z = tl.join(x, y)
 
     # Write the result back to the external tensor

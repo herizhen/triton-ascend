@@ -27,14 +27,14 @@ Description: Returns a Tensor/Scalar whose values are loaded from the location p
 | Parameter Name   | Type                | Description                                                        |
 | ---------------- | ------------------- | ------------------------------------------------------------------ |
 | `pointer`        | `triton.PointerType` <br> or `tensor<triton.PointerType>` <br> or `triton.PointerType<tensor>` (from `tl.make_block_ptr`) | Pointer to the data to be read on GM |
-| `mask`           | `int1` or `tensor<int1>` | Optional parameter, can only be passed when `pointer` is not from `tl.make_block_ptr`<br>If `mask[i]==False`, the data pointed to by `pointer[i]` will not be read; if `True`, it will be read normally <br>If `pointer` is from `tl.make_block_ptr`, `mask` must be `None` |
-| `other`          | `tensor` or `scalar` | Optional parameter, can only be passed when `mask!=None`<br>If `mask[i]==False`, the i-th position of the return value is set to `other[i]` or `other` (if `other` is a scalar type). Tensor support is required because the tritonGPU community supports both tensor and scalar |
+| `mask`           | `int1` or `tensor<int1>` | Optional parameter, can only be passed when `pointer` is not from `tl.make_block_ptr`<br>If `mask[i]==False`, the data pointed to by `pointer[i]` will not be read; if `True`, it will be read normally<br>If `pointer` is from `tl.make_block_ptr`, `mask` must be `None` |
+| `other`          | `tensor` or `scalar` | Optional parameter, can only be passed when `mask!=None`<br>If `mask[i]==False`, the i-th position of the return value is set to `other[i]` or `other` (if `other` is a scalar type). Tensor support is required as the tritonGPU community supports both tensor and scalar |
 | `boundary_check` | `tuple(int)`        | Optional parameter, can only be passed when `pointer` is from `tl.make_block_ptr`<br>Integer tuple indicating the dimensions that require boundary checking |
 | `padding_option` | `""` or `"zero"` or `"nan"` | Optional parameter, can only be passed when `boundary_check` is not empty<br>Indicates the fill value when accessing out-of-bounds |
-| `cache_modifier` | `""` or `"ca"` or `"cg"` | Optional parameter, controls cache options on NVIDIA PTX, invalid for Ascend hardware |
-| `eviction_policy`| `str`               | Controls the eviction policy on NVIDIA PTX, invalid for Ascend hardware |
-| `volatile`       | `str`               | Controls the volatile option on NVIDIA PTX, invalid for Ascend hardware |
-| `_semantic`      | -                   | Reserved parameter, external calls are not currently supported |
+| `cache_modifier` | `""` or `"ca"` or `"cg"` | Optional parameter, controls cache options on NVIDIA PTX, ineffective on Ascend hardware |
+| `eviction_policy`| `str`               | Controls the eviction policy on NVIDIA PTX, ineffective on Ascend hardware |
+| `volatile`       | `str`               | Controls the volatile option on NVIDIA PTX, ineffective on Ascend hardware |
+| `_semantic`      | -                   | Reserved parameter, external calls not supported currently |
 
 The current 910 generation does not support parameters such as `cache_modifier`, `eviction_policy`, and `volatile`.
 
@@ -63,30 +63,30 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 1. If `pointer` is a single pointer:
    - `tl.load` returns a scalar
    - `mask` and `other` must be scalars
-   - `other` will be implicitly type-cast to the data type of `pointer.dtype.element_ty`
+   - `other` is implicitly type-cast to the data type of `pointer.dtype.element_ty`
    - `boundary_check` and `padding_option` are not allowed in this case
 2. If `pointer` is an N-Dimensional tensor:
    - `tl.load` returns an N-Dimensional tensor with the same shape as `pointer`
-   - `mask` and `other` will be implicitly broadcast to the same shape as `pointer`
+   - `mask` and `other` are implicitly broadcast to the same shape as `pointer`
    - `boundary_check` and `padding_option` are not allowed in this case
 3. If `pointer` is from `tl.make_block_ptr`:
    - `mask` and `other` must be `None`
    - Boundary checking and out-of-bounds fill values can be set via `boundary_check` and `padding_option`
 
-### 2.3 Special Limitation Notes
+### 2.3 Special Limitations
 
 > Capabilities missing compared to the community and cannot be implemented
 
 Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
 
-| Difference Point                           | Description                                                  | Solution                     |
-| ------------------------------------------ | ------------------------------------------------------------ | ---------------------------- |
-| `padding_option` parameter not supported   | The currently used community branch added the `padding_option` parameter for out-of-bounds element padding strategy. | Can be supported via software development |
-| Generalization issues with loops and branch statements | The computation process of `tl.load`'s `pointer` and `mask`, if involving complex loops and branch statements, may cause compilation issues | Expose issues through extensive generalization testing, resolve iteratively |
+| Difference Point | Description | Solution |
+| ---------------- | ----------- | -------- |
+| `padding_option` parameter not supported | The currently used community branch adds the `padding_option` parameter for out-of-bounds element fill strategy. | Can be supported via software development |
+| Generalization issues when used with branch and loop statements | The computation process of `pointer` and `mask` in `tl.load` may cause compilation issues if it involves complex loops and branch statements | Expose issues through extensive generalization testing, resolve iteratively |
 
 ### 2.4 Usage Example
 
-The following example demonstrates the functionality of `torch_ldst_indirect_07_func` through the coordinated call of `triton_ldst_indirect_07_kernel` and `triton_ldst_indirect_07_func`:
+The following example demonstrates the functionality of `torch_ldst_indirect_07_func` through the coordinated invocation of `triton_ldst_indirect_07_kernel` and `triton_ldst_indirect_07_func`:
 
 ```python
 @triton.jit

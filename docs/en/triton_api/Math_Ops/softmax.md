@@ -12,12 +12,12 @@ triton.language.softmax(x, dim=None, keep_dims=False, ieee_rounding=False)
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type       | Description                                                        |
-| ------------ | ---------- | ------------------------------------------------------------------ |
-| `x`          | `tensor`   | Tensor data                                                        |
-| `dim`        | `int`      | Specifies the dimension along which softmax is computed            |
-| `keep_dims`  | `bool`     | Controls whether the original dimension shape is retained after computation |
-| `ieee_rounding` | `bool`  | Controls whether floating-point operations follow IEEE 754 rounding rules |
+| Parameter      | Type               | Description                                                        |
+| -------------- | ------------------ | ------------------------------------------------------------------ |
+| `x`            | `tensor`           | Input tensor                                                       |
+| `dim`          | `int`              | Specifies the dimension along which softmax is computed            |
+| `keep_dims`    | `bool`             | Controls whether the original shape is retained after computation  |
+| `ieee_rounding`| `bool`             | Controls whether floating-point operations follow IEEE 754 rounding rules |
 
 Return value:
 `x`: A tensor with the same shape as x
@@ -26,26 +26,26 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU          | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | √    | √    | ×    |
-| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
+|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU           | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | √    | √    | ×    |
+| Ascend A2/A3  | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
 Conclusion: Compared to GPU, Ascend lacks fp64 support.
 torch_npu does not support uint8.
 
 #### 2.2.2 Shape Support
 
-|              | Supported Dimension Range |
-| ------------ | ------------------------- |
-| GPU          | Only supports 1~5D tensors |
-| Ascend A2/A3 | Only supports 1~5D tensors |
+|               | Supported Dimension Range |
+| ------------- | ------------------------- |
+| GPU           | Only supports 1~5D tensors |
+| Ascend A2/A3  | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Missing capabilities compared to the community that cannot be implemented
 
 None.
 

@@ -1,6 +1,6 @@
 # 1. Hardware Background
 
-Supports VF manual synchronization
+Support for VF manual synchronization
 
 # 2. Interface Description
 
@@ -12,7 +12,7 @@ Supports VF manual synchronization
 
 ## 2.1 Input Parameters
 
-- sync_mode: Specifies the barrier type, which is an al.SYNC_IN_VF enum
+- sync_mode: Specifies the barrier type, an al.SYNC_IN_VF enum
 
 <table>
   <tr>

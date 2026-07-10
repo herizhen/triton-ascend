@@ -2,13 +2,13 @@
 
 ## 1. Function Overview
 
-Description: Computes the bitwise OR of two elements.
+Description: Computes the bitwise OR operation of two elements.
 
 ```python
-# Using the operator
+# Via operator
 x | y
 
-# Or directly calling the dunder method
+# Or directly call the dunder method
 x.__or__(y)
 ```
 
@@ -20,7 +20,7 @@ x.__or__(y)
 | -------------- | ------------------ | -------------------------------------------------------------- |
 | `x`            | `tensor`           | Tensor data                                                    |
 | `y`            | `tensor`           | Tensor data                                                    |
-| `_semantic`    | -                  | Reserved parameter, external calls not supported temporarily   |
+| `_semantic`    | -                  | Reserved parameter, external invocation not supported for now  |
 
 Return value:
 `out`: A tensor with the same shape as `x` and `y`
@@ -29,25 +29,25 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU           | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
-| Ascend A2/A3  | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
+|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU          | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3 | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
 
 Conclusion: Compared to GPU, Ascend lacks support for uint types.
 
 #### 2.2.2 Shape Support
 
-|               | Supported Dimension Range |
-| ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+|              | Supported Dimension Range |
+| ------------ | ------------------------- |
+| GPU          | Only supports 1~5D tensors |
+| Ascend A2/A3 | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Relative community capability deficiency and unimplementable
+> Relative community capability gap and unimplementable
 
 Compared to GPU, Ascend lacks support for uint types.
 

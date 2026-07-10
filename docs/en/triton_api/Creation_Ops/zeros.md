@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: `triton.language.zeros` returns a tensor filled with the scalar value 0 of the given shape and dtype.
+Description: `triton.language.zeros` returns a tensor filled with scalar value 0 of the given shape and dtype.
 
 ```python
 triton.language.zeros(shape, dtype)
@@ -18,9 +18,9 @@ triton.language.zeros(shape, dtype)
 | `dtype`            | `tl.dtype`               |  Data type of the new array, e.g., tl.float16 |
 
 Return Value:
-`tensor`: Returns a tensor filled with the scalar value 0 of the given shape and dtype.
+`tensor`: Returns a tensor filled with scalar value 0 of the given shape and dtype.
 
-### 2.2 Support Specification
+### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
@@ -33,14 +33,14 @@ Return Value:
 
 Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
 
-### 2.3 Special Limitations
+### 2.3 Special Constraints
 
 > Missing community capabilities that cannot be implemented
 > None
 
 ### 2.4 Usage Example
 
-The following example demonstrates returning a tensor of shape (XB, YB, ZB) filled with the value 0:
+The following example demonstrates returning a tensor of shape (XB, YB, ZB) filled with 0 values:
 
 ```python
 @triton.jit

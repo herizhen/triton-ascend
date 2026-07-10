@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: **Converts the indices of a row-major matrix of size `size_i × size_j`, grouped by every `size_g` rows, into column-major matrix indices.**
+Description: **Converts the indices of a row-major matrix of size size_i × size_j, grouped by every size_g rows, into column-major matrix indices.**
 
 ```python
 triton.language.swizzle2d(i, j, size_i, size_j, size_g)
@@ -12,13 +12,13 @@ triton.language.swizzle2d(i, j, size_i, size_j, size_g)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                      |
-| -------------- | ------------------ | ---------------------------------------------------------------- |
-| `i`            | `tensor`           | Index value, maximum value is size(i)-1                          |
-| `j`            | `tensor`           | Index value, maximum value is size(j)-1                          |
-| `size_i`       | `int`              | Integer, representing the length of index i                      |
-| `size_j`       | `int`              | Integer, representing the length of index j                      |
-| `size_g`       | `int`              | Integer                                                            |
+| Parameter Name | Type             | Description                                                      |
+| -------------- | ---------------- | ---------------------------------------------------------------- |
+| `i`            | `tensor`         | Index value, maximum value is size(i)-1                          |
+| `j`            | `tensor`         | Index value, maximum value is size(j)-1                          |
+| `size_i`       | `int`            | Integer, representing the length of index i                      |
+| `size_j`       | `int`            | Integer, representing the length of index j                      |
+| `size_g`       | `int`            | Integer                                                          |
 
 Return value:
 `out0, out1`: Tensors with the same shape as i, j
@@ -41,9 +41,9 @@ Return value:
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 2D tensors.
 
-### 2.3 Special Constraints
+### 2.3 Special Limitations
 
-> Community capability missing and cannot be implemented
+> Relative community capability missing and cannot be implemented
 
 None.
 

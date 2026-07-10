@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-The A5 adds a data path from L0C to UB. To implement this path, the temporary solution explicitly calls this path in the frontend.
+The A5 adds a data path from L0C to UB. To implement this path, a temporary solution explicitly calls this path at the frontend.
 
 ## 2. Interface Description
 
@@ -59,15 +59,15 @@ The A5 adds a data path from L0C to UB. To implement this path, the temporary so
 
 ### 2.2 Return Value
 
-No return value, directly use the input parameter dst
+No return value, directly use the input parameter `dst`
 
 ## 3. Constraints
 
-- fixpipe only supports data movement from l0c to ub
+- fixpipe only supports data movement from L0C to UB
 
-- src must be the result after dot
+- src must be the result after dot product
 
-- dst must be a buffer with memscope set to ub
+- dst must be a buffer with memscope set to UB
 
 ## 4. Usage Example
 

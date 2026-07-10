@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-Converts a buffer allocated on Ascend to a tl.tensor and returns it.
+Converts the buffer allocated on Ascend to a tl.tensor and returns it.
 
 ## 2. Interface Description
 
@@ -12,11 +12,11 @@ Converts a buffer allocated on Ascend to a tl.tensor and returns it.
   </tr>
 </table>
 
-### Input Parameters Description
+### Input Parameter Description
 
 <table>
   <tr>
-    <td>Parameter</td>
+    <td>Parameter Name</td>
     <td>Type</td>
     <td>Required</td>
     <td>Description</td>

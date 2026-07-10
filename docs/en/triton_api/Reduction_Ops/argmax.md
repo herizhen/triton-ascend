@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Returns the index of the maximum value along the specified axis
+Description: Returns the indices of the maximum values along a specified axis
 
 ```python
 triton.language.argmax(input, axis, tie_break_left=True, keep_dims=False)
@@ -40,7 +40,7 @@ Return value:
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
-### 2.3 Special Restrictions
+### 2.3 Special Limitations
 
 > Capabilities missing compared to the community and cannot be implemented
 

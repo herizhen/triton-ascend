@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Returns the index of the minimum value along the specified axis.
+Description: Returns the index of the minimum value along the specified axis
 
 ```python
 triton.language.argmin(input, axis, tie_break_left=True, keep_dims=False)
@@ -35,8 +35,8 @@ Return value:
 
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU    | No limit |
-| Ascend | No limit |
+| GPU    | No restrictions |
+| Ascend | No restrictions |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
 
@@ -46,9 +46,9 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 Ascend A3 lacks support for uint16, uint32, uint64, and fp64 compared to GPU.
 
-### 2.4 Usage Examples
+### 2.4 Usage
 
-For more examples, refer to the triton-ascend repository, ascend/examples/generalization_cases/test_argmin.py
+For more examples, refer to the triton-ascend code repository: ascend/examples/generalization_cases/test_argmin.py
 
 ```python
 @triton.jit

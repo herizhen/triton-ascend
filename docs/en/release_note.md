@@ -1,10 +1,10 @@
 # Triton-Ascend Release
 
-The Triton-Ascend release provides a stable codebase snapshot, packaged as binary packages that can be easily installed via PyPI. Additionally, releases allow the development team to formally announce to the community the availability of new features, completed improvements, and changes that may affect users (e.g., breaking changes).
+The Triton-Ascend release provides a stable codebase snapshot, packaged as binary packages that can be easily installed via PyPI. Additionally, releases allow the development team to formally announce to the community the availability of new features, completed improvements, and changes that may impact users (e.g., breaking changes).
 
 ## Release Compatibility Matrix
 
-The following is the release compatibility matrix for Triton-Ascend:
+Below is the release compatibility matrix for Triton-Ascend:
 
 | Triton-Ascend Version | Python Version | Manylinux Version | Hardware Platform | Hardware Product |
 | --- | --- | --- | --- | --- |
@@ -12,7 +12,7 @@ The following is the release compatibility matrix for Triton-Ascend:
 
 ## Release Plan
 
-The following is the release plan for Triton-Ascend. Note: Patch versions are optional.
+Below is the release plan for Triton-Ascend. Note: Patch versions are optional.
 
 | Major Version | Release Branch Cut Date | Release Date | Patch Release Date |
 | --- | --- | --- | --- |
@@ -24,7 +24,7 @@ The following is the release plan for Triton-Ascend. Note: Patch versions are op
 
 **First Release: Ascend NPU Support**
 
-Triton-Ascend 3.2.0 is the first Triton version to officially support Huawei Ascend NPUs. This release is based on the Triton 3.2.0 community version and is specifically adapted for the Ascend NPU hardware architecture.
+Triton-Ascend 3.2.0 is the first Triton version to officially support Huawei Ascend NPU. This release is based on the Triton 3.2.0 community version and is specifically adapted for the Ascend NPU hardware architecture.
 
 #### Key Features
 
@@ -32,17 +32,17 @@ Triton-Ascend 3.2.0 is the first Triton version to officially support Huawei Asc
    - Complete compilation pipeline from Triton IR to NPU instruction set
    - Support for all Triton Ops
 
-2. **Performance Optimization**
+2. **Performance Optimizations**
    - NPU-specific kernel optimizations
    - CV computation optimizations
 
 3. **Developer Tools**
    - Comprehensive debug output support
-   - Compilation intermediate artifact dumping
+   - Compilation intermediate product dump
 
 #### Known Limitations
 
-1. **Data Types**: Support for some data types is still under development
+1. **Data Types**: Support for some data types is still being refined
 2. **Operator Coverage**: The supported operator set is being continuously expanded
 
 #### Migration Guide

@@ -1,10 +1,10 @@
-# al.copy_from_ub_to_l1 API Documentation
+# al.copy_from_ub_to_l1 Interface Documentation
 
 ## 1. Hardware Background
 
-The Ascend hardware A5 supports direct data copying from UB to L1, avoiding the two-step copy from UB to GM and then from GM to L1, thereby improving data copy efficiency. Therefore, the `copy_from_ub_to_l1` interface is provided to implement data copying from UB to L1.
+The Ascend hardware A5 supports direct data copy from UB to L1, avoiding the two-step copy from UB to GM and then from GM to L1, thereby improving data copy efficiency. Therefore, the `copy_from_ub_to_l1` interface is provided to implement data copy from UB to L1.
 
-## 2. API Description
+## 2. Interface Description
 
 <table>
   <tr>
@@ -41,13 +41,13 @@ None
 
 ## 3. Constraints
 
-- `src` and `dst` must both be either tensor or buffer; tensor is currently not supported
+- `src` and `dst` must both be tensor or buffer; tensor is currently not supported
 
 - The address space of `src` must be UB, and the address space of `dst` must be L1
 
 - The types and shapes of `src` and `dst` must be identical
 
-## 4. Usage Example
+## 4. Example Usage
 
 ```python
 import os

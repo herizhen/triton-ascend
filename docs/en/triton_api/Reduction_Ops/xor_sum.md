@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: `triton.language.xor_sum` computes the XOR sum of the input tensor along the specified axis and returns the result of the XOR operation.
+Description: `triton.language.xor_sum` computes the XOR sum of the input tensor along the specified axis, returning the result of the XOR operation.
 
 ```python
 triton.language.xor_sum(input, axis=None, keep_dims=False)
@@ -15,7 +15,7 @@ triton.language.xor_sum(input, axis=None, keep_dims=False)
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `input` | `Tensor` | Input tensor |
-| `axis` | `int` or `None` | The dimension along which to perform the XOR sum operation. If None, the XOR operation is performed across all dimensions |
+| `axis` | `int` or `None` | The dimension along which to perform the XOR sum operation. If None, the XOR operation is performed over all dimensions |
 | `keep_dims` | `bool` | If True, the reduced dimensions are kept with length 1 |
 
 Return value:
@@ -36,12 +36,12 @@ Conclusion: There is no difference in Shape support between GPU and Ascend platf
 
 ### 2.3 Special Limitations
 
-> Relative community capability is missing and cannot be implemented
+> Missing community capability that cannot be implemented
 > `keep_dims=True` requires testing more specifications to determine full support. Currently tested for 3D dim=2, `keep_dims=True` is supported.
 
 ### 2.4 Usage Example
 
-The following example demonstrates performing an xor_sum operation on a 2D tensor:
+The following example demonstrates performing xor_sum operation on a 2D tensor:
 
 ```python
 @triton.jit

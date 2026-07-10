@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Increments the offset of `tl.make_block_ptr` by a given offset.
+Description: Increases the offset of `tl.make_block_ptr` by a given offset.
 Prototype:
 
 ```python
@@ -20,8 +20,8 @@ triton.language.advance(
 | Parameter    | Type                | Description                                                             |
 | ------------ | ------------------- | ----------------------------------------------------------------------- |
 | `base`       | `triton.PointerType`| The pointer to be updated, result of `tl.make_block_ptr`                |
-| `offsets`    | `tuple(int \| constexpr)` | List of base address offsets for each dimension of the tensor, `len(offsets)` must equal `len(base.offsets)` |
-| `_semantic`  | -                   | Reserved parameter, external calls not supported currently              |
+| `offsets`    | `tuple(int \| constexpr)` | List of base address offsets for each tensor dimension, `len(offsets)` must equal `len(base.offsets)` |
+| `_semantic`  | -                   | Reserved parameter, not supported for external calls                    |
 
 Return value: `pointer_type<blocked<shape, element_type>>`: Pointer to a tensor
 
@@ -43,11 +43,11 @@ Conclusion: Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uin
 | GPU    | Only supports 1~5D tensors |
 | Ascend A2/A3 | Only supports 1~5D tensors |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5 dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Features missing compared to the community and cannot be implemented
+> Missing capabilities compared to the community that cannot be implemented
 
 - Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
 - Ascend only allows expressing transpose semantics by adjusting the order of the `order` parameter; transpose semantics cannot be achieved by adjusting the order of the `stride` parameter.

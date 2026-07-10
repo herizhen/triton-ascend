@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Computes the ceiling division of tensors.
+Introduction: Computes the ceiling division of tensors.
 Function prototype:
 
 ```python
@@ -15,10 +15,10 @@ Can be called as a member function of a tensor, e.g., `x.cdiv(...)`, which is eq
 
 ### 2.1 Parameter Description
 
-| Parameter | Type   | Description          |
-| :-------: | :----: | :------------------: |
+| Parameter | Type   | Description            |
+| :-------: | :----: | :--------------------- |
 | `x`       | `tensor` | Tensor data, dividend |
-| `div`     | `tensor` | Tensor data, divisor |
+| `div`     | `tensor` | Tensor data, divisor  |
 
 Return value:
 `out`: A tensor with the same shape as `x` and `div`.
@@ -27,25 +27,25 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| GPU          | √ | √ | √ | √ | √ | √ | √ | √ | × | × | × | × | √ |
-| Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | × | × | × | × | × |
+|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| :-----------: | :--: | :---: | :---: | :---: | :----: | :----: | :----: | :---: | :--: | :--: | :--: | :--: | :--: |
+| GPU           | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3  | √    | √     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | ×    |
 
 Conclusion: Compared to GPU, Ascend does not support uint and bool inputs.
 
 #### 2.2.2 Shape Support
 
-|        | Supported Dimension Range |
-| -------- | --------------------------- |
-| GPU    | No restriction |
-| Ascend | No restriction |
+|         | Supported Dimension Range |
+| ------- | ------------------------- |
+| GPU     | No restrictions           |
+| Ascend  | No restrictions           |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
+Conclusion: There is no difference between GPU and Ascend platforms in terms of shape support.
 
 ### 2.3 Special Limitations
 
-> Missing community capability that cannot be implemented
+> Missing relative to community capabilities and cannot be implemented
 
 Input range: 0~16777216
 

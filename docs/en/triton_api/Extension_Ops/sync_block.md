@@ -60,7 +60,7 @@ triton.language.sync_block_wait(sender, receiver, event_id, _builder=None)
 
 ### 4.1 Function Overview
 
-A global barrier synchronization that synchronizes all specified types of cores to the same point.
+Global barrier synchronization, synchronizing all cores of specified types to the same point.
 
 ```python
 triton.language.sync_block_all(mode, event_id, _builder=None)

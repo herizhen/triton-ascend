@@ -1,6 +1,6 @@
 # Math Operations
 
-| API | Brief Description |
+| API | Description |
 |--|--|
 | [add](./add.md) | Arithmetic addition ‘+’ |
 | [sub](./sub.md) | Arithmetic subtraction ‘-’ |
@@ -8,11 +8,11 @@
 | [div](./div.md) | Arithmetic division ‘/’ |
 | [abs](./abs.md) | Computes the element-wise absolute value of x |
 | [neg](./neg.md) | Negates the values of the tensor. |
-| [cdiv](./cdiv.md) | Computes the ceiling division of x by div |
+| [cdiv](./cdiv.md) | Computes the ceiling division of x divided by div |
 | [ceil](./ceil.md) | Computes the element-wise ceiling value of x |
 | [clamp](./clamp.md) | Clamps the values of the input tensor x to the range [min, max] |
 | [cos](./cos.md) | Computes the element-wise cosine of x |
-| [div_rn](./div_rn.md) | Computes the element-wise exact division of x and y (rounded to the nearest value per IEEE standard) |
+| [div_rn](./div_rn.md) | Computes the element-wise exact division of x and y (rounds to nearest value according to IEEE standard) |
 | [erf](./erf.md) | Computes the element-wise error function of x |
 | [exp](./exp.md) | Computes the element-wise exponential of x |
 | [exp2](./exp2.md) | Computes the element-wise exponential of x (base 2) |
@@ -29,7 +29,7 @@
 | [sin](./sin.md) | Computes the element-wise sine of x. |
 | [softmax](./softmax.md) | Computes the element-wise softmax of x |
 | [sqrt](./sqrt.md) | Computes the element-wise fast square root of x |
-| [sqrt_rn](./sqrt_rn.md) | Computes the element-wise exact square root of x (rounded to the nearest value per IEEE standard) |
+| [sqrt_rn](./sqrt_rn.md) | Computes the element-wise exact square root of x (rounds to nearest value according to IEEE standard) |
 | [umulhi](./umulhi.md) | Computes the element-wise most significant N bits of the 2N-bit product of x and y |
 
 ```{toctree}

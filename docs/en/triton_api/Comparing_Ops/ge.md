@@ -21,9 +21,9 @@ Used as a built-in operator of `tensor`, e.g., `x>=y`.
 
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
-| `input` | `tensor` | Tensor data, left operand, representing the primary data for comparison |
+| `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
 | `other`   | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | - | Reserved parameter, not yet supported for external calls |
+| `_builder` | - | Reserved parameter, external invocation not supported |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -37,7 +37,7 @@ Return value:
 | GPU          | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 | Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | √ | √ | × | √ | √ |
 
-Conclusion: Triton-Ascend lacks support for uint8/uint16/uint32/uint64 and fp64 compared to GPU.
+Conclusion: Compared to GPU, Triton-Ascend lacks support for uint8/uint16/uint32/uint64 and fp64.
 
 #### 2.2.2 Shape Support
 
@@ -46,17 +46,17 @@ Conclusion: Triton-Ascend lacks support for uint8/uint16/uint32/uint64 and fp64 
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
-Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Relative to community capabilities, missing and unimplementable
+> Capabilities missing compared to the community and cannot be implemented
 
-Triton-Ascend lacks support for fp64 compared to GPU. Support for uint8/uint16/uint32/uint64 is under development.
+Compared to GPU, Triton-Ascend lacks support for fp64. Support for uint8/uint16/uint32/uint64 is under development.
 
 ### 2.4 Usage Example
 
-The following example performs a greater-than-or-equal operation on three-dimensional tensors `x0` and `x1`:
+The following example implements a greater-than-or-equal operation on three-dimensional tensors `x0` and `x1`:
 
 ```python
 @triton.jit

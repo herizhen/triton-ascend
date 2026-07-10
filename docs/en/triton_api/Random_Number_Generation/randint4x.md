@@ -2,8 +2,8 @@
 
 ## 1. OP Overview
 
-Description: Given 1 seed scalar and 1 offset block, returns 4 random blocks of type int32.
-The most efficient entry point for Triton's Philox pseudo-random number generator.
+Description: Given 1 seed scalar and 1 offset block, returns 4 random blocks of int32 type.
+The most efficient entry point of Triton's Philox pseudo-random number generator.
 Prototype:
 
 ```python
@@ -14,18 +14,18 @@ triton.language.randint4x(
 )
 ```
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type               | Description                                                      |
-| ------------ | ------------------ | ---------------------------------------------------------------- |
-| `seed`       | `int` or `tensor`  | Seed used for generating random numbers                          |
-| `offset`     | `int` or `tensor`  | Offset used for generating random numbers                        |
-| `n_rounds`   | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm          |
+| Parameter    | Type                | Description                                                      |
+| ------------ | ------------------- | ---------------------------------------------------------------- |
+| `seed`       | `int` or `tensor`   | Seed used for generating random numbers                          |
+| `offset`     | `int` or `tensor`   | Offset used for generating random numbers                        |
+| `n_rounds`   | `constexpr`, default 10 | Number of rounds for the Philox algorithm                    |
 
 Return value:
-4 random blocks of type int32, each with the same shape as offset
+4 random blocks of int32 type, each block having the same shape as offset
 
 ### 2.2 Supported Specifications
 
@@ -43,11 +43,11 @@ No special requirements
 
 ### 2.3 Special Constraints
 
-> Missing capabilities relative to the community and cannot be implemented
+> Relative community capability missing and unimplementable
 
 ### 2.4 Usage Examples
 
-The following example demonstrates calling randint4x when offset is a scalar:
+The following example demonstrates calling randint4x with a scalar offset:
 
 ```python
 @triton.jit
@@ -59,13 +59,13 @@ def kernel_randint4x(x_ptr, n_rounds: tl.constexpr, N: tl.constexpr, XBLOCK: tl.
         global_offset = block_offset + inner_idx
         rand_vals = tl.randint4x(5, 10 + global_offset, n_rounds) # Generate a random number for each index
         mask = (global_offset + indices) < N
-        tl.store(x_ptr + global_offset + indices, rand_vals, mask) # Store the random number
+        tl.store(x_ptr + global_offset + indices, rand_vals, mask) # Store random numbers
 
 y_cali = torch.zeros(shape, dtype=eval('torch.int32')).npu()
 kernel_randint4x[ncore, 1, 1](y_cali, 10, numel, xblock)
 ```
 
-The following example demonstrates calling randint4x when offset is non-scalar, where the tensor used for storage is 4 times the size of offset:
+The following example demonstrates calling randint4x with a non-scalar offset, where the tensor used for storage is 4 times the size of the offset:
 
 ```python
 @triton.jit

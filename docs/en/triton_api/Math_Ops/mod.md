@@ -8,10 +8,10 @@ Description: Modulo operation, arithmetic operator '%'
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type                | Description                                                             |
-| -------------- | ------------------- | ----------------------------------------------------------------------- |
-| `self`         | `tensor or Number`  | First input, dividend                                                   |
-| `other`        | `tensor or Number`  | Second input, divisor                                                   |
+| Parameter Name | Type                | Description                                                    |
+| -------------- | ------------------- | -------------------------------------------------------------- |
+| `self`         | `tensor or Number`  | First input parameter, dividend                                |
+| `other`        | `tensor or Number`  | Second input parameter, divisor                                |
 
 Return value:
 `tl.tensor`: Result of the modulo operation
@@ -20,23 +20,23 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-|---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
-|GPU| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
-|Ascend A2/A3| × | √ | × | √ | × | √ | × | √ | √ | √ | √ | √ |
+|       | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+| ----- | ----- | ---- | ------ | ----- | ------ | ----- | ------ | ----- | ---- | ---- | ---- | --------- |
+| GPU   | √     | √    | √      | √     | √      | √     | √      | √     | √    | √    | √    | √         |
+| Ascend A2/A3 | ×     | √    | ×      | √     | ×      | √     | ×      | √     | √    | √    | √    | √         |
 
 #### 2.2.2 Shape Support
 
-|        | Supported Dimension Range |
-| ------ | ------------------------- |
-| GPU    | No restrictions           |
-| Ascend A2/A3 | No restrictions           |
+|              | Supported Dimension Range |
+| ------------ | ------------------------- |
+| GPU          | No restriction            |
+| Ascend A2/A3 | No restriction            |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Usage Example
 
-The following example demonstrates performing a modulo calculation on input tensors `in_ptr0, in_ptr1`:
+The following example demonstrates performing modulo calculation on input tensors `in_ptr0, in_ptr1`:
 
 ```python
 @triton.jit
@@ -54,4 +54,4 @@ def triton_mod(in_ptr0, in_ptr1, out_ptr0, XBLOCK: tl.constexpr, XBLOCK_SUB: tl.
 
 ## 3. Special Notes
 
-Ascend A3 lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU.
+Compared to GPU, Ascend A3 lacks support for uint8, uint16, uint32, uint64, and fp64.

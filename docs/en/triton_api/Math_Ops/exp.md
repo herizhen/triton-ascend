@@ -2,21 +2,21 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise exponential of `x`.
+Description: Computes the element-wise exponential of x.
 
-## 2. Specification
+## 2. Specifications
 
 ### 2.1 Parameter Description
 
 | Parameter Name | Type       | Description                                                    |
 | -------------- | ---------- | -------------------------------------------------------------- |
 | `x`            | `tensor`   | Tensor data                                                    |
-| `_semantic`    | -          | Reserved parameter, not yet supported for external calls       |
+| `_semantic`    | -          | Reserved parameter, not supported for external calls currently |
 
-Return Value:
+Return value:
 `x`: The output tensor has the same shape as the input tensor `x`.
 
-### 2.2 OP Specification
+### 2.2 OP Specifications
 
 #### 2.2.1 DataType Support
 
@@ -30,12 +30,12 @@ torch_npu does not support u8.
 
 #### 2.2.2 Shape Support
 
-|               | Supported Dimension Range |
-| ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+|              | Supported Dimension Range |
+| ------------ | ------------------------- |
+| GPU          | Only supports 1~5D tensors |
+| Ascend A2/A3 | Only supports 1~5D tensors |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 

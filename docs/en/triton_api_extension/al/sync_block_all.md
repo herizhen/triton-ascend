@@ -39,7 +39,7 @@ None
 
 # 3. Constraints
 
-- Optional mode strings: all_cube/all_vector/all/all_sub_vector
+- mode optional strings: all_cube/all_vector/all/all_sub_vector
 
 - event_id range is [0,15]
 

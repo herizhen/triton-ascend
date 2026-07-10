@@ -36,11 +36,11 @@ Return value:
 | GPU    | No restrictions |
 | Ascend | No restrictions |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Missing capabilities compared to the community that cannot be implemented
+> Community capability gap that cannot be implemented
 
 Compared to GPU, Ascend lacks support for fp64 but adds support for fp16, bf16, and integer input types.
 

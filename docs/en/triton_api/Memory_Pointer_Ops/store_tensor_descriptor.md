@@ -19,10 +19,10 @@ triton.language.store_tensor_descriptor(
 
 | Parameter    | Type                              | Description                                                         |
 | ----------- | ------------------------------- | ---------------------------------------------------------- |
-| `desc`      | `tensor_descriptor_base`        | Tensor descriptor object, created by `make_tensor_descriptor`, defining the memory layout (shape, strides, block size, etc.). |
+| `desc`      | `tensor_descriptor_base`        | Tensor descriptor object created by `make_tensor_descriptor`, defining the memory layout (shape, strides, block size, etc.). |
 | `offsets`   | `Sequence[constexpr \| tensor]` | Sequence of starting offsets for data storage, specifying the data location to be stored by the current thread block.                             |
 | `value`     | `tensor`                        | Tensor data block to be written.                                                  |
-| `_semantic` | -                               | Reserved parameter, not supported for external calls.                                            |
+| `_semantic` | -                               | Reserved parameter; external calls are not supported for now.                                            |
 
 Return value: `tensor` - The actual data block written.
 
@@ -39,16 +39,16 @@ Return value: `tensor` - The actual data block written.
 
 |        | Supported Dimension Range          |
 | ------ | --------------- |
-| GPU    | Only supports 1~5 dimensional tensors |
-| Ascend | Only supports 1~5 dimensional tensors |
+| GPU    | Only supports 1~5D tensors. |
+| Ascend | Only supports 1~5D tensors. |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5 dimensional tensors.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Relative to community capabilities, these are missing and cannot be implemented.
+> Relative community capability deficiency that cannot be implemented.
 
-Conclusion: Ascend lacks support for uint16, uint32, and uint64 compared to GPU (hardware limitation).
+Conclusion: Compared to GPU, Ascend lacks support for uint16, uint32, and uint64 (hardware limitation).
 
 ### 2.4 Usage
 

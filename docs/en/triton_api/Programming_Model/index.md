@@ -1,6 +1,6 @@
 # Programming Model
 
-| API | Brief Description |
+| api | Brief Description |
 |--|--|
 | tensor | Represents an N-dimensional array of values or pointers |
 | [program_id](./program_id.md) | Returns the id of the current program instance along the specified axis |

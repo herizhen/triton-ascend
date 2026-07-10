@@ -5,7 +5,7 @@
 Description: Computes the bitwise AND of two elements.
 
 ```python
-# Via operator
+# Using the operator
 x & y
 
 # Or by directly calling the dunder method
@@ -47,7 +47,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative community capability deficiency that cannot be implemented
+> Relative community capability deficiency and unimplementable
 
 Compared to GPU, Ascend lacks support for uint types.
 

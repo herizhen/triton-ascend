@@ -10,7 +10,7 @@ x.logical_or(y)
 
 Called as a member function of `tensor`, e.g., `x0.logical_or(x1)`.
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
@@ -37,7 +37,7 @@ Conclusion: In terms of DataType, Ascend additionally supports integer and float
 #### 2.2.2 Shape Support
 
 |        | Supported Dimension Range |
-| -------- | -------------------------- |
+| -------- | --------------------------- |
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
@@ -45,7 +45,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Community capability gaps that cannot be implemented
+> Community capability gap that cannot be implemented
 
 None.
 

@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-`static_assert` is used to assert whether a condition holds at compile time. If the condition is not met, compilation fails. This is a compile-time checking tool that does not require setting debug environment variables.
+`static_assert` is used to assert whether a condition holds at compile time. If the condition is not satisfied, compilation fails. This is a compile-time checking tool that does not require setting debug environment variables.
 
 ```python
 triton.language.static_assert(cond, msg='', _semantic=None)

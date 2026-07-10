@@ -23,9 +23,9 @@ triton.language.dot_scaled(lhs, lhs_scale, lhs_format, rhs, rhs_scale, rhs_forma
 | `rhs_scale`    | `tensor`           | Base pointer of the right matrix scale tensor (supports int8 format) |
 | `rhs_format`   | `string`           | Storage format of the right matrix tensor (supports "bf16" and "fp16") |
 | `acc`          | `tensor`           | Accumulation tensor                                                 |
-| `lhs_k_pack`   | `(bool, optional)` | true: packed along K dimension<br>false: packed along M dimension<br>|
-| `rhs_k_pack`   | `(bool, optional)` | true: packed along K dimension<br>false: packed along N dimension<br>|
-| `_semantic`    | -                  | Reserved parameter, external calls not supported                    |
+| `lhs_k_pack`   | `(bool, optional)` | true: pack along K dimension<br>false: pack along M dimension<br>   |
+| `rhs_k_pack`   | `(bool, optional)` | true: pack along K dimension<br>false: pack along N dimension<br>   |
+| `_semantic`    | -                  | Reserved parameter, not supported for external calls                |
 
 Return value:
 `out`: tensor type, the output value after computing the scaled matrix multiplication
@@ -34,9 +34,9 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|       | fp4     | fp8    | bf16    | fp16    |
-| ----- | ------- | ------ | ------- | ------- |
-| GPU   | √       | √      | √       | √       |
+|       | fp4      | fp8      | bf16     | fp16     |
+| ----- | -------- | -------- | -------- | -------- |
+| GPU   | √        | √        | √        | √        |
 | Ascend A2/A3 | × | × | √ | √ |
 
 Conclusion:
@@ -47,15 +47,15 @@ Conclusion:
 
 |       | Supported Dimension Range |
 | ----- | ------------------------- |
-| GPU   | Supports 2~3 dimensional tensors |
-| Ascend | Supports 2~3 dimensional tensors |
+| GPU   | Supports 2~3D tensors     |
+| Ascend | Supports 2~3D tensors    |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms. The lhs/rhs matrices support 2 to 3 dimensional tensors, but the scale matrix only supports 2 dimensions.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms. Both lhs/rhs matrices support 2 to 3 dimensional tensors, but the scale matrix only supports 2 dimensions.
 
 ### 2.3 Special Limitations
 
-1. Due to lack of fp8 support, left and right matrices do not support fp4 and fp8 formats. Ascend lacks matrix decompression support for `lhs_k_pack` and `rhs_k_pack` compared to GPU (hardware limitation).
-2. The recommended input range for lhs and rhs matrices is [-5, 5]; values outside this range may produce extreme values (inf).
+1. Due to the lack of fp8 support, left and right matrices do not support fp4 and fp8 formats. Ascend lacks the matrix decompression support capability for `lhs_k_pack` and `rhs_k_pack` compared to GPU (hardware limitation).
+2. The recommended input range for input matrices `lhs` and `rhs` is [-5, 5]. Values exceeding this range may result in extreme values (inf).
 3. Due to hardware alignment requirements, the broadcast multiple of the scale matrix must be limited to at least 16.
 4. The currently supported scale matrix format is int8, while the community uses uint8.
 

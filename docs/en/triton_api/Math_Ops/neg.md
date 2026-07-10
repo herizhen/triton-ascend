@@ -12,10 +12,10 @@ triton.language.neg(x)
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type       | Description                                                      |
-| -------------- | ---------- | ---------------------------------------------------------------- |
-| `x`            | `tensor`   | Tensor data                                                      |
-| `_semantic`    | -          | Reserved parameter, not supported for external calls             |
+| Parameter Name | Type      | Description                                                    |
+| -------------- | --------- | -------------------------------------------------------------- |
+| `x`            | `tensor`  | Tensor data                                                    |
+| `_semantic`    | -         | Reserved parameter, not supported for external calls           |
 
 Return value:
 `out`: The output tensor has the same shape as the input tensor `x`.
@@ -35,8 +35,8 @@ Conclusion: Ascend lacks support for uint, fp64, and bool types compared to GPU.
 
 |               | Supported Dimension Range |
 | ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+| GPU           | Supports only 1~5D tensors |
+| Ascend A2/A3  | Supports only 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 

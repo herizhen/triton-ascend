@@ -13,38 +13,38 @@ triton.language.cat(input, other, can_reorder=False, _semantic=None)
 ### 2.1 Parameter Description
 
 | Parameter Name | Type | Description |
-| ------------- | ----------------- | ---------------------------- |
+| -------------- | ---- | ----------- |
 | `input` | `Tensor` | The first tensor to concatenate |
 | `other` | `Tensor` | The second tensor to concatenate |
-| `can_reorder` | `Bool` | Reordering – compiler hint. If true, the compiler allows reordering elements when concatenating inputs. Only supports can_reorder=True. |
-| `_semantic` | `Optional[str]` | Reserved parameter, external invocation not supported |
+| `can_reorder` | `Bool` | Reordering – compiler hint. If true, the compiler allows reordering elements when concatenating inputs. Only supports `can_reorder=True`. |
+| `_semantic` | `Optional[str]` | Reserved parameter, external calls not supported for now |
 
-Return Value:
+Return value:
 `tensor`: The tensor after concatenation
 
 ### 2.2 Supported Specifications
 
 #### 2.2.1 DataType Support
 
-|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ |
 | GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 #### 2.2.2 Shape Support
 
-Conclusion: There is no difference in Shape between GPU and Ascend platforms. cat only supports 1D shape concatenation.
+Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape. `cat` only supports 1D shape concatenation.
 
 ### 2.3 Special Limitations
 
-> Relative to community capabilities that are missing and cannot be implemented
+> Relative to community capabilities, missing and cannot be implemented
 
-1. Both ASCEND and CUDA only support can_reorder=True, i.e., reordering after tensor concatenation.
-2. cat only supports 1D shape concatenation.
+1. Both ASCEND and CUDA only support `can_reorder=True`, i.e., reordering after tensor concatenation.
+2. `cat` only supports 1D shape concatenation.
 
-### 2.4 Usage Example
+### 2.4 Usage
 
-The following example demonstrates concatenation of two 1D shape tensors:
+The following example demonstrates concatenating two 1D shape tensors:
 
 ```python
 import triton.language as tl

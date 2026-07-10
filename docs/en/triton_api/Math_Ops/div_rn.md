@@ -12,14 +12,14 @@ triton.language.div_rn(x, y, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter       | Type                | Description                                                             |
-| --------------- | ------------------- | ----------------------------------------------------------------------- |
-| `x`             | `tensor`            | Tensor data                                                             |
-| `y`             | `tensor`            | Tensor data                                                             |
-| `_semantic`     | -                   | Reserved parameter, currently not supported for external calls          |
+| Parameter Name | Type       | Description                                                    |
+| -------------- | ---------- | -------------------------------------------------------------- |
+| `x`            | `tensor`   | Tensor data                                                    |
+| `y`            | `tensor`   | Tensor data                                                    |
+| `_semantic`    | -          | Reserved parameter, not supported for external calls currently |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor `x`.
+`x`: The output tensor has the same shape as the input tensor `x`
 
 ### 2.2 OP Specifications
 
@@ -31,7 +31,7 @@ Return value:
 | Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
 Conclusion: Compared to GPU, Ascend additionally supports fp16 and bf16.
-torch supports uint8.
+PyTorch supports uint8.
 
 #### 2.2.2 Shape Support
 
@@ -40,7 +40,7 @@ torch supports uint8.
 | GPU    | Only supports 1~5D tensors |
 | Ascend | Only supports 1~5D tensors |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
@@ -50,7 +50,7 @@ None.
 
 ### 2.4 Usage Example
 
-The following example demonstrates the element-wise exact division of input tensors `x` and `y`:
+The following example implements element-wise exact division of input tensors `x` and `y`:
 
 ```python
 @triton.jit

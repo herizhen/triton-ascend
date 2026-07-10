@@ -12,12 +12,12 @@ triton.language.fdiv(x, y, ieee_rounding=False, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter       | Type                | Description                                                             |
-| --------------- | ------------------- | ----------------------------------------------------------------------- |
-| `x`             | `tensor`            | Tensor data                                                             |
-| `y`             | `tensor`            | Tensor data                                                             |
-| `ieee_rounding` | `bool`              | Controls whether the floating-point division follows the rounding behavior specified in the IEEE 754 standard |
-| `_semantic`     | -                   | Reserved parameter, external calls not supported for now                |
+| Parameter Name | Type       | Description                                                                 |
+| -------------- | ---------- | --------------------------------------------------------------------------- |
+| `x`            | `tensor`   | Tensor data                                                                 |
+| `y`            | `tensor`   | Tensor data                                                                 |
+| `ieee_rounding`| `bool`     | Controls whether the floating-point division operation follows the rounding behavior specified in IEEE 754 standard |
+| `_semantic`    | -          | Reserved parameter, external calls not supported temporarily                |
 
 Return value:
 `x`: The output tensor has the same shape as the input tensor `x`
@@ -36,10 +36,10 @@ Torch supports uint8.
 
 #### 2.2.2 Shape Support
 
-|              | Supported Dimension Range |
-| ------------ | ------------------------- |
-| GPU          | Only supports 1~5D tensors |
-| Ascend A2/A3 | Only supports 1~5D tensors |
+|               | Supported Dimension Range |
+| ------------- | ------------------------- |
+| GPU           | Only supports 1~5D tensors |
+| Ascend A2/A3  | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
@@ -49,9 +49,9 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 fp64 is under development.
 
-### 2.4 Usage Example
+### 2.4 Usage
 
-The following example implements the element-wise fast division of input tensors `x` and `y`:
+The following example implements element-wise fast division of input tensors `x` and `y`:
 
 ```python
 @triton.jit

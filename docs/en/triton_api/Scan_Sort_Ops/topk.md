@@ -15,11 +15,11 @@ triton.language.topk(x, k, dim: constexpr | None = None)
 | Parameter | Type | Description |
 | --------- | ---- | ----------- |
 | `x` | `tensor` | Input tensor |
-| `k` | `int` | Number of top elements to return, must be a power of 2 |
-| `dim` | `constexpr int` or `None` | Dimension along which to find the top k elements; this parameter must be determined at compile time; if `None`, the last dimension is used; currently only the last dimension is supported |
+| `k` | `int` | Number of top elements to return; must be a power of 2 |
+| `dim` | `constexpr int` or `None` | Dimension along which to find the top k elements; must be determined at compile time; if `None`, the last dimension is used; currently only the last dimension is supported |
 
 Return value:
-`out`: The output tensor has the same shape as the input tensor, except the specified dimension length becomes `k`
+`out`: The shape of the output tensor is the same as the input tensor, except that the specified dimension length becomes `k`
 
 ### 2.2 OP Specifications
 
@@ -44,9 +44,9 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative capability missing from the community and cannot be implemented
+> Relative to community capabilities, these are missing and cannot be implemented
 
-Due to limitations of the Bisheng compiler, int32, uint8, int64, float64, and bool cannot be implemented.
+Due to Bisheng compiler limitations, int32, uint8, int64, float64, and bool cannot be implemented.
 
 Currently, `topk` only returns the maximum values; switching to return minimum values via parameters is not supported.
 `dim` only supports the last dimension.

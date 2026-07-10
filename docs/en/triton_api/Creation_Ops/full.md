@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: `triton.language.full` returns a tensor filled with a scalar value of a given shape and data type.
+Description: `triton.language.full` returns a tensor filled with a scalar value of a given shape and data type
 
 ```python
 triton.language.full(shape, value, dtype, _semantic=None)¶
@@ -33,7 +33,7 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
+Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape.
 
 ### 2.3 Special Limitations
 

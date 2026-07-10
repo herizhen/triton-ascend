@@ -32,12 +32,12 @@ A3:
 
 ### 2.2.2 Shape Support
 
-| | Supported Dimension Range |
-| ------ | ----------------------- |
-| GPU | Only supports 1~5D tensors |
+|        | Supported Dimension Range |
+| ------ | ------------------------- |
+| GPU    | Only supports 1~5D tensors |
 | Ascend | Only supports 1~5D tensors |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
@@ -52,14 +52,14 @@ import triton.language as tl
 
 @triton.jit
 def basic_static_print_example(x_ptr, BLOCK_SIZE: tl.constexpr):
-    # Print constant values at compile time
+    # Print constant value at compile time
     tl.static_print("BLOCK_SIZE =", BLOCK_SIZE)
     tl.static_print(BLOCK_SIZE)
     # Supports fstring printing
     tl.static_print(f"BLOCK_SIZE={BLOCK_SIZE}")
 ```
 
-If printing **non-constant** results, it will print a `data_type[data_shape(empty for scalar)]` value. For example, if the data type pointed to by `x_ptr` in the code below is `int32`, it will print `val:int32[constexpr[4]]`:
+If printing a **non-constant** result, it will print a `data_type[data_shape(empty for scalar)]` value. For example, if the data type pointed to by `x_ptr` in the code below is `int32`, it will print `val:int32[constexpr[4]]`
 
 ```python
 import triton.language as tl

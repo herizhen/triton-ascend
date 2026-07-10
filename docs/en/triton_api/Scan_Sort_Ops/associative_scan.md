@@ -40,7 +40,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 ### 2.3 Special Limitations
 
 > Relative community capability missing and cannot be implemented
-> `reverse=True` indicates whether to apply the associative scan in the reverse direction along the axis. This feature requires `tl.load` to align when loading data, i.e., without using a mask to filter out excess data indices, as shown in the example code below:
+> Whether `reverse=True` applies the associative scan in the reverse direction along the axis. This feature requires alignment when loading data with `tl.load`, meaning no mask is used to filter out excess data indices, as shown in the example code below:
 
 ```python
     tl.static_assert(
