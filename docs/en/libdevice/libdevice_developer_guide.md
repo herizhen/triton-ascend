@@ -2,7 +2,7 @@
 
 ## SIMT Compilation Example
 
-Example of a triton kernel using SIMT compilation
+Example of a triton kernel compiled using SIMT
 
 ```python
 # Enable libdevice SIMT compilation
@@ -98,7 +98,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Floating-point addition with round-towards-negative-infinity.
+Adds two floating-point numbers with round-towards-negative-infinity.
 
 Prototype:
 
@@ -110,7 +110,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the result of the addition rounded down.
+Return value: `tl.tensor`, returns the addition result rounded down.
 
 Return type: `float32`
 
@@ -120,7 +120,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Floating-point addition with round-to-nearest-even.
+Adds two floating-point numbers with round-to-nearest-even.
 
 Prototype:
 
@@ -132,7 +132,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the result of the addition rounded to nearest even.
+Return value: `tl.tensor`, returns the addition result rounded to nearest even.
 
 Return type: `float32`
 
@@ -142,7 +142,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Floating-point addition with round-towards-positive-infinity.
+Adds two floating-point numbers with round-towards-positive-infinity.
 
 Prototype:
 
@@ -154,7 +154,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the result of the addition rounded up.
+Return value: `tl.tensor`, returns the addition result rounded up.
 
 Return type: `float32`
 
@@ -164,7 +164,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Floating-point addition with round-towards-zero.
+Adds two floating-point numbers with round-towards-zero.
 
 Prototype:
 
@@ -176,7 +176,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the result of the addition rounded towards zero.
+Return value: `tl.tensor`, returns the addition result rounded towards zero.
 
 Return type: `float32`
 
@@ -249,7 +249,7 @@ Supported compilation modes: SIMT, SIMD
 
 ### OP Overview
 
-Arctangent function, computes the arctangent of x / y.
+Computes the arctangent of x / y.
 
 Prototype:
 
@@ -271,7 +271,7 @@ Supported compilation modes: SIMT, SIMD
 
 ### OP Overview
 
-Inverse hyperbolic tangent function, computes the inverse hyperbolic tangent of the input argument.
+Computes the inverse hyperbolic tangent of the input argument.
 
 Prototype:
 
@@ -292,7 +292,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Bit reversal function, reverses the bit order of a 32-bit integer.
+Reverses the bit order of a 32-bit integer.
 
 Prototype:
 
@@ -313,7 +313,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Byte permutation operation, selects bytes from two 32-bit integers to form a new integer. The byte order of input integers x and y is as follows.
+Byte permutation operation that selects bytes from two 32-bit integers to form a new integer. The byte order of input integers x and y is as follows.
 
 ```cpp
 input[0] = x<7:0>     input[1] = x<15:8>
@@ -371,7 +371,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Rounds up, returns the smallest integer greater than or equal to x.
+Rounds up to the nearest integer greater than or equal to x.
 
 Prototype:
 
@@ -425,7 +425,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns a floating-point number whose absolute value equals the absolute value of x and whose sign matches y.
+Return value: `tl.tensor`, returns a floating-point number with the magnitude of x and the sign of y.
 
 Return type: `float32`
 
@@ -477,7 +477,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Computes the value of cos(π × x).
+Computes cos(π × x).
 
 Prototype:
 
@@ -498,7 +498,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Computes the modified Bessel function of the first kind of order zero for the input argument.
+Computes the modified Bessel function of the first kind of order zero.
 
 Prototype:
 
@@ -509,7 +509,7 @@ triton.language.extra.cann.libdevice.cyl_bessel_i0(x, _builder=None)
 Input types:
 - x: `float32`
 
-Return value: `tl.tensor`, returns the modified Bessel function of the first kind of order zero for the input argument.
+Return value: `tl.tensor`, returns the modified Bessel function of the first kind of order zero.
 
 Return type: `float32`
 
@@ -519,7 +519,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Computes the modified Bessel function of the first kind of order one for the input argument.
+Computes the modified Bessel function of the first kind of order one.
 
 Prototype:
 
@@ -530,7 +530,7 @@ triton.language.extra.cann.libdevice.cyl_bessel_i1(x, _builder=None)
 Input types:
 - x: `float32`
 
-Return value: `tl.tensor`, returns the modified Bessel function of the first kind of order one for the input argument.
+Return value: `tl.tensor`, returns the modified Bessel function of the first kind of order one.
 
 Return type: `float32`
 
@@ -540,7 +540,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Floating-point division with round-towards-negative-infinity.
+Divides two floating-point numbers with round-towards-negative-infinity.
 
 Prototype:
 
@@ -552,7 +552,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the result of the division.
+Return value: `tl.tensor`, returns the division result.
 
 Return type: `float32`
 
@@ -562,7 +562,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Floating-point division with round-to-nearest-even.
+Divides two floating-point numbers with round-to-nearest-even.
 
 Prototype:
 
@@ -574,7 +574,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the result of the division.
+Return value: `tl.tensor`, returns the division result.
 
 Return type: `float32`
 
@@ -584,7 +584,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Floating-point division with round-towards-positive-infinity.
+Divides two floating-point numbers with round-towards-positive-infinity.
 
 Prototype:
 
@@ -596,7 +596,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the result of the division.
+Return value: `tl.tensor`, returns the division result.
 
 Return type: `float32`
 
@@ -606,7 +606,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Floating-point division with round-towards-zero.
+Divides two floating-point numbers with round-towards-zero.
 
 Prototype:
 
@@ -618,7 +618,7 @@ Input types:
 - x: `float32`
 - y: `float32`
 
-Return value: `tl.tensor`, returns the result of the division.
+Return value: `tl.tensor`, returns the division result.
 
 Return type: `float32`
 
@@ -670,7 +670,7 @@ Supported compilation modes: SIMT
 
 ### OP Overview
 
-Inverse complementary error function, finds the value y such that x = erfc(y).
+Inverse complementary error function, finds y such that x = erfc(y).
 
 Prototype:
 
@@ -708,4 +708,13 @@ Return type: `float32`
 
 Supported compilation modes: SIMT
 
-## 32
+## 32. triton.language.extra.cann.libdevice.erfinv
+
+### OP Overview
+
+Inverse error function, finds y such that x = erf(y).
+
+Prototype:
+
+```python
+triton.language.

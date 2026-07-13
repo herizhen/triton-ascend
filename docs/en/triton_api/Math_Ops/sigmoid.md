@@ -12,11 +12,11 @@ triton.language.sigmoid(x)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type       | Description          |
-| -------------- | ---------- | -------------------- |
-| `x`            | `tensor`   | Tensor data          |
+| Parameter | Type     | Description          |
+| --------- | -------- | -------------------- |
+| `x`       | `tensor` | Tensor data          |
 
-Return Value:
+Return value:
 `x`: The output tensor has the same shape as the input tensor `x`.
 
 ### 2.2 OP Specifications

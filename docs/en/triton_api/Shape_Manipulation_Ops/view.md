@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Creates a view of a tensor, changing its shape without copying data. Similar to `reshape`, but emphasizes the concept of a view while maintaining data contiguity in memory.
+Creates a view of a tensor, changing its shape without copying data. Similar to `reshape`, but emphasizes the concept of a view, maintaining data contiguity in memory.
 
 **Syntax:**
 
@@ -12,7 +12,7 @@ Creates a view of a tensor, changing its shape without copying data. Similar to 
 **Functionality:**
 
 - Creates a view of a tensor, changing its shape without copying data
-- Similar to `reshape`, but places greater emphasis on the view concept
+- Similar to `reshape`, but emphasizes the concept of a view
 - Maintains data contiguity in memory
 
 ## 2 Parameter Specifications
@@ -29,12 +29,12 @@ Creates a view of a tensor, changing its shape without copying data. Similar to 
 - **Type:** tensor
 - **Shape:** Same as the target shape specified by the `shape` parameter
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Contiguous with the input tensor in memory
+- **Memory Layout:** Contiguous in memory with the input tensor
 
 **Constraints:**
 
 - The total number of elements in the input and output tensors must be equal
-- The output tensor must be contiguous with the input tensor in memory
+- The output tensor must be contiguous in memory with the input tensor
 
 ### 2.2 DataType Support Table
 
@@ -63,14 +63,14 @@ def view_example(out_ptr):
     # Create a 2x3x4 tensor
     x = tl.zeros([2, 3, 4], dtype=tl.float32)
 
-    # Create a view, reshape to 6x4
+    # Create a view, reshaping to 6x4
     y = tl.view(x, [6, 4])
 
-    # Write the result to an external tensor
+    # Write the result back to the external tensor
     offs = tl.arange(0, 6)[:, None] * 4 + tl.arange(0, 4)[None, :]
     tl.store(out_ptr + offs, y)
 
-## Example call
+## Call example
 out = torch.empty((6, 4), dtype=torch.float32, device="npu")
 view_example[(1,)](out)
 print(out.shape)  # Output: torch.Size([6, 4])

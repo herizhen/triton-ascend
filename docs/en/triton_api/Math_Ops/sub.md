@@ -9,7 +9,7 @@ Description: Subtraction, arithmetic operation '-', no tl.sub method
 ### 2.1 Parameter Description
 
 | Parameter | Type | Description |
-| --------- | ---- | ----------- |
+| ------------- | ----------------- | -------------------------------------------------------------- |
 | `x` | `tensor or Number` | First input parameter |
 | `y` | `tensor or Number` | Second input parameter |
 
@@ -36,7 +36,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Usage Example
 
-The following example implements subtraction calculation on input tensors `in_ptr0, in_ptr1`:
+The following example demonstrates subtraction computation on input tensors `in_ptr0, in_ptr1`:
 
 ```python
 @triton.jit

@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-`device_print` is used to print information from the device side during NPU runtime. Unlike `static_print`, this outputs information in real-time during kernel execution. The first parameter must be a `string`, and subsequent parameters must be `scalars` or `tensors`. **To use `device_print`, the environment variable `TRITON_DEVICE_PRINT` must be set to `True`.**
+`device_print` is used to print information from the device side during NPU runtime. Unlike `static_print`, this outputs information in real-time during kernel execution. The first parameter must be a `string`, and subsequent parameters must be `scalars` or `tensors`. **To use `device_print`, set the environment variable `TRITON_DEVICE_PRINT` to `True`.**
 
 ```python
 triton.language.device_print(prefix, *args, hex=False, _semantic=None)
@@ -14,10 +14,10 @@ triton.language.device_print(prefix, *args, hex=False, _semantic=None)
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `prefix` | `str` | Required | Prefix string before the printed values |
+| `prefix` | `str` | Required | Prefix string before printed values |
 | `args` | `tensor`/`scalar` | Required | Values to print, can be any tensor or scalar |
 | `hex` | `bool` | `False` | Whether to print all values in hexadecimal format |
-| `_semantic` | - | - | Reserved parameter, external calls not supported |
+| `_semantic` | - | - | Reserved parameter, external invocation not supported |
 
 ### 2.2.1 Data Type Support
 
@@ -32,19 +32,19 @@ A3:
 
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
-| GPU    | Only supports 1~5D tensors |
-| Ascend | Only supports 1~5D tensors |
+| GPU    | Only 1~5D tensors |
+| Ascend | Only 1~5D tensors |
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Missing community capabilities that cannot be implemented
 
 Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
 
 **DevicePrint Functional Limitations**
 
 **Phenomenon Description:**
-`device_print` can only print result values involved in computation; it cannot print offset variables used purely for memory access.
+device_print can only print result values involved in computation, and cannot print offset variables used purely for memory access.
 
 **Root Cause:**
 During the memory access analysis and optimization phase, the compiler optimizes away offsets used solely for address calculation. These intermediate variables are not retained in the final execution code.
@@ -65,14 +65,14 @@ def add_kernel(x_ptr,  # *Pointer* to first input vector.
     pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.
     block_start = pid * BLOCK_SIZE
     offsets = block_start + tl.arange(0, BLOCK_SIZE)
-    tl.device_print("offsets:", offsets)// ❌ Cannot print, already optimized away
+    tl.device_print("offsets:", offsets)// ❌ Cannot print, already optimized
 ```
 
-Additionally, in certain cases, `device_print` may expand some auxiliary DMA code, causing underlying errors. Related functionality is still being optimized.
+Additionally, under certain circumstances, `device_print` may expand some auxiliary DMA code, causing underlying errors. Related functionality is still being optimized.
 
 ### 2.4 Usage
 
-**Note**: The `prefix` string prefix must be included when using `device_print`; otherwise, a compilation error will occur. Printing only the `prefix` string is currently not supported.
+**Note**: The `prefix` string prefix must be included when using `device_print`; otherwise, a compilation error will occur. Printing the `prefix` string alone is currently not supported.
 
 ```python
 import triton

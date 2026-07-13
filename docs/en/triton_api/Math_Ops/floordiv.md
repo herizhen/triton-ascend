@@ -8,10 +8,10 @@ Description: Floor division, returns the division result rounded towards zero, a
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type                | Description                                                    |
-| -------------- | ------------------- | -------------------------------------------------------------- |
-| `self`         | `tensor or Number`  | First input, dividend                                          |
-| `other`        | `tensor or Number`  | Second input, divisor                                          |
+| Parameter    | Type                | Description                                                    |
+| ------------ | ------------------- | -------------------------------------------------------------- |
+| `self`       | `tensor or Number`  | First input, dividend                                          |
+| `other`      | `tensor or Number`  | Second input, divisor                                          |
 
 ### 2.2 Supported Specifications
 
@@ -27,7 +27,7 @@ Description: Floor division, returns the division result rounded towards zero, a
 |        | Supported Dimension Range |
 | ------ | ------------------------- |
 | GPU    | No restriction            |
-| Ascend A2/A3 | No restriction            |
+| Ascend A2/A3 | No restriction       |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
@@ -45,6 +45,6 @@ def triton_kernel(out_ptr0, in_ptr0, in_ptr1, N: tl.constexpr):
     tl.store(out_ptr0 + idx, ret)
 ```
 
-### 2.4 Special Restrictions
+### 2.4. Special Restrictions
 
 Compared to GPU, Ascend A3 lacks support for uint8, uint16, uint32, and uint64.

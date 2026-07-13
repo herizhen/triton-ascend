@@ -2,7 +2,7 @@
 
 ## 1. Background
 
-Its functionality is similar to `copy_from_ub_to_l1`. Based on `copy_from_ub_to_l1`, it adds support for UB-to-UB copying. The original `copy_from_ub_to_l1` has been updated to include a deprecation warning.
+Its functionality is similar to copy_from_ub_to_l1. Based on copy_from_ub_to_l1, it adds support for UB-to-UB copying. The original copy_from_ub_to_l1 has been updated to include a deprecation warning.
 
 ## 2. Interface Description
 
@@ -41,13 +41,13 @@ None
 
 ## 3. Constraints
 
-- `src` and `dst` must both be tensors or both be buffers; tensor mode is currently not supported.
+- src and dst must both be tensors or both be buffers; tensor mode is currently not supported
 
-- The address space of `src` must be UB, and the address space of `dst` must be L1.
+- The address space of src must be UB, and the address space of dst must be L1
 
-- The types and shapes of `src` and `dst` must be identical.
+- The types and shapes of src and dst must be identical
 
-## 4. Usage Example
+## 4. Example
 
 ```python
 import os

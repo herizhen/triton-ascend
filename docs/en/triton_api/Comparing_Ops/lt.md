@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Used to compare elements of two tensors, equivalent to `<`.
+Description: Compares elements of two tensors, equivalent to `<`.
 Function prototype:
 
 ```python
@@ -15,7 +15,7 @@ triton.language.semantic.less_than(
 
 Used as a built-in operator of `tensor`, e.g., `x<y`.
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
@@ -43,20 +43,20 @@ Conclusion: Compared to GPU, Triton-Ascend lacks support for uint8/uint16/uint32
 
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU    | No restrictions |
-| Ascend A2/A3 | No restrictions |
+| GPU    | Unlimited |
+| Ascend A2/A3 | Unlimited |
 
 Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
-> Capabilities missing compared to the community and cannot be implemented
+> Relative community capability gap that cannot be implemented
 
 Compared to GPU, Triton-Ascend lacks support for fp64. Support for uint8/uint16/uint32/uint64 is under development.
 
 ### 2.4 Usage Example
 
-The following example implements a less-than operation on three-dimensional tensors `x0` and `x1`:
+The following example implements a less-than operation on 3D tensors `x0` and `x1`:
 
 ```python
 @triton.jit

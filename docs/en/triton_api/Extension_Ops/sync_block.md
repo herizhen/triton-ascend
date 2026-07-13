@@ -27,7 +27,7 @@ triton.language.sync_block_set(sender, receiver, event_id, _builder=None)
 
 #### 2.2.2 Special Constraints
 
-1. `sender` and `receiver` cannot be the same; a core cannot send a signal to itself
+1. `sender` and `receiver` must be different; a core cannot send a signal to itself
 2. `event_id` must be in the range 0-15 (16 independent events total)
 
 ## 3. `sync_block_wait` Operation
@@ -53,7 +53,7 @@ triton.language.sync_block_wait(sender, receiver, event_id, _builder=None)
 
 #### 3.2.2 Special Constraints
 
-1. `sender` and `receiver` cannot be the same
+1. `sender` and `receiver` must be different
 2. `event_id` must match the ID used in the corresponding `sync_block_set`
 
 ## 4. `sync_block_all` Operation

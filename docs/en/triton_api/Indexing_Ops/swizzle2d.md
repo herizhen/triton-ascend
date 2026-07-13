@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: **Converts the indices of a row-major matrix of size size_i × size_j, grouped by every size_g rows, into column-major matrix indices.**
+Description: **Converts the index of a row-major matrix of size size_i × size_j, grouped by every size_g rows, into the index of a column-major matrix.**
 
 ```python
 triton.language.swizzle2d(i, j, size_i, size_j, size_g)
@@ -20,7 +20,7 @@ triton.language.swizzle2d(i, j, size_i, size_j, size_g)
 | `size_j`       | `int`            | Integer, representing the length of index j                      |
 | `size_g`       | `int`            | Integer                                                          |
 
-Return value:
+Return Value:
 `out0, out1`: Tensors with the same shape as i, j
 
 ### 2.2 OP Specification
@@ -29,8 +29,8 @@ Return value:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU    | ×    | ×     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×   | ×    | ×    | ×    |
-| Ascend A2/A3 | × | ×     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×   | ×    | ×   | ×    |
+| GPU    | ×    | ×     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | ×    |
+| Ascend A2/A3 | × | ×     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | ×    |
 
 #### 2.2.2 Shape Support
 
@@ -43,13 +43,13 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Relative community capability missing and cannot be implemented
+> Community capability missing and cannot be implemented
 
 None.
 
 ### 2.4 Usage Example
 
-The following example converts the indices of a row-major matrix, grouped by every `size_g` rows, into column-major matrix indices:
+The following example converts the index of a row-major matrix, grouped by every `size_g` rows, into the index of a column-major matrix:
 
 ```python
 @triton.jit

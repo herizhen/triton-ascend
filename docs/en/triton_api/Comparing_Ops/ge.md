@@ -15,15 +15,15 @@ triton.language.semantic.greater_equal(
 
 Used as a built-in operator of `tensor`, e.g., `x>=y`.
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
 | Parameter | Type | Description |
 | :---: | :---: | :---: |
-| `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
+| `input` | `tensor` | Tensor data, left operand, representing the primary data for comparison |
 | `other`   | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | - | Reserved parameter, external invocation not supported |
+| `_builder` | - | Reserved parameter, currently not supported for external calls |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`

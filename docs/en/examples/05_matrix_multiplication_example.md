@@ -14,7 +14,7 @@ where:
 - `z` (bias) has shape `(A, C)`
 - The output `output` has shape `(A, C)`
 
-This kernel assumes a single block is responsible for computing the entire output matrix, suitable for small-scale matrices (A, B, C are small and can be fully covered by the current program block).
+This kernel assumes a single block is responsible for computing the entire output matrix, making it suitable for small-scale matrices (where A, B, C are small and can be fully covered by the current program block).
 
 ```python
 import pytest
@@ -39,13 +39,13 @@ def triton_dot_2_Bias(
     cidx = tl.arange(0, B)  # [0, 1, ..., B-1], for x columns / y rows
     didx = tl.arange(0, C)  # [0, 1, ..., C-1], for column dimension
 
-    # Construct linear indices for x: (A, B) -> flattened to A*B
+    # Construct linear index for x: (A, B) -> flattened to A*B
     Xidx = bidx[:, None] * B + cidx[None, :]  # Broadcast to form (A, B) index grid
 
-    # Construct linear indices for y: (B, C) -> flattened to B*C
+    # Construct linear index for y: (B, C) -> flattened to B*C
     Yidx = cidx[:, None] * C + didx[None, :]  # (B, C) index grid
 
-    # Construct linear indices for z and output: (A, C)
+    # Construct linear index for z and output: (A, C)
     Zidx = bidx[:, None] * C + didx[None, :]  # (A, C) index grid
 
     # Load data from global memory
@@ -56,7 +56,7 @@ def triton_dot_2_Bias(
     # Perform matrix multiplication and add bias
     ret = tl.dot(X, Y) + Z  # tl.dot performs (A, B) × (B, C) → (A, C)
 
-    # Store result back to global memory
+    # Write result back to global memory
     oidx = bidx[:, None] * C + didx[None, :]  # Same as Zidx, can be reused
     tl.store(output_ptr + oidx, ret)
 ```
@@ -72,7 +72,7 @@ def torch_dot_Bias(x0, x1, bias):
     return res
 
 def get_torch_typename(dtype):
-    """Maps a string data type to the corresponding torch.dtype."""
+    """Maps a string representation of a data type to the corresponding torch.dtype."""
     if dtype == 'float32':
         tyname = torch.float32
     elif dtype == 'int32':
@@ -94,7 +94,7 @@ def get_torch_typename(dtype):
     return tyname
 
 def generate_tensor(shape, dtype):
-    """Generates a random tensor with the specified shape and data type, adapting value ranges for different numeric types."""
+     """Generates a random tensor with the specified shape and data type, adapting value ranges for different numeric types."""
     if dtype == 'float32' or dtype == 'float16' or dtype == 'bfloat16':
         return torch.randn(size=shape, dtype=eval('torch.' + dtype))
     elif dtype == 'int32' or dtype == 'int64' or dtype == 'int16':
@@ -126,7 +126,7 @@ def validate_cmp(dtype, y_cal, y_ref):
 
 ## Parameterized Tests
 
-Use `pytest` to perform parameterized functional validation of the `triton_dot_2_Bias` kernel, covering different matrix dimensions and data type combinations.
+Using `pytest` for parameterized functional validation of the `triton_dot_2_Bias` kernel, covering different matrix dimensions and data type combinations.
 
 ```python
 # Test case configuration: (A, B, C) represents matrix x: (A,B), y: (B,C), bias/output: (A,C)
@@ -147,10 +147,10 @@ def test_dot_2_Bias(sigtype, A, B, C):
     x0 = generate_tensor(shape=(A, B), dtype=sigtype).npu()
     x1 = generate_tensor(shape=(B, C), dtype=sigtype).npu()
 
-    # Bias is generated using float32 uniformly (to avoid precision issues with integer bias)
+    # Bias term generated uniformly with float32 (to avoid precision issues with integer bias)
     if 'int' in sigtype:
         bias = generate_tensor(shape=(A, C), dtype='int32').npu()
-        # Integer inputs need to be converted to float32 for computation, then converted back to target type
+        # Integer inputs need to be converted to float32 for computation, then back to target type
         ans = torch_dot_Bias(x0.to(torch.float32), x1.to(torch.float32), bias.to(torch.float32)).to(dtype)
     else:
         bias = generate_tensor(shape=(A, C), dtype='float32').npu()

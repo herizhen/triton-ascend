@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Atomic logical AND operation, performs logical AND at the specified memory location
+Description: Atomic logical AND operation, performs a logical AND at the specified memory location.
 Prototype:
 
 ```python
@@ -16,20 +16,20 @@ triton.language.atomic_and(
 ) -> pointer
 ```
 
-Can be called as a member function of a tensor, e.g., `x.atomic_and(...)`, which is equivalent to `atomic_and(x, ...)`.
+It can be called as a member function of a tensor, e.g., `x.atomic_and(...)`, which is equivalent to `atomic_and(x, ...)`.
 
 ## 2. OP Specification
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type | Description |
-| ------------- | ----------------- | -------------------------------------------------------------- |
-| `pointer` | `triton.PointerDType` | The memory location to operate on. The result of *pointer & val is written back to this memory location |
-| `val` | `pointer.dtype.element_ty` | The value for the atomic AND operation (right operand) |
-| `mask` | `int1` or `tensor<int1>`, optional | Specifies the data range to prevent out-of-bounds access |
-| `sem` | `str`, optional | Specifies the memory semantics of the operation<br>Accepted values in the community official configuration are "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed"<br>We only support "acq_rel":<br>- acquire: After acquiring the lock, can see previous release operations (equivalent to a "read" operation that blocks until the "latest" data is readable, i.e., data released by other threads)<br>- release: All operations before releasing the lock are visible to threads that subsequently acquire the lock (equivalent to a "write" operation that "synchronizes" all previous writes) |
-| `scope` | `str`, optional | The thread scope for observing the synchronization effect of the atomic operation<br>Accepted values are "gpu" (default), "cta" (cooperative thread array, thread block), or "sys" (representing "SYSTEM") <br>We only support "gpu" |
-| `_semantic` | - | Reserved parameter, not currently supported for external calls |
+| Parameter Name | Type               | Description                                                        |
+| -------------- | ------------------ | ------------------------------------------------------------------ |
+| `pointer`      | `triton.PointerDType` | The memory location to operate on; the result of *pointer & val is written back to this memory location |
+| `val`          | `pointer.dtype.element_ty` | The value to use in the atomic AND operation (right operand)       |
+| `mask`         | `int1` or `tensor<int1>`, optional | Specifies the data range to prevent out-of-bounds access |
+| `sem`          | `str`, optional    | Specifies the memory semantics of the operation<br>Community official configuration accepts values "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed"<br>We only support "acq_rel":<br>- acquire: After acquiring the lock, can see previous release operations (equivalent to a "read" operation that blocks until the "latest" data, i.e., data released by other threads, is readable)<br>- release: All operations before releasing the lock are visible to threads that subsequently acquire the lock (equivalent to a "write" operation that "synchronizes" all previous writes) |
+| `scope`        | `str`, optional    | The thread scope for observing the synchronization effect of the atomic operation<br>Acceptable values are "gpu" (default), "cta" (cooperative thread array, thread block), or "sys" (representing "SYSTEM")<br>We only support "gpu" |
+| `_semantic`    | -                  | Reserved parameter; external calls are not supported currently      |
 
 Return value:
 `pointer`: tensor, the old value before the operation
@@ -38,27 +38,27 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-| | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU | × | × | √ | × | × | × | × | √ | × | × | × | × | × |
-| Ascend A2/A3 | √ | √ | √ | √ | √ | √ | √ | √ | × | × | × | × | × |
+| GPU    | ×    | ×     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | ×    |
+| Ascend A2/A3 | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | ×    |
 
 #### 2.2.2 Shape Support
 
 No special requirements
 
-### 2.3 Special Limitation Notes
+### 2.3 Special Limitations
 
-> Capabilities missing compared to the community and cannot be implemented
+> Features missing compared to the community that cannot be implemented
 
-| Difference | Description | Resolution |
-| --------------------- | ---------------------------------------------------------------------------- | ----------------------------- |
-| sem | Accepted values in the community official configuration are "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed"<br>We only support "acq_rel" | Pending development |
-| scope | Accepted values are "gpu", "cta", or "sys"<br>We only support "gpu" | Pending development |
+| Difference Point | Description                                                                          | Solution |
+| ---------------- | ------------------------------------------------------------------------------------ | -------- |
+| `sem`            | Community official configuration accepts values "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed"<br>We only support "acq_rel" | Pending development |
+| `scope`          | Acceptable values are "gpu", "cta", or "sys"<br>We only support "gpu"                | Pending development |
 
 ### 2.4 Usage Example
 
-The following example implements atomic AND computation:
+The following example implements an atomic AND computation:
 
 ```python
 @triton.jit

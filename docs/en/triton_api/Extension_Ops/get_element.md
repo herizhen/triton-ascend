@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Reads a single element from an input tensor based on the given index.
+Description: Reads a single element from the input tensor based on the given index.
 Prototype:
 
 ```python
@@ -20,14 +20,14 @@ Can be called as a member function of a tensor, e.g., `x.get_element(...)`, whic
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type                            | Description                                                  |
-| ------------ | ------------------------------- | ------------------------------------------------------------ |
-| `src`        | `tensor`                        | The source tensor to be accessed                             |
-| `indice`     | `tuple of ints` or `tuple of tensors` | Indices specifying the element position                      |
-| `_builder`   | -                               | Reserved parameter, external invocation not supported yet    |
-| `_generator` | -                               | Reserved parameter, external invocation not supported yet    |
+| Parameter Name | Type                | Description                                                       |
+| -------------- | ------------------- | ----------------------------------------------------------------- |
+| `src`          | `tensor`            | The source tensor to be accessed                                  |
+| `indice`       | `tuple of ints` or `tuple of tensors` | The index used to specify the element position                    |
+| `_builder`     | -                   | Reserved parameter, external invocation not supported             |
+| `_generator`   | -                   | Reserved parameter, external invocation not supported             |
 
-Return value:
+Return Value:
 `scalar`: A scalar value of the same element type as the `src` tensor
 
 ### 2.2 Supported Specifications
@@ -40,7 +40,7 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-Supports tensors of arbitrary shapes, with the following requirement:
+Supports tensors of arbitrary shapes, provided that:
 The length of `indice` must be equal to the number of dimensions of the `src` tensor.
 
 ### 2.3 Special Constraints

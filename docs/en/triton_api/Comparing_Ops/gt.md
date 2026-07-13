@@ -49,13 +49,13 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Capabilities missing relative to the community and cannot be implemented
+> Capabilities missing compared to the community and cannot be implemented
 
 Compared to GPU, Ascend lacks support for uint16/uint32/uint64 and fp64.
 
 ### 2.4 Usage Example
 
-The following example implements a greater-than operation on 3D tensors `x0` and `x1`:
+The following example implements a greater-than operation on three-dimensional tensors `x0` and `x1`:
 
 ```python
 @triton.jit
@@ -73,6 +73,6 @@ def triton_gt_3d(in_ptr0, in_ptr1, out_ptr0, L: tl.constexpr, M: tl.constexpr, N
 
 ## 3. Semantic GAP
 
-> Capabilities missing relative to the community but can be developed and supported
+> Capabilities missing compared to the community but can be developed and supported
 
 Consider supporting the uint8 type.

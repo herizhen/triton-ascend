@@ -66,7 +66,7 @@ Custom LayerNorm implementation using Triton
 ```Python
 @torch.inference_mode()
 def layer_norm(x, weight, bias, eps=1e-5):
-    # Allocate output tensor with the same shape and dtype as input
+    # Allocate output tensor with the same shape and data type as input
     y = torch.empty_like(x)
 
     # Reshape input x to 2D shape [-1, feature_dim] to process the last dimension
@@ -83,7 +83,7 @@ def layer_norm(x, weight, bias, eps=1e-5):
         x_arg, y, weight, bias, mean, rstd,  # Input, output, and intermediate variables
         x_arg.stride(0), N, eps,
         BLOCK_SIZE=BLOCK_SIZE)
-    # Return the normalized output
+    # Return the normalized output result
     return y
 
 # Call layer normalization during forward pass

@@ -2,7 +2,7 @@
 
 ## 1. Hardware Background
 
-The Ascend hardware has different ratios of AIC to AIV cores (1:N). The Triton programming abstraction hides the hardware details of Cube and Vector cores. Therefore, Triton operator developers cannot control how data is partitioned for parallel processing across N Vector cores; this is automatically implemented by the compiler through the AutoSubTiling Pass.
+The Ascend hardware has different ratios of AIC to AIV cores (1:N). The Triton programming abstraction hides the hardware details of Cube and Vector cores. Therefore, Triton operator developers cannot control how data is split for parallel processing across N Vector cores; this is automatically implemented by the compiler through the AutoSubTiling Pass.
 
 The `sub_vec_id` programming interface returns the sub id of N Vector cores, allowing operator developers to determine which data each core processes based on the vector core sub id.
 
@@ -14,15 +14,14 @@ The `sub_vec_id` programming interface returns the sub id of N Vector cores, all
   </tr>
 </table>
 
-- Return value: Returns a Sub Vector ID in the range [0, N). Operator developers can use this ID to determine the data slice processed by each of the N parallel Vector cores.
-
-- Parameters: None
+- **Return Value**: Returns a Sub Vector ID in the range [0, N). Operator developers can use this ID to determine the data slice processed by each of the N parallel Vector cores.
+- **Parameters**: None
 
 ## 3. Constraints
 
-This interface is only valid in scenarios where AIC and AIV cores are used together. It cannot be used in pure Cube-type operators or pure Vector-type operators; otherwise, a compilation error will be triggered.
+This interface is only valid in scenarios where AIC and AIV cores are used together. It must not be used in pure Cube-type operators or pure Vector-type operators; otherwise, a compilation error will be triggered.
 
-## 4. Example
+## 4. Example Usage
 
 <table>
   <tr>
@@ -30,7 +29,7 @@ This interface is only valid in scenarios where AIC and AIV cores are used toget
   </tr>
 </table>
 
-Output:
+**Output:**
 
 <table>
   <tr>

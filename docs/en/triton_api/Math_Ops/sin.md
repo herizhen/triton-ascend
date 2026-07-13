@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise sine of `x`.
+Description: Computes the element-wise sine of x.
 
 ```python
 triton.language.sin(x, _semantic=None)
@@ -18,7 +18,7 @@ triton.language.sin(x, _semantic=None)
 | `_semantic`    | -                   | Reserved parameter, not supported for external calls             |
 
 Return value:
-`x`: The output tensor has the same shape as the input tensor `x`.
+`x`: The output tensor has the same shape as the input x.
 
 ### 2.2 OP Specifications
 
@@ -43,7 +43,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Capabilities missing relative to the community and cannot be implemented
+> Missing capabilities relative to the community that cannot be implemented
 
 None.
 

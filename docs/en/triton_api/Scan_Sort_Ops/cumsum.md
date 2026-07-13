@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: `triton.language.cumsum` computes the cumulative sum of the input tensor along the specified axis, returning the cumulative summation result.
+Description: `triton.language.cumsum` computes the cumulative sum of the input tensor along a specified axis and returns the cumulative summation result.
 
 ```python
 triton.language.cumsum(input, axis=0, reverse=False)
@@ -23,7 +23,7 @@ The `cumsum` function computes the cumulative sum (prefix sum) along the specifi
 When `reverse=True`, it computes the reverse cumulative sum: `[a+b+c+d, b+c+d, c+d, d]`.
 
 Return value:
-`tensor`: Computes the cumulative sum of the input tensor along the specified axis, returning the cumulative summation result.
+`tensor`: Computes the cumulative sum of the input tensor along the specified axis and returns the cumulative summation result.
 
 ### 2.2 Supported Specifications
 

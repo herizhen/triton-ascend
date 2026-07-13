@@ -10,11 +10,11 @@ Used as a built-in operator of `tensor`, e.g., `x != y`.
 
 ### 2.1 Parameter Description
 
-| Parameter | Type   | Description |
-| :-------: | :----: | :---------- |
-| `input`   | `tensor` | Tensor data, left operand, representing the primary data for comparison |
-| `other`   | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | -      | Reserved parameter, external calls not supported |
+| Parameter | Type | Description |
+| :---: | :---: | :---: |
+| `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
+| `other` | `tensor` | Tensor data, right operand, compared element-wise with `input` |
+| `_builder` | - | Reserved parameter, not supported for external calls |
 
 Return value:
 `tl.tensor`: A tensor with the same shape as `input`
@@ -43,11 +43,11 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 > Missing community capabilities that cannot be implemented
 
-Compared to GPU, Triton-Ascend lacks support for fp64. Support for uint8/uint16/uint32/uint64 types is under development.
+Compared to GPU, Triton-Ascend lacks support for fp64, and support for uint8/uint16/uint32/uint64 types is under development.
 
 ### 2.4 Usage
 
-The following example performs `!=` operation on tensors `x0` and `x1`:
+The following example demonstrates performing the `!=` operation on tensors `x0` and `x1`:
 
 ```python
 @triton.jit

@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Returns the value of tensor `x` or `y` based on the condition. When the condition is true, it returns the value of `x`; otherwise, it returns the value of `y`.
+Description: Determines whether to return the value of tensor `x` or `y` based on a condition. When the condition is true, returns the value of `x`; otherwise, returns the value of `y`.
 
 ```python
 triton.language.where(condition, x, y, _semantic=None)
@@ -12,15 +12,15 @@ triton.language.where(condition, x, y, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter    | Type               | Description                                                    |
-| ------------ | ------------------ | -------------------------------------------------------------- |
-| `condition`  | `tensor(bool)`     | Tensor data                                                    |
-| `x`          | `tensor`           | Tensor data                                                    |
-| `y`          | `tensor`           | Tensor data                                                    |
-| `_semantic`  | -                  | Reserved parameter, currently not supported for external calls |
+| Parameter Name | Type               | Description                                                    |
+| -------------- | ------------------ | -------------------------------------------------------------- |
+| `condition`    | `tensor(bool)`     | Tensor data                                                    |
+| `x`            | `tensor`           | Tensor data                                                    |
+| `y`            | `tensor`           | Tensor data                                                    |
+| `_semantic`    | -                  | Reserved parameter, currently not supported for external calls |
 
 Return value:
-`out`: The output tensor has the same shape as the input tensor `x`.
+`out`: The shape of the output tensor is the same as the shape of the input `x`.
 
 ### 2.2 OP Specifications
 
@@ -31,22 +31,22 @@ Return value:
 | GPU           | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | √    |
 | Ascend A2/A3  | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
 
-Conclusion: Compared to GPU, Ascend lacks support for `uint` and `fp64` types.
+Conclusion: Compared to GPU, Ascend lacks support for uint and fp64 types.
 
 #### 2.2.2 Shape Support
 
-|               | Supported Dimension Range |
-| ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+|              | Supported Dimension Range |
+| ------------ | ------------------------- |
+| GPU          | Supports only 1~5D tensors |
+| Ascend A2/A3 | Supports only 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Community capability gap that cannot be implemented
+> Relative to community capabilities, these are missing and cannot be implemented
 
-Compared to GPU, Ascend lacks support for `uint` and `fp64` types.
+Compared to GPU, Ascend lacks support for uint and fp64 types.
 
 ### 2.4 Usage Example
 

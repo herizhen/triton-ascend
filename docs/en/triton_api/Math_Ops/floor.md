@@ -12,13 +12,13 @@ triton.language.floor(x, _semantic=None)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type      | Description                                      |
-| -------------- | --------- | ------------------------------------------------ |
-| `x`            | `tensor`  | Tensor data                                      |
-| `_semantic`    | -         | Reserved parameter, not supported for external calls |
+| Parameter Name | Type       | Description                                                    |
+| -------------- | ---------- | -------------------------------------------------------------- |
+| `x`            | `tensor`   | Tensor data                                                    |
+| `_semantic`    | -          | Reserved parameter, not supported for external calls currently |
 
 Return value:
-`x`: The output tensor has the same shape as the input `x`.
+`x`: The output tensor has the same shape as the input tensor `x`.
 
 ### 2.2 OP Specifications
 
@@ -43,7 +43,7 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Community capability gap that cannot be implemented
+> Missing community capabilities that cannot be implemented
 
 None.
 

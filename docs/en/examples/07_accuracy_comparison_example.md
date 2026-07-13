@@ -11,12 +11,12 @@ Compute Kernel:
 ```Python
 def test_add(x0, x1):
     """
-    Test whether the vector addition implemented by Triton produces results consistent with PyTorch in terms of accuracy.
+    Test whether the vector addition implemented by Triton produces consistent results with PyTorch.
 
     Steps:
     1. Compute the reference result using PyTorch (torch_ref)
     2. Write a kernel using Triton and compute the result (triton_cal)
-    3. Call accuracy_comparison to perform accuracy comparison
+    3. Call accuracy_comparison for accuracy comparison
     """
 
     # 1. Use PyTorch as the reference implementation (golden truth)
@@ -43,11 +43,11 @@ def test_add(x0, x1):
         # Store the result to out_ptr0 + idx
         tl.store(out_ptr0 + idx, tmp2)
 
-    # 3. Triton wrapper function: calls the kernel and returns the result
+    # 3. Triton wrapper function: call the kernel and return the result
     def triton_func(x0, x1):
         y0 = torch.empty_like(x0)  # Create an output tensor with the same shape and dtype as input
         # Launch kernel: grid = [1, 1, 1] indicates using only one block
-        # Note: XS must be passed as an argument because it is of type tl.constexpr
+        # Note: XS must be passed as a parameter because it is of type tl.constexpr
         triton_kernel_add[1, 1, 1](y0, x0, x1, XS=x0.numel())
         return y0
 
@@ -70,14 +70,14 @@ Create an accuracy comparison function that adapts to each dtype and uses the co
 
 def accuracy_comparison(y_cal, y_ref):
     """
-    Accuracy comparison function: selects the appropriate comparison strategy based on the data type.
+    Accuracy comparison function: selects the appropriate comparison strategy based on data type.
 
     Handling strategies for different data types:
-    - Floating-point types (float16/32, bfloat16): use torch.testing.assert_close, set relative/absolute error tolerances
+    - Floating-point types (float16/32, bfloat16): use torch.testing.assert_close with relative/absolute error tolerances
     - Integer types (int8/16/32/64): require exact equality (torch.equal)
-    - Boolean type (bool): strict comparison on CPU (to avoid device discrepancies)
+    - Boolean type (bool): strictly compare on CPU (to avoid device discrepancies)
     """
-    # Check if the output data types match
+    # Check if the output data types are consistent
     assert y_cal.dtype == y_ref.dtype, f"dtype mismatch: {y_cal.dtype} vs {y_ref.dtype}"
     tensor_dtype = y_cal.dtype
 
@@ -85,12 +85,12 @@ def accuracy_comparison(y_cal, y_ref):
     y_cal = y_cal.npu()
     y_ref = y_ref.npu()
 
-    # Choose different comparison methods based on the data type
+    # Select different comparison methods based on data type
     if tensor_dtype == torch.float16:
         # float16 has lower precision, allow slightly larger errors
         torch.testing.assert_close(y_ref, y_cal, rtol=1e-3, atol=1e-3, equal_nan=True)
     elif tensor_dtype == torch.bfloat16:
-        # bfloat16 has even lower precision, recommend converting to float32 before comparison
+        # bfloat16 has even lower precision, recommended to convert to float32 for comparison
         torch.testing.assert_close(
             y_ref.to(torch.float32),
             y_cal.to(torch.float32),
@@ -105,7 +105,7 @@ def accuracy_comparison(y_cal, y_ref):
         # Integer types should be exactly equal
         assert torch.equal(y_cal, y_ref), f"Integer tensors are not equal for dtype {tensor_dtype}"
     elif tensor_dtype == torch.bool:
-        # Boolean types are recommended to be compared on CPU to avoid boolean representation differences between devices
+        # Boolean types are recommended to be compared on CPU to avoid device-specific boolean representation differences
         assert torch.equal(y_cal.cpu(), y_ref.cpu()), "Boolean tensors are not equal"
     else:
         raise ValueError(f'Invalid or unsupported tensor dtype: {tensor_dtype}')

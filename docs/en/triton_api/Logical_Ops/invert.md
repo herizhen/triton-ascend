@@ -16,43 +16,43 @@ x.__invert__()
 
 ### 2.1 Parameter Description
 
-| Parameter      | Type                | Description                                                    |
-| -------------- | ------------------- | -------------------------------------------------------------- |
-| `x`            | `tensor`            | Tensor data                                                    |
-| `_semantic`    | -                   | Reserved parameter, not supported for external calls           |
+| Parameter Name | Type     | Description                                                    |
+| -------------- | -------- | -------------------------------------------------------------- |
+| `x`            | `tensor` | Tensor data                                                    |
+| `_semantic`    | -        | Reserved parameter, external calls not supported for now       |
 
-Return value:
+Return Value:
 `out`: The shape of the output tensor is the same as the shape of the input `x`.
 
 ### 2.2 OP Specifications
 
 #### 2.2.1 DataType Support
 
-|                | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| -------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU            | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | √    |
-| Ascend A2/A3   | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
+|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU           | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3  | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
 
 Conclusion: Ascend lacks support for unsigned integer types compared to GPU.
 
 #### 2.2.2 Shape Support
 
-|                | Supported Dimension Range |
-| -------------- | ------------------------- |
-| GPU            | Only supports 1~5D tensors |
-| Ascend A2/A3   | Only supports 1~5D tensors |
+|               | Supported Dimension Range |
+| ------------- | ------------------------- |
+| GPU           | Only supports 1~5D tensors |
+| Ascend A2/A3  | Only supports 1~5D tensors |
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Missing community capabilities that cannot be implemented
+> Missing capabilities compared to the community, cannot be implemented
 
 Ascend lacks support for unsigned integer types compared to GPU.
 
 ### 2.4 Usage Example
 
-The following example demonstrates performing element-wise bitwise NOT on the input tensor `x`:
+The following example demonstrates performing element-wise bitwise inversion on the input tensor `x`:
 
 ```python
 @triton.jit

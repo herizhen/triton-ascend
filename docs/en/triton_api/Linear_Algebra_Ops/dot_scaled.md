@@ -25,7 +25,7 @@ triton.language.dot_scaled(lhs, lhs_scale, lhs_format, rhs, rhs_scale, rhs_forma
 | `acc`          | `tensor`           | Accumulation tensor                                                 |
 | `lhs_k_pack`   | `(bool, optional)` | true: pack along K dimension<br>false: pack along M dimension<br>   |
 | `rhs_k_pack`   | `(bool, optional)` | true: pack along K dimension<br>false: pack along N dimension<br>   |
-| `_semantic`    | -                  | Reserved parameter, not supported for external calls                |
+| `_semantic`    | -                  | Reserved parameter, external calls not supported                    |
 
 Return value:
 `out`: tensor type, the output value after computing the scaled matrix multiplication
@@ -34,10 +34,10 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|       | fp4      | fp8      | bf16     | fp16     |
-| ----- | -------- | -------- | -------- | -------- |
-| GPU   | √        | √        | √        | √        |
-| Ascend A2/A3 | × | × | √ | √ |
+|                | fp4     | fp8     | bf16    | fp16    |
+| -------------- | ------- | ------- | ------- | ------- |
+| GPU            | √       | √       | √       | √       |
+| Ascend A2/A3   | ×       | ×       | √       | √       |
 
 Conclusion:
 1. Ascend lacks fp4 and fp8 support compared to GPU (hardware limitation).
@@ -45,17 +45,17 @@ Conclusion:
 
 #### 2.2.2 Shape Support
 
-|       | Supported Dimension Range |
-| ----- | ------------------------- |
-| GPU   | Supports 2~3D tensors     |
-| Ascend | Supports 2~3D tensors    |
+|        | Supported Dimension Range |
+| ------ | ------------------------- |
+| GPU    | Supports 2~3D tensors     |
+| Ascend | Supports 2~3D tensors     |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms. Both lhs/rhs matrices support 2 to 3 dimensional tensors, but the scale matrix only supports 2 dimensions.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms. The lhs/rhs matrices support 2 to 3 dimensional tensors, but the scale matrix only supports 2 dimensions.
 
 ### 2.3 Special Limitations
 
-1. Due to the lack of fp8 support, left and right matrices do not support fp4 and fp8 formats. Ascend lacks the matrix decompression support capability for `lhs_k_pack` and `rhs_k_pack` compared to GPU (hardware limitation).
-2. The recommended input range for input matrices `lhs` and `rhs` is [-5, 5]. Values exceeding this range may result in extreme values (inf).
+1. Due to the lack of fp8 support, the left and right matrices do not support fp4 and fp8 formats. Compared to GPU, Ascend lacks the matrix decompression support capability for `lhs_k_pack` and `rhs_k_pack` (hardware limitation).
+2. The recommended input range for the input matrices `lhs` and `rhs` is [-5, 5]; values outside this range may result in extreme values (inf).
 3. Due to hardware alignment requirements, the broadcast multiple of the scale matrix must be limited to at least 16.
 4. The currently supported scale matrix format is int8, while the community uses uint8.
 

@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-Description: Computes the element-wise maximum of `x` and `y`.
+Description: Computes the element-wise maximum of x and y.
 Function prototype (Triton 3.4.0 version):
 
 ```python
@@ -45,13 +45,13 @@ Conclusion: In terms of shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Capabilities missing relative to the community and cannot be implemented
+> Missing capabilities relative to the community that cannot be implemented
 
 None.
 
 ### 2.4 Usage Example
 
-The following example computes the element-wise maximum of input tensors `x` and `y`:
+The following example demonstrates computing the element-wise maximum of input tensors `x` and `y`:
 
 ```python
 @triton.jit

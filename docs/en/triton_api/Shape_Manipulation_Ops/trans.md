@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Transposes the dimensions of a tensor according to the `dims` parameter. This operation does not modify the tensor's data, only rearranges the order of its dimensions. It is a specially optimized transpose operation.
+Transposes the dimensions of a tensor according to the `dims` parameter. It does not modify the tensor's data, only the order of its dimensions. This is a specially optimized transpose operation.
 
 **Syntax:**
 
@@ -12,7 +12,7 @@ Transposes the dimensions of a tensor according to the `dims` parameter. This op
 **Functionality:**
 
 - Transposes the dimensions of a tensor according to the `dims` parameter
-- Does not modify the tensor's data, only rearranges the order of its dimensions
+- Does not modify the tensor's data, only the order of its dimensions
 - Specially optimized transpose operation
 
 ## 2 Parameter Specifications
@@ -29,7 +29,7 @@ Transposes the dimensions of a tensor according to the `dims` parameter. This op
 - **Type:** tensor
 - **Shape:** Dimensions rearranged according to the `dims` parameter
 - **Data Type:** Same as the input tensor
-- **Memory Layout:** Transposition is achieved by modifying stride information, with no data copy
+- **Memory Layout:** Transposition achieved by modifying stride information, no data copy
 
 **Constraints:**
 
@@ -46,9 +46,9 @@ Transposes the dimensions of a tensor according to the `dims` parameter. This op
 
 Supports any number of dimensions and any shape size.
 
-### 2.4 Special Limitations
+### 2.4 Special Limitation Notes
 
-* Transposition of tensors with more than 8 dimensions is not supported
+* Transposition with more than 8 dimensions is not supported
 
 ### 2.5 Usage Example
 

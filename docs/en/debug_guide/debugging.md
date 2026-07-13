@@ -2,15 +2,15 @@
 
 ## 1 Introduction
 
-This document is the **Triton-Ascend Debugging Guide**, intended for engineers involved in the adaptation and development of Triton with Ascend NPUs. It systematically introduces common debugging methods and tools used during the Triton-Ascend compilation and execution process.
+This document is the **Triton-Ascend Debugging Guide**, intended for engineers involved in the adaptation development of Triton with Ascend NPUs. It systematically introduces common debugging methods and tools used during the Triton-Ascend compilation and execution process.
 
 The content overview is as follows:
 
 | Section | Main Content |
 |------|--------|
-| **1. Overview** | Explains the core debugging objective (focusing on the `ttir.mlir` → `ttadapter.mlir` transformation) and provides a categorized guide for common issues. |
+| **1. Overview** | Explains the core objective of debugging (focusing on the `ttir.mlir` → `ttadapter.mlir` transformation) and provides a classification guide for common issues. |
 | **2. Compilation Flow Overview** | Introduces the key stages of the Triton-Ascend end-to-end compilation chain, providing context for subsequent debugging. |
-| **3. Temporary File Guide** | Details the storage location and purpose of intermediate files generated during compilation (e.g., `.mlir`, `.ll`, `.o`), facilitating manual inspection. |
+| **3. Temporary File Guide** | Details the storage locations and purposes of intermediate files generated during compilation (e.g., `.mlir`, `.ll`, `.o`), facilitating manual inspection. |
 | **4. Interpreter Mode** | Describes how to run kernels on the CPU using `TRITON_INTERPRET=1`, serving as a precision baseline for NPU computation results. |
 | **5. Debugging Methods** | Provides various practical debugging techniques:<br>• Static/Runtime Printing<br>• Compilation Error Debugging Methods<br> |
 | **Appendix A** | Quick reference table of commonly used environment variables to improve debugging efficiency. |
@@ -19,12 +19,12 @@ Developers are advised to consult the relevant sections as needed based on speci
 
 ### 1.1 Triton-Ascend Common Problem Classification and Debugging Guide
 
-During development, problems can typically be categorized as follows. The table below provides a quick guide for problem type identification and recommended primary debugging methods.
+During development, problems can generally be categorized as follows. The table below provides a quick guide for identifying problem types and recommended primary debugging methods.
 
 | Problem Type | Typical Manifestation/Description | Recommended Primary Debugging Method |
 | :--- | :--- | :--- |
-| **Precision Issues** | NPU results differ from reference results (e.g., PyTorch or Triton CPU interpreter). | 4. Interpreter Mode <br> 5.1 Print Debugging Methods |
-| **Compilation Errors (MLIRCompileError)** | Failure during the compilation/transformation stage, usually throwing `MLIRCompileError` on the Python side. | 5.2 Compilation Error Debugging Methods |
+| **Precision Issue** | NPU execution results differ from reference results (e.g., PyTorch or Triton CPU interpreter). | 4. Interpreter Mode <br> 5.1 Print Debugging Methods |
+| **Compilation Error (MLIRCompileError)** | Failure during the compilation transformation phase, typically raising `MLIRCompileError` on the Python side. | 5.2 Compilation Error Debugging Methods |
 
 ## 2 Triton-Ascend Compilation Flow Overview
 
@@ -33,8 +33,8 @@ Understanding the complete compilation chain is fundamental for effective debugg
 | Stage | Input | Output | Tool/Component | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | **Python Kernel Compilation** | `triton_kernel.py` (Python) | `ttir.mlir` (MLIR) | Triton JIT Compiler | Compiles user-written Triton Python kernels into standard Triton IR (TTIR). |
-| **Triton IR Adaptation Transformation** | `ttir.mlir` | `ttadapter.mlir` | Triton Backend Adapted for Ascend | **Key debugging stage**. Transforms TTIR into Adapter IR for the Ascend NPU backend. |
-| **MLIR Compilation & Code Generation** | `ttadapter.mlir` | `.o` (Executable Object File) | Bisheng Compiler (`bishengir-compile`) | Further compiles and optimizes the Adapter IR, generating binary code executable on the NPU. |
+| **Triton IR Adaptation Transformation** | `ttir.mlir` | `ttadapter.mlir` | Ascend-adapted Triton Backend | **Key Debugging Stage**. Transforms TTIR into Adapter IR for the Ascend NPU backend. |
+| **MLIR Compilation & Code Generation** | `ttadapter.mlir` | `.o` (Executable Object File) | BiSheng Compiler (`bishengir-compile`) | Further compiles and optimizes the Adapter IR to generate binary code executable on the NPU. |
 
 ```bash
 # Triton-Ascend Compilation Flow Diagram
@@ -47,15 +47,15 @@ Understanding the complete compilation chain is fundamental for effective debugg
 [NPU Executable .o]
 ```
 
-**This guide's debugging focus** is on the second stage: the transformation process from `ttir.mlir` to `ttadapter.mlir`, which is the core functionality of Triton-Ascend.
+**The debugging focus of this guide** is on the second stage: the transformation process from `ttir.mlir` to `ttadapter.mlir`, which is the core functionality of Triton-Ascend.
 
 ## 3 Triton-Ascend Temporary File Guide
 
-During the Triton-Ascend compilation process, various temporary files are generated for caching and debugging. Understanding the location and purpose of these files is crucial for efficient debugging.
+During the Triton-Ascend compilation process, various temporary files are generated for caching and debugging. Understanding the locations and purposes of these files is crucial for efficient debugging.
 
 ### 3.1 Cache Files
 
-Triton uses a caching mechanism to accelerate repeated compilations. Intermediate files generated during compilation are cached in the user's directory to avoid recompiling the same kernel.
+Triton uses a caching mechanism to accelerate repeated compilation. Intermediate files generated during compilation are cached in the user's directory to avoid recompiling the same kernel.
 
 Cache Directory Structure:
 
@@ -64,23 +64,21 @@ Cache Directory Structure:
 Main Cache Contents:
 
 - Input File Cache: The `ttir.mlir` file generated from the original Triton kernel
-
-- Output File Cache: The `ttadapter.mlir` file after the Ascend adaptation transformation
-
-- Build Artifact Cache: The final executable file generated by compilation
+- Output File Cache: The `ttadapter.mlir` file after Ascend adaptation transformation
+- Compilation Artifact Cache: The final executable file generated by compilation
 
 Cache File Naming Convention:
-Cache files are typically named using an MD5 hash to ensure that identical kernel code corresponds to the same cache file.
+Cache files are typically named using an MD5 hash, ensuring that identical kernel code corresponds to the same cache file.
 
 **Cache Management Recommendations:**
 
-Periodic Cleanup: Cache can consume significant disk space. Clean it periodically:
+Periodic Cleanup: Cache may consume significant disk space. Clean it periodically:
 
 ```bash
 rm -rf ~/.triton/cache
 ```
 
-Disable Cache During Debugging: When debugging compilation issues, it is recommended to temporarily disable the cache to ensure a full recompilation each time:
+Disable Cache During Debugging: When debugging compilation issues, it is recommended to temporarily disable the cache to ensure recompilation every time:
 
 ```bash
 export TRITON_DISABLE_CACHE=1
@@ -96,16 +94,15 @@ Dump Directory Structure:
 
 - Default Path: ~/.triton/dump/
 
-Directory Naming: Each compilation session generates a subdirectory named with a timestamp or unique ID
+Directory Naming: Each compilation session generates a subdirectory named with a timestamp or unique ID.
 
 Main Dump Files:
 
 - `kernel.ttir.mlir`: Triton IR file (compilation input)
-
 - `kernel.ttadapter.mlir`: Adapter IR file (transformation output)
 
-Enabling Debug Dumps:
-Even if caching is enabled, as long as `TRITON_DEBUG=1` is set, the system will regenerate dump files on each run (overwriting files in the same-named directory). However, if the cache is hit and compilation is skipped, the IR transformation may not be triggered, resulting in no new dump being generated. Therefore, it is recommended to also set the following during debugging:
+Enabling Debug Dump:
+Even if caching is enabled, as long as `TRITON_DEBUG=1` is set, the system will regenerate dump files on each run (overwriting files in the same-named directory). However, if the cache is hit and compilation is skipped, the IR transformation may not be triggered, resulting in no new dump files. Therefore, it is recommended to also set the following during debugging:
 
 ```bash
 # Set environment variables before running the Triton program
@@ -118,46 +115,45 @@ python your_triton_program.py
 
 ### 3.3 File Lifecycle Management
 
-Understanding the generation timing and cleanup strategies for these temporary files helps manage the debugging environment better:
+Understanding the generation timing and cleanup strategies for these temporary files helps better manage the debugging environment:
 
 File Generation Timing Table:
 
 | File Type | Generation Stage | Trigger Condition | Cleanup Recommendation |
 |----------|----------|----------|----------|
-| Cache Files | During each compilation execution | Generated when cache miss occurs | Clean periodically or when troubleshooting issues |
-| Dump Files | After setting `TRITON_DEBUG=1` | Generated on each compilation | Clean manually after debugging |
+| Cache Files | During each compilation execution | Generated on cache miss | Clean periodically or during issue troubleshooting |
+| Dump Files | After setting `TRITON_DEBUG=1` | Generated on each compilation | Manually clean after debugging |
 
 - Debug dumps should be disabled in production environments (do not set `TRITON_DEBUG=1`)
+- The caching mechanism can significantly improve performance and should not be disabled lightly
 
-- The caching mechanism significantly improves performance and should not be disabled lightly
-
-By effectively utilizing these temporary files, developers can more efficiently locate and resolve issues encountered during the Triton-Ascend compilation process.
+By effectively utilizing these temporary files, developers can more efficiently locate and resolve issues encountered during Triton-Ascend compilation.
 
 ### 3.4 IR File Analysis
 
-Using the example test case [01-vector-add.py](../../../third_party/ascend/tutorials/01-vector-add.py#) to illustrate the compilation flow:
-This is a simple addition of two tensors. Please refer to the comments in the example for the computation logic.
-By setting `TRITON_DEBUG=1` to enable dump file output and `TRITON_DISABLE_CACHE=1` to disable caching and ensure recompilation, you can obtain `kernel.ttir.mlir` and `kernel.ttadapter.mlir`.
+Using the demonstration test case [01-vector-add.py](../../../third_party/ascend/tutorials/01-vector-add.py#) as an example to illustrate the compilation flow:
+This is a simple addition of two tensors. Please refer to the annotations in the demonstration case for the computation logic.
+By enabling dump file output with `TRITON_DEBUG=1` and disabling the cache with `TRITON_DISABLE_CACHE=1` to ensure recompilation, you can obtain `kernel.ttir.mlir` and `kernel.ttadapter.mlir`.
 
-- Run the example
+- Running the Case
 
 ```python
 TRITON_DEBUG=1 TRITON_DISABLE_CACHE=1 python 01-vector-add.py
 ```
 
-After running the example, the dump file path will be printed, defaulting to `~/.triton/dump`, showing:
+After running the case, the dump file path will be printed, defaulting to `~/.triton/dump`, showing:
 
 ```python
 Dumping intermediate results to ~/.triton/dump/xxx
 # xxx is a unique hash identifier
 ```
 
-Navigate to this dump path and inspect `kernel.ttir.mlir` and `kernel.ttadapter.mlir`.
+Navigate to this dump path and examine `kernel.ttir.mlir` and `kernel.ttadapter.mlir`.
 
 #### 3.4.1 TTIR (Triton Intermediate Representation)
 
 - TTIR Example
-View `kernel.ttir.mlir` as follows:
+Viewing `kernel.ttir.mlir`:
 
 ```python
 module {
@@ -186,20 +182,20 @@ module {
 
 - TTIR Analysis
 
-TTIR is the Intermediate Representation generated by the Triton compiler frontend. It is expressed in MLIR (Multi-Level IR) format and retains the semantic structure of the original Triton Python kernel. In `kernel.ttir.mlir`:
+TTIR is the Intermediate Representation generated by the Triton compiler frontend. Expressed in MLIR (Multi-Level IR) format, it retains the semantic structure of the original Triton Python kernel. In `kernel.ttir.mlir`:
 
-- The function `@add_kernel` receives three pointer parameters (corresponding to the device memory addresses of inputs A, B, and output C) and an integer parameter `n` representing the vector length.
+- The function `@add_kernel` receives three pointer arguments (corresponding to the device memory addresses of input A, B, and output C) and an integer argument `n` representing the vector length.
 - Each Triton program (vectorized execution unit) processes 1024 elements (indicated by the constant `%c1024_i32`), obtains the current block's ID via `tt.get_program_id x`, and calculates its global offset.
-- `tt.make_range` and `tt.splat` are used to construct SIMD-style index tensors, combined with `arith.addi` to generate the global address offset processed by each thread.
-- Vectorized loads are performed via `tt.addptr` and `tt.load`, using mask `%6` (generated by `arith.cmpi slt`) to prevent out-of-bounds access.
+- It uses `tt.make_range` and `tt.splat` to construct SIMD-style index tensors, combined with `arith.addi` to generate the global address offset processed by each thread.
+- Vectorized loads are performed via `tt.addptr` and `tt.load`, using the mask `%6` (generated by `arith.cmpi slt`) to prevent out-of-bounds access.
 - Element-wise floating-point addition `arith.addf` is executed, and the result is written back to global memory via `tt.store`.
 
-At the TTIR level, the representation is still based on Triton's native abstractions (such as `!tt.ptr<f32>`, `tt.load`/`tt.store`, etc.) and has not yet been mapped to the specific memory model or execution units of the underlying hardware. It is a platform-independent high-level IR.
+At the TTIR level, it is still based on Triton's native abstractions (such as `!tt.ptr<f32>`, `tt.load`/`tt.store`, etc.) and has not yet been mapped to the specific memory model or execution units of the underlying hardware. It is a platform-independent high-level IR.
 
 #### 3.4.1 TTAdapter IR (Target-Specific Adapter Representation)
 
 - TTAdapter IR Example
-View `kernel.ttadapter.mlir` as follows:
+Viewing `kernel.ttadapter.mlir`:
 
 ```python
 module {
@@ -232,4 +228,4 @@ module {
     %subview_3 = memref.subview %reinterpret_cast_1[0] [%6] [1] : memref<1024xf32, strided<[1], offset: ?>> to memref<?xf32, strided<[1], offset: ?>>
     %subview_4 = memref.subview %alloc_2[0] [%6] [1] : memref<1024xf32> to memref<?xf32, strided<[1]>>
     memref.copy %subview_3, %subview_4 : memref<?xf32, strided<[1], offset: ?>> to memref<?xf32, strided<[1]>>
-    %9 = bufferization.to_tensor %alloc_2
+    %9 = bufferization.to_tensor %alloc_2 restrict writable

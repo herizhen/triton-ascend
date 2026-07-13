@@ -2,7 +2,7 @@
 
 ## 1. Function Overview
 
-`debug_barrier` inserts a barrier instruction used to synchronize all threads in a block during debugging, ensuring the execution order among threads. No thread will continue execution past this call until all other threads in the same block have also reached this point.
+`debug_barrier` inserts a barrier instruction used to synchronize all threads in a block during debugging, ensuring execution order among threads. No thread will continue execution past this call until all other threads in the same block have also reached that point.
 
 ```python
 triton.language.debug_barrier(_semantic=None)

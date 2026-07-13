@@ -16,7 +16,7 @@ triton.language.extract_slice(
 ) -> tensor
 ```
 
-## 2. OP Specifications
+## 2. OP Specification
 
 ### 2.1 Parameter Description
 
@@ -36,13 +36,13 @@ Return value:
 
 #### 2.2.1 DataType Support
 
-|            | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | bf16 | bool |
-| ---------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | bf16 | bool |
+| ----- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
 | Ascend A2/A3 | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | ×    |
 
 #### 2.2.2 Shape Support
 
-Supports tensors of arbitrary shapes, but the slice size must not exceed the size of the corresponding dimension of the source tensor.
+Supports tensors of arbitrary shapes, but the slice size must not exceed the size of the corresponding dimension in the source tensor.
 
 ### 2.3 Special Constraints
 

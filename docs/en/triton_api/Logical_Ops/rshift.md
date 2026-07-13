@@ -21,7 +21,7 @@ Used as a built-in operator for `tensor`, e.g., `x>>y`.
 | Parameter | Type | Description |
 | :---: | :---: | --- |
 | `input` | `tensor` | Tensor data, left operand, representing the main data to be shifted |
-| `other`   | `tensor or scalar` | Tensor data, right operand, the value by which to shift |
+| `other`   | `tensor or scalar` | Tensor data, right operand, the shift amount |
 | `_builder` | - | Reserved parameter, external invocation not supported |
 
 Return value:
@@ -42,21 +42,21 @@ Conclusion: Ascend lacks support for uint types compared to GPU.
 
 |        | Supported Dimension Range |
 | -------- | ---------------------- |
-| GPU    | No restrictions |
-| Ascend A2/A3 | No restrictions |
+| GPU    | Unlimited |
+| Ascend A2/A3 | Unlimited |
 
 Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape.
 
 ### 2.3 Special Limitations
 
-> Missing capabilities compared to the community, cannot be implemented
+> Features missing compared to the community and cannot be implemented
 
 1. Ascend lacks support for uint types compared to GPU.
-2. The right operand `other` only supports scalars, not tensors (i.e., `x >> 2` is valid, `x >> y` (where `y` is a tensor) is not currently supported).
+2. The right operand `other` only supports scalars, not tensors (i.e., `x >> 2` is valid, `x >> y` (where `y` is a tensor) is not supported).
 
 ### 2.4 Usage Example
 
-The following example demonstrates performing a right shift operation on 3D tensors `x0` and `x1`:
+The following example performs a right shift operation on 3D tensors `x0` and `x1`:
 
 ```python
 @triton.jit

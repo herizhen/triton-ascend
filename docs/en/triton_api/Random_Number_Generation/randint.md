@@ -15,15 +15,15 @@ triton.language.randint(
 
 If multiple random number streams are needed, using randint4x may be faster than calling randint 4 times consecutively.
 
-## 2. OP Specification
+## 2. OP Specifications
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                      |
-| -------------- | ------------------ | ---------------------------------------------------------------- |
-| `seed`         | `int` or `tensor`  | Seed for generating random numbers                               |
-| `offset`       | `int` or `tensor`  | Offset for generating random numbers                             |
-| `n_rounds`     | `constexpr`, default 10 | Number of iteration rounds for the Philox algorithm          |
+| Parameter Name | Type                | Description                                                             |
+| -------------- | ------------------- | ----------------------------------------------------------------------- |
+| `seed`         | `int` or `tensor`   | Seed used for generating random numbers                                 |
+| `offset`       | `int` or `tensor`   | Offset used for generating random numbers                               |
+| `n_rounds`     | `constexpr`, default value is 10 | Number of iteration rounds for the Philox algorithm |
 
 Return Value:
 1 random block of int32 type, with the same shape as offset
@@ -36,19 +36,19 @@ Input seed type:
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| Ascend A2/A3 | √    | √     | √     | √     | √    | √     | √     |√     | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3 | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | √    |
 
 #### 2.2.2 Shape Support
 
 No special requirements
 
-### 2.3 Special Limitations
+### 2.3 Special Constraints
 
 > Missing community capability and cannot be implemented
 
 ### 2.4 Usage
 
-The following example demonstrates the call to randint (generating a single random number per call):
+The following example demonstrates a call to randint (generating a single random number during the call):
 
 ```python
 @triton.jit

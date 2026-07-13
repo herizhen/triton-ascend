@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Performs a left shift operation on a tensor based on the given value.
+Introduction: Performs a left shift operation on a tensor based on the given value.
 
 ```python
 triton.language.core.__lshift__(
@@ -20,8 +20,8 @@ Used as a built-in operator for `tensor`, e.g., `x<<y`.
 
 | Parameter | Type | Description |
 | :---: | :---: | --- |
-| `input` | `tensor` | Tensor data, left operand, representing the primary data to be shifted |
-| `other`   | `tensor or scalar` | Tensor data, right operand, the value by which to shift |
+| `input` | `tensor` | Tensor data, left operand, representing the main data to be shifted |
+| `other`   | `tensor or scalar` | Tensor data, right operand, the value for shifting |
 | `_builder` | - | Reserved parameter, external invocation not supported |
 
 Return value:
@@ -36,7 +36,7 @@ Return value:
 | GPU      | √ | √ | √ | √ | √ | √ | √ | √ | × | × | × | × | √ |
 | Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | × | × | × | × | √ |
 
-Conclusion: Ascend lacks support for uint types compared to GPU.
+Conclusion: Ascend lacks uint support compared to GPU.
 
 #### 2.2.2 Shape Support
 
@@ -45,18 +45,18 @@ Conclusion: Ascend lacks support for uint types compared to GPU.
 | GPU    | No restrictions |
 | Ascend A2/A3 | No restrictions |
 
-Conclusion: There are no differences between GPU and Ascend platforms regarding shape support.
+Conclusion: There is no difference between GPU and Ascend platforms in terms of shape.
 
 ### 2.3 Special Limitations
 
-> Missing capabilities relative to the community that cannot be implemented
+> Missing community capabilities that cannot be implemented
 
-1. Ascend lacks support for uint types compared to GPU.
+1. Ascend lacks uint type support compared to GPU.
 2. The right operand `other` only supports scalars, not tensors (i.e., `x << 2` is valid, `x << y` (where `y` is a tensor) is not supported).
 
 ### 2.4 Usage Example
 
-The following example demonstrates performing a left shift operation on three-dimensional tensors `x0` and `x1`:
+The following example demonstrates performing a left shift operation on 3D tensors `x0` and `x1`:
 
 ```python
 @triton.jit

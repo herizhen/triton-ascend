@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: `triton.language.reduce` applies `combine_fn` along the specified `axis` to perform reduction on the input tensor, returning the resulting tensor after reduction.
+Description: `triton.language.reduce` applies `combine_fn` along the specified `axis` to reduce the input tensor, returning the resulting tensor after reduction.
 
 ```python
 triton.language.reduce(input, axis, combine_fn, keep_dims=False, _semantic=None, _generator=None)
@@ -18,8 +18,8 @@ triton.language.reduce(input, axis, combine_fn, keep_dims=False, _semantic=None,
 | `axis` | `int` or `None` | The dimension along which to perform the reduce operation. If None, reduces all dimensions |
 | `combine_fn` | `Callable` | Function to combine two groups of scalar tensors (must be decorated with `@triton.jit`) |
 | `keep_dims` | `bool` | If True, keeps the reduced dimension with length 1 |
-| `_semantic` | `Optional[str]` | Reserved parameter, not supported for external calls |
-| `_generator` | `Optional[Generator]` | Reserved parameter, not supported for external calls |
+| `_semantic` | `Optional[str]` | Reserved parameter, external calls not supported |
+| `_generator` | `Optional[Generator]` | Reserved parameter, external calls not supported |
 
 **Note**: This function can also be called as a member function of a tensor, e.g., `x.reduce(...)` instead of `reduce(x, ...)`
 
@@ -37,7 +37,7 @@ Return value:
 
 #### 2.2.2 Shape Support
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
 
 ### 2.3 Special Limitations
 
@@ -46,7 +46,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.4 Usage Example
 
-The following example implements reduce computation on a 2D shape tensor, with `combine_fn` using simple addition:
+The following example demonstrates performing a reduce computation on a 2D tensor, where `combine_fn` uses simple addition:
 
 ```python
 @triton.jit

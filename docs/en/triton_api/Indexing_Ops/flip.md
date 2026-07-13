@@ -12,14 +12,14 @@ triton.language.flip(x, dim=None)
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type       | Description                                                    |
-| -------------- | ---------- | -------------------------------------------------------------- |
-| `x`            | `tensor`   | Tensor data                                                    |
-| `dim`          | `int`      | Integer                                                        |
-| `_semantic`    | -          | Reserved parameter, external calls not supported temporarily    |
+| Parameter    | Type       | Description                                                    |
+| ------------ | ---------- | -------------------------------------------------------------- |
+| `x`          | `tensor`   | Tensor data                                                    |
+| `dim`        | `int`      | Integer                                                        |
+| `_semantic`  | -          | Reserved parameter, external calls not supported temporarily    |
 
-Return Value:
-`out`: Output tensor has the same shape as the input tensor `x`
+Return value:
+`out`: The output tensor has the same shape as the input tensor `x`
 
 ### 2.2 OP Specifications
 
@@ -39,11 +39,11 @@ Conclusion: Compared to GPU, Ascend lacks support for uint and fp64 types.
 | GPU           | Only supports 1~5D tensors |
 | Ascend A2/A3  | Only supports 1~5D tensors |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Community feature gap that cannot be implemented
+> Capabilities missing compared to the community and cannot be implemented
 
 Compared to GPU, Ascend lacks support for uint and fp64 types.
 

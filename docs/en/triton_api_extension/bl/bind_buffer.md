@@ -31,7 +31,7 @@ Bind a tensor to a buffer
     <td>address_space</td>
     <td>bl.address_space</td>
     <td>No</td>
-    <td>The address space of the buffer</td>
+    <td>The address space where the buffer resides</td>
   </tr>
   <tr>
     <td>bind_buffer</td>

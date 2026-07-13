@@ -13,4 +13,4 @@ def kernel(x_ptr, x_size, **META):
     BLOCK_SIZE = META['BLOCK_SIZE'] # smallest power-of-two >= x_size
 ```
 
-**Parameters:** `values (dict[str, Callable[[list[Any]], Any]]**)` - A dictionary containing meta-parameter names and functions that compute the meta-parameter values. Each such function accepts a list of positional arguments as input.
+**Parameters:** `values (dict[str, Callable[[list[Any]], Any]])` - A dictionary containing meta-parameter names and functions that compute the meta-parameter values. Each such function accepts a list of positional arguments as input.

@@ -2,8 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Creates a pointer to a tensor in GM (Global Memory).
-
+Description: Creates a pointer to a tensor in global memory (GM)
 Prototype:
 
 ```python
@@ -25,11 +24,11 @@ triton.language.make_block_ptr(
 | Parameter    | Type                | Description                                                             |
 | ------------ | ------------------- | ----------------------------------------------------------------------- |
 | `base`       | `triton.PointerType`| Base pointer of the tensor                                              |
-| `shape`      | `tuple(int \| constexpr)` | Shape of the tensor in GM                                               |
+| `shape`      | `tuple(int \| constexpr)` | Shape of the tensor in global memory                                    |
 | `strides`    | `tuple(int \| constexpr)` | List of strides for each dimension of the tensor                        |
 | `offsets`    | `tuple(int \| constexpr)` | List of base offsets for each dimension of the tensor                   |
-| `block_shape`| `tuple(constexpr)`  | Shape of the block loaded/stored from/to global memory in a single operation |
-| `order`      | `tuple(constexpr)`  | Order of dimensions for loading/storing blocks from/to global memory    |
+| `block_shape`| `tuple(constexpr)`  | Shape of the block loaded/stored from global memory in a single operation |
+| `order`      | `tuple(constexpr)`  | Order of the block loaded/stored from global memory in a single operation |
 | `_semantic`  | -                   | Reserved parameter, not supported for external calls                    |
 
 Return value: `pointer_type<blocked<shape, element_type>>`: Pointer to the tensor
@@ -92,7 +91,7 @@ The result of `tl.make_block_ptr` does not allow arithmetic operations. To chang
    bbptr = tl.advance(block_ptr_in,(-9,-6,-5))
    ```
 
-### 2.3 Special Limitations
+### 2.3 Special Limitation Notes
 
 > Capabilities missing compared to the community and cannot be implemented
 
@@ -100,9 +99,9 @@ The result of `tl.make_block_ptr` does not allow arithmetic operations. To chang
 
 - Ascend only allows expressing transpose semantics by adjusting the order of the `order` parameter; it cannot achieve transpose semantics by adjusting the order of the `stride` parameter.
 
-| Difference Point                                   | Description                                                                                    | Resolution Approach                     |
-| -------------------------------------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------- |
-| Generalization issues when used with branches/loops | Currently, `tl.make_block_ptr` may cause compilation issues when used with complex loops and branches | Expose issues through extensive generalization testing, resolve iteratively |
+| Difference Point                          | Description                                                                 | Resolution Approach                       |
+| ----------------------------------------- | --------------------------------------------------------------------------- | ----------------------------------------- |
+| Generalization issues with branches and loops | Currently, `tl.make_block_ptr` may cause compilation issues when used with complex loops and branches | Expose issues through extensive generalization testing, resolve iteratively |
 
 ### 2.4 Usage Example
 
@@ -179,4 +178,5 @@ def test_makeblockptr_order(shape, permute_order):
     torch_ref = torch.permute(x0, permute_order)
     triton_cal = triton_func(x0, permute_order)
     test_common.validate_cmp("int32", triton_cal, torch_ref)
+
 ```

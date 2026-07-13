@@ -2,7 +2,7 @@
 
 ## 1 Function Description
 
-Interleaves two input tensors of the same shape along the last dimension. The output tensor has a last dimension size twice that of the input tensors, while other dimensions remain unchanged.
+Interleaves two input tensors of the same shape along the last dimension. The last dimension of the output tensor is twice the size of the input tensors, while other dimensions remain unchanged.
 
 **Syntax:**
 
@@ -34,7 +34,7 @@ Interleaves two input tensors of the same shape along the last dimension. The ou
 **Constraints:**
 
 - Both input tensors must have the same shape and data type
-- The output tensor shape has the last dimension of the input shape multiplied by 2
+- The shape of the output tensor is the input shape with the last dimension multiplied by 2
 
 ### 2.2 DataType Support Table
 
@@ -68,7 +68,7 @@ def interleave_example():
 
     return z
 
-## Example call
+## Call example
 result = interleave_example()
 print(result.shape)  # Output: (2, 6)
 ```

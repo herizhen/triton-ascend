@@ -2,7 +2,7 @@
 
 ## 1. OP Overview
 
-Description: Returns the indices of the maximum values along a specified axis
+Description: Returns the index of the maximum value along the specified axis
 
 ```python
 triton.language.argmax(input, axis, tie_break_left=True, keep_dims=False)
@@ -42,7 +42,7 @@ Conclusion: In terms of Shape, there is no difference between GPU and Ascend pla
 
 ### 2.3 Special Limitations
 
-> Capabilities missing compared to the community and cannot be implemented
+> Relative community capability gaps that cannot be implemented
 
 Ascend A3 lacks support for uint16, uint32, uint64, and fp64 compared to GPU
 
@@ -60,4 +60,4 @@ def triton_argmax_1d(in_ptr0, out_ptr1, xnumel, XBLOCK: tl.constexpr):
 
 ## 3. Special Value Cases
 
-For tensor[nan, inf], returns the index of inf
+For the tensor[nan,inf] case, returns the index of inf

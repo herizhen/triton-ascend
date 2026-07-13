@@ -23,7 +23,7 @@ When different cores operate on the same global memory and there may be data dep
     <td>mode</td>
     <td>str</td>
     <td>Yes</td>
-    <td>Synchronization mode. Optional strings: all_cube/all_vector/all/all_sub_vector. &lt;br&gt;all_cube: Synchronize all cube cores&lt;br&gt;all_vector: Synchronize all vector cores&lt;br&gt;all: Synchronize all cube cores and vector cores&lt;br&gt;all_sub_vector: Synchronize between Vector sub-blocks</td>
+    <td>Synchronization mode. Optional strings: all_cube/all_vector/all/all_sub_vector.&lt;br&gt;all_cube: Synchronize all cube cores&lt;br&gt;all_vector: Synchronize all vector cores&lt;br&gt;all: Synchronize all cube and vector cores&lt;br&gt;all_sub_vector: Synchronize between Vector sub-blocks</td>
   </tr>
   <tr>
     <td>event_id</td>

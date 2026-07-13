@@ -32,18 +32,18 @@ A3:
 
 ### 2.2.2 Shape Support
 
-|        | Supported Dimension Range |
-| ------ | ------------------------- |
-| GPU    | Only supports 1~5D tensors |
+| | Supported Dimension Range |
+| ------ | --------------- |
+| GPU | Only supports 1~5D tensors |
 | Ascend | Only supports 1~5D tensors |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
 ### 2.3 Special Limitations
 
-> Capabilities missing compared to the community and cannot be implemented
+> Relative community capability deficiency and cannot be implemented
 
-Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 compared to GPU (hardware limitation).
+Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
 
 ### 2.4 Usage
 
@@ -52,7 +52,7 @@ import triton.language as tl
 
 @triton.jit
 def basic_static_print_example(x_ptr, BLOCK_SIZE: tl.constexpr):
-    # Print constant value at compile time
+    # Print constant values at compile time
     tl.static_print("BLOCK_SIZE =", BLOCK_SIZE)
     tl.static_print(BLOCK_SIZE)
     # Supports fstring printing

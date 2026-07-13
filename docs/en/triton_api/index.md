@@ -11,7 +11,7 @@
 |[multibuffer](./Extension_Ops/multibuffer.md) | Sets multi-buffering for a tensor, allowing the compiler to create multiple copies of the same tensor. |
 |[parallel](./Extension_Ops/parallel.md) | `parallel` is an iterator specifically designed for multi-core parallel execution, providing explicit multi-core parallel semantics. |
 |[get_element](./Extension_Ops/get_element.md)| Reads a single element from an input tensor based on a given index. |
-|[index_select High-Performance Interface](./Extension_Ops/index_select_simd.md) | Gathers multiple indices in parallel along non-trailing axis dimensions and copies data zero-copy from global memory (GM) directly to the correct position in the unified buffer (UB) in units of tiles. This operation is equivalent to a high-performance implementation of `torch.index_select`, suitable for scenarios such as embedding layer lookups and sparse index access. |
+|[index_select High-Performance Interface](./Extension_Ops/index_select_simd.md) | Gathers multiple indices in parallel along non-trailing axes and copies data zero-copy from global memory (GM) directly to the correct position in the unified buffer (UB) in units of tiles. This operation is equivalent to a high-performance implementation of `torch.index_select`, suitable for scenarios like embedding layer lookups and sparse index access. |
 
 ```{toctree}
 :maxdepth: 3
@@ -31,14 +31,14 @@ Extension_Ops/index_select_simd.md
 
 |api|Description|
 |--|--|
-|[atomic_add](./Atomic_Ops/atomic_add.md)  |Performs atomic addition at the memory location specified by pointer |
-|[atomic_and](./Atomic_Ops/atomic_and.md)  |Performs atomic logical AND operation at the memory location specified by pointer |
-|[atomic_cas](./Atomic_Ops/atomic_cas.md)  |Performs 1 atomic compare-and-swap operation at the memory location specified by pointer |
-|[atomic_max](./Atomic_Ops/atomic_max.md)  |Performs 1 atomic maximum operation at the memory location specified by pointer |
-|[atomic_min](./Atomic_Ops/atomic_min.md)  |Performs 1 atomic minimum operation at the memory location specified by pointer |
-|[atomic_or](./Atomic_Ops/atomic_or.md)  |Performs 1 atomic logical OR operation at the memory location specified by pointer |
-|[atomic_xchg](./Atomic_Ops/atomic_xchg.md)  |Performs 1 atomic exchange operation at the memory location specified by pointer |
-|[atomic_xor](./Atomic_Ops/atomic_xor.md)  |Performs atomic logical XOR operation at the memory location specified by pointer |
+|[atomic_add](./Atomic_Ops/atomic_add.md)  |Performs an atomic addition at the memory location specified by pointer |
+|[atomic_and](./Atomic_Ops/atomic_and.md)  |Performs an atomic logical AND operation at the memory location specified by pointer |
+|[atomic_cas](./Atomic_Ops/atomic_cas.md)  |Performs an atomic compare-and-swap operation at the memory location specified by pointer |
+|[atomic_max](./Atomic_Ops/atomic_max.md)  |Performs an atomic maximum operation at the memory location specified by pointer |
+|[atomic_min](./Atomic_Ops/atomic_min.md)  |Performs an atomic minimum operation at the memory location specified by pointer |
+|[atomic_or](./Atomic_Ops/atomic_or.md)  |Performs an atomic logical OR operation at the memory location specified by pointer |
+|[atomic_xchg](./Atomic_Ops/atomic_xchg.md)  |Performs an atomic exchange operation at the memory location specified by pointer |
+|[atomic_xor](./Atomic_Ops/atomic_xor.md)  |Performs an atomic logical XOR operation at the memory location specified by pointer |
 
 ```{toctree}
 :maxdepth: 3
@@ -58,12 +58,12 @@ Atomic_Ops/atomic_xor.md
 
 |api|Description|
 |--|--|
-| [eq](./Comparing_Ops/eq.md) | Used to compare elements of two tensors, equivalent to `==` |
-| [le](./Comparing_Ops/le.md) | Used to compare elements of two tensors, equivalent to `<=`. |
-| [ge](./Comparing_Ops/ge.md) | Used to compare elements of two tensors, equivalent to `>=`. |
-| [lt](./Comparing_Ops/lt.md) | Used to compare elements of two tensors, equivalent to `<`. |
-| [gt](./Comparing_Ops/gt.md) | Used to compare elements of two tensors, equivalent to `>`. |
-| [ne](./Comparing_Ops/ne.md) | Used to compare elements of two tensors, equivalent to `!=`. |
+| [eq](./Comparing_Ops/eq.md) | Compares elements of two tensors, equivalent to `==` |
+| [le](./Comparing_Ops/le.md) | Compares elements of two tensors, equivalent to `<=`. |
+| [ge](./Comparing_Ops/ge.md) | Compares elements of two tensors, equivalent to `>=`. |
+| [lt](./Comparing_Ops/lt.md) | Compares elements of two tensors, equivalent to `<`. |
+| [gt](./Comparing_Ops/gt.md) | Compares elements of two tensors, equivalent to `>`. |
+| [ne](./Comparing_Ops/ne.md) | Compares elements of two tensors, equivalent to `!=`. |
 
 ```{toctree}
 :maxdepth: 3
@@ -81,11 +81,11 @@ Comparing_Ops/ne.md
 
 |api|Description|
 |--|--|
-|[debug_barrier](./Compiler_Hint_Ops/debug_barrier.md) |Inserts 1 barrier to synchronize all threads in 1 block |
-|[max_constancy](./Compiler_Hint_Ops/max_constancy.md) |Informs the compiler that the 1st value in input is constant |
-|[max_contiguous](./Compiler_Hint_Ops/max_contiguous.md) |Informs the compiler that the 1st value in input is contiguous |
+|[debug_barrier](./Compiler_Hint_Ops/debug_barrier.md) |Inserts a barrier to synchronize all threads in a block |
+|[max_constancy](./Compiler_Hint_Ops/max_constancy.md) |Informs the compiler that the first value in input is constant |
+|[max_contiguous](./Compiler_Hint_Ops/max_contiguous.md) |Informs the compiler that the first value in input is contiguous |
 |[multiple_of](./Compiler_Hint_Ops/multiple_of.md) |Informs the compiler that all values in input are multiples of value |
-|[assume](./Compiler_Hint_Ops/assume.md)         | Used to provide conditional assumption information to the compiler, allowing the compiler to optimize based on conditions known to be true. |
+|[assume](./Compiler_Hint_Ops/assume.md)         | Provides conditional assumption information to the compiler, allowing optimization based on known-true conditions. |
 |[compile_hint](./Extension_Ops/compile_hint.md) | A compiler hint mechanism that allows users to attach metadata information to tensors, which is passed to the compiler backend to guide optimization and code generation.|
 |[multibuffer](./Extension_Ops/multibuffer.md) | Sets multi-buffering for a tensor, allowing the compiler to create multiple copies of the same tensor. |
 |[parallel](./Extension_Ops/parallel.md) | `parallel` is an iterator specifically designed for multi-core parallel execution, providing explicit multi-core parallel semantics. |
@@ -134,9 +134,9 @@ Creation_Ops/cast.md
 |api|Description|
 |--|--|
 |[static_print](./Debug_Ops/static_print.md) |Prints values at compile time |
-|[static_assert](./Debug_Ops/static_assert.md) |Asserts conditions at compile time |
+|[static_assert](./Debug_Ops/static_assert.md) |Asserts a condition at compile time |
 |[device_print](./Debug_Ops/device_print.md) |Prints values from the device at runtime |
-|[device_assert](./Debug_Ops/device_assert.md) |Asserts conditions on the device at runtime |
+|[device_assert](./Debug_Ops/device_assert.md) |Asserts a condition on the device at runtime |
 
 ```{toctree}
 :maxdepth: 3
@@ -154,10 +154,10 @@ Debug_Ops/device_assert.md
 |api|Description|
 |--|--|
 |[flip](./Indexing_Ops/flip.md) |Flips tensor x along dimension dim |
-|[where](./Indexing_Ops/where.md) |Returns a tensor of elements selected from x or y based on condition |
+|[where](./Indexing_Ops/where.md) |Returns a tensor of elements from x or y based on condition |
 |[swizzle2d](./Indexing_Ops/swizzle2d.md) |Converts indices of a row-major matrix of size_i * size_j to indices of a column-major matrix with groups of size_g rows |
 |[get_element](./Extension_Ops/get_element.md)| Reads a single element from an input tensor based on a given index. |
-|[index_select High-Performance Interface](./Extension_Ops/index_select_simd.md) | Gathers multiple indices in parallel along non-trailing axis dimensions and copies data zero-copy from global memory (GM) directly to the correct position in the unified buffer (UB) in units of tiles. This operation is equivalent to a high-performance implementation of `torch.index_select`, suitable for scenarios such as embedding layer lookups and sparse index access. |
+|[index_select High-Performance Interface](./Extension_Ops/index_select_simd.md) | Gathers multiple indices in parallel along non-trailing axes and copies data zero-copy from global memory (GM) directly to the correct position in the unified buffer (UB) in units of tiles. This operation is equivalent to a high-performance implementation of `torch.index_select`, suitable for scenarios like embedding layer lookups and sparse index access. |
 |[gather](./Indexing_Ops/gather.md) | Performs a gather operation on the `src` tensor along the `axis` dimension according to `index` |
 
 ```{toctree}
@@ -189,8 +189,8 @@ Inline_Assembly/inline_asm_elementwise.md
 
 |api|Description|
 |--|--|
-|[range](./Iterators/range.md)  |An iterator that counts upwards forever |
-|[static_range](./Iterators/static_range.md) | An iterator that counts upwards forever |
+|[range](./Iterators/range.md)  |An iterator that counts upwards indefinitely |
+|[static_range](./Iterators/static_range.md) | An iterator that counts upwards indefinitely |
 
 ```{toctree}
 :maxdepth: 3
@@ -222,12 +222,12 @@ Linear_Algebra_Ops/dot_scaled.md
 |[and](./Logical_Ops/and.md) | Logical AND operation |
 |[or](./Logical_Ops/or.md) | Logical OR operation |
 |[not](./Logical_Ops/not.md) | Logical NOT operation |
-|[logical_and](./Logical_Ops/logical_and.md)| Used for element-wise logical AND operation on two tensors |
-|[logical_or](./Logical_Ops/logical_or.md)| Used for element-wise logical OR operation on two tensors |
+|[logical_and](./Logical_Ops/logical_and.md)| Performs element-wise logical AND on two tensors |
+|[logical_or](./Logical_Ops/logical_or.md)| Performs element-wise logical OR on two tensors |
 |[not](./Logical_Ops/not.md) | Bitwise NOT of tensor values. |
-|[invert](./Logical_Ops/invert.md) | Bitwise invert each value of the tensor. |
-|[lshift](./Logical_Ops/lshift.md) | Left shifts the tensor values by a given number of bits. |
-|[rshift](./Logical_Ops/rshift.md) | Right shifts the tensor values by a given number of bits. |
+|[invert](./Logical_Ops/invert.md) | Bitwise inversion of each value in the tensor. |
+|[lshift](./Logical_Ops/lshift.md) | Left-shifts the tensor by a given number of positions. |
+|[rshift](./Logical_Ops/rshift.md) | Right-shifts the tensor by a given number of positions. |
 |[xor](./Logical_Ops/xor.md) | Computes the XOR of two elements. |
 
 ```{toctree}
@@ -261,7 +261,7 @@ Logical_Ops/xor.md
 |[ceil](./Math_Ops/ceil.md) |Computes the element-wise ceiling of x |
 |[clamp](./Math_Ops/clamp.md) |Clamps the values of the input tensor x to the range [min, max] |
 |[cos](./Math_Ops/cos.md) |Computes the element-wise cosine of x |
-|[div_rn](./Math_Ops/div_rn.md) |Computes the element-wise exact division of x and y (rounded to nearest value according to IEEE standard) |
+|[div_rn](./Math_Ops/div_rn.md) |Computes the element-wise exact division of x and y (rounded to nearest according to IEEE standard) |
 |[erf](./Math_Ops/erf.md) |Computes the element-wise error function of x |
 |[exp](./Math_Ops/exp.md) |Computes the element-wise exponential of x |
 |[exp2](./Math_Ops/exp2.md) |Computes the element-wise exponential of x (base 2)|
@@ -278,7 +278,7 @@ Logical_Ops/xor.md
 |[sin](./Math_Ops/sin.md) |Computes the element-wise sine of x. |
 |[softmax](./Math_Ops/softmax.md) |Computes the element-wise softmax of x |
 |[sqrt](./Math_Ops/sqrt.md) |Computes the element-wise fast square root of x |
-|[sqrt_rn](./Math_Ops/sqrt_rn.md) |Computes the element-wise exact square root of x (rounded to nearest value according to IEEE standard) |
+|[sqrt_rn](./Math_Ops/sqrt_rn.md) |Computes the element-wise exact square root of x (rounded to nearest according to IEEE standard) |
 |[umulhi](./Math_Ops/umulhi.md)  |Computes the element-wise most significant N bits of the 2N-bit product of x and y |
 
 ```{toctree}
@@ -323,7 +323,7 @@ Math_Ops/umulhi.md
 |--|--|
 |[load](./Memory_Pointer_Ops/tl.load.md) |Returns a tensor whose values are loaded from memory locations defined by pointers|
 |[store](./Memory_Pointer_Ops/tl.store.md) |Stores a data tensor to memory locations defined by pointers|
-|[make_block_ptr](./Memory_Pointer_Ops/tl.make_block_ptr.md) |Returns a pointer to a block within the parent tensor|
+|[make_block_ptr](./Memory_Pointer_Ops/tl.make_block_ptr.md) |Returns a pointer to a block within a parent tensor|
 |[advance](./Memory_Pointer_Ops/tl.advance.md) |Advances a block pointer|
 |[load_tensor_descriptor](./Memory_Pointer_Ops/load_tensor_descriptor.md) | Loads a data block from a tensor descriptor |
 |[make_tensor_descriptor](./Memory_Pointer_Ops/make_tensor_descriptor.md) | Creates a tensor descriptor object |
@@ -337,4 +337,6 @@ Memory_Pointer_Ops/tl.load.md
 Memory_Pointer_Ops/tl.store.md
 Memory_Pointer_Ops/tl.make_block_ptr.md
 Memory_Pointer_Ops/tl.advance.md
-Memory_Pointer_Ops/load_tensor_des
+Memory_Pointer_Ops/load_tensor_descriptor.md
+Memory_Pointer_Ops/make_tensor_descriptor.md
+Memory_Pointer_Ops/store_t

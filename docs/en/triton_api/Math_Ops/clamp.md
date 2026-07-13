@@ -12,13 +12,13 @@ triton.language.clamp(x, min, max, propagate_nan: constexpr = PropagateNan.NONE,
 
 ### 2.1 Parameter Description
 
-| Parameter Name | Type               | Description                                                             |
-| -------------- | ------------------ | ----------------------------------------------------------------------- |
-| `x`            | `tensor`           | Input tensor data                                                       |
-| `min`          | `tensor`           | Lower bound (can be a tensor or scalar, broadcast to the shape of `x`)  |
-| `max`          | `tensor`           | Upper bound (can be a tensor or scalar, broadcast to the shape of `x`)  |
-| `propagate_nan`| `triton.language.core.constexpr` | Whether to propagate NaN from `min` or `max`                            |
-| `_semantic`    | -                  | Reserved parameter, external calls not supported                        |
+| Parameter Name | Type               | Description                                                        |
+| -------------- | ------------------ | ------------------------------------------------------------------ |
+| `x`            | `tensor`           | Input tensor data                                                  |
+| `min`          | `tensor`           | Lower bound (can be a tensor or scalar, broadcast to `x`'s shape)  |
+| `max`          | `tensor`           | Upper bound (can be a tensor or scalar, broadcast to `x`'s shape)  |
+| `propagate_nan`| `triton.language.core.constexpr` | Whether to propagate NaN from `min` or `max`                       |
+| `_semantic`    | -                  | Reserved parameter, not supported for external calls               |
 
 Return value:
 `x`: Output tensor with the same shape as the input tensor `x`
@@ -41,9 +41,9 @@ Return value:
 
 Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
 
-### 2.3 Special Limitations
+### 2.3 Special Limitation Notes
 
-> Relative community capability missing and not implementable
+> Missing community capability that cannot be implemented
 
 Ascend lacks fp64 support compared to GPU.
 

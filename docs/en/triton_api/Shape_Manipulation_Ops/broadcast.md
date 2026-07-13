@@ -19,15 +19,15 @@ Broadcasts two tensors to a common compatible shape, enabling element-wise opera
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| input | tensor | Yes | First input tensor, must be of type RankedTensorType |
-| other | tensor | Yes | Second input tensor, must be of type RankedTensorType |
+| input | tensor | Yes | First input tensor, must be of RankedTensorType |
+| other | tensor | Yes | Second input tensor, must be of RankedTensorType |
 
 **Return Value:**
 
 - **Type:** tensor
-- **Shape:** The common compatible target shape of both tensors
-- **Data Type:** Each returned tensor retains its original input data type
-- **Memory Layout:** Returns a newly created tensor
+- **Shape:** Common compatible target shape of the two tensors
+- **Data Type:** Each returned tensor retains its input's original data type
+- **Memory Layout:** Returns newly created tensors
 
 ### 2.2 DataType Support Table
 
@@ -54,10 +54,10 @@ def broadcast_kernel(
     output_ptr,
     BLOCK_SIZE: tl.constexpr
 ):
-    # Create a scalar (0-dimensional tensor)
+    # Create a scalar (0-D tensor)
     scalar = 5.0
 
-    # Create a vector (1-dimensional tensor)
+    # Create a vector (1-D tensor)
     vector = tl.arange(0, BLOCK_SIZE) * 1.0  # Shape: (BLOCK_SIZE,)
 
     # Use broadcast to broadcast the scalar to the same shape as the vector
