@@ -1,58 +1,58 @@
 # triton.language.tensor.__not__
 
-## 1. Function Overview
+## 1. 函数概述
 
-Description: Performs element-wise logical NOT on a tensor (0 becomes 1, non-zero becomes 0). Corresponds to Python's `not` keyword — Triton handles this specially through an AST visitor, rewriting `not X` as `X.__not__()`. This differs from bitwise inversion `~X` (see [invert](./invert.md)): the former is logical NOT, while the latter is bitwise inversion.
+简介：对 tensor 做逐元素逻辑非（0 变 1，非零变 0）。对应 Python 的 `not` 关键字 —— Triton 通过 AST visitor 特殊处理，把 `not X` 重写为 `X.__not__()`。与按位取反 `~X`（见 [invert](./invert.md)）不同：前者是逻辑非，后者是按位翻转。
 
 ```python
-# Via the not keyword (intercepted by Triton AST)
+# 通过 not 关键字（Triton AST 拦截处理）
 not x
 
-# Or by directly calling the dunder method
+# 或直接调用 dunder 方法
 x.__not__()
 ```
 
-## 2. Specification
+## 2. 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter Name | Type               | Description                                                        |
-| -------------- | ------------------ | ------------------------------------------------------------------ |
-| `x`            | `tensor`           | Tensor data                                                        |
-| `_semantic`    | -                  | Reserved parameter, external invocation not supported currently    |
+| 参数名           | 类型                | 说明                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `x`        | `tensor`          | 张量数据                                                      |
+| `_semantic`   | -                 | 保留参数，暂不支持外部调用
 
-Return Value:
-`out`: Output tensor has the same shape as input tensor `x`
+返回值：
+`out`：输出张量的shape与输入x的shape相同
 
-### 2.2 OP Specification
+### 2.2 OP 规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU           | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | ×    | ×    | ×    | √    |
-| Ascend A2/A3  | √    | √     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | ×     | ×      | ×     | ×      |  ×      |  ×       |  ×       | ×      | ×    | ×   | ×    | ×    | √    |
+| Ascend A2/A3 | √    | √     | √     | ×     | ×     | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
 
-Conclusion: Compared to GPU, Ascend additionally supports non-bool types.
+结论：Ascend 相比 GPU 额外支持非 bool 类型。
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|               | Supported Dimension Range |
-| ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+|        | 支持维度范围          |
+| ------ | --------------- |
+| GPU    | 仅支持 1~5维 tensor |
+| Ascend A2/A3 | 仅支持 1~5维 tensor |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 1 至 5 维张量。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Community capability missing and cannot be implemented
+> 相对社区能力缺失且无法实现
 
-None at present.
+暂无。
 
-### 2.4 Usage Example
+### 2.4 使用方法
 
-The following example performs element-wise bitwise inversion on the input tensor `x`:
+以下示例对输入张量 `x` 做逐元素按位取反：
 
 ```python
 @triton.jit

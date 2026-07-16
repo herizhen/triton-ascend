@@ -1,57 +1,57 @@
 # triton.language.fdiv
 
-## 1. Function Overview
+## 1. 函数概述
 
-Description: Computes the element-wise fast division of x and y.
+简介：计算x和y的逐元素快速除法。
 
 ```python
 triton.language.fdiv(x, y, ieee_rounding=False, _semantic=None)
 ```
 
-## 2. Specification
+## 2. 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter      | Type              | Description                                                        |
-| -------------- | ----------------- | ------------------------------------------------------------------ |
-| `x`            | `tensor`          | Tensor data                                                        |
-| `y`            | `tensor`          | Tensor data                                                        |
-| `ieee_rounding`| `bool`            | Controls whether the floating-point division follows the rounding behavior specified in the IEEE 754 standard |
-| `_semantic`    | -                 | Reserved parameter, currently not supported for external calls     |
+| 参数名           | 类型                | 说明                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `x`        | `tensor`          | 张量数据                                                      |
+| `y`       | `tensor`    | 张量数据                                                        |
+| `ieee_rounding`       | `bool`    | 控制浮点数除法运算是否遵循 IEEE 754 标准中规定的舍入行为                                                        |
+| `_semantic`   | -                 | 保留参数，暂不支持外部调用
 
-Return value:
-`x`: The output tensor has the same shape as the input tensor `x`
+返回值：
+`x`：输出张量的shape与输入x的shape相同
 
-### 2.2 OP Specification
+### 2.2 OP 规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU           | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | √    | √    | ×    | ×    |
-| Ascend A2/A3  | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | ×    | ×     | ×     | ×     | ×     | ×      | ×      | ×     | ×    | √    | √    | ×    | ×    |
+| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×     | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Compared to GPU, Ascend lacks fp64 support but additionally supports fp16 and bf16.
-torch supports uint8.
+结论：Ascend 相比 GPU 缺失 fp64 支持，但额外支持 fp16、bf16。
+torch 对 uint8 支持。
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|               | Supported Dimension Range |
-| ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+|        | 支持维度范围          |
+| ------ | --------------- |
+| GPU    | 仅支持 1~5维 tensor |
+| Ascend A2/A3 | 仅支持 1~5维 tensor |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 1 至 5 维张量。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Capability gap compared to the community and cannot be implemented
+> 相对社区能力缺失且无法实现
 
-fp64 is under development.
+fp64开发中。
 
-### 2.4 Usage Example
+### 2.4 使用方法
 
-The following example demonstrates the element-wise fast division of input tensors `x` and `y`:
+以下示例实现了对输入张量 `x` 和`y`的逐元素快速除法：
 
 ```python
 @triton.jit

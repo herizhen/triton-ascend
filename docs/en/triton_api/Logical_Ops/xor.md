@@ -1,59 +1,59 @@
 # triton.language.tensor.__xor__
 
-## 1. Function Overview
+## 1. 函数概述
 
-Description: Computes the XOR value of two elements.
+简介：计算两个元素的异或值。
 
 ```python
-# Via operator
+# 通过操作符
 x ^ y
 
-# Or by directly calling the dunder method
+# 或直接调用 dunder 方法
 x.__xor__(y)
 ```
 
-## 2. Specifications
+## 2. 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter Name | Type      | Description                                    |
-| -------------- | --------- | ---------------------------------------------- |
-| `x`            | `tensor`  | Tensor data                                    |
-| `y`            | `tensor`  | Tensor data                                    |
-| `_semantic`    | -         | Reserved parameter, external calls not supported |
+| 参数名           | 类型                | 说明                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `x`        | `tensor`          | 张量数据                                                      |
+| `y`        | `tensor`          | 张量数据                                                      |
+| `_semantic`   | -                 | 保留参数，暂不支持外部调用
 
-Return value:
-`out`: A tensor with the same shape as `x` and `y`
+返回值：
+`out`：同x、y的shape的张量
 
-### 2.2 OP Specifications
+### 2.2 OP 规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU          | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
-| Ascend A2/A3 | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | √     | √      | √     | √      |  ×      |  ×       |  ×       | √      | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3 | √    | √     | √     | √     | ×     | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
 
-Conclusion: Compared to GPU, Ascend lacks support for uint types.
+结论：Ascend 相比 GPU 缺失 uint 类型支持。
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|              | Supported Dimension Range |
-| ------------ | ------------------------- |
-| GPU          | Supports only 1~5D tensors |
-| Ascend A2/A3 | Supports only 1~5D tensors |
+|        | 支持维度范围          |
+| ------ | --------------- |
+| GPU    | 仅支持 1~5维 tensor |
+| Ascend A2/A3 | 仅支持 1~5维 tensor |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 1 至 5 维张量。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Capabilities not yet supported compared to the community
+> 相对社区能力暂不支持
 
-Compared to GPU, Ascend lacks support for uint types.
+Ascend 相比 GPU 缺失 uint 类型支持。
 
-### 2.4 Usage Example
+### 2.4 使用方法
 
-The following example computes the element-wise XOR of two input tensors:
+以下示例计算两个输入张量的逐元素异或：
 
 ```python
 @triton.jit

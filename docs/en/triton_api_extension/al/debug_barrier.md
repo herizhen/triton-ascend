@@ -1,8 +1,8 @@
-# 1. Hardware Background
+# 1. 硬件背景
 
-Supports VF manual synchronization
+支持VF手动同步
 
-# 2. Interface Description
+# 2.接口说明
 
 <table>
   <tr>
@@ -10,14 +10,14 @@ Supports VF manual synchronization
   </tr>
 </table>
 
-## 2.1 Input Parameters
+## 2.1 入参
 
-- sync_mode: Specifies the barrier type, which is an `al.SYNC_IN_VF` enum
+- sync_mode:指定barrier的类型，为al.SYNC_IN_VF 枚举
 
 <table>
   <tr>
-    <td>Type</td>
-    <td>Description</td>
+    <td>类型</td>
+    <td>说明</td>
   </tr>
   <tr>
     <td>VV_ALL</td>
@@ -69,11 +69,11 @@ Supports VF manual synchronization
   </tr>
 </table>
 
-# 3. Constraints
+# 3.约束
 
-- Can only be used within a scope (currently not intercepted)
+- 仅可在scope中使用（目前未拦截）
 
-# 4. Usage Example
+# 4.用例说明
 
 <table>
   <tr>
@@ -81,7 +81,7 @@ Supports VF manual synchronization
   </tr>
 </table>
 
-Output:
+输出：
 
 <table>
   <tr>

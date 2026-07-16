@@ -1,10 +1,10 @@
-# al.ascend_address_space API Documentation
+# al.ascend_address_space 接口文档
 
-## 1. Background
+## 1. 背景
 
-To support Ascend-level programming needs, users must be able to manually create memory (buffers) on specified address spaces, interfacing with the `hivm::AddressSpace` enumeration.
+为了支持Ascend级编程的需要，需要支持用户手动创建指定地址空间上的内存(buffer)，对接hivm::AddressSpace枚举。
 
-## 2. API Description
+## 2. 接口说明
 
 <table>
   <tr>
@@ -12,19 +12,19 @@ To support Ascend-level programming needs, users must be able to manually create
   </tr>
 </table>
 
-### 2.1. Return Value
+### 2.1. 返回值
 
-Not applicable
+不涉及
 
-### 2.2. Input Parameters
+### 2.2. 入参
 
-Not applicable
+不涉及
 
-## 3. Constraints
+## 3. 约束说明
 
-- Must be used in conjunction with `bl.alloc`
+- 需要配合bl.alloc使用
 
-## 4. Usage Example
+## 4. 用例示例
 
 <table>
   <tr>
@@ -32,7 +32,7 @@ Not applicable
   </tr>
 </table>
 
-## 5. Compilation Output
+## 5. 编译输出结果
 
 <table>
   <tr>

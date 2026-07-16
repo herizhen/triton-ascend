@@ -1,53 +1,53 @@
 # ne
 
-## 1. OP Overview
+## 1. OP 概述
 
-Description: Compares two tensors element-wise, equivalent to `!=`.
+简介：用于比较两个张量的元素, 与`!=`等价。
 
-Used as a built-in operator of `tensor`, e.g., `x != y`.
+作为`tensor`的内置运算符使用, 如`x!=y`。
 
-## 2. OP Specification
+## 2. OP 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter | Type | Description |
+| 参数名 | 类型 | 说明 |
 | :---: | :---: | :---: |
-| `input` | `tensor` | Tensor data, left operand, representing the primary data to be compared |
-| `other` | `tensor` | Tensor data, right operand, compared element-wise with `input` |
-| `_builder` | - | Reserved parameter, not supported for external calls |
+| `input` | `tensor` | 张量数据, 左操作数, 代表要进行比较的主数据 |
+| `other`   | `tensor` | 张量数据, 右操作数, 与`input`逐元素进行比较 |
+| `_builder` | - | 保留参数，暂不支持外部调用 |
 
-Return value:
-`tl.tensor`: A tensor with the same shape as `input`
+返回值：
+`tl.tensor`：同`input`的shape的张量
 
-### 2.2 Supported Specifications
+### 2.2 支持规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 | Ascend A2/A3 | √ | √ | √ | × | × | × | × | √ | √ | √ | × | √ | √ |
 
-Conclusion: Compared to GPU, Triton-Ascend lacks support for uint8/uint16/uint32/uint64 and fp64.
+结论：Triton-Ascend 对比 GPU 缺失 uint8/uint16/uint32/uint64、fp64 的支持能力。
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|        | Supported Dimension Range |
-| -------- | --------------------------- |
-| GPU    | No restrictions |
-| Ascend A2/A3 | No restrictions |
+|        | 支持维度范围         |
+| -------- | ---------------------- |
+| GPU    | 无限制 |
+| Ascend A2/A3 | 无限制 |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
+结论：在 Shape 方面, GPU 与 Ascend 平台无差异。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Missing community capabilities that cannot be implemented
+> 相对社区能力缺失且无法实现
 
-Compared to GPU, Triton-Ascend lacks support for fp64, and support for uint8/uint16/uint32/uint64 types is under development.
+Triton-Ascend 对比 GPU 缺失 fp64 的支持能力，uint8/uint16/uint32/uint64 类型支持开发中。
 
-### 2.4 Usage
+### 2.4 使用方法
 
-The following example demonstrates performing the `!=` operation on tensors `x0` and `x1`:
+以下示例实现了对张量`x0`、`x1`做`!=`运算：
 
 ```python
 @triton.jit

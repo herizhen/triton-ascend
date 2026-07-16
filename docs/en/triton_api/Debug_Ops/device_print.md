@@ -1,55 +1,55 @@
 # triton.language.device_print
 
-## 1. Function Overview
+## 1. 函数概述
 
-`device_print` is used to print information from the device side during NPU runtime. Unlike `static_print`, this outputs information in real-time during kernel execution. The first parameter must be a `string`, and subsequent parameters must be `scalars` or `tensors`. **To use `device_print`, set the environment variable `TRITON_DEVICE_PRINT` to `True`.**
+`device_print` 用于在NPU运行时从设备端打印信息，与`static_print`不同，这是在内核执行时实时输出信息。 第一个参数必须为`string`, 后面的参数必须为`scalars`或者`tensors`。 **使用`device_print`需要将环境变量`TRITON_DEVICE_PRINT`的值设置为`True`。**
 
 ```python
 triton.language.device_print(prefix, *args, hex=False, _semantic=None)
 ```
 
-## 2. Specifications
+## 2. 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `prefix` | `str` | Required | Prefix string before printed values |
-| `args` | `tensor`/`scalar` | Required | Values to print, can be any tensor or scalar |
-| `hex` | `bool` | `False` | Whether to print all values in hexadecimal format |
-| `_semantic` | - | - | Reserved parameter, external invocation not supported |
+| 参数 | 类型 | 默认值 | 含义说明 |
+|------|------|--------|----------|
+| `prefix` | `str` | 必需 | 打印值之前的前缀字符串 |
+| `args` | `tensor`/`scalar` | 必需 | 要打印的值，可以是任意张量或标量 |
+| `hex` | `bool` | `False` | 是否以十六进制格式打印所有值 |
+| `_semantic` | - | - | 保留参数，暂不支持外部调用 |
 
-### 2.2.1 Data Type Support
+### 2.2.1 Data Type支持
 
-A3:
+A3：
 
 | | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 |------|-------|-------|-------|-------|--------|--------|--------|-------|------|------|------|------|------|
 | GPU | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Ascend A2/A3 | ✓ | ✓ | ✓ | × | × | ×| × | ✓ | ✓ | ✓ | × | ✓ | ✓ |
 
-### 2.2.2 Shape Support
+### 2.2.2 Shape 支持
 
-|        | Supported Dimension Range |
-| ------ | ------------------------- |
-| GPU    | Only 1~5D tensors |
-| Ascend | Only 1~5D tensors |
+|        | 支持维度范围          |
+| ------ | --------------- |
+| GPU    | 仅支持 1~5维 tensor |
+| Ascend | 仅支持 1~5维 tensor |
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Missing community capabilities that cannot be implemented
+> 相对社区能力缺失且无法实现
 
-Compared to GPU, Ascend lacks support for uint8, uint16, uint32, uint64, and fp64 (hardware limitation).
+Ascend 对比 GPU 缺失uint8、uint16、uint32、uint64、fp64的支持能力（硬件限制）。
 
-**DevicePrint Functional Limitations**
+**DevicePrint 功能限制**
 
-**Phenomenon Description:**
-device_print can only print result values involved in computation, and cannot print offset variables used purely for memory access.
+**现象描述：**
+device_print 只能打印参与运算的结果值，无法打印纯粹用于访存的 offset 变量。
 
-**Root Cause:**
-During the memory access analysis and optimization phase, the compiler optimizes away offsets used solely for address calculation. These intermediate variables are not retained in the final execution code.
+**根本原因：**
+在访存分析优化阶段，编译器会将仅用于地址计算的 offset 优化掉，这些中间变量不会保留到最终的执行代码中。
 
-**Example Scenario:**
+**示例场景：**
 
 ```python
 @triton.jit
@@ -65,14 +65,14 @@ def add_kernel(x_ptr,  # *Pointer* to first input vector.
     pid = tl.program_id(axis=0)  # We use a 1D launch grid so axis is 0.
     block_start = pid * BLOCK_SIZE
     offsets = block_start + tl.arange(0, BLOCK_SIZE)
-    tl.device_print("offsets:", offsets)// ❌ Cannot print, already optimized
+    tl.device_print("offsets:", offsets)// ❌ 无法打印，已被优化
 ```
 
-Additionally, under certain circumstances, `device_print` may expand some auxiliary DMA code, causing underlying errors. Related functionality is still being optimized.
+另外在特定情况下，`device_print`会展开一些辅助dma代码，导致底层报错，相关功能还在优化中
 
-### 2.4 Usage
+### 2.4 使用方法
 
-**Note**: The `prefix` string prefix must be included when using `device_print`; otherwise, a compilation error will occur. Printing the `prefix` string alone is currently not supported.
+**注意**：`prefix`字符串前缀在使用`device_print`时是必须加上的，否则会导致编译错误。目前不支持单独打印`prefix`字符串。
 
 ```python
 import triton
@@ -84,6 +84,6 @@ def kernel(x_ptr):
     idy = tl.arange(0,4)
     offset = idx[:,None] * 4 + idy[None,:]
     val = tl.load(x_ptr + offset)
-    # Print the value of the 2D tensor val
+    # 打印二维张量val的值
     tl.device_print("val:",val)
 ```

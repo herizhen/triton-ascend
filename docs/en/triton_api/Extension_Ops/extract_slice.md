@@ -1,9 +1,9 @@
 # triton.language.extract_slice
 
-## 1. OP Overview
+## 1. OP 概述
 
-Description: Extracts a tensor from an input tensor according to the offsets, sizes, and strides parameters specified by the operation.
-Prototype:
+简介：从输入张量中按照操作指定的偏移量、大小和步幅参数提取一个张量。
+原型：
 
 ```python
 triton.language.extract_slice(
@@ -16,41 +16,41 @@ triton.language.extract_slice(
 ) -> tensor
 ```
 
-## 2. OP Specification
+## 2. OP 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter Name | Type               | Description                                                    |
-| -------------- | ------------------ | -------------------------------------------------------------- |
-| `ful`          | `tensor`           | Source tensor from which to extract the slice                  |
-| `offsets`      | `tuple of ints`    | Starting offsets of the slice in each dimension                |
-| `sizes`        | `tuple of ints`    | Size of the slice in each dimension                            |
-| `strides`      | `tuple of ints`    | Stride of the slice in each dimension                          |
-| `_builder`     | -                  | Reserved parameter, not supported for external calls           |
-| `_generator`   | -                  | Reserved parameter, not supported for external calls           |
+| 参数名           | 类型                | 说明                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `ful`        | `tensor`          | 要提取切片的源张量                                                     |
+| `offsets`       | `tuple of ints`    | 切片在各个维度上的起始偏移量                                                        |
+| `sizes`     | `tuple of ints`    | 切片在各个维度上的大小 |
+| `strides` | `tuple of ints` | 切片在各个维度上的步长                                             |
+| `_builder` |- | 保留参数，暂不支持外部调用                                            |
+| `_generator`   | -               | 保留参数，暂不支持外部调用                                                |
 
-Return value:
-`tensor`: The extracted slice tensor
+返回值：
+`tensor`：提取的切片张量
 
-### 2.2 Supported Specifications
+### 2.2 支持规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | bf16 | bool |
-| ----- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
-| Ascend A2/A3 | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | ×    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 |  bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- |
+| Ascend A2/A3 | √    | √     | √     | √     | √     | √       | √         |  √       | √    | √    |  √    | ×    |
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-Supports tensors of arbitrary shapes, but the slice size must not exceed the size of the corresponding dimension in the source tensor.
+支持任意形状的张量，但切片尺寸不能超过源张量对应维度的尺寸
 
-### 2.3 Special Constraints
+### 2.3 特殊限制说明
 
-No special constraints.
+无特殊限制
 
-### 2.4 Usage Example
+### 2.4 使用方法
 
-The following example demonstrates extracting the first 32 elements from the computation result:
+以下示例实现了从计算结果中提取前32个元素：
 
 ```python
 @triton.jit
@@ -62,7 +62,7 @@ def triton_kernel(x_ptr, y_ptr, output_ptr, n_elements, BLOCK_SIZE: tl.constexpr
     x = tl.load(x_ptr + offsets, mask=mask)
     y = tl.load(y_ptr + offsets, mask=mask)
     output = x + y
-    # Extract the first 32 elements
+    # 提取前32个元素
     out_sub = tl.extract_slice(output, [block_start], [32], [1])
     out_idx = block_start + tl.arange(0, 32)
     out_msk = out_idx < n_elements

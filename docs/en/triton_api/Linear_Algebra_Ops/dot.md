@@ -1,63 +1,63 @@
 # triton.language.dot
 
-## 1. OP Overview
+## 1. OP 概述
 
-Description: Performs matrix multiplication on two tensors. Tensors must be 2D or 3D with consistent dimensions. For 3D blocks, `tl.dot` performs batched matrix multiplication, where the first dimension of each block represents the batch dimension.
-Prototype:
+简介：对两个tensor进行矩阵乘操作。tensor需要是二维或三维并且维度需一致。对于三维块，tl.dot执行批量矩阵乘法，其中每个块的第一维代表批量维度。
+原型：
 
 ```python
 triton.language.dot(input, other, acc=None, input_precision=None, allow_tf32=None, max_num_imprecise_acc=None, out_dtype=triton.language.float32, _semantic=None)
 ```
 
-## 2. OP Specification
+## 2. OP 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter Name | Type                | Description                                                             |
+| 参数名           | 类型                | 说明                                                             |
 | ------------- | ----------------- | -------------------------------------------------------------- |
-| `input`        | `int8 fp16 bf16 fp32`     | First input, 2D or 3D tensor. Value range limited to -5 to 5 to avoid overflow.     |                                                       |
-| `other`       | `int8 fp16 bf16 fp32`     | Second input, 2D or 3D tensor. Value range limited to -5 to 5 to avoid overflow.    |                                                   |
-| `acc`           | `int32 float32`    | Accumulator tensor. If not None, the result is added to this tensor. Supported `acc_dtype`: {:code:`float16`, :code:`float32`, :code:`int32`} |
-| `input_precision`   | -                 | Available options for NVIDIA. Determines whether to enable Tensor Cores acceleration by selecting a precision mode.    |
-| `max_num_imprecise_acc`     | `int`    | Number of low-precision accumulations (currently not supported on Ascend). |
-| `out_dtype`     | `fp32 int32`    | Output result type.|
+| `input`        | `int8 fp16 bf16 fp32`     |     第一个输入，2D or 3D 张量， 为了避免溢出 取值范围限制为-5-5     |                                                       |
+| `other`       | `int8 fp16 bf16 fp32`     |     第二个输入,  2D or 3D 张量，为了避免溢出 取值范围限制为-5-5    |                                                   |
+| `acc`           | `int32  float32`    | 存累加结果的张量, accumulator tensor. If not None, the result is added to this tensor, acc_dtype支持 {:code:`float16`, :code:`float32`, :code:`int32`} |
+| `input_precision`   | -                 |  Available options for NVIDIA 通过选择精度模式来决定是否启用 Tensor Cores 加速    |
+| `max_num_imprecise_acc`     | `int`    | 多少次低精度的累加数（当前昇腾不支持低精度累加） |
+| `out_dtype`     | `fp32  int32`    | 输出结果类型|
 
-Return Value:
-`tl.tensor`: Matrix multiplication result.
+返回值：
+`tl.tensor`：矩阵乘结果
 
-### 2.2 Supported Specifications
+### 2.2 支持规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-|   Input Type    | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+|   输入类型     | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
 | GPU    | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | √    |
-| Ascend A2/A3 | √    | √     | √     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | √    |
+| Ascend A2/A3 | √    | √     | √     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ✓    |
 
-Conclusion: Compared to GPU, Ascend lacks support for `uint8`, `uint16`, `uint32`, `uint64`, and `fp64` (hardware limitation).
+结论：Ascend 对比 GPU 缺失uint8、uint16、uint32、uint64、fp64的支持能力（硬件限制）。
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|        | Supported Dimension Range          |
+|        | 支持维度范围          |
 | ------ | --------------- |
-| GPU    | No restrictions |
-| Ascend A2/A3 | No restrictions  |
+| GPU    | 无限制 |
+| Ascend A2/A3 |无限制  |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-- Compared to GPU, Ascend lacks support for `uint8`, `uint16`, `uint32`, `uint64`, and `fp64` (hardware limitation).
+- Ascend 对比 GPU 缺失uint8、uint16、uint32、uint64、fp64的支持能力（硬件限制）。
 
-- `acc` does not support `fp16`; the hardware defaults to `fp32` for precision.
+- acc 不能支持fp16，为了精度硬件默认就是fp32
 
-- `max_num_imprecise_acc` is currently not supported.
+- max_num_imprecise_acc 暂时不支持
 
-- Compared to GPU, `out_dtype` lacks support for `int8` and `fp16` types.
+- out_dtype对比GPU 缺乏int8和FP16的类型支持
 
-### 2.4 Usage Example
+### 2.4 使用方法
 
-The following example performs matrix multiplication on input tensors `x_ptr, y_ptr`. Refer to `ascend/examples/generalization_cases/test_matmul.py`:
+以下示例实现了对输入张量 `x_ptr, y_ptr` 做矩阵乘计算，参考  ascend/examples/generalization_cases/test_matmul.py：
 
 ```@triton.jit
 def matmul_kernel(

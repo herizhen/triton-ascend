@@ -1,50 +1,50 @@
 # triton.language.cat
 
-## 1. OP Overview
+## 1. OP 概述
 
-Description: The `triton.language.cat` function is used to concatenate specified tensors.
+简介：`triton.language.cat`函数用于将指定的tensor进行拼接。
 
 ```python
 triton.language.cat(input, other, can_reorder=False, _semantic=None)
 ```
 
-## 2. OP Specification
+## 2. OP 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter Name | Type | Description |
+| 参数名           | 类型                  | 说明                                   |
 | ------------- | ----------------- | ---------------------------- |
-| `input` | `Tensor` | The first tensor to concatenate |
-| `other` | `Tensor` | The second tensor to concatenate |
-| `can_reorder` | `Bool` | Reordering – compiler hint. If true, the compiler allows reordering elements when concatenating inputs. Only supports can_reorder=True. |
-| `_semantic` | `Optional[str]` | Reserved parameter, external calls not supported temporarily |
+| `input`           | `Tensor`               | 拼接的第一个tensor |
+| `other`            | `Tensor`               | 拼接的第二个tensor |
+| `can_reorder`            | `Bool`               | 重新排序 – 编译器提示。如果为真，编译器在连接输入时允许重新排序元素。仅支持can_reorder=True。  |
+| `_semantic`            | `Optional[str]`               | 保留参数，暂不支持外部调用 |
 
-Return value:
-`tensor`: The tensor after concatenation
+返回值：
+`tensor`：完成拼接之后的tensor
 
-### 2.2 Supported Specifications
+### 2.2 支持规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ |
-| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| GPU支持 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms. cat only supports 1D shape concatenation.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异。cat 只支持1D shape 的拼接。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Relative to community capabilities that are missing and cannot be implemented
+> 相对社区能力缺失且无法实现
 
-1. Both ASCEND and CUDA only support can_reorder=True, i.e., reordering after concatenating tensors.
-2. cat only supports 1D shape concatenation.
+1.ASCEND和CUDA都只支持 can_reorder=True，即拼接tensor后重新排序。
+2.cat 只支持1D shape 的拼接。
 
-### 2.4 Usage
+### 2.4 使用方法
 
-The following example demonstrates concatenating two 1D shape tensors:
+以下示例实现了对1D shape的两个tensor进行的拼接：
 
 ```python
 import triton.language as tl

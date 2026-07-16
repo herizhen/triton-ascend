@@ -1,42 +1,42 @@
 # mul
 
-## 1. OP Overview
+## 1. OP 概述
 
-Description: Arithmetic operation '*', no `tl.mul` call method
+简介：四则运算 ‘*’,  无tl.mul调用方法
 
-## 2. OP Specification
+## 2. OP 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter | Type                | Description                                                    |
-| --------- | ------------------- | -------------------------------------------------------------- |
-| `x`       | `tensor or Number`  | First input parameter                                          |
-| `y`       | `tensor or Number`  | Second input parameter                                         |
+| 参数名           | 类型                | 说明                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `x`        | `tensor or Number`     |     第一个入参     |                                                       |
+| `y`       | `tensor or Number`     |     第二个入参     |                                                   |
 
-Return value:
-`tl.tensor`: Multiplication result
+返回值：
+`tl.tensor`：乘法结果
 
-### 2.2 Supported Specifications
+### 2.2 支持规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
 || uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-|---|-------|------|--------|-------|--------|-------|--------|-------|------|------|------|-----------|
+|---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 |GPU| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 |Ascend A2/A3 | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|        | Supported Dimension Range |
-| ------ | ------------------------- |
-| GPU    | Unlimited                 |
-| Ascend A2/A3 | Unlimited          |
+|        | 支持维度范围          |
+| ------ | --------------- |
+| GPU    | 无限制 |
+| Ascend A2/A3 |无限制  |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异。
 
-### 2.3 Usage Example
+### 2.3 使用方法
 
-The following example implements multiplication computation on input tensors `in_ptr0, in_ptr1`:
+以下示例实现了对输入张量 `in_ptr0, in_ptr1` 做乘法计算：
 
 ```python
 @triton.jit
@@ -53,6 +53,6 @@ def triton_mul(in_ptr0, in_ptr1, out_ptr0, XBLOCK: tl.constexpr, XBLOCK_SUB: tl.
         tl.store(out_ptr0 + (x0), tmp2, None)
 ```
 
-## 3. Special Notes
+## 3.  特殊说明
 
-Ascend A3 lacks fp64 support compared to GPU
+Ascend A3 对比 GPU 缺失fp64的支持

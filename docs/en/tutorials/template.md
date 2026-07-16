@@ -1,150 +1,150 @@
-# Technical Documentation Template Based on XXX Model Deployment Tutorial
+# 基于XXX模型部署教程的技术文档模板
 
 <p align="center">
   <a href="Model-Deployment-Tutorial-Template.md"><b>English</b></a> | <a href="Model-Deployment-Tutorial-Template.zh.md"><b>中文</b></a>
 </p>
 
-This template is based on deployment tutorials for models such as DeepSeek-V3.2 and Qwen-VL-Dense, aiming to provide a reference for writing technical documentation. Users can follow the template guidelines to systematically complete the construction of relevant technical documents.
+本模板基于DeepSeek-V3.2、Qwen-VL-Dense等部署教程，旨在为技术文档撰写提供参考。使用者可遵循模板指引，系统性完成相关技术文档的构建工作。
 
-## 1 Introduction
+## 1 简介
 
-**Documentation Writing Requirements:**
+**资料写作要求：**
 
-- Describe the model's basic architecture, core features, and main application scenarios in one sentence.
-- Clearly state what the document intends to do and the purpose to be achieved in one sentence.
-- Specify the vLLM-Ascend version and model version support used in the document.
+- 一句话介绍模型的基本架构、核心特性及主要应用场景。
+- 一句话写清楚文档要干什么，要达成的目的。
+- 说明文档使用的vLLM-Ascend版本及模型的版本支持情况。
 
-**Example 1: Model Introduction**
+**示例1：模型介绍**  
 
-DeepSeek-V3.2 is a sparse attention model. Its main architecture is similar to DeepSeek-V3.1, but it adopts a sparse attention mechanism, aiming to explore and verify optimization solutions for training and inference efficiency in long-context scenarios.
+DeepSeek-V3.2 是一种稀疏注意力模型。其主要架构与 DeepSeek-V3.1 类似，但采用了稀疏注意力机制，旨在探索和验证在长上下文场景下训练和推理效率的优化方案。
 
-**Example 2: Document Purpose**
+**示例2：文档目的**  
 
-This document will demonstrate the main verification steps for the model, including supported features, feature configuration, environment preparation, single-node and multi-node deployment, accuracy, and performance evaluation.
+本文档将展示模型的主要验证步骤，包括支持的功能、功能配置、环境准备、单节点和多节点部署、准确性和性能评估。
 
-**Example 3: Version Information**
+**示例3：版本信息**  
 
-This document is verified and written based on **vLLM-Ascend v0.13.0**. The current model (XXX) is fully supported in this version, and **v0.13.0 and later versions** can run stably. To use the latest features (such as PD separation, MTP, etc.), it is recommended to use v0.13.0 or later.
+本文档基于 **vLLM-Ascend v0.13.0** 版本进行验证和编写。当前模型（XXX）在该版本中已完整支持，**v0.13.0 及更高版本**均可稳定运行。如需使用最新特性（如PD分离、MTP等），建议使用v0.13.0或以上版本。
 
-## 2 Supported Features
+## 2 支持的特性
 
-Introduce the features supported by the model, including supported hardware, quantization methods, data parallelism, long sequence features, etc.
+介绍该模型支持的特性，包括支持的硬件、量化方式、数据并行、长序列特性等。
 
-**Documentation Writing Requirements:**
+**资料写作要求：**  
 
-- Use a table format to present the support status of models and features.
-- Or provide cross-references that can be navigated (recommended).
+- 采用表格形式，呈现模型和特性的支持情况。
+- 或提供可跳转的交叉引用（推荐）。
 
-**Example 1: Feature Support List**
+**示例1：特性支持列表**  
 
-| Model Name | Support Status | Notes | BF16 | Supported Hardware | W8A8 | Chunked Prefill | Automatic Prefix Caching | LoRA | Speculative Decoding | Async Scheduling | Tensor Parallelism | Pipeline Parallelism | Expert Parallelism | Data Parallelism | Prefill-Decode Separation | Segmented ACL Graph Execution | Full Graph ACL Graph Execution | Max Model Length | MLP Weight Prefetch | Documentation |
+| 模型名称 | 支持状态 | 备注 | BF16 | 支持的硬件 | W8A8 | 分块预填充 | 自动前缀缓存 | LoRA | 推测解码 | 异步调度 | 张量并行 | 流水线并行 | 专家并行 | 数据并行 | Prefill-Decode分离 | 分段式ACL图执行 | 整图ACL图执行 | 最大模型长度 | MLP权重预取 | 文档 |
 | ------ | ---------- | ------ | ------ | ---------- | ------ | ------------ | -------------- | ------ | ---------- | ---------- | ---------- | ------------ | ---------- | ---------- | ------------------- |----------- | ----------- | ------------- | ------------- | ---------- |
-| DeepSeek V3/3.1 | ✅ | | ✅ | Atlas 800I A2:<br>Minimum card requirement is xx | ✅ | ✅ | ✅ | | ✅ | | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 240k | | [DeepSeek-V3.1](../../tutorials/models/DeepSeek-V3.1.md) |
-| DeepSeek V3.2 | ✅ | | ✅ | Atlas 800I A2:<br>Minimum card requirement is xx | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 160k | ✅ | [DeepSeek-V3.2](../../tutorials/models/DeepSeek-V3.2.md)|
-| Qwen3 | ✅ | | ✅ | Atlas 800I A2:<br>Minimum card requirement is xx | ✅ | ✅ | ✅ | | | ✅ | ✅ | | | ✅ | | ✅ | ✅ | 128k | ✅ | [Qwen3-Dense](../../tutorials/models/Qwen3-Dense.md) |
+| DeepSeek V3/3.1 | ✅ | | ✅ | Atlas 800I A2:<br>最低卡数要求为xx | ✅ | ✅ | ✅ | | ✅ | | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 240k | | [DeepSeek-V3.1](../../tutorials/models/DeepSeek-V3.1.md) |
+| DeepSeek V3.2 | ✅ | | ✅ | Atlas 800I A2:<br>最低卡数要求为xx | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 160k | ✅ | [DeepSeek-V3.2](../../tutorials/models/DeepSeek-V3.2.md)|
+| Qwen3 | ✅ | | ✅ | Atlas 800I A2:<br>最低卡数要求为xx | ✅ | ✅ | ✅ | | | ✅ | ✅ | | | ✅ | | ✅ | ✅ | 128k | ✅ | [Qwen3-Dense](../../tutorials/models/Qwen3-Dense.md) |
 
->**Note**: This is a simplified example. Please refer to the complete feature matrix for the full table.
+>**注意**：此为简化示例，完整表格请参考完整特性矩阵。
 
-**Example 2: References**
+**示例2：引用**  
 
-Please refer to the [Supported Features List](../user_guide/support_matrix/supported_models.md) for the model's feature matrix.
+请参考[支持的功能列表](../user_guide/support_matrix/supported_models.md)，获取模型支持的功能矩阵。
 
-Please refer to the [Feature Guide](../user_guide/feature_guide/index.md) for feature configuration information.
+请参考[特性指南](../user_guide/feature_guide/index.md)获取功能配置信息。
 
-## 3 Prerequisites
+## 3 前置准备
 
-### 3.1 Model Weights
+### 3.1 模型权重
 
-**Documentation Writing Requirements:** Describe the hardware resources, software environment, and model files required for deployment.
+**资料写作要求：**  说明部署所需的硬件资源、软件环境和模型文件。
 
-**Example:**
+**示例：**
 
-- `DeepSeek-V3.2-Exp-W8A8` (Quantized version): Requires 1 Atlas 800 A3 (64G × 16) node or 2 Atlas 800 A2 (64G × 8) nodes. [Model Weights](https://www.modelscope.cn/models/vllm-ascend/DeepSeek-V3.2-Exp-W8A8)
-- `DeepSeek-V3.2-w8a8` (Quantized version): Requires 1 Atlas 800 A3 (64G × 16) node or 2 Atlas 800 A2 (64G × 8) nodes. [Model Weights](https://www.modelscope.cn/models/vllm-ascend/DeepSeek-V3.2-W8A8/)
+- `DeepSeek-V3.2-Exp-W8A8`（量化版）：需要 1 台 Atlas 800 A3（64G × 16）节点或 2 台 Atlas 800 A2（64G × 8）节点。 [模型权重](https://www.modelscope.cn/models/vllm-ascend/DeepSeek-V3.2-Exp-W8A8)
+- `DeepSeek-V3.2-w8a8`（量化版）：需要 1 台 Atlas 800 A3（64G × 16）节点或 2 台 Atlas 800 A2（64G × 8）节点。 [模型权重](https://www.modelscope.cn/models/vllm-ascend/DeepSeek-V3.2-W8A8/)
 
-It is recommended to download the model weights to a shared directory accessible by all nodes.
+建议将模型权重下载至多节点共享目录。
 
-### 3.2 Verify Multi-Node Communication (Optional)
+### 3.2 验证多节点通信（可选）
 
-**Example:**
+**示例：**
 
-If deploying a multi-node environment, please follow the [Verify Multi-Node Communication Environment](../installation.md#verify-multi-node-communication) guide for communication verification.
+若需部署多节点环境，请依据[验证多节点通信环境](../installation.md#verify-multi-node-communication)指南进行通信验证。
 
-## 4 Installation
+## 4 安装
 
-**Documentation Writing Requirements:**
+**资料写作要求：**
 
-- Provide specific installation steps and commands (parameters need to explain their meaning, value range, units, etc.).
-- Version number writing convention: Prefer using placeholders (values configured uniformly); if using a fixed value that differs from the document's verified version, add a comment "Please replace with the actual version".
-- Provide verification commands and expected status: Guide users to check the installation result by executing commands (e.g., `docker ps`), and describe the success status code or output characteristics.
+- 提供具体的安装步骤与命令（参数需解释含义、取值范围、单位等）。
+- 版本号书写规范：优先使用占位符（值统一配置）；若使用固定值且该值与文档验证版本不一致，须加注释“请按实际版本替换”。
+- 提供验证命令及预期状态：指导用户通过执行命令（如 docker ps）检查安装结果，说明成功时的状态码或输出特征。
 
-### 4.1 Docker Image Installation
+### 4.1 Docker镜像安装
 
-**Example:** Omitted
+**示例：**  略
 
-### 4.2 Source Code Installation
+### 4.2 源码安装
 
-**Example:** Omitted
+**示例：**  略
 
-## 5 Online Service Deployment
+## 5 在线服务化部署（Online service deployment）
 
-### 5.1 Single-Node Online Deployment
+### 5.1 单机在线部署
 
-**Documentation Writing Requirements:**
+**资料写作要求：**
 
-- Describe the architectural characteristics and applicable scenarios of single-node deployment.
-- Provide a startup command template and descriptions of key parameters.
-- Provide service verification methods (e.g., `curl` commands) and expected results, describing success characteristics (e.g., 200 OK).
-- Below the startup command, provide guidance on common issues. If already described in the public FAQ, a direct link can be provided.
+- 说明单机部署的架构特点与适用场景
+- 提供启动命令模板和关键参数说明
+- 提供服务验证方法（如 curl 命令）及预期结果，说明成功特征（如 200 OK）。
+- 在启动命令下方提供常见问题指引，如公共FAQ中已有描述可直接链接呈现。
 
-**Example:**
+**示例：**
 
-Single-node deployment completes Prefill and Decode within the same node, suitable for XXX scenarios.
+单机部署将Prefill与Decode在同一节点内完成，适用于XXX场景。
 
-Startup Command:
-
-```bash
-# Omitted
-```
-
-Common Issue Tip: If encountering xxx issue, please refer to the [Public FAQ](https://docs.vllm.ai/projects/ascend/en/latest/faqs.html) for troubleshooting.
-
-Service Verification:
+启动命令：
 
 ```bash
-# Omitted
+# 略
 ```
 
-Expected Result: Omitted (write according to actual output).
+常见问题提示：如遇xxx问题，请参考[公共FAQ](https://docs.vllm.ai/projects/ascend/en/latest/faqs.html)进行检查。
 
-### 5.2 Multi-Node PD Separation Deployment
+服务验证：
 
-**Documentation Writing Requirements:**
+```bash
+# 略
+```
 
-- Explain the principle and applicable scenarios of the PD separation architecture.
-- Provide the startup process, key configurations, and **deployment verification instructions**.
-- Specify performance metrics.
-- Below the startup command, provide guidance on common issues. If already described in the public FAQ, a direct link can be provided.
+预期结果：略（按实际输出书写即可）。
 
-**Example:** Omitted
+### 5.2 多机PD分离部署
 
-### 5.3 Special Deployment Forms (Optional)
+**资料写作要求：**
 
-**Documentation Writing Requirements:**
+- 说明PD分离架构的原理与适用场景。
+- 提供启动流程、关键配置及**部署验证说明**。
+- 注明性能指标。
+- 在启动命令下方提供常见问题指引，如公共FAQ中已有描述可直接链接呈现。
 
-- If the model has non-standard deployment forms (e.g., offline batch processing for embedding models, low-latency online services for reranker models), the corresponding deployment solution must be clearly reflected in the document.
-- Can be extended by referring to sections 5.1 and 5.2 of this chapter.
+**示例：** 略
 
-## 6 Functional Verification
+### 5.3 特殊部署形态（可选）
 
-**Documentation Writing Requirements:**
+**资料写作要求：**
 
-- Guide users on how to test the basic functionality of the model through simple interface calls after the service is started.
-- Provide expected results, describing success characteristics (e.g., HTTP 200, JSON response containing a `choices` field).
+- 若模型存在非标准部署形态（如embedding模型的离线批处理、reranker模型的低延迟在线服务等），需在文档中明确体现对应部署方案。
+- 可参考本章5.1和5.2节进行扩展。
 
-**Example:**
+## 6 功能验证
 
-After the service starts, you can invoke the model by sending a prompt:
+**资料写作要求：**
+
+- 指导用户如何在服务启动后，通过简单接口测试模型的基本功能是否正常。
+- 提供预期结果，说明成功特征（如 HTTP 200、返回包含 choices 字段的 JSON）。
+
+**示例：**
+
+服务启动后，即可通过发送提示词来调用模型：
 
 ```shell
        curl http://<node0_ip>:<port>/v1/completions \
@@ -157,22 +157,22 @@ After the service starts, you can invoke the model by sending a prompt:
            }'
 ```
 
-Expected Result: Omitted (write according to actual output).
+预期结果：略（按实际输出书写即可）。
 
-## 7 Accuracy Evaluation
+## 7 精度评估
 
-**Documentation Writing Requirements:** Introduce standardized methods and tools for evaluating model output quality (accuracy). The following provides two accuracy evaluation methods as examples; or directly link to existing documentation.
+**资料写作要求：** 介绍评估模型输出质量（精度）的标准化方法及工具，以下提供两种精度评估方法作为示例；或直接链接现有文档进行呈现。
 
-### Using AISBench
+### AISBench的使用
 
-For details, please refer to [Using AISBench](../developer_guide/evaluation/using_ais_bench.md).
+详情请参考[Using AISBench](../developer_guide/evaluation/using_ais_bench.md)。  
 
-### Using Language Model Evaluation Harness
+### Language Model Evaluation Harness的使用
 
-Taking the `gsm8k` dataset as the test dataset, run the accuracy evaluation of `DeepSeek-V3.2-W8A8` in online mode.
+以`gsm8k`数据集作为测试数据集为例，在线模式下运行`DeepSeek-V3.2-W8A8`的精度评估。
 
-1. For `lm_eval` installation, please refer to [Using lm_eval](../developer_guide/evaluation/using_lm_eval.md).
-2. Run `lm_eval` to perform accuracy evaluation.
+1. `lm_eval`安装请参考[Using lm_eval](../developer_guide/evaluation/using_lm_eval.md)。
+2. 运行`lm_eval`执行精度评估。
 
 ```shell
 lm_eval \
@@ -182,89 +182,89 @@ lm_eval \
   --output_path ./
 ```
 
-## 8 Performance
+## 8 性能
 
-Omitted, requirements are the same as for Accuracy Evaluation.
+略，要求同精度评估
 
-## 9 Performance Tuning
+## 9 性能调优
 
-### 9.1 Recommended Configurations
+### 9.1推荐配置
 
-**Documentation Writing Requirements:**
+**资料写作要求：**
 
-Provide recommended configurations for the model in three typical scenarios (long sequence, low latency, high throughput). Clearly state that the configurations are not globally optimal and guide users to tune according to their actual situation.
+提供模型在三个典型场景下的推荐配置（长序列、低时延、高吞吐），需明确说明配置的非全局最优性，并引导用户根据实际进行调优。
 
-**Example:**
+**示例：**
 
-> **Note**: The following configurations are verified based on a specific test environment and are for reference only. The actual optimal configuration depends on factors such as maximum input/output length, prefix cache hit rate, accuracy requirements, and deployment machine ratio. It is recommended to tune according to the actual situation by referring to section 9.2.
+> **说明**：以下配置基于特定测试环境验证，仅作参考。实际最优配置取决于最大输入输出长度、前缀缓存命中率、精度要求、部署机器配比等因素，建议根据实际参考9.2章节进行调优。
 
-#### Table 1: Scenario Overview
+#### 表1：场景概览
 
-| Scenario | Deployment Form | *Total Cards | Weight Version | Scenario Key Points |
+| 场景 | 部署形态 | *总卡数 | 权重版本 | 场景要点 |
 |------|------|---------|----------|----------|
-| High Throughput<br>(32K Push 1K) | 1P1D Deployment | 16 (A3) | glm5.1w4a8 | For high throughput with short sequences, try adjusting the xxx parameter |
-| Long Sequence |  |  |  |  |
-| Low Latency |  |  |  |  |
+| 高吞吐<br>(32K推1K) | 1P1D部署 | 16（A3） | glm5.1w4a8 | 短序列高吞吐情况下，尝试调整xxx参数 |
+| 长序列 |  |  |  |  |
+| 低时延 |  |  |  |  |
 
-> `*Total Cards` indicates the total number of NPUs used across all nodes.
+> `*总卡数` 表示所有节点使用的 NPU 总数。
 
-#### Table 2: Detailed Node Configuration
+#### 表2：节点详细配置
 
-| Scenario | Configuration | Cards | TP | DP | BS | Concurrency | Max Context | MTP Speculation Count | FUSED_MC2 | EP Switch | FC+CP Switch | Async Scheduling |
+| 场景 | 配置 | 卡数 | TP | DP | BS | 并发 | 最大上下文 | MTP投机数 | FUSED_MC2 | EP开关 | FC+CP开关 | 异步调度 |
 |------|------|------|----|----|----|------|----------|---------|---------------|--------|-------|------|
-| High Throughput (32K Push 1K) | Server-P Node/Single Node | 8 | 8 | 2 | 32 | 64 | 30k | 3 | Off | On | On | On |
-| High Throughput (32K Push 1K) | Server-D Node | 8 | 2 | 8 | 8 | 64 | 30k | 12 | Off | On | Off | On |
-| Long Sequence | Server-P Node/Single Node |  |  |  |  |  |  |  |  |  |  |  |
-| Long Sequence | Server-D Node |  |  |  |  |  |  |  |  |  |  |  |
-| Low Latency | Server-P Node/Single Node |  |  |  |  |  |  |  |  |  |  |  |
-| Low Latency | Server-D Node |  |  |  |  |  |  |  |  |  |  |  |
+| 高吞吐(32K推1K) | 服务端-P节点/单机 | 8 | 8 | 2 | 32 | 64 | 30k | 3 | 关 | 开 | 开 | 开 |
+| 高吞吐(32K推1K) | 服务端-D节点 | 8 | 2 | 8 | 8 | 64 | 30k | 12 | 关 | 开 | 关 | 开 |
+| 长序列 | 服务端-P节点/单机 |  |  |  |  |  |  |  |  |  |  |  |
+| 长序列 | 服务端-D节点 |  |  |  |  |  |  |  |  |  |  |  |
+| 低时延 | 服务端-P节点/单机 |  |  |  |  |  |  |  |  |  |  |  |
+| 低时延 | 服务端-D节点 |  |  |  |  |  |  |  |  |  |  |  |
 
-> For the complete startup command and parameter meanings, please refer to the deployment examples in Chapter 5.
+> 完整启动命令及参数含义请参考第5章部署示例。
 
-### 9.2 Tuning Approach
+### 9.2 调优思路
 
-#### 9.2.1 General Tuning Reference
+#### 9.2.1 通用调优参考
 
-**Documentation Writing Requirements:**
+**资料写作要求：**
 
-If no special tuning is involved, you can directly provide a feature combination table and links to public performance tuning documentation for reference.
+若不涉及特殊调优可直接给出特性叠加表和公共性能调优文档链接供参考。
 
-**Example:**
+**示例：**
 
-Please refer to the [Public Performance Tuning Documentation](../../developer_guide/performance_and_debug/optimization_and_tuning.md) for tuning methods.
-Please refer to the [Feature Guide](../../user_guide/support_matrix/feature_matrix.md) for detailed feature descriptions.
+请参考[公共性能调优文档](../../developer_guide/performance_and_debug/optimization_and_tuning.md)获得调优方法。
+请参考[特性指南](../../user_guide/support_matrix/feature_matrix.md)获得详细特性说明。
 
-#### 9.2.2 Model-Specific Optimizations (Optional)
+#### 9.2.2  模型特有优化（可选）
 
-**Documentation Writing Requirements:**
+**资料写作要求：**
 
-If the model has specific optimizations, summarize the key optimization techniques and parameter tuning experience for that model.
+若该模型存在特有优化，需总结针对该模型的关键优化技术和调参经验。
 
-**Example:**
+**示例：**
 
-#### Optimizations Enabled by Default
+#### 默认启用的优化
 
-The following optimizations are enabled by default and require no additional configuration:
+以下优化默认启用，无需额外配置：
 
-| Optimization Technique | Technical Principle | Performance Benefit |
+| 优化技术 | 技术原理 | 性能收益 |
 | --------- | --------- | --------- |
-| Rope Optimization | The `cos_sin_cache` and index operations of positional encoding are only executed in the first layer; subsequent layers directly reuse them | Reduces repetitive computation during the decode phase, accelerating inference |
-| AddRMSNormQuant Fusion | Merges element-wise multi-scale normalization and quantization operations into a single operator | Optimizes memory access patterns, improving computational efficiency |
-| Zero-like Elimination | Removes unnecessary zero tensor operations in the Attention forward pass | Reduces memory footprint, improves matrix operation efficiency |
-| FullGraph Optimization | Captures and replays the entire decode graph in one go via `compilation_config={"cudagraph_mode":"FULL_DECODE_ONLY"}` | Significantly reduces scheduling latency, stabilizes multi-device performance |
+| Rope优化 | 位置编码的cos_sin_cache及索引操作仅在第一层执行，后续层直接复用 | 减少解码阶段重复计算，加速推理 |
+| AddRMSNormQuant融合 | 将逐地址多尺度归一化与量化操作合并为单算子 | 优化内存访问模式，提升计算效率 |
+| Zero-like Elimination | 移除Attention前向中的非必要零张量操作 | 减少内存占用，提高矩阵运算效率 |
+| FullGraph优化 | 通过`compilation_config={"cudagraph_mode":"FULL_DECODE_ONLY"}`将整个解码图一次性捕获重放 | 显著降低调度延迟，稳定多设备性能 |
 
-#### Optimizations Requiring Explicit Enabling
+#### 需显试开启的优化
 
-| Optimization Technique | Applicable Scenario | Enabling Method | Technical Principle | Notes |
+| 优化技术 | 适用场景 | 启用方式 | 技术原理 | 注意事项 |
 | --------- | --------- | --------- | --------- | --------- |
-| FlashComm_v1 | High concurrency, Tensor Parallelism (TP) scenarios | `export VLLM_ASCEND_ENABLE_FLASHCOMM1=1` | Decomposes traditional Allreduce into Reduce-Scatter and All-Gather, reducing the RMSNorm computation dimension | Threshold protection: Only takes effect when the actual token count exceeds the threshold, preventing performance regression in low-concurrency scenarios|
-| Matmul-ReduceScatter Fusion | Large-scale distributed environments | Automatically enabled when FlashComm_v1 is enabled | Fuses matrix multiplication with Reduce-Scatter operations, enabling pipeline parallel processing | Same as FlashComm_v1, has threshold protection |
-| Weight Prefetch | MLP-intensive scenarios (Dense models)| `export VLLM_ASCEND_ENABLE_PREFETCH_MLP=1` | Uses vector computation time to load MLP weights into L2 Cache in advance | Requires adjustment of the prefetch buffer size |
-| Async Scheduling | Large-scale models, high-concurrency scenarios | `--async-scheduling` | Non-blocking task scheduling, improving concurrent processing capability | Used in conjunction with FullGraph optimization |
+| FlashComm_v1 | 大并发、张量并行(TP)场景 | `export VLLM_ASCEND_ENABLE_FLASHCOMM1=1` | 将传统Allreduce分解为Reduce-Scatter和All-Gather，减少RMSNorm计算维度 | 阈值保护：仅当实际token数超过阈值时生效，避免小并发场景性能倒退|
+| Matmul-ReduceScatter融合 | 大型分布式环境 | 启用FlashComm_v1后自动开启 | 将矩阵乘法与Reduce-Scatter操作融合，实现流水线并行处理 | 同FlashComm_v1，有阈值保护 |
+| 权重预取 | MLP密集型场景（Dense模型）| `export VLLM_ASCEND_ENABLE_PREFETCH_MLP=1` | 利用向量计算时间，提前将MLP权重加载到L2 Cache | 需配合预取缓冲区大小调整 |
+| 异步调度 | 大规模模型、高并发场景 | `--async-scheduling` | 非阻塞任务调度，提升并发处理能力 | 与FullGraph优化协同使用 |
 
 ## 10 FAQ
 
-**Documentation Writing Requirements:**
+**资料写作要求：**
 
-- Add a note at the beginning of the chapter: For common environment, installation, and general parameter issues, please refer to the [Public FAQ](https://docs.vllm.ai/projects/ascend/en/latest/faqs.html); this chapter only includes specific difficult issues related to this model.
-- For **specific difficult issues related to this model**, provide the following elements: Problem description, cause analysis, and solution.
+- 在章节开头添加说明：常见环境、安装、通用参数问题请参考[公共FAQ](https://docs.vllm.ai/projects/ascend/en/latest/faqs.html)；本章仅收录本模型特有疑难问题。
+- 针对**本模型特有疑难问题** ，提供以下要素：问题现象描述、原因分析、解决措施。

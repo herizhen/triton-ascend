@@ -1,10 +1,10 @@
 # triton.language.gather
 
-## 1. OP Overview
+## 1. OP 概述
 
-Description: Performs a gather operation on the `src` tensor along the `axis` dimension according to the `index`. The meaning of the gather operation is shown in the figure below:
+简介：对`src`tensor沿`axis`维度按照`index`执行gather操作，gather操作含义见下图:
 ![image](./gather.png)
-Prototype:
+原型：
 
 ```python
 triton.language.gather(
@@ -15,48 +15,48 @@ triton.language.gather(
 )
 ```
 
-## 2. OP Specification
+## 2. OP 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter Name | Type               | Description                                                    |
-| -------------- | ------------------ | -------------------------------------------------------------- |
-| `src`          | `tensor`           | The tensor on which the gather operation is performed          |
-| `index`        | `tensor`           | The indices to gather                                          |
-| `axis`         | `int`              | The dimension along which to perform the gather operation      |
-| `_semantic`    | -                  | Reserved parameter, external calls are not supported           |
+| 参数名           | 类型                | 说明                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `src`        | `tensor`          |  被执行gather操作的tensor                               |
+| `index`     | `tensor`    | 需要gather的索引 |
+| `axis`     | `int`    | 需要执行gather操作的维度 |
+| `_semantic`   | -                 | 保留参数，暂不支持外部调用|
 
-Return value: `tensor`: The result after the gather operation
+返回值：`tensor`： gather后的结果
 
-### 2.2 Supported Specifications
+### 2.2 支持规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU           | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | √    | √    | ×    |
-| Ascend A2/A3  | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | ×    | ×     | ×   | ×     | ×      | ×     | ×     | ×     | √    | √    | √    | √    | ×    |
+| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Compared to GPU, Ascend lacks support for fp64 (hardware limitation).
+结论：Ascend 对比 GPU 缺失fp64的支持能力（硬件限制）。
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|               | Supported Dimension Range |
-| ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+|        | 支持维度范围          |
+| ------ | --------------- |
+| GPU    | 仅支持 1~5维 tensor |
+| Ascend A2/A3 | 仅支持 1~5维 tensor |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 1 至 5 维张量。
 
-### 2.3 Special Limitation Notes
+### 2.3 特殊限制说明
 
-> Capabilities missing compared to the community and cannot be implemented
+> 相对社区能力缺失且无法实现
 
-- Compared to GPU, Ascend lacks support for fp64 (hardware limitation).
+- Ascend 对比 GPU 缺失fp64的支持能力（硬件限制）。
 
-### 2.4 Usage Method
+### 2.4 使用方法
 
-Refer to the following example:
+参考以下示例：
 
 ```python
 import math

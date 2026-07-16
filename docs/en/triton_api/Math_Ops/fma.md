@@ -1,57 +1,57 @@
 # triton.language.fma
 
-## 1. Function Overview
+## 1. 函数概述
 
-Description: Computes the element-wise fused multiply-add operation of x, y, and z.
+简介：计算x、y和z的逐元素融合乘加操作。
 
 ```python
 triton.language.fma(x, y, z, _semantic=None)
 ```
 
-## 2. Specifications
+## 2. 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter      | Type              | Description                                                  |
-| -------------- | ----------------- | ------------------------------------------------------------ |
-| `x`            | `tensor`          | Tensor data                                                  |
-| `y`            | `tensor`          | Tensor data                                                  |
-| `z`            | `tensor`          | Tensor data                                                  |
-| `_semantic`    | -                 | Reserved parameter, currently not supported for external calls |
+| 参数名           | 类型                | 说明                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `x`        | `tensor`          | 张量数据                                                      |
+| `y`        | `tensor`          | 张量数据                                                      |
+| `z`        | `tensor`          | 张量数据                                                      |
+| `_semantic`   | -                 | 保留参数，暂不支持外部调用
 
-Return value:
-`z`: A tensor with the same shape as `z`
+返回值：
+`z`：同z的shape的张量
 
-### 2.2 OP Specifications
+### 2.2 OP 规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU    | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | √    | √    | ×    |
-| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
+| GPU    | ×    | ×     | ×     | ×     | ×     | ×      | ×      | ×     | √    | √    | √    | √    | ×    |
+| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×     | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Compared to GPU, Ascend lacks fp64 support.
-PyTorch supports uint8.
+结论：Ascend 相比 GPU 缺失 fp64 支持。
+torch 对 uint8 支持。
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|        | Supported Dimension Range |
-| ------ | ------------------------- |
-| GPU    | Only supports 1~5D tensors |
-| Ascend A2/A3 | Only supports 1~5D tensors |
+|        | 支持维度范围          |
+| ------ | --------------- |
+| GPU    | 仅支持 1~5维 tensor |
+| Ascend A2/A3| 仅支持 1~5维 tensor |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 1 至 5 维张量。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Capabilities missing relative to the community and cannot be implemented
+> 相对社区能力缺失且无法实现
 
-None.
+无。
 
-### 2.4 Usage Example
+### 2.4 使用方法
 
-The following example demonstrates performing an element-wise fused multiply-add operation on input tensors `x`, `y`, and `z`:
+以下示例实现了对输入张量 `x` ,`y`，`z`做逐元素融合乘加操作：
 
 ```python
 @triton.jit

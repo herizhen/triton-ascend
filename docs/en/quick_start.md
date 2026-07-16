@@ -1,70 +1,71 @@
-# Quick Start
+# 快速入门
 
-## Project Introduction
+## 项目简介
 
-Triton-Ascend is an optimized version of Triton adapted for Huawei Ascend chips, providing efficient kernel function auto-tuning, operator compilation, and deployment capabilities. It supports Ascend Atlas A2/A3 series products, is compatible with Triton core syntax, and has been deeply optimized for Ascend NPU features, including automatic parsing of kernel function parameters, optimized memory access logic, and improved secure deployment mechanisms.
+Triton-Ascend 是适配华为 Ascend 昇腾芯片的 Triton 优化版本，提供高效的核函数自动调优、算子编译及部署能力，支持 Ascend Atlas A2/A3 等系列产品，
+兼容 Triton 核心语法的同时，针对昇腾 NPU 特性进行了深度优化，包括自动解析核函数参数、优化内存访问逻辑、完善安全部署机制等。
 
-## Online Documentation
+## 在线文档
 
-We provide comprehensive online documentation and resources covering environment setup, operator development, tuning practices, and frequently asked questions to facilitate quick onboarding and in-depth usage. For details, please refer to the [Online Documentation](https://triton-ascend.readthedocs.io/zh-cn/latest/index.html)
+我们提供了完整的在线文档与网络资料，涵盖环境搭建、算子开发、调优实践以及常见问题说明，方便用户快速上手与深入使用，详情请参考 [在线文档](https://triton-ascend.readthedocs.io/zh-cn/latest/index.html)
 
-## Environment Requirements
+## 环境要求
 
-### Hardware Requirements
+### 硬件要求
 
-Supported Operating Systems: linux(aarch64/x86_64)
+支持的操作系统: linux(aarch64/x86_64)
 
-Supported Ascend Products: Atlas A2/A3 series
+支持的 Ascend 产品: Atlas A2/A3 系列
 
-Minimum Hardware Configuration: Single card 32GB memory (recommended)
+最小硬件配置: 单卡 32GB 显存（推荐）
 
-### Software Dependencies
+### 软件依赖
 
-Python (**3.9 - 3.13**, note: py3.9 does not support aarch64 architecture), CANN_TOOLKIT, CANN_OPS, and [requirements.txt](../../requirements.txt) and [requirements_dev.txt](../../requirements_dev.txt), etc.
+Python（**3.9 - 3.13**,注:py3.9不支持aarch64架构），CANN_TOOLKIT，CANN_OPS，以及[requirements.txt](../../requirements.txt)和[requirements_dev.txt](../../requirements_dev.txt)等。
 
-You can visit the Ascend community official website and follow the [Community Software Installation Guide](https://www.hiascend.com/cann/download) to complete the installation and configuration of CANN. Developers can find the corresponding installation commands by selecting the CANN version, product series, CPU architecture, operating system, and installation method.
+您可以访问昇腾社区官网，根据其提供的[社区软件安装指引](https://www.hiascend.com/cann/download)完成 CANN 的安装与配置。开发者选择CANN版本、产品系列、CPU架构、操作系统和安装方式便可找到对应的安装命令。
 
-During installation, please select one of the following versions for CANN version "**{version}**". It is recommended to download and install version 9.0.0:
+在安装过程中，CANN 版本“**{version}**”请选择如下版本之一。建议下载安装 9.0.0 版本:
 
-- Note: If the user does not specify an installation path, the software will be installed to the default path. The default installation paths are as follows. For root user: `/usr/local/Ascend`, for non-root user: `${HOME}/Ascend`, where `${HOME}` is the current user's home directory.
+- 注：如果用户未指定安装路径，则软件会安装到默认路径下，默认安装路径如下。root用户：`/usr/local/Ascend`，非root用户：`${HOME}/Ascend`，`${HOME}`为当前用户目录。
 
-The above environment variable configuration only takes effect in the current window. Users can write the ```source ${HOME}/Ascend/ascend-toolkit/set_env.sh``` command into the environment variable configuration file (e.g., .bashrc file) as needed.
+上述环境变量配置只在当前窗口生效，用户可以按需将```source ${HOME}/Ascend/ascend-toolkit/set_env.sh```命令写入环境变量配置文件（如.bashrc文件）。
 
-You need to select the corresponding compatible version (version 9.0.0 is recommended) based on the actual Ascend card model you are using. The installation of CANN takes approximately 5-10 minutes, please wait patiently for the installation to complete.
+需要根据您实际使用的昇腾卡型号选择对应的配套版本（建议9.0.0版本），并且安装CANN的时间大概在5-10分钟，请耐心等待安装完成。
 
-The installation of requirements can be done as follows:
+requirements的安装可以参考如下：
 
 ```shell
 pip install -r requirements.txt -r requirements_dev.txt
 ```
 
-## Environment Setup
+## 环境搭建
 
-Users can follow the steps in the environment preparation section of the [Installation Guide](installation_guide.md) to set up the Triton-Ascend environment.
+用户可根据[安装指南](installation_guide.md)的环境准备章节步骤搭建Triton-Ascend环境。
 
-### Obtaining the Triton-Ascend Software Package
+### Triton-Ascend 软件包获取
 
-Users can directly install the latest stable version package via the command line.
+用户可以直接命令行安装最新的稳定版本包。
 
 ```shell
 pip install triton-ascend
 ```
 
-- Note: Starting from version 3.2.1, Triton-Ascend alleviates the installation override issue by declaring Triton as an installation dependency. When installing Triton-Ascend, the community Triton is installed first, and then Triton-Ascend overrides the directory with the same name, thereby preventing subsequent installation of other software packages that depend on Triton from reinstalling Triton and overriding Triton-Ascend. The reason x86 and arm use different versions of the community Triton installation package is that the community only started providing arm version installation packages from version 3.5 onwards: x86 depends on `triton==3.2.0`, arm depends on `triton==3.5.0`.
-- Note 1: This solution is used to alleviate the installation override issue and cannot completely eliminate the conflict caused by the community Triton and Triton-Ascend sharing the same `triton` package directory; if the subsequent installation process explicitly reinstalls or upgrades the community Triton, it may still affect the installed Triton-Ascend. In this case, please uninstall both the community Triton and Triton-Ascend first, and then reinstall Triton-Ascend.
+- 注意：从 3.2.1 版本开始，Triton-Ascend 通过将 Triton 声明为安装依赖来缓解安装覆盖问题。安装 Triton-Ascend 时会先安装社区 Triton，再由 Triton-Ascend 覆盖同名目录，从而避免后续安装其他依赖 Triton 的软件包时再次安装 Triton 而覆盖 Triton-Ascend。x86 与 arm 使用不同版本的社区 Triton 安装包的原因是社区从 3.5 版本开始才提供 arm 版本安装包：x86 依赖 `triton==3.2.0`，arm 依赖 `triton==3.5.0`。
+- 注意1：该方案用于缓解安装覆盖问题，并不能彻底消除社区 Triton 与 Triton-Ascend 共享同名 `triton` 包目录带来的冲突；如果后续安装流程显式重新安装或升级社区 Triton，仍可能影响已安装的 Triton-Ascend，此时请先同时卸载社区 Triton 和 Triton-Ascend，然后重新安装 Triton-Ascend。
 
-You can also choose to download nightly packages from the [Download Page](https://test.pypi.org/project/triton-ascend/#history) and install them locally.
+也可以在 [下载地址](https://test.pypi.org/project/triton-ascend/#history) 中自行选择nightly包进行下载然后本地安装。
 
-- Note 2: If you choose to download and install the nightly package yourself, please select the Triton-Ascend package that corresponds to your server's Python version and architecture (aarch64/x86_64).
-- Note 3: Nightly packages are built daily. Developers submit MRs frequently, and these packages have not undergone stable testing. There may be functional bugs. Please be aware.
+- 注意2：如果您选择自行下载nightly包安装，请在选择Triton-Ascend包时选择对应您服务器的Python版本以及架构(aarch64/x86_64)。
+- 注意3：nightly是每日构建的包，开发者提交MR频繁，没有经过稳定的测试，可能存在功能上的bug，请知悉。
 
-## Quick Setup Using Docker
+## 快速使用Docker 安装环境
 
-We provide a Dockerfile to help you build a Docker environment image. The build process uses the `quay.io/ascend/cann` pre-built image as the base image, skipping the CANN installation step, significantly speeding up the build process.
+我们提供了Dockerfile帮助您安装Docker环境镜像。构建过程使用`quay.io/ascend/cann`预构建镜像作为基础镜像，跳过CANN安装步骤，显著加快构建速度。
 
-You need to specify the `CANN_BASE_IMAGE` parameter via `--build-arg` to select the CANN base image suitable for your machine. Available CANN base image tags can be viewed at [quay.io/ascend/cann](https://quay.io/repository/ascend/cann?tab=tags).
+您需要通过`--build-arg`指定`CANN_BASE_IMAGE`参数来选择适合您机器的CANN基础镜像。可用的CANN基础镜像标签可在[quay.io/ascend/cann](https://quay.io/repository/ascend/cann?tab=tags)查看。
 
-| CANN Version | Chip Type | Python Version | Image Tag |
+| CANN版本 | 芯片类型 | Python版本 | 镜像标签 |
 |---|---|---|---|
 | 8.5.0 | `A2` | 3.10 | `8.5.0-910b-ubuntu22.04-py3.10` |
 | 8.5.0 | `A3` | 3.10 | `8.5.0-a3-ubuntu22.04-py3.10` |
@@ -75,14 +76,14 @@ You need to specify the `CANN_BASE_IMAGE` parameter via `--build-arg` to select 
 | 9.0.0-beta.2 | `A2` | 3.11 | `9.0.0-beta.2-910b-ubuntu22.04-py3.11` |
 | 9.0.0-beta.2 | `A3` | 3.11 | `9.0.0-beta.2-a3-ubuntu22.04-py3.11` |
 
-You can use the `npu-smi` command to view the NPU model on your system.
+您可以通过 npu-smi 命令查看系统上的NPU型号。
 
-Machines corresponding to different chip types can be referenced as follows:
+不同芯片类型对应的机器可参考：
 
-| Option No. | **Chip Type** | Corresponding Machine/Product Series | Typical Complete Machine |
+| 选项序号 | **芯片类型** | 对应机器/产品系列 |                 典型整机                 |
 | :---: |:-----------------:| :---: |:-----------------------------------:|
-| 1 | `A3` | Atlas A3 Training Series Products | Atlas 900 A3 SuperPoD |
-| 2 | `A2` | Atlas A2 Training Series Products | Atlas800T A2 |
+| 1 |       `A3`        | Atlas A3 训练系列产品 |        Atlas 900 A3 SuperPoD        |
+| 2 |       `A2`        | Atlas A2 训练系列产品 |            Atlas800T A2             |
 
 ```bash
 git clone https://github.com/triton-lang/triton-ascend.git && cd triton-ascend
@@ -91,7 +92,7 @@ docker build \
 -t triton-ascend-image:latest -f ./docker/Dockerfile .
 ```
 
-To start a container from this image, you can refer to the following command:
+根据该镜像启动容器，可以参考下面的命令：
 
 ```bash
 docker run -u 0 -dit --shm-size=512g --name=triton-ascend_container --net=host --privileged \
@@ -116,24 +117,24 @@ docker run -u 0 -dit --shm-size=512g --name=triton-ascend_container --net=host -
 triton-ascend-image:latest \
 /bin/bash
 
-# Enter the container
+# 进入容器
 docker exec -u root -it triton-ascend_container /bin/bash
 ```
 
-## Running Triton Examples
+## 运行Triton示例
 
-Run example: [01-vector-add.py](../../third_party/ascend/tutorials/01-vector-add.py)
+运行实例: [01-vector-add.py](../../third_party/ascend/tutorials/01-vector-add.py)
 
 ```bash
-# Set CANN environment variables (taking the root user's default installation path `/usr/local/Ascend` as an example)
+# 设置CANN环境变量（以root用户默认安装路径`/usr/local/Ascend`为例）
 source /usr/local/Ascend/ascend-toolkit/set_env.sh
-# Clone the triton-ascend source repository and examples (optional, required when running examples without source compilation installation)
+# 拉取triton-ascend源码仓及用例（可选，非源码编译安装运行示例时需拉源码仓）
 git clone https://github.com/triton-lang/triton-ascend.git
-# Run the tutorials example:
+# 运行tutorials示例：
 python3 ./triton-ascend/third_party/ascend/tutorials/01-vector-add.py
 ```
 
-Observing output similar to the following indicates that the environment is correctly configured.
+观察到类似的输出即说明环境配置正确。
 
 ```shell
 tensor([0.8329, 1.0024, 1.3639,  ..., 1.0796, 1.0406, 1.5811], device='npu:0')
@@ -141,11 +142,11 @@ tensor([0.8329, 1.0024, 1.3639,  ..., 1.0796, 1.0406, 1.5811], device='npu:0')
 The maximum difference between torch and triton is 0.0
 ```
 
-## Migrating Triton Examples from GPU to NPU
+## 从 GPU 到 NPU：迁移 Triton 示例
 
-Triton-Ascend maintains full compatibility with the community Triton syntax. By simply replacing the **tensor device declaration** and a few `torch.cuda.*` interfaces, existing GPU examples can run on the Ascend NPU. The following demonstrates the complete migration process using a typical vector addition test.
+Triton-Ascend 在保持与社区 Triton 语法完全兼容的同时，只需在 **张量的设备声明** 和少量 `torch.cuda.*` 接口上做替换，原有 GPU 示例即可在昇腾 NPU 上运行。下面通过一个典型向量加法测试，演示完整的迁移过程。
 
-The GPU version example file `test_add.py` is as follows:
+GPU 版本示例文件`test_add.py`如下:
 
 ```python
 import pytest
@@ -195,18 +196,18 @@ def test_add(SIZE, BLOCK_SIZE):
     assert_close(output, output_torch, rtol=1e-3, atol=1e-3)
 ```
 
-Migration only requires replacing GPU-related APIs with their corresponding NPU versions. The mapping is as follows:
+迁移只需将 GPU 相关 API 替换为对应的 NPU 版本，对照关系如下：
 
-| GPU Usage | NPU Usage |
+| GPU 写法                         | NPU 写法                        |
 | ------------------------------- | ------------------------------- |
-| `device='cuda'` | `device='npu'` |
-| `tensor.cuda()` | `tensor.npu()` |
-| `torch.cuda.current_device()` | `torch.npu.current_device()` |
-| `torch.cuda.synchronize()` | `torch.npu.synchronize()` |
+| `device='cuda'`                 | `device='npu'`                  |
+| `tensor.cuda()`                 | `tensor.npu()`                  |
+| `torch.cuda.current_device()`   | `torch.npu.current_device()`    |
+| `torch.cuda.synchronize()`      | `torch.npu.synchronize()`       |
 
-Kernel functions annotated with `@triton.jit` use the Triton general language and generally do not require special modifications. The Launch grid calling method is also identical to the GPU version.
+`@triton.jit` 标注的核函数使用的是 Triton 通用语言一般不需要特殊修改， Launch grid 的调用方式也与 GPU 完全一致。
 
-The core changes are shown in diff format:
+以 diff 形式展示核心改动：
 
 ```diff
 import pytest
@@ -216,7 +217,7 @@ from torch.testing import assert_close
 import triton
 import triton.language as tl
 
-# ...（kernel code remains unchanged）...
+# ...（kernel 代码保持不变）...
 
 @pytest.mark.parametrize('SIZE,BLOCK_SIZE', [(98432, 1024)])
 def test_add(SIZE, BLOCK_SIZE):
@@ -240,8 +241,8 @@ def test_add(SIZE, BLOCK_SIZE):
     output_torch = x + y
     assert_close(output, output_torch, rtol=1e-3, atol=1e-3)
 ```
-After modification, you can run the test case using `pytest`. Successful execution indicates a successful migration.
+修改完后，可用`pytest`运行用例，执行成功即表明迁移成功。
 ```
 pytest test_add.py
 ```
-If the `pytest` component is not installed, you can install it using `pip install pytest`.
+若未安装`pytest`组件，可使用`pip install pytest`进行安装。

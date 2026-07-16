@@ -1,47 +1,47 @@
 # triton.language.xor_sum
 
-## 1. OP Overview
+## 1. OP 概述
 
-Description: `triton.language.xor_sum` computes the XOR sum of the input tensor along the specified axis, returning the result of the XOR operation.
+简介：`triton.language.xor_sum` 计算输入tensor沿指定轴的异或和，返回异或操作结果。
 
 ```python
 triton.language.xor_sum(input, axis=None, keep_dims=False)
 ```
 
-## 2. OP Specification
+## 2. OP 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `input` | `Tensor` | Input tensor |
-| `axis` | `int` or `None` | The dimension along which to perform the XOR sum operation. If None, the XOR operation is performed over all dimensions |
-| `keep_dims` | `bool` | If True, the reduced dimensions are kept with length 1 |
+| 参数名 | 类型 | 说明 |
+|--------|------|------|
+| `input` | `Tensor` | 输入tensor |
+| `axis` | `int` 或 `None` | 沿着哪个维度进行异或和操作。如果为None，则对所有维度进行异或操作 |
+| `keep_dims` | `bool` | 如果为True，保持被操作的维度为长度1 |
 
-Return value:
-`tensor`: The XOR sum of the input tensor along the specified axis, returning the result of the XOR operation
+返回值：
+`tensor`：输入tensor沿指定轴的异或和，返回异或操作结果
 
-### 2.2 Supported Specifications
+### 2.2 支持规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
 || uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | × | × | × | ✓ |
-| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ |
+| GPU支持 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ |
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-Conclusion: There is no difference in Shape support between GPU and Ascend platforms.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Missing capabilities relative to the community and cannot be implemented
-> `keep_dims=True` requires testing with more specifications to determine full support. Currently tested with 3D dim=2, `keep_dims=True` is supported.
+> 相对社区能力缺失且无法实现
+> keep_dims=True需要测试更多规格，来确定是否全面支持。目前已测3D dim=2情况下，支持 keep_dims=True。
 
-### 2.4 Usage Example
+### 2.4 使用方法
 
-The following example demonstrates performing an XOR sum operation on a 2D tensor:
+以下示例实现了对2Dshape的tensor进行xor_sum运算：
 
 ```python
 @triton.jit

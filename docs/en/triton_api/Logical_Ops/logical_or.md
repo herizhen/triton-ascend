@@ -1,57 +1,57 @@
 # triton.language.tensor.logical_or
 
-## 1. OP Overview
+## 1. OP 概述
 
-Description: Performs element-wise logical OR operation on two tensors.
+简介：用于对两个张量进行逐元素逻辑或运算
 
 ```python
 x.logical_or(y)
 ```
 
-Called as a member function of `tensor`, e.g., `x0.logical_or(x1)`.
+作为`tensor`的成员函数调用, 如`x0.logical_or(x1)`。
 
-## 2. OP Specification
+## 2. OP 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter | Type | Description |
+| 参数名 | 类型 | 说明 |
 | :---: | :---: | :---: |
-| `input` | `tensor` | Tensor data, left operand, representing the primary data for comparison |
-| `other` | `tensor` | Tensor data, right operand, performs element-wise logical OR with `input` |
-| `_builder` | - | Reserved parameter, external invocation not supported |
+| `input` | `tensor` | 张量数据, 左操作数, 代表要进行比较的主数据 |
+| `other`   | `tensor` | 张量数据, 右操作数, 与`input`逐元素进行逻辑或 |
+| `_builder` | - | 保留参数，暂不支持外部调用 |
 
-Return value:
-`tl.tensor`: A tensor with the same shape as `input`
+返回值：
+`tl.tensor`：同`input`的shape的张量
 
-### 2.2 Supported Specifications
+### 2.2 支持规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+|       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | × | × | × | × | × | × | × | × | × | × | × | × | √ |
 | Ascend A2/A3 | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | × | √ | √ |
 
-Conclusion: In terms of DataType, Ascend additionally supports integer and floating-point types (except fp64, fp8) compared to GPU.
+结论：在 DataType 方面, Ascend相比GPU额外增加了对整型、浮点型（除fp64,fp8）的支持。
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|        | Supported Dimension Range |
-| -------- | -------------------------- |
-| GPU    | Unlimited |
-| Ascend A2/A3 | Unlimited |
+|        | 支持维度范围         |
+| -------- | ---------------------- |
+| GPU    | 无限制 |
+| Ascend A2/A3 | 无限制 |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms.
+结论：在 Shape 方面, GPU 与 Ascend 平台无差异。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Community capability gaps that cannot be implemented
+> 相对社区能力缺失且无法实现
 
-None.
+无。
 
-### 2.4 Usage Example
+### 2.4 使用方法
 
-The following example demonstrates performing a logical OR operation on 3D tensors `x0` and `x1`:
+以下示例实现了对三维张量`x0`、`x1`做逻辑或运算：
 
 ```python
 @triton.jit

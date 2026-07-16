@@ -1,13 +1,13 @@
-# Memory/Pointer Operations
+# 内存/指针操作
 
-|api|Brief Description|
+|api|简要说明|
 |--|--|
-|[load](./tl.load.md) |Returns a tensor whose values are loaded from the memory location defined by the pointer|
-|[store](./tl.store.md) |Stores a data tensor to the memory location defined by the pointer|
-|[make_block_ptr](./tl.make_block_ptr.md) |Returns a pointer to a block within the parent tensor|
-|[advance](./tl.advance.md) |Advances a block pointer|
-|[load_tensor_descriptor](./load_tensor_descriptor.md) | Loads a data block from a tensor descriptor |
-|[make_tensor_descriptor](./make_tensor_descriptor.md) | Creates a tensor descriptor object |
+|[load](./tl.load.md) |返回一个张量，其值从由指针定义的内存位置加载|
+|[store](./tl.store.md) |将数据张量存储到由指针定义的内存位置|
+|[make_block_ptr](./tl.make_block_ptr.md) |返回指向父张量中某个块的指针|
+|[advance](./tl.advance.md) |推进一个块指针|
+|[load_tensor_descriptor](./load_tensor_descriptor.md) | 从张量描述符加载数据块 |
+|[make_tensor_descriptor](./make_tensor_descriptor.md) | 创建张量描述符对象 |
 
 ```{toctree}
 :maxdepth: 3
@@ -18,4 +18,3 @@ tl.make_block_ptr.md
 tl.advance.md
 load_tensor_descriptor.md
 make_tensor_descriptor.md
-```

@@ -1,54 +1,54 @@
 # triton.language.umulhi
 
-## 1. Function Overview
+## 1. 函数概述
 
-Description: Computes the most significant N bits of the 2N-bit product of each element in x and y.
+简介：计算x和y的2N位乘积中每个元素的最显著N位。
 
 ```python
 triton.language.umulhi(x, y, _semantic=None)
 ```
 
-## 2. Specification
+## 2. 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter      | Type              | Description                                                        |
-| -------------- | ----------------- | ------------------------------------------------------------------ |
-| `x`            | `tensor`          | Tensor data                                                        |
-| `y`            | `tensor`          | Tensor data                                                        |
-| `_semantic`    | -                 | Reserved parameter, not supported for external calls               |
+| 参数名           | 类型                | 说明                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `x`        | `tensor`          | 张量数据                                                      |
+| `y`        | `tensor`          | 张量数据                                                      |
+| `_semantic`   | -                 | 保留参数，暂不支持外部调用           |
 
-Return value:
-`x`: The output tensor has the same shape as the input tensor x
+返回值：
+`x`：输出张量的shape与输入x的shape相同
 
-### 2.2 OP Specification
+### 2.2 OP 规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-|              | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU          | ×    | ×     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | ×    |
-| Ascend A2/A3 | ×    | ×     | √     | ×     | ×      | ×      | ×      | ×     | ×    | ×    | ×    | ×    | ×    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | ×    | ×     | √     | ×     | ×     | ×      | ×      | √     | ×    | ×    | ×    | ×    | ×    |
+| Ascend A2/A3 | ×    | ×     | √     | ×     | ×     | ×      | ×      | ×     | ×    | ×    | ×    | ×    | ×    |
 
-Conclusion: Ascend lacks int64 support compared to GPU.
-torch_npu supports uint8.
+结论：Ascend 相比 GPU 缺失 int64 支持。
+torch_npu 对 uint8 的支持。
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|              | Supported Dimension Range |
-| ------------ | ------------------------- |
-| GPU          | Only supports 1~5D tensors |
-| Ascend A2/A3 | Only supports 1~5D tensors |
+|        | 支持维度范围          |
+| ------ | --------------- |
+| GPU    | 仅支持 1~5维 tensor |
+| Ascend A2/A3 | 仅支持 1~5维 tensor |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 1 至 5 维张量。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-int64 is not supported
+int64不支持
 
-### 2.4 Usage Example
+### 2.4 使用方法
 
-The following example computes the most significant N bits of the input tensor `x`:
+以下示例实现了对输入张量 `x` 做显著N位：
 
 ```python
 @triton.jit

@@ -1,45 +1,45 @@
 # triton.language.num_programs
 
-## 1. OP Overview
+## 1. OP 概述
 
-Description: Returns the number of program instances launched along a given axis.
-Function prototype:
+简介：返回沿给定 axis 启动的程序实例数量
+函数原型：
 
 ```python
 triton.language.num_programs(axis)
 ```
 
-## 2. OP Specification
+## 2. OP 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter | Type | Description |
+| 参数名 | 类型 | 说明 |
 | :---: | :---: | :---: |
-| `axis` | `int` | The axis of the 3D launch grid. Must be 0, 1, or 2. |
+| `axis` | `int` | 3D 启动网格的轴。必须是 0、1 或 2。 |
 
-Return value:
-A `tl.tensor` containing the number of launched program instances.
+返回值：
+由启动的程序实例数量值组成的tl.tensor
 
-### 2.2 Supported Specifications
+### 2.2 支持规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
 |       | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 |fp16 | fp32 | fp64 | bf16 | bool |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPU          | × | × | √ | × | × | × | × | × | × | × | × | × | × |
 | Ascend A2/A3 | × | × | √ | × | × | × | × | × | × | × | × | × | × |
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-No relevant settings.
+无相关设置
 
-### 2.3 Special Constraints
+### 2.3 特殊限制说明
 
-None.
+无
 
-### 2.4 Usage
+### 2.4 使用方法
 
-For examples, refer to [test_3Dgrid.py](../../../../third_party/ascend/unittest/pytest_ut/test_3Dgrid.py)
+例子可以参考[test_3Dgrid.py](../../../../third_party/ascend/unittest/pytest_ut/test_3Dgrid.py)
 
 ```python
 @triton.jit

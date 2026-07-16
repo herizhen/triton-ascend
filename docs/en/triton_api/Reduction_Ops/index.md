@@ -1,14 +1,14 @@
-# Reduction Operations
+# 归约操作
 
-|api|Brief Description|
+|api|简要说明|
 |--|--|
-|[argmax](./argmax.md) |Returns the index of the maximum value among all elements of the input tensor along the specified axis |
-|[argmin](./argmin.md) |Returns the index of the minimum value among all elements of the input tensor along the specified axis |
-|[max](./max.md) |Returns the maximum value among all elements of the input tensor along the specified axis |
-|[min](./min.md) |Returns the minimum value among all elements of the input tensor along the specified axis |
-|[reduce](./reduce.md) |Applies combine_fn to all elements of the input tensor along the specified axis |
-|[sum](./sum.md) |Returns the sum of all elements of the input tensor along the specified axis |
-|[xor_sum](./xor_sum.md) |Returns the XOR sum of all elements of the input tensor along the specified axis |
+|[argmax](./argmax.md) |返回沿指定 axis 轴上 input 张量中所有元素的最大索引 |
+|[argmin](./argmin.md) |返回沿指定 axis 轴上 input 张量中所有元素的最小索引 |
+|[max](./max.md) |返回沿指定 axis 轴上 input 张量中所有元素的最大值 |
+|[min](./min.md) |返回沿指定 axis 轴上 input 张量中所有元素的最小值 |
+|[reduce](./reduce.md) |将 combine_fn 应用于沿指定 axis 的 input 张量中的所有元素 |
+|[sum](./sum.md) |返回 input 张量中，沿指定 axis 的所有元素的总和 |
+|[xor_sum](./xor_sum.md) |返回 input 张量中，沿指定 axis 的所有元素的异或和 |
 
 ```{toctree}
 :maxdepth: 3
@@ -20,4 +20,3 @@ min.md
 reduce.md
 sum.md
 xor_sum.md
-```

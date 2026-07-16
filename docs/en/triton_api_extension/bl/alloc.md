@@ -1,10 +1,10 @@
-# bl.alloc Interface Documentation
+# bl.alloc 接口文档
 
-## 1. Background
+## 1. 背景
 
-To support Ascend-level programming requirements, users need to manually create memory (buffer) on specified address spaces. This interface is hardware-independent and interfaces with memref.alloc.
+为了支持Ascend级编程的需要，需要支持用户手动创建指定地址空间上的内存(buffer)，本接口是硬件无关的接口，对接memref.alloc。
 
-## 2. Interface Description
+## 2. 接口说明
 
 <table>
   <tr>
@@ -12,46 +12,46 @@ To support Ascend-level programming requirements, users need to manually create 
   </tr>
 </table>
 
-## 3. Return Value
+## 3. 返回值
 
-Returns a buffer type under the buffer language, semantically isolated from tensors in the triton language. Direct assignment between them is not supported; explicit conversion via to_tensor and to_buffer is required. It represents a block of memory allocated in the specified address space, carrying three pieces of information: data type, shape, and address space.
+返回一个buffer language下的buffer类型，与triton language下的tensor做语义上的隔离，不支持相互赋值，需要to_tensor和to_buffer来显式转换；表示一段分配在指定地址空间的内存，携带数据类型、形状和地址空间三部分信息。
 
-## 4. Input Parameters
+## 4. 入参
 
 <table>
   <tr>
-    <td>Parameter Name</td>
-    <td>Type</td>
-    <td>Required</td>
-    <td>Description</td>
+    <td>参数名</td>
+    <td>类型</td>
+    <td>必需</td>
+    <td>说明</td>
   </tr>
   <tr>
     <td>type</td>
     <td>tl.dtype</td>
-    <td>Yes</td>
-    <td>Data type / element type</td>
+    <td>是</td>
+    <td>数据类型/element type</td>
   </tr>
   <tr>
     <td>shape</td>
     <td>List[tl.constexpr]</td>
-    <td>Yes</td>
-    <td>Shape of the buffer</td>
+    <td>是</td>
+    <td>buffer的形状</td>
   </tr>
   <tr>
     <td>_address_space</td>
     <td>bl.address_space</td>
-    <td>No</td>
-    <td>Address space of the buffer</td>
+    <td>否</td>
+    <td>buffer所在的地址空间</td>
   </tr>
   <tr>
     <td>is_mem_unique</td>
     <td>bool</td>
-    <td>No</td>
-    <td>Whether the memory is exclusive. The generated annotation.mark is used during plan memory. Default is false.</td>
+    <td>否</td>
+    <td>是否独占内存，生成的annotation.mark在plan memory时会用到。默认为false</td>
   </tr>
 </table>
 
-## 5. Ascend Platform Data Type Support
+## 5. 昇腾平台数据类型支持
 
 <table>
   <tr>
@@ -88,17 +88,17 @@ Returns a buffer type under the buffer language, semantically isolated from tens
   </tr>
 </table>
 
-## 6. Constraints
+## 6. 约束说明
 
-- dtype does not support tl.void
+- dtype不支持tl.void
 
-- Each element of shape must be a positive integer
+- shape每个元素必须是正整数
 
-- Must ensure compliance with the size limit of the specified address space
+- 需自行保证符合指定的地址空间上的大小限制
 
-- The address_space parameter defaults to empty, meaning no address space information is carried
+- address_space参数默认为空，表示不携带任何地址空间信息
 
-## 7. Usage Example
+## 7. 用例示例
 
 <table>
   <tr>
@@ -106,7 +106,7 @@ Returns a buffer type under the buffer language, semantically isolated from tens
   </tr>
 </table>
 
-## 8. Compilation Output
+## 8. 编译输出结果
 
 <table>
   <tr>

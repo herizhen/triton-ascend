@@ -1,56 +1,56 @@
 # triton.language.cos
 
-## 1. Function Overview
+## 1. 函数概述
 
-Description: Computes the element-wise cosine of the input `x`.
-Function prototype (Triton version 3.4.0):
+简介：对输入x计算的逐元素余弦。
+函数原型（Triton3.4.0版本）：
 
 ```python
 triton.language.cos(x, _semantic=None)
 ```
 
-## 2. Specifications
+## 2. 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter      | Type                | Description                                                      |
-| -------------- | ------------------- | ---------------------------------------------------------------- |
-| `x`            | `tensor`            | Tensor data                                                      |
-| `_semantic`    | -                   | Reserved parameter, not supported for external calls             |
+| 参数名           | 类型                | 说明                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `x`        | `tensor`          | 张量数据                                                      |
+| `_semantic`   | -                 | 保留参数，暂不支持外部调用
 
-Return value:
-`x`: The output tensor has the same shape as the input tensor `x`.
+返回值：
+`x`：输出张量的shape与输入x的shape相同
 
-### 2.2 OP Specifications
+### 2.2 OP 规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-|                | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| -------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU            | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | ×    | ×    | √    | √    | ×    |
-| Ascend A2/A3   | ×    | ×     | ×     | ×     | ×      | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | ×    | ×     | ×     | ×     | ×     | ×      | ×      | ×     | ×    | ×    | √    | √    | ×    |
+| Ascend A2/A3 | ×    | ×     | ×     | ×     | ×     | ×      | ×      | ×     | √    | √    | ×    | √    | ×    |
 
-Conclusion: Ascend lacks support for fp64 compared to GPU but adds support for fp16 and fp32.
-torch_npu supports uint8.
+结论：Ascend 比 GPU 少了对fp64的支持，但多了fp16和fp32的支持。
+torch_npu支持uint8。
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|                | Supported Dimension Range |
-| -------------- | ------------------------- |
-| GPU            | Only supports 1~5D tensors |
-| Ascend A2/A3   | Only supports 1~5D tensors |
+|        | 支持维度范围          |
+| ------ | --------------- |
+| GPU    | 仅支持 1~5维 tensor |
+| Ascend A2/A3 | 仅支持 1~5维 tensor |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 1 至 5 维张量。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Relative community capability missing and cannot be implemented.
+> 相对社区能力缺失且无法实现
 
-None.
+无。
 
-### 2.4 Usage Example
+### 2.4 使用方法
 
-The following example demonstrates performing element-wise cosine computation on the input tensor `x`:
+以下示例实现了对输入张量 `x` 做逐元素余弦计算：
 
 ```python
 @triton.jit

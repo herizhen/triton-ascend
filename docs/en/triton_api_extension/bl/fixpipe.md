@@ -1,10 +1,10 @@
-# al.fixpipe Interface Documentation
+# al.fixpipe 接口文档
 
-## 1. Hardware Background
+## 1. 硬件背景
 
-A5 adds a data path from L0C to UB. To implement this path, a temporary solution explicitly invokes this path at the frontend.
+A5增加了L0C到UB的数据通路，为实现此通路，临时方案在前端显式调用此通路
 
-## 2. Interface Description
+## 2. 接口说明
 
 <table>
   <tr>
@@ -12,64 +12,64 @@ A5 adds a data path from L0C to UB. To implement this path, a temporary solution
   </tr>
 </table>
 
-### 2.1 Input Parameters
+### 2.1 入参
 
 <table>
   <tr>
-    <td>Parameter Name</td>
-    <td>Type</td>
-    <td>Description</td>
+    <td>参数名</td>
+    <td>类型</td>
+    <td>说明</td>
   </tr>
   <tr>
     <td>src</td>
     <td>tl.tensor</td>
-    <td>Source tensor, must reside in L0C memory region</td>
+    <td>源张量，必须位于l0C内存区域</td>
   </tr>
   <tr>
     <td>dst</td>
     <td>bl.buffer</td>
-    <td>Destination buffer, must reside in UB memory region</td>
+    <td>目标缓冲区，必须位于UB内存区域</td>
   </tr>
   <tr>
     <td>dma_mode</td>
     <td>al.FixpipeDMAMode</td>
-    <td>HIVM data movement mode, optional values: NZ2DN, NZ2ND, NZ2NZ</td>
+    <td>HIVM数据搬运模式，可选值：NZ2DN、NZ2ND、NZ2NZ</td>
   </tr>
   <tr>
     <td>dual_dst_mode</td>
     <td>al.FixpipeDualDstMode</td>
-    <td>Dual destination mode control, only enabled in NZ2ND/normal mode</td>
+    <td>双目标模式控制，仅NZ2ND/普通模式可启用</td>
   </tr>
   <tr>
     <td>pre_quant_mode</td>
     <td>al.FixpipePreQuantMode</td>
-    <td>Quantization/type conversion mode</td>
+    <td>量化/类型转换模式</td>
   </tr>
   <tr>
     <td>pre_relu_mode</td>
     <td>al.FixpipePreReluMode</td>
-    <td>Activation function mode</td>
+    <td>激活函数模式</td>
   </tr>
   <tr>
     <td>_builder</td>
     <td>-</td>
-    <td>JIT auto-passed parameter</td>
+    <td>JIT自动传参</td>
   </tr>
 </table>
 
-### 2.2 Return Value
+### 2.2 返回值
 
-No return value, directly use the input parameter dst
+无返回值，直接使用入参dst
 
-## 3. Constraints
+## 3. 约束说明
 
-- fixpipe only supports data movement from L0C to UB
+- fixpipe仅支持从 l0c到ub的数据搬运
 
-- src must be the result after dot product
+- src必须是dot后的结果
 
-- dst must be a buffer with memscope set to UB
+- dst必须是memscope为ub的buffer
 
-## 4. Usage Example
+## 4. 用例示例
 
 <table>
   <tr>
@@ -77,7 +77,7 @@ No return value, directly use the input parameter dst
   </tr>
 </table>
 
-## 5. Compilation Output
+## 5. 编译输出结果
 
 <table>
   <tr>

@@ -1,58 +1,58 @@
 # triton.language.tensor.__invert__
 
-## 1. Function Overview
+## 1. 函数概述
 
-Description: Performs bitwise inversion on each value of the tensor.
+简介：将tensor每个值按比特位进行翻转。
 
 ```python
-# Using the operator
+# 通过操作符
 ~x
 
-# Or directly calling the dunder method
+# 或直接调用 dunder 方法
 x.__invert__()
 ```
 
-## 2. Specifications
+## 2. 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter Name | Type     | Description                                                    |
-| -------------- | -------- | -------------------------------------------------------------- |
-| `x`            | `tensor` | Tensor data                                                    |
-| `_semantic`    | -        | Reserved parameter, external calls not supported for now       |
+| 参数名           | 类型                | 说明                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `x`        | `tensor`          | 张量数据                                                      |
+| `_semantic`   | -                 | 保留参数，暂不支持外部调用
 
-Return Value:
-`out`: The shape of the output tensor is the same as the shape of the input `x`.
+返回值：
+`out`：输出张量的shape与输入x的shape相同
 
-### 2.2 OP Specifications
+### 2.2 OP 规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU           | √    | √     | √     | √     | √      | √      | √      | √     | ×    | ×    | ×    | ×    | √    |
-| Ascend A2/A3  | √    | √     | √     | √     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | √     | √      | √     | √      |  √      |  √       |  √       | √      | ×    | ×    | ×    | ×    | √    |
+| Ascend A2/A3 | √    | √     | √     | √     | ×     | ×      | ×      | √     | ×    | ×    | ×    | ×    | √    |
 
-Conclusion: Ascend lacks support for unsigned integer types compared to GPU.
+结论：Ascend 比 GPU 少了uint类型的支持。
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|               | Supported Dimension Range |
-| ------------- | ------------------------- |
-| GPU           | Only supports 1~5D tensors |
-| Ascend A2/A3  | Only supports 1~5D tensors |
+|        | 支持维度范围          |
+| ------ | --------------- |
+| GPU    | 仅支持 1~5维 tensor |
+| Ascend A2/A3 | 仅支持 1~5维 tensor |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 1 至 5 维张量。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Missing capabilities compared to the community, cannot be implemented
+> 相对社区能力缺失且无法实现
 
-Ascend lacks support for unsigned integer types compared to GPU.
+Ascend 比 GPU 少了uint类型的支持。
 
-### 2.4 Usage Example
+### 2.4 使用方法
 
-The following example demonstrates performing element-wise bitwise inversion on the input tensor `x`:
+以下示例实现了对输入张量 `x` 做逐元素按位取反：
 
 ```python
 @triton.jit

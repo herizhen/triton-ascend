@@ -1,8 +1,8 @@
 # triton.language.store_tensor_descriptor
 
-## 1. OP Overview
+## 1. OP 概述
 
-Description: Stores a data block to the memory location specified by the tensor descriptor.
+简介：将数据块存储到张量描述符指定内存位置
 
 ```python
 triton.language.store_tensor_descriptor(
@@ -13,81 +13,81 @@ triton.language.store_tensor_descriptor(
 ) -> tensor
 ```
 
-## 2. OP Specification
+## 2. OP 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter    | Type                              | Description                                                         |
+| 参数名         | 类型                              | 说明                                                         |
 | ----------- | ------------------------------- | ---------------------------------------------------------- |
-| `desc`      | `tensor_descriptor_base`        | Tensor descriptor object, created by `make_tensor_descriptor`, defining the memory layout (shape, strides, block size, etc.). |
-| `offsets`   | `Sequence[constexpr \| tensor]` | Sequence of starting offsets for data storage, specifying the data location to be stored by the current thread block.                             |
-| `value`     | `tensor`                        | Tensor data block to be written.                                                  |
-| `_semantic` | -                               | Reserved parameter, not supported for external calls.                                            |
+| `desc`      | `tensor_descriptor_base`        | 张量描述符对象，由 `make_tensor_descriptor` 创建，定义了内存布局（形状、步长、块大小等）。 |
+| `offsets`   | `Sequence[constexpr \| tensor]` | 数据存储的起始偏移量序列，用于指定当前线程块要存储的数据位置                             |
+| `value`     | `tensor`                        | 待写入的张量数据块                                                  |
+| `_semantic` | -                               | 保留参数，暂不支持外部调用                                            |
 
-Return value: `tensor` - The actual data block written.
+返回值：`tensor` - 实际写入的数据块
 
-### 2.2 Supported Specifications
+### 2.2 支持规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
 || uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
 |---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
 |GPU| √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | × |
 |Ascend A2/A3| √ | √ | × | √ | × | √ | × | √ | √ | √ | √ | × |
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|        | Supported Dimension Range          |
+|        | 支持维度范围          |
 | ------ | --------------- |
-| GPU    | Only supports 1~5D tensors |
-| Ascend | Only supports 1~5D tensors |
+| GPU    | 仅支持 1~5维 tensor |
+| Ascend | 仅支持 1~5维 tensor |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 1 至 5 维张量。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Relative community capability deficiency and unimplementable.
+> 相对社区能力缺失且无法实现
 
-Conclusion: Ascend lacks support for uint16, uint32, and uint64 compared to GPU (hardware limitation).
+结论：Ascend 对比 GPU 缺失uint16、uint32、uint64的支持能力（硬件限制）。
 
-### 2.4 Usage
+### 2.4 使用方法
 
-`store_tensor_descriptor` provides two calling forms:
+`store_tensor_descriptor` 提供两种调用形式：
 
-* Object-oriented method call (recommended)
+* 面向对象方法调用（推荐）
 
 ```python
 desc.store(offsets, value)
 ```
 
-* Functional interface call
+* 函数式接口调用
 
 ```python
 triton.language.store_tensor_descriptor(desc, offsets, value)
 ```
 
-The following example implements in-place absolute value computation on the input tensor `x`:
+以下示例实现了对输入张量 `x` 做就地绝对值计算：
 
 ```python
 @triton.jit
 def inplace_abs(in_out_ptr, M, N, M_BLOCK: tl.constexpr, N_BLOCK: tl.constexpr):
-    # Create tensor descriptor
+    # 创建张量描述符
     desc = tl.make_tensor_descriptor(
         in_out_ptr,
         shape=[M, N],
         strides=[N, 1],
         block_shape=[M_BLOCK, N_BLOCK],
     )
- # Calculate offsets for the current thread block
+ # 计算当前线程对应的偏移量
     moffset = tl.program_id(0) * M_BLOCK
     noffset = tl.program_id(1) * N_BLOCK
- # Load data, compute absolute value, store result
+ # 加载数据，计算绝对值，存储结果
     value = desc.load([moffset, noffset])
     desc.store([moffset, noffset], tl.abs(value))
-## Initialize tensor
+## 初始化张量
 M, N = 256, 256
 x = torch.randn(M, N, device="npu")
-## Configure block size and grid
+## 配置块大小和网格
 M_BLOCK, N_BLOCK = 32, 32
 grid = (M // M_BLOCK, N // N_BLOCK)
 inplace_abs[grid](x, M, N, M_BLOCK, N_BLOCK)

@@ -1,52 +1,52 @@
 # triton.language.broadcast
 
-## 1 Function Description
+## 1 功能作用说明
 
-Broadcasts two tensors to a common compatible shape, enabling element-wise operations.
+将两个张量广播到共同兼容的形状，使它们可以进行逐元素操作。
 
-**Syntax:**
+**语法：**
 
-- `triton.language.broadcast(input, other)` - Function call form
+- `triton.language.broadcast(input, other)` - 函数调用形式
 
-**Functionality:**
+**功能：**
 
-- Automatically aligns tensors of different ranks to the target shape
-- Expands dimensions of size 1 to the corresponding dimension size in the target shape
+- 自动对齐不同秩张量得到目标形状
+- 将大小为1的维度扩展到目标形状中对应维度的大小
 
-## 2 Parameter Specifications
+## 2 参数规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| input | tensor | Yes | First input tensor, must be of RankedTensorType |
-| other | tensor | Yes | Second input tensor, must be of RankedTensorType |
+| 参数名 | 类型 | 必需 | 说明 |
+|--------|------|------|------|
+| input | tensor | 是 | 第一个输入张量，必须为RankedTensorType |
+| other | tensor | 是 | 第二个输入张量，必须为RankedTensorType |
 
-**Return Value:**
+**返回值：**
 
-- **Type:** tensor
-- **Shape:** Common compatible target shape of the two tensors
-- **Data Type:** Each returned tensor retains its input's original data type
-- **Memory Layout:** Returns newly created tensors
+- **类型：** tensor
+- **形状：** 两个tensor共同兼容的目标形状
+- **数据类型：** 每个返回的张量保持其输入的原始数据类型
+- **内存布局：**返回新创建的张量
 
-### 2.2 DataType Support Table
+### 2.2 DataType支持表
 
-| Support | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
-|---------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:--------:|:--------:|:------:|:----:|
+| 支持情况 | int8 | int16 | int32 | int64 | uint8 | uint16 | uint32 | uint64 | float16 | float32 | bfloat16 | float8e4 | float8e5 | float64 | bool |
+|----------|:----:|:-----:|:-----:|:-----:|:----:|:-----:|:-----:|:-----:|:------:|:------:|:-------:|:----:|:----:|:------:|:---:|
 | Ascend A2/A3 | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ | ✓ | ✓ | × | × | × | ✓ |
-| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| GPU支持 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
-### 2.3 Shape Support Table
+### 2.3 Shape支持表
 
-Supports any number of dimensions and any shape size.
+支持任意维度数、任意形状大小。
 
-### 2.4 Special Constraints
+### 2.4 特殊限制说明
 
-None
+无
 
-### 2.5 Usage
+### 2.5 使用方法
 
-**Basic Usage:**
+**基本用法：**
 
 ```python
 @triton.jit
@@ -54,19 +54,19 @@ def broadcast_kernel(
     output_ptr,
     BLOCK_SIZE: tl.constexpr
 ):
-    # Create a scalar (0-D tensor)
+    # 创建一个标量（0维张量）
     scalar = 5.0
 
-    # Create a vector (1-D tensor)
-    vector = tl.arange(0, BLOCK_SIZE) * 1.0  # Shape: (BLOCK_SIZE,)
+    # 创建一个向量（1维张量）
+    vector = tl.arange(0, BLOCK_SIZE) * 1.0  # 形状: (BLOCK_SIZE,)
 
-    # Use broadcast to broadcast the scalar to the same shape as the vector
+    # 使用 broadcast 将标量广播到与向量相同的形状
     # scalar: () -> (BLOCK_SIZE,)
     broadcasted_scalar = tl.broadcast(scalar, vector)
 
     result = vector + broadcasted_scalar
 
-    # Store the result
+    # 存储结果
     offsets = tl.arange(0, BLOCK_SIZE)
     tl.store(output_ptr + offsets, result)
 

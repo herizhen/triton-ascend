@@ -1,46 +1,46 @@
 # triton.language.associative_scan
 
-## 1. OP Overview
+## 1. OP 概述
 
-Description: `triton.language.associative_scan` applies an associative scan operation to the input tensor along the specified axis, using the `combine_fn` function to combine elements and update the carry value.
+简介：`triton.language.associative_scan` 对输入tensor沿指定轴应用关联扫描操作，使用combine_fn函数组合元素并更新进位值。
 
 ```python
 triton.language.associative_scan(input, axis, combine_fn, reverse=False, _semantic=None, _generator=None)
 ```
 
-## 2. OP Specification
+## 2. OP 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `input` | `Tensor` or `tuple of Tensor` | Input tensor, can be a single tensor or a tuple of tensors |
-| `axis` | `int` | The dimension along which to apply the associative scan operation |
-| `combine_fn` | `Callable` | Function used to combine two groups of scalar tensors (must be decorated with `@triton.jit`) |
-| `reverse` | `bool` | Whether to apply the associative scan in the reverse direction along the axis |
-| `_semantic` | `Optional[str]` | Reserved parameter, external calls not supported |
-| `_generator` | `Optional[Generator]` | Reserved parameter, external calls not supported |
+| 参数 | 类型 | 含义说明 |
+|--------|------|------|
+| `input` | `Tensor` 或 `tuple of Tensor` | 输入tensor，可以是单个tensor或tensor元组 |
+| `axis` | `int` | 沿着哪个维度进行关联扫描操作 |
+| `combine_fn` | `Callable` | 用于组合两个标量tensor组的函数（必须用@triton.jit标记） |
+| `reverse` | `bool` | 是否沿轴的反方向应用关联扫描|
+| `_semantic` | `Optional[str]` | 保留参数，暂不支持外部调用 |
+| `_generator` | `Optional[Generator]` | 保留参数，暂不支持外部调用 |
 
-Return value:
-`tensor`: The tensor after applying the associative scan operation along the specified axis, using the `combine_fn` function to combine elements and update the carry value.
+返回值：
+`tensor`：对输入tensor沿指定轴应用关联扫描操作，使用combine_fn函数组合元素并更新进位值之后的tensor。
 
-### 2.2 Supported Specifications
+### 2.2 支持规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-| | uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
-|---|-------|------|--------|-------|--------|-------|--------|-------|------|------|------|-----------|
-| GPU Support | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+|| uint8 | int8 | uint16 | int16 | uint32 | int32 | uint64 | int64 | fp16 | fp32 | bf16 | bool/int1 |
+|---| ------- | ------ | -------- | ------- | -------- | ------- | -------- | ------- | ------ | ------ | ------ | ----------- |
+| GPU支持 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Ascend A2/A3 | ✓ | ✓ | × | ✓ | × | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ |
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-Conclusion: There is no difference between GPU and Ascend platforms in terms of Shape.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Relative community capability missing and cannot be implemented
-> `reverse=True` applies the associative scan in the reverse direction along the axis. This functionality requires `tl.load` to align data when loading, meaning no mask is used to filter out excess data indices, as shown in the example code below:
+> 相对社区能力缺失且无法实现
+> reverse=True是否沿轴的反方向应用关联扫描，该功能需要tl.load加载数据时对齐，即不使用mask过滤掉多余数据索引，即如下面示例代码：
 
 ```python
     tl.static_assert(
@@ -55,9 +55,9 @@ Conclusion: There is no difference between GPU and Ascend platforms in terms of 
     x = tl.load(in_ptr0 + idx)
 ```
 
-### 2.4 Usage
+### 2.4 使用方法
 
-The following example implements an associative_scan operation on a 2D shape tensor:
+以下示例实现了对2Dshape的tensor进行associative_scan运算：
 
 ```python
 

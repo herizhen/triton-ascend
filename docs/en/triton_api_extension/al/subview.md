@@ -1,12 +1,12 @@
 # subview
 
-## 1. Hardware Background
+## 1. 硬件背景
 
-The Ascend hardware A5 supports defining new views, implemented solely through offsets, sizes, and strides, without copying the underlying data.
+昇腾硬件 A5 支持了定义新视图，仅通过偏移、大小和步幅实现，不复制底层数据。
 
-## 2. Interface Description
+## 2. 接口说明
 
-### Interface 1
+### 接口一
 
 <table>
   <tr>
@@ -14,7 +14,7 @@ The Ascend hardware A5 supports defining new views, implemented solely through o
   </tr>
 </table>
 
-### Interface 2
+### 接口二
 
 <table>
   <tr>
@@ -22,37 +22,37 @@ The Ascend hardware A5 supports defining new views, implemented solely through o
   </tr>
 </table>
 
-Return value: bl.buffer
+返回值：bl.buffer
 
-## 3. Parameter Description
+## 3. 入参说明
 
-- src: buffer -> Source buffer
+- src: buffer -> 源buffer
 
-- offsets: List[tl.tensor] -> Offsets
+- offsets: List[tl.tensor] -> 偏移
 
-- sizes: List[tl.constexpr] -> Output sizes
+- sizes: List[tl.constexpr] -> 输出的size
 
-- strides: List[tl.constexpr] -> Strides
+- strides: List[tl.constexpr] -> 步长
 
-## 4. Constraints
+## 4. 约束说明
 
-- The input parameters `size`, `offset`, and `stride` must be greater than 0 (`offset` can be 0); negative values are not allowed.
+- 输入的参数size、offset、stride必须大于0（offset可以是0），不能为负值。
 
-- Each dimension of `size` must not exceed the corresponding dimension of the source buffer.
+- size的每一个维度的大小不能大于原buffer的大小。
 
-- Each dimension of the subview must not exceed the corresponding dimension of the source buffer.
+- 子视图的每一个维度的大小不能超过原buffer的大小。
 
-- Access via `stride` must not exceed the size of `src`; all elements of `stride` must be 1.
+- stride的访问不能超过src的大小，stride所有元素全为1。
 
-- The parameter settings must specify values for every dimension, and the number of parameter dimensions must match the dimensions of the input buffer.
+- 参数的设置要指明每一个维度的值，参数维度应该和输入buffer的维度保持一致。
 
-- `offset` must be 32-byte aligned.
+- offset必须32字节对齐。
 
-- The offset of the first element in the second row of the last dimension of the subview must be 32-byte aligned.
+- 子视图中最后一个维度的第二行第一个点的偏移必须是32字节对齐。
 
-Additional explanation: `sizes` and `strides` are passed with the type `List[tl.constexpr]` (be careful not to pass tensors, as this will cause a type mismatch error). `offsets` additionally supports tensor input (constexpr input is also supported).
+解释补充：sizes、strides在使用的时候传入类型：List[tl.constexpr]（注意不要误传tensor，否则会报错-类型不匹配）。offsets补充支持了tensor传入（也可以传入constexpr）
 
-## 5. Usage Example
+## 5. 用例示例
 
 <table>
   <tr>
@@ -60,7 +60,7 @@ Additional explanation: `sizes` and `strides` are passed with the type `List[tl.
   </tr>
 </table>
 
-Output:
+输出：
 
 <table>
   <tr>

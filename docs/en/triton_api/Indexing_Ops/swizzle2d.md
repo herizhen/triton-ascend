@@ -1,55 +1,55 @@
 # triton.language.swizzle2d
 
-## 1. Function Overview
+## 1. 函数概述
 
-Description: **Converts the index of a row-major matrix of size size_i × size_j, grouped by every size_g rows, into the index of a column-major matrix.**
+简介：**将一个大小为 size_i × size_j 的行优先矩阵的索引，按每 size_g 行一组，分别转换为列优先矩阵的索引。**。
 
 ```python
 triton.language.swizzle2d(i, j, size_i, size_j, size_g)
 ```
 
-## 2. Specification
+## 2. 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter Name | Type             | Description                                                      |
-| -------------- | ---------------- | ---------------------------------------------------------------- |
-| `i`            | `tensor`         | Index value, maximum value is size(i)-1                          |
-| `j`            | `tensor`         | Index value, maximum value is size(j)-1                          |
-| `size_i`       | `int`            | Integer, representing the length of index i                      |
-| `size_j`       | `int`            | Integer, representing the length of index j                      |
-| `size_g`       | `int`            | Integer                                                          |
+| 参数名           | 类型                | 说明                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `i`        | `tensor`          | index索引值 ，最大值为size(i)-1                                                     |
+| `j`        | `tensor`          | index索引值 ，最大值为size(j)-1                                                     |
+| `size_i`        | `int`          | 整型，表示索引值i的长度                                                     |
+| `size_j`        | `int`          | 整型，表示索引值j的长度                                                          |
+| `size_g`        | `int`          | 整型                                                      |
 
-Return Value:
-`out0, out1`: Tensors with the same shape as i, j
+返回值：
+`out0, out1`：同i, j shape的张量
 
-### 2.2 OP Specification
+### 2.2 OP 规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
 |        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
 | ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU    | ×    | ×     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | ×    |
-| Ascend A2/A3 | × | ×     | √     | ×     | ×      | ×      | ×      | √     | ×    | ×    | ×    | ×    | ×    |
+| GPU    | ×     | ×      | √     | ×      |  ×      |  ×       |  ×       | √      | ×    | ×   | ×    | ×    | ×    |
+| Ascend A2/A3 | ×    | ×     | √     | ×     | ×     | ×      | ×      | √     | ×    | ×   | ×    | ×   | ×
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|        | Supported Dimension Range |
-| ------ | ------------------------- |
-| GPU    | Only supports 2D tensors  |
-| Ascend A2/A3 | Only supports 2D tensors |
+|        | 支持维度范围          |
+| ------ | --------------- |
+| GPU    | 仅支持 2维 tensor |
+| Ascend A2/A3 | 仅支持 2维 tensor |
 
-Conclusion: In terms of Shape, there is no difference between GPU and Ascend platforms; both support 2D tensors.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 2 维张量。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Community capability missing and cannot be implemented
+> 相对社区能力缺失且无法实现
 
-None.
+暂无。
 
-### 2.4 Usage Example
+### 2.4 使用方法
 
-The following example converts the index of a row-major matrix, grouped by every `size_g` rows, into the index of a column-major matrix:
+以下示例将行优先矩阵的索引按每 `size_g` 行一组转换为列优先矩阵的索引：
 
 ```python
 @triton.jit

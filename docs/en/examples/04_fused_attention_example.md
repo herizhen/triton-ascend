@@ -1,17 +1,17 @@
-# Fused Attention
+# 融合注意力（Fused Attention）
 
-This section implements a **Flash Attention v2 style fused attention forward kernel** based on **Triton**, suitable for the Ascend NPU platform. This implementation supports:
+本节实现了一个基于 **Triton** 的 **Flash Attention v2 风格的融合注意力前向传播内核**，适用于昇腾（Ascend）NPU 平台。该实现支持：
 
-- **Causal and non-causal attention**
-- **Tiled computation for long sequences**
-- **Numerical stability optimization (max-shifted softmax)**
+- **因果（causal）与非因果注意力**
+- **分块计算（tiling）以处理长序列**
+- **数值稳定性优化（max-shifted softmax）**
 
-The overall structure consists of two core Triton kernels:
+整体结构包含两个核心 Triton 内核：
 
-1. `_attn_fwd_inner`: Performs attention computation for a single query block with key/value blocks (processes causal mask in stages)
-2. `_attn_fwd`: Schedules all query blocks and manages block pointers, accumulators, and normalization
+1. `_attn_fwd_inner`：执行单个 query block 与 key/value blocks 的 attention 计算（分阶段处理 causal mask）
+2. `_attn_fwd`：调度所有 query blocks，并管理 block 指针、accumulator 和归一化
 
-It is wrapped as a callable `attention` function via PyTorch `autograd.Function`, and accuracy is validated against `torch_npu.npu_fusion_attention`.
+并通过 PyTorch `autograd.Function` 封装为可调用的 `attention` 函数，与 `torch_npu.npu_fusion_attention` 进行精度对齐验证。
 
 ```Python
 import pytest
@@ -305,4 +305,57 @@ attention = _attention.apply
     (2, 2, 128, 256, False, torch.float16, 64, 128),
     (4, 32, 64, 64, False, torch.float16, 32, 64),
     (4, 32, 1024, 64, False, torch.bfloat16, 64, 128),
-    (4,
+    (4, 32, 4096, 64, False, torch.float16, 128, 128),
+])
+def test_op(Z, H, N_CTX, HEAD_DIM, causal, dtype, BM, BN):
+    # Filter out non-integer cases; N_CTX must be divisible by BM and BN, and HEAD_DIM must be divisible by 16.
+    if N_CTX % BM != 0 or N_CTX % BN != 0 or HEAD_DIM % 16 != 0:
+        pytest.skip("Skipping non-divisible case")
+
+    torch.manual_seed(20)
+    q = (torch.empty((Z, H, N_CTX, HEAD_DIM), dtype=dtype, device=DEVICE).normal_(mean=0.0, std=0.5).requires_grad_())
+    k = (torch.empty((Z, H, N_CTX, HEAD_DIM), dtype=dtype, device=DEVICE).normal_(mean=0.0, std=0.5).requires_grad_())
+    v = (torch.empty((Z, H, N_CTX, HEAD_DIM), dtype=dtype, device=DEVICE).normal_(mean=0.0, std=0.5).requires_grad_())
+
+    sm_scale = 0.5
+
+    tri_out = attention(q, k, v, causal, sm_scale, BM, BN)
+    ref_out = torch_npu.npu_fusion_attention(
+            q, k, v, H,
+            padding_mask=None,
+            atten_mask=None,
+            scale=sm_scale,
+            keep_prob=1.0,
+            input_layout="BNSD",
+            pre_tockens=65535,
+            next_tockens=65535,
+            sparse_mode=0,
+            )[0]
+
+    torch.testing.assert_close(ref_out, tri_out, atol=1e-2, rtol=1e-2, equal_nan=True)
+    print(f"[PASSED] Attention shape:({Z}, {H}, {N_CTX}, {HEAD_DIM}), BM: {BM}, BN: {BN}, dtype: {dtype}")
+
+
+if __name__ == "__main__":
+    test_op(1, 1, 128, 128, causal=False, dtype=torch.float16, BM=32, BN=128)
+    test_op(1, 1, 128, 128, causal=False, dtype=torch.bfloat16, BM=64, BN=128)
+    test_op(1, 2, 256, 256, causal=False, dtype=torch.bfloat16, BM=32, BN=256)
+    test_op(2, 2, 128, 256, causal=False, dtype=torch.float16, BM=64, BN=128)
+    test_op(4, 32, 64, 64, causal=False, dtype=torch.float16, BM=32, BN=64)
+    test_op(4, 32, 1024, 64, causal=False, dtype=torch.bfloat16, BM=64, BN=128)
+    test_op(4, 32, 4096, 64, causal=False, dtype=torch.float16, BM=128, BN=128)
+```
+
+Out:
+
+```bash
+[PASSED] Attention shape:(1, 1, 128, 128), BM: 32, BN: 128, dtype: torch.float16
+[PASSED] Attention shape:(1, 1, 128, 128), BM: 64, BN: 128, dtype: torch.bfloat16
+[PASSED] Attention shape:(1, 2, 256, 256), BM: 32, BN: 256, dtype: torch.bfloat16
+[PASSED] Attention shape:(2, 2, 128, 256), BM: 64, BN: 128, dtype: torch.float16
+[PASSED] Attention shape:(4, 32, 64, 64), BM: 32, BN: 64, dtype: torch.float16
+[PASSED] Attention shape:(4, 32, 1024, 64), BM: 64, BN: 128, dtype: torch.bfloat16
+[PASSED] Attention shape:(4, 32, 4096, 64), BM: 128, BN: 128, dtype: torch.float16
+```
+
+上面输出日志表明Triton和PyTorch上的输出结果完全一致。

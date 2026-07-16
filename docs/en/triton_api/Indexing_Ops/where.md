@@ -1,56 +1,56 @@
 # triton.language.where
 
-## 1. Function Overview
+## 1. 函数概述
 
-Description: Determines whether to return the value of tensor `x` or `y` based on a condition. When the condition is true, returns the value of `x`; otherwise, returns the value of `y`.
+简介：根据条件进行判断返回的是张量x还是y的值，条件为真时，返回x的值，否则返回y的值。
 
 ```python
 triton.language.where(condition, x, y, _semantic=None)
 ```
 
-## 2. Specifications
+## 2. 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter Name | Type               | Description                                                    |
-| -------------- | ------------------ | -------------------------------------------------------------- |
-| `condition`    | `tensor(bool)`     | Tensor data                                                    |
-| `x`            | `tensor`           | Tensor data                                                    |
-| `y`            | `tensor`           | Tensor data                                                    |
-| `_semantic`    | -                  | Reserved parameter, currently not supported for external calls |
+| 参数名           | 类型                | 说明                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `condition`        | `tensor(bool)`          | 张量数据                                                      |
+| `x`        | `tensor`          | 张量数据                                                      |
+| `y`        | `tensor`          | 张量数据                                                      |
+| `_semantic`   | -                 | 保留参数，暂不支持外部调用
 
-Return value:
-`out`: The shape of the output tensor is the same as the shape of the input `x`.
+返回值：
+`out`：输出张量的shape与输入x的shape相同
 
-### 2.2 OP Specifications
+### 2.2 OP 规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU           | √    | √     | √     | √     | √      | √      | √      | √     | √    | √    | √    | √    | √    |
-| Ascend A2/A3  | √    | √     | √     | √     | ×      | ×      | ×      | √     | √    | √    | ×    | √    | √    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | √     | √      | √     | √      |  √      |  √       |  √       | √      | √    | √   | √    | √    | √    |
+| Ascend A2/A3 | √    | √     | √     | √     | ×     | ×      | ×      | √     | √    | √    | ×    | √    | √    |
 
-Conclusion: Compared to GPU, Ascend lacks support for uint and fp64 types.
+结论：Ascend 相比 GPU 缺失 uint、fp64 类型支持。
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-|              | Supported Dimension Range |
-| ------------ | ------------------------- |
-| GPU          | Supports only 1~5D tensors |
-| Ascend A2/A3 | Supports only 1~5D tensors |
+|        | 支持维度范围          |
+| ------ | --------------- |
+| GPU    | 仅支持 1~5维 tensor |
+| Ascend A2/A3| 仅支持 1~5维 tensor |
 
-Conclusion: In terms of shape, there is no difference between GPU and Ascend platforms; both support 1 to 5-dimensional tensors.
+结论：在 Shape 方面，GPU 与 Ascend 平台无差异，均支持 1 至 5 维张量。
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Relative to community capabilities, these are missing and cannot be implemented
+> 相对社区能力缺失且无法实现
 
-Compared to GPU, Ascend lacks support for uint and fp64 types.
+Ascend 相比 GPU 缺失 uint、fp64 类型支持。
 
-### 2.4 Usage Example
+### 2.4 使用方法
 
-The following example selects element-wise based on the condition `X < Y`: when the condition is true, it takes the element from `X`; otherwise, it takes the constant `1`.
+以下示例根据条件 `X < Y` 逐元素选择：条件为真时取 `X` 的元素，否则取常量 `1`。
 
 ```python
 @triton.jit

@@ -1,9 +1,9 @@
 # triton.language.atomic_cas
 
-## 1. OP Overview
+## 1. OP 概述
 
-Description: Atomic compare-and-swap operation. Compares the value at *pointer with `cmp`. If equal, updates *pointer to `val`; otherwise, *pointer remains unchanged.
-Prototype:
+简介：原子性比较和交换操作，将 *pointer 值与 cmp 进行比较，若相等，则将*pointer 更新为 val，否则 *pointer 不变。
+原型：
 
 ```python
 triton.language.atomic_cas(
@@ -16,52 +16,52 @@ triton.language.atomic_cas(
 ) -> pointer
 ```
 
-Can be called as a member function of a tensor, e.g., `x.atomic_cas(...)`, which is equivalent to `atomic_cas(x, ...)`.
+可以作为tensor的成员函数调用，如`x.atomic_cas(...)`，与`atomic_cas(x, ...)`等效。
 
-## 2. OP Specification
+## 2. OP 规格
 
-### 2.1 Parameter Description
+### 2.1 参数说明
 
-| Parameter    | Type                | Description                                                                                                                           |
-| ------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `pointer`    | `triton.PointerDType` | Memory location to operate on. If *pointer == cmp, updates *pointer to `val`. The computed result is written back to this memory location. |
-| `cmp`        | `pointer.dtype.element_ty` | Value to compare with the target memory.                                                                                              |
-| `val`        | `pointer.dtype.element_ty` | Target value for the update.                                                                                                          |
-| `sem`        | `str`, optional     | Specifies the memory semantics of the operation.<br>Community official configuration accepts "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel":<br>- acquire: After acquiring a lock, previous release operations are visible (equivalent to a "read" operation that blocks until the "latest" data, i.e., data released by other threads, is readable).<br>- release: All operations before releasing the lock are visible to threads that subsequently acquire the lock (equivalent to a "write" operation that "synchronizes" all previous write operations). |
-| `scope`      | `str`, optional     | Thread scope for observing the synchronization effect of the atomic operation.<br>Accepted values are "gpu" (default), "cta" (cooperative thread array, thread block), or "sys" (representing "SYSTEM").<br>We only support "gpu". |
-| `_semantic`  | -                   | Reserved parameter; external calls are not supported.                                                                                 |
+| 参数名           | 类型                | 说明                                                             |
+| ------------- | ----------------- | -------------------------------------------------------------- |
+| `pointer`        | `triton.PointerDType`          | 要操作的内存位置，若 *pointer == cmp，则将*pointer 更新为 val，计算后的结果写回到该内存                                                     |
+| `cmp`     | `pointer.dtype.element_ty`   | 用于与目标内存进行比较的值 |
+| `val`       | `pointer.dtype.element_ty`    | 用于更新的目标值                                      |
+| `sem` | `str`，可选 | 指定操作的内存语义<br>社区官方配置可接受的值为“acquire”、“release”、“acq_rel”（默认，代表“ACQUIRE_RELEASE”）和“relaxed”<br>我们只支持“acq_rel”：<br>- acquire：获取锁后，能够看到之前的释放操作（相当于一个“读取”操作，并且这个读取操作会阻塞，直到能够读取到“最新”的数据，也就是其他线程释放后的数据）<br>- release：在释放锁之前的所有操作，对后续获取锁的线程可见（相当于一个“写入”操作，并且这个写入操作会“同步”所有之前的写操作）                                             |
+| `scope` | `str`，可选 | 观察原子操作同步效果的线程范围<br>可接受的值为“gpu”（默认）、“cta”（协作线程数组、线程块）或“sys”（代表“SYSTEM”） <br>我们只支持“gpu”                                            |
+| `_semantic`   | -                 | 保留参数，暂不支持外部调用                                                |
 
-Return value:
-`pointer`: tensor, the old value before the operation.
+返回值：
+`pointer`：tensor，执行操作之前的旧值
 
-### 2.2 Supported Specifications
+### 2.2 支持规格
 
-#### 2.2.1 DataType Support
+#### 2.2.1 DataType 支持
 
-|               | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
-| ------------- | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
-| GPU           | ×    | √     | √     | ×     | ×      | ×      | ×      | √     | ×    | √    | √    | √    | ×    |
-| Ascend A2/A3  | ×    | √     | √     | ×     | √      | √      | √      | √     | √    | √    | ×    | ×    | ×    |
+|        | int8 | int16 | int32 | uint8 | uint16 | uint32 | uint64 | int64 | fp16 | fp32 | fp64 | bf16 | bool |
+| ------ | ---- | ----- | ----- | ----- | ------ | ------ | ------ | ----- | ---- | ---- | ---- | ---- | ---- |
+| GPU    | ×    | √     | √     | ×     | ×      | ×      | ×      | √     | ×    | √    | √    | √   | ×    |
+| Ascend A2/A3| ×    | √     | √     | ×     | √      | √      | √      | √     | √    | √    | ×    | ×    | ×    |
 
-Conclusion: Compared to GPU, Ascend lacks support for fp64 and bf16.
+结论：Ascend 对比 GPU 缺失fp64、bf16的支持能力。
 
-#### 2.2.2 Shape Support
+#### 2.2.2 Shape 支持
 
-No special requirements.
+无特殊要求
 
-### 2.3 Special Limitations
+### 2.3 特殊限制说明
 
-> Capabilities missing relative to the community and not implementable.
+> 相对社区能力缺失且无法实现
 
-| Difference | Description                                                                                                                           |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| Data Types | Compared to GPU, Ascend lacks support for fp64 (hardware limitation).                                                                 |
-| `sem`      | Community official configuration accepts "acquire", "release", "acq_rel" (default, representing "ACQUIRE_RELEASE"), and "relaxed".<br>We only support "acq_rel". |
-| `scope`    | Accepted values are "gpu", "cta", or "sys".<br>We only support "gpu".                                                                 |
+| 差异点                   | 描述                                                                           |
+| --------------------- | ---------------------------------------------------------------------------- |
+|数据类型| Ascend 对比 GPU 缺失fp64的支持能力（硬件限制） |
+|sem| 社区官方配置可接受的值为“acquire”、“release”、“acq_rel”（默认，代表“ACQUIRE_RELEASE”）和“relaxed”<br>我们只支持“acq_rel” |
+|scope               | 可接受的值为“gpu”、“cta”、或“sys”、 <br>我们只支持“gpu” |
 
-### 2.4 Usage Example
+### 2.4 使用方法
 
-The following example implements an atomic compare-and-swap operation:
+以下示例实现了原子比较和交换操作：
 
 ```python
 @triton.jit

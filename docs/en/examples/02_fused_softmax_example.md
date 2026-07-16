@@ -1,12 +1,12 @@
-# Fused Softmax
+# 融合 Softmax （Fused Softmax）
 
-In this section, we will use Triton to write a program for a fused softmax operation.
-Along the way, you will learn:
+在本节中，我们将使用 Triton 编写一个融合的 softmax 操作的程序。
+在此过程中，你会学习到：
 
-- The advantages of kernel fusion for bandwidth-bound operations.
-- Reduction operations in Triton.
+- 内核融合对于带宽受限操作的优势。
+- Triton 中缩减操作。
 
-## Computing Softmax Row-wise on X Using Native PyTorch
+## 使用原生 PyTorch 对 X 逐行进行 Softmax 计算
 
 ```Python
 import torch
@@ -17,63 +17,63 @@ import triton.language as tl
 
 def naive_softmax(x):
     """
-    We subtract the maximum element to avoid overflow. Softmax is invariant to this shift.
+    我们减去最大元素以避免溢出。Softmax 对于这种偏移是不变的。
     """
-    # Read MN elements; write M elements
+    # 读取 MN 个元素；写入 M 个元素
     x_max = x.max(dim=1)[0]
-    # Read MN + M elements; write MN elements
+    # 读取 MN + M 个元素；写入 MN 个元素
     z = x - x_max[:, None]
-    # Read MN elements; write MN elements
+    # 读取 MN 个元素；写入 MN 个元素
     numerator = torch.exp(z)
-    # Read MN elements; write M elements
+    # 读取 MN 个元素；写入 M 个元素
     denominator = numerator.sum(dim=1)
-    # Read MN + M elements; write MN elements
+    # 读取 MN + M 个元素；写入 MN 个元素
     ret = numerator / denominator[:, None]
-    # Total: read 5MN + 2M elements; write 3MN + 2M elements
+    # 总计：读取 5MN + 2M 个元素；写入 3MN + 2M 个元素
     return ret
 ```
 
-Purpose of Kernel Fusion
+内核融合的目的
 
-When implemented natively in PyTorch, computing `y=naive_softmax(x)` requires reading 5MN+2M elements from DRAM and writing back 3MN+2M elements. This is clearly very inefficient; we would prefer to use a custom "fused" kernel that reads x only once and performs all necessary computations on-chip.
-This would only require reading and writing 2MN bytes, so we can expect a theoretical speedup of approximately 4x (i.e., (8MN+4M)/2MN).
+当在 PyTorch 中以原生方式实现时，计算`y=naive_softmax(x)`需要从 DRAM 中读取 5MN+2M 个元素，并写回 3MN+2M 个元素。显然这是非常低效的；我们更希望使用一个自定义的“融合”内核，它只需读取一次 x，并在芯片上完成所有必要的计算。
+这样一来只需读取和写回 2MN 个字节，因此我们可以期望理论上的加速比大约为 4 倍（即 (8MN+4M)/2MN）。
 
-`torch.jit.script` aims to perform this kind of "kernel fusion" automatically, but it is still far from ideal.
+`torch.jit.script`旨在自动执行这种“内核融合”，但它仍然远未达到理想状态。
 
-## Compute Kernel
+## 计算内核
 
-The softmax kernel works as follows: each program loads a set of rows from the input matrix X with a stride equal to the number of programs, performs normalization, and writes the result to the output matrix Y.
-Note: An important limitation of Triton is that each block must have a power-of-two number of elements. Therefore, if we want to handle arbitrary input shapes, we need to internally "pad" each row and ensure correct memory operations.
+softmax 内核工作原理如下：每个计算单元（program）以程序数量为步长加载输入矩阵X的一组行数据，执行归一化处理后，将结果写入输出矩阵Y。
+注意：Triton 的一个重要限制是每个块必须具有 2 的幂次数的元素，因此，如果我们要处理任意可能的输入形状，需要在内部「填充」每一行，并确保内存操作正确性。
 
 ```Python
 @triton.jit
 def softmax_kernel(output_ptr, input_ptr, input_row_stride, output_row_stride, n_rows, n_cols, BLOCK_SIZE: tl.constexpr):
-    # Starting row for the program
+    # 程序起始行
     row_start = tl.program_id(0)
     row_step = tl.num_programs(0)
     for row_idx in tl.range(row_start, n_rows, row_step):
-        # The stride indicates how much we need to increase the pointer to advance by 1 row
+        # 步长表示我们需要对指针增加多少以推进 1 行
         row_start_ptr = input_ptr + row_idx * input_row_stride
-        # The block size is the next power of two greater than n_cols, so we can fit
-        # the row in a single block
+        # 块大小是大于 n_cols 的下一个二的幂，因此我们可以适配
+        # 单个块中的行
         col_offsets = tl.arange(0, BLOCK_SIZE)
         input_ptrs = row_start_ptr + col_offsets
-        # Load the row into SRAM, using a mask because BLOCK_SIZE may be greater than n_cols
+        # 将行加载到 SRAM 中，使用掩码，因为 BLOCK_SIZE 可能大于 n_cols
         mask = col_offsets < n_cols
         row = tl.load(input_ptrs, mask=mask, other=-float('inf'))
-        # Subtract the maximum for numerical stability
+        # 为了数值稳定性而减去最大值
         row_minus_max = row - tl.max(row, axis=0)
-        # Note: exponentiation in Triton is fast but approximate.
+        # 请注意，Triton 中的指数运算速度很快，但是是近似的。
         numerator = tl.exp(row_minus_max)
         denominator = tl.sum(numerator, axis=0)
         softmax_output = numerator / denominator
-        # Write the output back to DRAM
+        # 将输出写回 DRAM
         output_row_start_ptr = output_ptr + row_idx * output_row_stride
         output_ptrs = output_row_start_ptr + col_offsets
         tl.store(output_ptrs, softmax_output, mask=mask)
 ```
 
-We can create a helper function that enqueues the kernel with its meta-parameters to handle any given input tensor.
+我们可以创建一个辅助函数，该函数能够将核函数及其元参数加入执行队列，以处理任意给定的输入张量。
 
 ```Python
 kernels = {}
@@ -81,12 +81,12 @@ kernels = {}
 def softmax(x):
     n_rows, n_cols = x.shape
 
-    # The block size for each loop iteration is the smallest power of two greater than or equal to the number of columns in `x`
+    # 每次循环迭代的块大小是大于或等于`x`列数的最小二的幂
     BLOCK_SIZE = triton.next_power_of_2(n_cols)
-    # Allocate output space
+    # 分配输出空间
     y = torch.empty_like(x)
 
-    # Pre-compile the kernel to get register usage and compute occupancy.
+    # 预编译内核以获取寄存器使用情况并计算线程占用情况。
     kernel, num_programs = kernels.get(BLOCK_SIZE, (None, 0))
     if kernel is None:
         num_programs = 32
@@ -107,9 +107,9 @@ def softmax(x):
     return y
 ```
 
-## Unit Test
+## 单元测试
 
-We need to test the processed kernel on a matrix with irregular numbers of rows and columns to verify that the padding mechanism works.
+需要在一个具有不规则行和列数的矩阵上测试处理好的内核，此举可以验证Padding机制是否起作用
 
 ```Python
 torch.manual_seed(0)
@@ -145,4 +145,4 @@ tensor([[0.0002, 0.0017, 0.0009,  ..., 0.0009, 0.0013, 0.0073],
 The maximum difference between torch and triton is 1.4901161193847656e-08
 ```
 
-"The maximum difference between torch and triton is 1.4901161193847656e-08" indicates that the output results of Triton and PyTorch are very close and indistinguishable to the naked eye.
+"The maximum difference between torch and triton is 1.4901161193847656e-08" 表示Triton和PyTorch的输出结果非常接近，肉眼不可区分。
